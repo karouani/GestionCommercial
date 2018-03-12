@@ -10,25 +10,21 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+ 
+Route::get('/login', 'HomeController@login')->name('login');
 
-Route::get('/', function () {
-    return view('auth/login');
-});
+Route::get('/', 'HomeController@index')->name('Gcommerce');
 
-Route::get('/index', function () {
-    return view('auth/index');
-});
+
 
 Route::get('/logout', function() {
     Auth::logout();
 
-        return redirect('/');
+        return redirect('/login');
 });
-
-
-Route::get('/login', 'HomeController@index')->name('login');
-
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+
+

@@ -26,7 +26,7 @@ class HomeController extends Controller
         return view('Gcommerce');
     }
 
-    public function log()
+    public function login()
     {
         return view('login');
     }
