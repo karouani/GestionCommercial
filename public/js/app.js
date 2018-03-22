@@ -70627,9 +70627,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 fk_famille: ""
             },
             // tableau des articles 
-            articles: []
+            articles: [],
             //etat 
-
+            et: ""
 
         };
     },
