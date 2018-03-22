@@ -1,7 +1,7 @@
 <template>
   <div class="page-wrapper">
       <top-menu>
-
+         
       </top-menu>
     <div class="main-container">
        <app-sidebar>
@@ -22,7 +22,8 @@ export default {
    components:{
      'top-menu':TopMenu,
      'app-sidebar':Sidebar,
-     'app-contents':Contents
+     'app-contents':Contents,
+    
 
   },
   data: () => ({

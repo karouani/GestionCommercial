@@ -14,7 +14,7 @@
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item d-md-down-none">
-                <a href="">
+                <a href="#">
                     <i class="fa fa-bell"></i>
                     <span class="badge badge-pill badge-danger">5</span>
                 </a>
@@ -40,26 +40,51 @@
                         <i class="fa fa-user"></i> Profile
                     </a>
 
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-envelope"></i> Messages
-                    </a>
-
-                    <div class="dropdown-header">Settings</div>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-bell"></i> Notifications
+                    <div class="dropdown-header">Gestion Utilisateur</div>
+                        <a href="#" class="dropdown-item">
+                        <i class="fa fa-wrench"></i> 
+                        <router-link :to="'/addUsers'">Ajouter Utilisateur
+                        </router-link>
                     </a>
 
                     <a href="#" class="dropdown-item">
-                        <i class="fa fa-wrench"></i> Settings
+                        <i class="fa fa-wrench"></i> 
+                        <router-link :to="'/getUsers'">Afficher Utilisateurs
+                        </router-link>
                     </a>
 
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-lock"></i> Logout
+                    <a href="#" class="dropdown-item" @click="logout">
+                        <i class="fa fa-lock"></i> Déconnecter
                     </a>
+                   
                 </div>
+                
             </li>
         </ul>
     </nav>
     
 </template>
+
+<script>
+
+ export default {
+        data: () => ({
+        }),
+        
+        methods: {
+            logout:function() {
+                
+                    axios.get('/logout')
+                    
+                        .then(window.location.href="/login"
+                        )
+                        .catch( erreur =>
+                            alert("erreur")
+                        );
+                }
+
+
+            }
+        
+    }
+</script>

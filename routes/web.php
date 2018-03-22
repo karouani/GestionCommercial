@@ -10,19 +10,21 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
- 
-Route::get('/login', 'HomeController@login')->name('login');
+
+Route::get('/login', 'HomeController@login');
 
 Route::get('/', 'HomeController@index')->name('Gcommerce');
 
-
-
-Route::get('/logout', function() {
+Route::get('/logout', function(){
     Auth::logout();
-
-        return redirect('/login');
+    return "logout";
 });
 
+Route::post('/addUsers','Auth\RegisterController@store')->name('addUsers');
+Route::get('/getUsers','Auth\RegisterController@getUsers');
+Route::delete('/deleteUser/{id}','Auth\RegisterController@destroy');
+Route::get('/editUser/{id}','Auth\RegisterController@editUser');
+Route::put('/updateUser','Auth\RegisterController@updateUser');
 Auth::routes();
 
 

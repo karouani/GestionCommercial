@@ -21,6 +21,10 @@ Vue.component('app-menu', require('./components/TopMenu.vue'));
 Vue.component('app-sidebar', require('./components/Sidebar.vue'));
 Vue.component('app-content', require('./components/Contents.vue'));
 Vue.component('app-vue', require('./components/App.vue'));
+Vue.component('app-addusers', require('./components/AddUsers.vue'));
+Vue.component('app-affusers', require('./components/AffUsers.vue'));
+Vue.component('app-edituser', require('./components/EditUser.vue'));
+
 
 const app = new Vue({
     el: '#app',

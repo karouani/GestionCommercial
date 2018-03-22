@@ -48,6 +48,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // en cas de lien qui n'existe pas rediction vers '/'
+       /* if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
+            return redirect('/');
+        } */
         return parent::render($request, $exception);
     }
 }

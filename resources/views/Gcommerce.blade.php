@@ -19,7 +19,7 @@
     <body class="sidebar-fixed header-fixed">
        <div id="app">       
          <app-vue></app-vue>
-       
+         
        </div>
      <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
  
