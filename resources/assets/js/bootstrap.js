@@ -9,10 +9,17 @@ window.Popper = require('popper.js').default;
  */
 
 try {
+    
     window.$ = window.jQuery = require('jquery');
+   
+    
+    //require( 'datatables.net' )();
    // require('./Chart.min');
     //require('bootstrap');
     require('bootstrap');
+    
+   
+   // require( 'datatables.net-bs4' )();
 } catch (e) {}
 
 /** 

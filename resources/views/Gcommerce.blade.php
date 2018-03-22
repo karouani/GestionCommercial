@@ -13,7 +13,11 @@
           <!-- plugins:css -->
            <link rel="stylesheet" href="{{asset('vendor/simple-line-icons/css/simple-line-icons.css')}}">
           <!-- Styles -->
+         
           <link rel="stylesheet" href="{{asset('css/styles.css')}}">
+
+
+          
         
     </head>
     <body class="sidebar-fixed header-fixed">
@@ -22,7 +26,7 @@
          
        </div>
      <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
- 
+    
      <script src="{{asset('vendor/chart.js/chart.min.js')}}"></script>   
      <script src="{{asset('js/carbon.js')}}"></script>
      <script src="{{asset('js/demo.js')}}"></script>

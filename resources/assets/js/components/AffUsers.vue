@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div>
    <div>
 
     <div class="row btnMarge">

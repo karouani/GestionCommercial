@@ -19,6 +19,18 @@ Route::get('/logout', function(){
     Auth::logout();
     return "logout";
 });
+Route::get('/register', 'RegisterController@create')->name('Registre');
+
+//Route::resource('article', 'ArticleController');
+
+Route::post('/addArticle','ArticleController@store');
+Route::get('/getArticles','ArticleController@getArticles');
+Route::post('/updateArticle','ArticleController@updateArticle');
+Route::delete('/deleteArticle/{id_article}','ArticleController@deleteArticle');
+Route::get('/getArticle/{id_article}','ArticleController@getArticle');
+Route::get('/searchArticles/{desig}','ArticleController@searchArticles');
+
+
 
 Route::post('/addUsers','Auth\RegisterController@store')->name('addUsers');
 Route::get('/getUsers','Auth\RegisterController@getUsers');

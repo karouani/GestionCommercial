@@ -8,6 +8,11 @@ import EditUser from './components/EditUser.vue'
 
 //import Guser from './components/Guser.vue'
 Vue.use(VueRouter)
+import  ShowArticles from './components/Article/ShowArticles.vue' 
+import  AddArticles from './components/Article/AddArticle.vue' 
+import  EditArticles from './components/Article/EditArticle.vue' 
+
+Vue.use(VueRouter) 
 
 const  router = new VueRouter({
 
@@ -36,7 +41,19 @@ const  router = new VueRouter({
         {     
             path:"/editUser/:id",
             component: EditUser
-        }
+        },
+         {     path:"/ShowArticles",
+             component: ShowArticles,
+             
+         },
+
+         {     path:"/AddArticles",
+                component: AddArticles
+        },
+        {     path:"/EditArticles/:id_article",
+                component: EditArticles
+        },
+
     ],
    
 })

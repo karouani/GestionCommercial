@@ -6,6 +6,13 @@
  */
 require('./bootstrap');
 window.Vue = require('vue');
+
+//import VModal from 'vue-js-modal'
+//Vue.use(VModal);
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(BootstrapVue);
+
 import Router from './routes.js'
 
 //import Char from './Chart.min.js'
@@ -20,10 +27,24 @@ Vue.component('app-login', require('./components/Login.vue'));
 Vue.component('app-menu', require('./components/TopMenu.vue'));
 Vue.component('app-sidebar', require('./components/Sidebar.vue'));
 Vue.component('app-content', require('./components/Contents.vue'));
+/* Articles*/
+
 Vue.component('app-vue', require('./components/App.vue'));
 Vue.component('app-addusers', require('./components/AddUsers.vue'));
 Vue.component('app-affusers', require('./components/AffUsers.vue'));
 Vue.component('app-edituser', require('./components/EditUser.vue'));
+
+
+
+// afficher un nombre de phrase limité 
+/*Vue.filter('readMore', function (text, length, suffix) {
+    return text.substring(0, length) + suffix;
+});*/
+
+
+/*import jquery from 'jquery'
+global.jquery = jquery
+global.$ = jquery*/
 
 
 const app = new Vue({
