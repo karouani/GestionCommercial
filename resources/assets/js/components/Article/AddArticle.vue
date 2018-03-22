@@ -107,7 +107,7 @@
               // tableau des articles 
               articles :[],
               //etat 
-             
+              et: "",
              
       }),
       
