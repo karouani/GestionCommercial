@@ -1,0 +1,43 @@
+
+
+
+
+body{
+    background-color: white;
+    padding: 60px 0px 60px 0px;
+    
+}
+
+.jumbotron{
+    
+    background-image: url("../img/head.jpg") ; 
+    background-repeat: no-repeat;
+    
+    margin: 30px;
+    background-size: 100% 100%;
+    color: #ecf0f1;
+
+    border: 1px solid;
+
+    box-shadow: 2px 15px 12px 5px rgba(70, 70, 75, 0.336);
+   /* border-radius: 15px;*/
+
+}
+.myfontcolor{
+    color: #868e96;
+}
+
+#product{
+    background-color: #ecf0f1;
+}
+
+.mypadding{
+    padding-top: 40px;
+}
+.mycol{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.mylist{
+    list-style-type: none;
+}
