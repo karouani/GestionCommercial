@@ -129,7 +129,7 @@
            
   
                   axios.post('/updateArticle',this.article).then( response => {             
-                    this.$router.push('/ShowArticles');  
+                    this.$router.push('/ShowArticles/editsuccess');  
                     
                   
                   });

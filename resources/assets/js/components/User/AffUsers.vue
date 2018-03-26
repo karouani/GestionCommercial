@@ -229,9 +229,7 @@ updated:function(){
      width  : 236px;
      height: 13px;
  }
- a {
-  color: #999;
-}
+ 
 .current {
   color: red;
 }

@@ -5,7 +5,7 @@
         </a>
 
         <a class="navbar-brand" href="#">
-            <img src="images/logo.png" alt="logo">
+            <img src="storage/images/logo.png" alt="logo">
         </a>
 
         <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
@@ -29,9 +29,7 @@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img v-if="profile.photo!=''" :src="'images/'+profile.photo" class="avatar avatar-sm" alt="logo">
-                    <img v-if="profile.photo===''" :src="'images/user0.jpg'" class="avatar avatar-sm" alt="logo">
-
+                    <img :src="'storage/images/'+profile.photo" class="avatar avatar-sm" alt="logo">
                     <span class="small ml-1 d-md-down-none">{{profile.name}}</span>
                 </a>
 
@@ -85,15 +83,19 @@
         
         methods: {
             logout:function() {
+
+                axios.get('/logout')
+                .then((response) => {
+                  
+                    window.location.href="/login"
+                  
+                })
+                .catch(() => {
+                    console.log('error log out ');
+                });},
                 
-                    axios.get('/logout')
                     
-                        .then(window.location.href="/login"
-                        )
-                        .catch( erreur =>
-                            alert("erreur")
-                        );
-            },
+        
             
              getProfile(){
 

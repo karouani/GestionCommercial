@@ -23,11 +23,12 @@
     <body class="sidebar-fixed header-fixed">
        <div id="app">       
          <app-vue></app-vue>
+       
          
        </div>
      <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
     
-     <script src="{{asset('vendor/chart.js/chart.min.js')}}"></script>   
+      
      <script src="{{asset('js/carbon.js')}}"></script>
      <script src="{{asset('js/demo.js')}}"></script>
      <script src="{{asset('js/app.js')}}"></script>

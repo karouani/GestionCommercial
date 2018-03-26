@@ -7,14 +7,15 @@
 require('./bootstrap');
 window.Vue = require('vue');
 
-//import VModal from 'vue-js-modal'
-//Vue.use(VModal);
-import BootstrapVue from 'bootstrap-vue'
 
+
+//bootstrapvue 
+import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue);
 import swal from 'sweetalert2'
 Vue.prototype.$swal=swal;
 import Router from './routes.js'
+
 
 //import Char from './Chart.min.js'
 

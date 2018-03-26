@@ -9,9 +9,14 @@
                             <i class="icon icon-speedometer"></i> Dashboard
                         </router-link>
                     </li>
+                    <li class="nav-item">
+                      <router-link :to="'/Parametres'" class="nav-link active">
+                            <i class="icon icon-speedometer"></i> Paramètres
+                        </router-link>
+                    </li>                    
                      <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-target"></i> Article <i class="fa fa-caret-left"></i>
+                        <a href="#" class="nav-link nav-dropdown-toggle active">
+                            <i class="icon icon-speedometer"></i> Article <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">
@@ -57,3 +62,7 @@
             </nav>
         </div> 
 </template>
+<style scoped>
+
+
+</style>
