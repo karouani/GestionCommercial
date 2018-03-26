@@ -29,29 +29,31 @@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="images/avatar-1.png" class="avatar avatar-sm" alt="logo">
-                    <span class="small ml-1 d-md-down-none">John Smith</span>
+                    <img v-if="profile.photo!=''" :src="'images/'+profile.photo" class="avatar avatar-sm" alt="logo">
+                    <img v-if="profile.photo===''" :src="'images/user0.jpg'" class="avatar avatar-sm" alt="logo">
+
+                    <span class="small ml-1 d-md-down-none">{{profile.name}}</span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-header">Account</div>
 
-                    <a href="#" class="dropdown-item">
+                    <router-link :to="'/getProfile'" class="dropdown-item">
                         <i class="fa fa-user"></i> Profile
-                    </a>
+                    </router-link>
 
                     <div class="dropdown-header">Gestion Utilisateur</div>
-                        <a href="#" class="dropdown-item">
-                        <i class="fa fa-wrench"></i> 
-                        <router-link :to="'/addUsers'">Ajouter Utilisateur
+                        <router-link :to="'/addUsers'" class="dropdown-item" v-if="profile.role =='Super Admin'">
+                        <i class="fas fa-plus"></i> 
+                        Ajouter Utilisateur
                         </router-link>
-                    </a>
+                   
 
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-wrench"></i> 
-                        <router-link :to="'/getUsers'">Afficher Utilisateurs
+                    <router-link :to="'/getUsers'" class="dropdown-item">
+                        <i class="far fa-file-alt"></i>
+                       Afficher Utilisateurs
                         </router-link>
-                    </a>
+                  
 
                     <a href="#" class="dropdown-item" @click="logout">
                         <i class="fa fa-lock"></i> Déconnecter
@@ -61,6 +63,7 @@
                 
             </li>
         </ul>
+
     </nav>
     
 </template>
@@ -69,6 +72,15 @@
 
  export default {
         data: () => ({
+            profile: {
+      id:0,
+      name:"",
+      email:"",
+      password:"",
+      role:"",
+      photo:"",
+      
+    },
         }),
         
         methods: {
@@ -81,10 +93,30 @@
                         .catch( erreur =>
                             alert("erreur")
                         );
-                }
+            },
+            
+             getProfile(){
 
+                        axios.get('/getProfile')
+                        .then(response => {
+                            // recuperé ensemble des articles sous format json
+                           
+                           this.profile = response.data.user[0];
+                        // console.log(response.data.user[0]);
 
-            }
+                        })
+                        .catch(function (error) {
+                           
+                        });                
+                         
+                               
+            },
+
+        },
+
+        mounted(){
+          this.getProfile();
+    },
         
     }
 </script>

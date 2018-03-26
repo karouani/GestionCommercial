@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use App\Photo;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -97,10 +97,22 @@ class RegisterController extends Controller
     }
        // afficher users 
     public function getUsers(){
-            $users = User::all();
+        
+        $users = User::where('id', '<>', Auth::user()->id)->paginate(6);
+
         return Response()->json(['users'=>$users]);
         
     }
+
+    public function getProfile()
+    {
+        //dd(Auth::user()->id);
+        $user = User::where('id', '=', Auth::user()->id)->get();
+        //dd("userrrrr"+$user);
+        return Response()->json(['user'=>$user]);
+    }
+
+    
         //recuperer donnees user
     public function editUser($id){
             $user = User::find($id);
@@ -108,6 +120,13 @@ class RegisterController extends Controller
     }
         //modifier user
     public function updateUser(Request $request){
+          /* $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+            'role' => 'required|string',
+           
+        ]);*/
             $user=User::find($request->id);
             $user->name=$request->name;
             $user->email=$request->email;
@@ -133,4 +152,10 @@ class RegisterController extends Controller
         return Response()->json(['etat'=>true]);
     
     }
+
+
+   /* public function isSuperAdmin()
+   { dd($this->hasRole('Super Admin'));
+       return $this->hasRole('Super Admin');
+   } */
 }

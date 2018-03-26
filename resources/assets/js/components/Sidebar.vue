@@ -30,6 +30,28 @@
                             
                         </ul>
                     </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-target"></i> Ma Compagnie <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <router-link :to="'/getCompagnies'" class="nav-link">
+                                    <i class="icon icon-target"></i> Afficher Compagnie
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
+                                <router-link :to="'/addCompagnie'" class="nav-link">
+                                    <i class="icon icon-target"></i> Ajouter Compagnie
+                                </router-link>
+                            </li>
+
+                            
+                        </ul>
+                    </li>
                  
                 </ul>
             </nav>
