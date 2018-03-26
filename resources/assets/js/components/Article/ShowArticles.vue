@@ -11,9 +11,20 @@
     </div>
 
 <div v-if="!loading">
-    <div class="alert alert-success" role="alert" v-if="Testopen.testAjout">
-        Article Bien Ajouter !
-    </div>
+   
+            <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
+        <strong>Article bien ajouter !</strong> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+
+        <div v-if="Testopen.testnotifEdit" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
+        <strong>Article bien modifier !</strong> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
     
     
   
@@ -35,7 +46,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" @keyup.enter="searchArticles"  class="form-control" v-model="search" placeholder="recherche par designation" aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="text" @keyup.enter="searchArticles"  class="form-control" v-model="search" placeholder="recherche par designation ou reference" aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div> 
         
@@ -78,7 +89,10 @@
                 :title="'Reference : '+article.reference_art"
                 :body-bg-variant="+' '+modalShow+''+article.designation+''+article.type_art+''+article.description+''+article.prix_ht_achat+''+article.prix_ht_vente+''+article.unite+''+article.quantite+''+article.quantite_min+''+article.photo_art">
                  <div class="row" v-if="modalShow">
-                     <div class="col">                     
+                     <div class="col"> 
+                      
+
+
                    <span>Designation : </span>{{article.designation}}
                         <hr>
                    <span>Type : </span>{{article.type_art}} 
@@ -98,8 +112,8 @@
                    <div class="col">
                        <div class="pull-right">
                      
-                      <img v-if="article.photo_art != ''" class="card-img-top" :src="'images/'+article.photo_art" width="150px" height="150px">
-                    <img v-if="article.photo_art === ''" class="card-img-top" :src="'images/article0.png'"  width="150px" height="200px">
+                      <img v-if="article.photo_art != ''" class="card-img-top" :src="'storage/images/'+article.photo_art" width="150px" height="150px">
+                    <img v-if="article.photo_art === ''" class="card-img-top" :src="'storage/images/article0.png'"  width="150px" height="200px">
                      </div>
                      </div>
                      </div>
@@ -112,6 +126,7 @@
                 </b-modal>
             </div>
     </div>
+    
     <vue-pagination  :pagination="articles"
                      @paginate="getarticles()"
                      :offset="4">
@@ -140,6 +155,8 @@ import  Pagination from '../Pagination.vue';
               nameFile : "Choose file",
               // objet test sur affichage , ajout , recherche
               Testopen:{
+                testnotifEdit : false,
+                testnotifAdd : false,
                 testAjout : false,
                 testAffiche : false,
                 testmodelArticle : false,
@@ -189,6 +206,27 @@ import  Pagination from '../Pagination.vue';
      
           
       },*/
+        mounted(){
+           
+          if( this.$route.params.success == "addsuccess"){
+             
+                        this.Testopen.testnotifAdd = true;
+          }
+                    if( this.$route.params.success == "editsuccess"){
+             
+                        this.Testopen.testnotifEdit = true;
+          }
+        },
+      updated(){
+          if( this.$route.params.success == "addsuccess"){
+          let this1 = this
+               setTimeout(function () { this1.Testopen.testnotifAdd = false }, 1500);
+               }
+          if( this.$route.params.success == "editsuccess"){
+          let this1 = this
+               setTimeout(function () { this1.Testopen.testnotifEdit = false }, 1500);}               
+            
+      },
         created () {
     // fetch the data when the view is created and the data is
     // already being observed
@@ -201,6 +239,10 @@ import  Pagination from '../Pagination.vue';
 
 
       methods: {
+          notifArticle(){
+              let this1 = this
+               setTimeout(function () { this1.Testopen.testnotifAdd = false }, 1000);
+          },
           searchArticles(event){
              console.log(this.search);
              this.articles.current_page=1;
@@ -252,12 +294,31 @@ import  Pagination from '../Pagination.vue';
 
 
              deleteArticle:function(article){
-              
-                  axios.delete('/deleteArticle/'+article.id_article).then(
-                  response => {
-           
-                    this.getarticles();
-                  });         
+
+
+                        this.$swal({
+                        title: 'Etes-vous sur?',
+                        text: "Vous ne serez pas capable de revenir a cela!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Oui, supprimez-le!'
+                                                }).then((result) => {
+                        if (result.value) {
+                            axios.delete('/deleteArticle/'+article.id_article).then(
+                                        response => {
+                                
+                                            this.getarticles();
+                                        });
+                        this.$swal(
+                        'Supprimé!',
+                        'Votre article a été supprimé',
+                        'success'
+                        )
+  }
+})
+
         },
                      getArticle:function(article){
               
@@ -291,6 +352,9 @@ import  Pagination from '../Pagination.vue';
 </script>
 
 <style scoped>
+.shadawTr:hover {
+  box-shadow: 1px 1px 1px 1px #888888;
+    }
 thead{
     background-color: #efefef;
 }
@@ -352,6 +416,16 @@ table{
 }
 .card-body{
     background-color: #f8f9fa
+}
+
+.notifArticle{
+    opacity:0.9;
+    width: 233px;
+    z-index: 100;
+    top: 61px;
+    right: 0;
+    position:  absolute;
+    position :fixed;
 }
 </style>
 

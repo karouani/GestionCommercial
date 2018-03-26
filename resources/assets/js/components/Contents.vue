@@ -99,17 +99,26 @@
                         </div>
                     </div>
                 </div>
- 
+
      </div>
 </template>
 <script>
-
+//import { Line } from 'vue-chartjs'
 export default {
   
-  data: () => ({
-   
+ /* data: () => ({
+   extends: Line,
+  props: ['data', 'options'],
+  donnee : ["test"],
+ 
   }),
+   mounted () {
+    this.renderChart(this.data, this.options)
+  }*/
  
 
 }
 </script>
+<style scoped>
+
+</style>

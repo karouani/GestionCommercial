@@ -1,70 +1,80 @@
 
 
 <!-- Bootstrap CSS -->
+
 <link rel="stylesheet" href="static/css/bootstrap.min.css">
 <link rel="stylesheet" href="static/web-fonts-with-css/css/fontawesome-all.css">
-<link rel="stylesheet" href="static/css/mystyle.css">
+<link rel="stylesheet" type="text/css" href="login2/css/util.css">
+<link rel="stylesheet" type="text/css" href="login2/css/main.css">
+
 <body>
-<div class="jumbotron jumbotron-fluid">
-<div class="container">
+<div class="limiter">
+		<div class="container-login100">
 
-    <div class="row">
-            <div class="col-md-6 mycolb col-sm-12">
-                <br>
-                    <h1 class="display-4">Gestion Commercial</h1>
-                    <p class="lead">
-                            Bienvenue sur notre application web: 
-                                gére les entrees/sorties et la facturation d entreprise </p>
-            </div>
+                <div class="wrap-login100">
+                        <div class="login100-form-title" style="background-image: url(login2/images/bg-01.jpg);">
+                            <span class="login100-form-title-1">
+                                    Sign In
+                                </span>   
+                        </div>
 
-        <div class="col">
-                <form method="POST" action="{{ route('login') }}">
-                        <div class="card">
-                <div class="card-header myfontcolor">{{ __('Login') }}</div>
 
-                <div class="card-body">
+
+
+                <form class="login100-form validate-form" method="POST" action="{{ route('login') }}">
+
+                    
+                        <div class="wrap-input100 validate-input m-b-26" >
+           
 
                         @csrf
 
-                        <div class="form-group ">
-                            <label for="exampleInputEmail1" class="myfontcolor">{{ __('E-Mail Address') }}</label>
 
-                            
-                                <input id="exampleInputEmail1" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" aria-describedby="emailHelp" placeholder="Enter email" required autofocus>
+                            <span  class="label-input100">E-mail :</span>
 
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback">
+                                <input  type="email" class="input100{{ $errors->has('password') ? ' is-invalid' : '' }}  " name="email" value="{{ old('email') }}" aria-describedby="emailHelp" placeholder="Enter Email" required autofocus>
+                        </div>
+                              
+                    
+
+
+                        
+                        <div class="wrap-input100 validate-input m-b-18" >
+                                <span class="label-input100">Password</span>
+
+                                <input id="exampleInputPassword1" type="password" class="input100{{ $errors->has('password') ? ' is-invalid' : '' }} " name="password" placeholder="Password" >
+
+                            </div>
+                              
+                            <br>
+                            <br>
+                      <div class="err">
+                            @if ($errors->has('email'))
+                                <span class="">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
-                        </div>
-
-                        <div class="form-group ">
-                            <label for="exampleInputPassword1" class="myfontcolor">{{ __('Password') }}</label>
-
-                           
-                                <input id="exampleInputPassword1" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="Password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            
-                        </div>
-
+                            @if ($errors->has('password'))
+                                <span class="">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
+                      </div>
                        
 
-                      
-                                <button type="submit" class="btn btn-primary">
+                        <div class="container-login100-form-btn">
+                                <button type="submit" class="login100-form-btn">
                                     {{ __('Login') }}
                                 </button>
-
+                        </div>
                     </form>
-                </div>
+             
             </div>
         </div>
     </div>
-</div>
-</div>
+
+<!--===============================================================================================-->
+	<script src="login2/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="login2/js/main.js"></script>
 </body>

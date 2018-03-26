@@ -7,13 +7,23 @@
 require('./bootstrap');
 window.Vue = require('vue');
 
-//import VModal from 'vue-js-modal'
-//Vue.use(VModal);
+
+
+//bootstrapvue 
 import BootstrapVue from 'bootstrap-vue'
-
 Vue.use(BootstrapVue);
+//sweet alert 
+import swal from 'sweetalert2'
+Vue.prototype.$swal = swal;
 
+
+
+
+
+
+//route
 import Router from './routes.js'
+
 
 //import Char from './Chart.min.js'
 
@@ -30,6 +40,10 @@ Vue.component('app-content', require('./components/Contents.vue'));
 /* Articles*/
 
 Vue.component('app-vue', require('./components/App.vue'));
+Vue.component('app-addusers', require('./components/AddUsers.vue'));
+Vue.component('app-affusers', require('./components/AffUsers.vue'));
+Vue.component('app-edituser', require('./components/EditUser.vue'));
+
 
 
 // afficher un nombre de phrase limité 

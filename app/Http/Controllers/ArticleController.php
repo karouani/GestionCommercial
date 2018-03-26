@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Article;
+
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 class ArticleController extends Controller
 {
 
@@ -20,15 +23,17 @@ class ArticleController extends Controller
 
 
      public function getArticles(){
+       // dd(Storage::disk('local')->delete('images/1521897359.png'));
+     // dd( public_path('images/').'1521897359.png');
         $listeArticles = Article::paginate(10);
         //dd($listeArticles);
         return Response()->json(['articles' => $listeArticles ]);
      }
 
-     
-
+    
+    
      public function searchArticles($desig){
-        $listeArticles = Article::where('designation',$desig)->paginate(10);
+        $listeArticles = Article::where('designation','like', '%' .$desig . '%')->orWhere('reference_art','like', '%' .$desig . '%')->paginate(10);
         //dd($listeArticles);
         return Response()->json(['articles' => $listeArticles ]);
      }
@@ -76,8 +81,8 @@ class ArticleController extends Controller
            else {
           $image = $request->get('photo_art');
           $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-          \Image::make($request->get('photo_art'))->save(public_path('images/').$name);
-         
+         $image2 = \Image::make($request->get('photo_art'));     
+          Storage::put('images/'.$name, (string) $image2->encode());
           $article->photo_art = $name;}
         }
         else  {
@@ -139,8 +144,12 @@ class ArticleController extends Controller
            else {
           $image = $request->get('photo_art');
           $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-          \Image::make($request->get('photo_art'))->save(public_path('images/').$name);
-         
+          if( $article->photo_art !=""){
+          Storage::disk('local')->delete('images/'.$article->photo_art);
+          }
+
+          $image2 = \Image::make($request->get('photo_art'));     
+          Storage::put('images/'.$name, (string) $image2->encode());
           $article->photo_art = $name;}
         }
         else  {
@@ -167,9 +176,12 @@ class ArticleController extends Controller
     
     public function deleteArticle($id_article){
        // dd($id_article);
+       
         $article = Article::find($id_article);
+        if( $article->photo_art !=""){
+        Storage::disk('local')->delete('images/'.$article->photo_art);}
         $article->delete();
-        return Response()->json(['delete' => true]);
+        return Response()->json(['delete' => 'ooook']);
     }
 
     /**

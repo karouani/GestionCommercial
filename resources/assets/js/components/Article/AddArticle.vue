@@ -2,6 +2,7 @@
     <div>
         <div class="text-center">
     <h2>Ajouter Article</h2>
+    <hr>
     </div>
          <div class="row" > 
          
@@ -59,11 +60,18 @@
 
                 <div class="form-group">
                     <label for="fk_tva_applicable"> Tva applicable </label>
-                    <input type="text" class="form-control" id="fk_tva_applicable" v-model="article.fk_tva_applicable">
+                <select class="form-control custom-select " id="fk_tva_applicable" v-model="article.fk_tva_applicable">
+                    <option selected>Choisir Tva</option>
+                    <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
+                </select>
                 </div>
                 <div class="form-group">
-                    <label for="fk_famille"> famille </label>
-                    <input type="text" class="form-control" id="fk_famille" v-model="article.fk_famille">
+
+                <label for="exampleFormControlSelect1">famille</label>
+                <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="article.fk_famille">
+                    <option selected>Choisir une categorie</option>
+                    <option v-for="famille in famille_articles" :key="famille.id_famille" :value="famille.id_famille">{{famille.libelle_famille}}</option>
+                </select>
                 </div>
             </div> 
     </div>
@@ -106,8 +114,9 @@
               },
               // tableau des articles 
               articles :[],
-              //etat 
-             
+              //familles 
+              famille_articles:[],
+              tvas:[],
              
       }),
       
@@ -118,10 +127,11 @@
                 
               axios.post('/addArticle',this.article).then(response => {         
                     console.log('Article Bien ajouter !');
-                    this.$router.push('/ShowArticles');
+                    this.$router.push('/ShowArticles/addsuccess');
                   });
             
         },
+       
        /* onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
@@ -194,10 +204,38 @@
                 };
                 reader.readAsDataURL(file);
             },
+                    getfamilles(){
+                axios.get('/getfamilles')
+                .then((response) => {
+                 // console.log('shit');
+                    this.famille_articles = response.data.famille_articles;
+                    
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
+             getTvas(){
+                axios.get('/getTvas')
+                .then((response) => {
+                  //console.log(response.data);
+                    this.tvas= response.data.tvas;
+                  //  console.log(this.tvas);
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
 
       },
 
-      
+      mounted(){
+
+          this.getfamilles();
+          this.getTvas();
+      }
        
         
       
