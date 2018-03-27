@@ -15,7 +15,7 @@ class CreateFamilleArticlesTable extends Migration
     {
         Schema::create('famille_articles', function (Blueprint $table) {
             $table->increments('id_famille');
-            $table->string('libelle_famille');
+            $table->string('libelle_famille')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
