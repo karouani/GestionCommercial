@@ -137,7 +137,7 @@
            
   
                   axios.post('/updateCompagnie',this.compagnie).then( response => {             
-                    this.$router.push('/getCompagnies');  
+                    this.$router.push('/getCompagnies/edit');  
                     
                   
                   });

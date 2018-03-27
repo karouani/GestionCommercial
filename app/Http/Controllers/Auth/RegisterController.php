@@ -80,6 +80,9 @@ class RegisterController extends Controller
              $photo = $request->get('photo');
              $namePhoto = time().'.' . explode('/', explode(':', substr($photo, 0, strpos($photo, ';')))[1])[1];
              \Image::make($request->get('photo'))->save(public_path('images/').$namePhoto);
+             $image2 = \Image::make($request->get('photo'));     
+             Storage::put('images/'.$namePhoto, (string) $image2->encode());
+
              $user->photo = $namePhoto;
         }
         else {
@@ -89,12 +92,20 @@ class RegisterController extends Controller
         
      return Response()->json(['etat'=>true]);
     }
+
+
+
         //supprimer user
     public function destroy(Request $request,$id){
             $user=User::find($id);
+            if( $user->photo !=""){
+                Storage::disk('local')->delete('images/'.$user->photo);}
             $user->delete();
         return Response()->json(['etat'=>true]);        
     }
+
+
+
        // afficher users 
     public function getUsers(){
         
@@ -141,7 +152,13 @@ class RegisterController extends Controller
              }else {
                $photo = $request->get('photo');
                $namePhoto = time().'.' . explode('/', explode(':', substr($photo, 0, strpos($photo, ';')))[1])[1];
-               \Image::make($request->get('photo'))->save(public_path('images/').$namePhoto);
+               if( $user->photo !=""){
+                Storage::disk('local')->delete('images/'.$user->photo);
+                }
+      
+                $image2 = \Image::make($request->get('photo'));     
+                Storage::put('images/'.$namePhoto, (string) $image2->encode());
+               
                $user->photo = $namePhoto;}
             }
 
@@ -154,8 +171,13 @@ class RegisterController extends Controller
     }
 
 
-   /* public function isSuperAdmin()
-   { dd($this->hasRole('Super Admin'));
-       return $this->hasRole('Super Admin');
-   } */
+    public function isSuperAdmin()
+   
+   { //dd("test :"+Auth::user()->role);
+    
+    if( Auth::user()->role == "Super Admin"){
+       return Response()->json(['test'=>true]);}
+
+       return Response()->json(['test'=>false]);
+   } 
 }

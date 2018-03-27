@@ -17,8 +17,8 @@
             <div class="card-body">
                   <div class="row">
         <div class="col">
-            <img v-if="user.photo != ''" class="img-right" :src="'images/'+user.photo" alt="Card image cap" width="100px" height="100px">
-            <img v-if="user.photo === ''" class="img-right" :src="'images/user0.jpg'" alt="Card image cap" width="100px" height="100px">
+            <img v-if="user.photo != ''" class="img-right" :src="'storage/images/'+user.photo" alt="Card image cap" width="100px" height="100px">
+            <img v-if="user.photo === ''" class="img-right" :src="'storage/images/user0.jpg'" alt="Card image cap" width="100px" height="100px">
                
             </div>
             <div class="col text"> 
@@ -75,12 +75,15 @@
     }),
 
    // remplire listes des articles aprés la creation complet de ce composant
+   created(){
+  this.getProfile();
+   },
     mounted(){
          
              if(this.$route.params.success == "edit")
             this.Testopen.testEdit =true;   
 
-             this.getProfile();
+           
     },
 
     updated:function(){
@@ -95,7 +98,7 @@
                 axios.get('/getProfile')
                 .then(response => {
                     this.user = response.data.user[0];
-                    console.log("dddd")
+                    console.log(response.data.user[0])
                 })
                 .catch(error => {
                 })
@@ -175,6 +178,11 @@ a.last::before {
     padding-top: 100px;
 }
 .show{
-    width: 250px;
-    float: right;}
+     opacity:0.9;
+    width: 233px;
+    z-index: 100;
+    top: 61px;
+    right: 0;
+    position:  absolute;
+    position :fixed;}
 </style>

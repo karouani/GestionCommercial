@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Macompagnie;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class maCompagnieController extends Controller
@@ -28,7 +29,8 @@ class maCompagnieController extends Controller
              {
                   $logo_comp = $request->get('logo_comp');
                   $namePhoto = time().'.' . explode('/', explode(':', substr($logo_comp, 0, strpos($logo_comp, ';')))[1])[1];
-                  \Image::make($request->get('logo_comp'))->save(public_path('logo_comps/').$namePhoto);
+                  $image2 = \Image::make($request->get('logo_comp'));     
+                  Storage::put('images/'.$namePhoto, (string) $image2->encode());
                   $compagnie->logo_comp = $namePhoto;
              }
              else {
@@ -66,8 +68,12 @@ class maCompagnieController extends Controller
            else {
           $logo_comp = $request->get('logo_comp');
           $name = time().'.' . explode('/', explode(':', substr($logo_comp, 0, strpos($logo_comp, ';')))[1])[1];
-          \Image::make($request->get('logo_comp'))->save(public_path('images/').$name);
-         
+          if( $compagnie->logo_comp !=""){
+            Storage::disk('local')->delete('images/'.$compagnie->logo_comp);
+            }
+  
+            $image2 = \Image::make($request->get('logo_comp'));     
+            Storage::put('images/'.$name, (string) $image2->encode());         
           $compagnie->logo_comp = $name;
         }
         }
@@ -96,6 +102,8 @@ class maCompagnieController extends Controller
 
     public function deleteCompagnie($id_compagnie){
         $compagnie=Macompagnie::find($id_compagnie);
+        if( $compagnie->logo_comp !=""){
+            Storage::disk('local')->delete('images/'.$compagnie->logo_comp);}
         $compagnie->delete();
     return Response()->json(['delete'=>true]);        
 }

@@ -26,8 +26,8 @@
     <div class="row">
         <div class="col-auto" v-for="user of users.data" :key="user.id" >
             <div class="card widthCard"  >
-            <img v-if="user.photo != ''" class="card-img-top" :src="'images/'+user.photo" alt="Card image cap" width="100px" height="100px">
-            <img v-if="user.photo === ''" class="card-img-top" :src="'images/user0.jpg'" alt="Card image cap" width="100px" height="100px">
+            <img v-if="user.photo != ''" class="card-img-top" :src="'storage/images/'+user.photo" alt="Card image cap" width="100px" height="100px">
+            <img v-if="user.photo === ''" class="card-img-top" :src="'storage/images/user0.jpg'" alt="Card image cap" width="100px" height="100px">
 
             <div class="card-body">
                 <h5 class="card-title">User Name : {{user.name}}</h5>
@@ -250,6 +250,12 @@ a.last::before {
   content:'...'
 }
 .show{
-    width: 250px;
-    float: right;}
+    opacity:0.9;
+    width: 233px;
+    z-index: 100;
+    top: 61px;
+    right: 0;
+    position:  absolute;
+    position :fixed;
+    }
 </style>

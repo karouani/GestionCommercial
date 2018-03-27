@@ -55,7 +55,7 @@ Route::delete('/deleteCompagnie/{id_compagnie}','maCompagnieController@deleteCom
 Route::get('/getCompagnie/{id_compagnie}','maCompagnieController@getCompagnie');
 Route::post('/updateCompagnie','maCompagnieController@updateCompagnie');
 
-//Route::get('/isSuperAdmin','Auth\RegisterController@isSuperAdmin');
+Route::get('/isSuperAdmin','Auth\RegisterController@isSuperAdmin');
 
 
 //parametres

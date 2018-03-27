@@ -152,7 +152,7 @@ export default {
                 axios.post('/addCompagnie',this.compagnie)
                 
                     .then(response => {
-                        this.$router.push('/getCompagnies');
+                        this.$router.push('/getCompagnies/add');
                     })
                     .catch(function (resp) {
                        

@@ -37,8 +37,8 @@
                     </li>
 
                     <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-target"></i> Ma Compagnie <i class="fa fa-caret-left"></i>
+                        <a href="#" class="nav-link nav-dropdown-toggle active">
+                            <i class="icon icon-speedometer"></i> Ma Compagnie <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">

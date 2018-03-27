@@ -9,7 +9,18 @@
 
 <div v-if="!loading">
    <div>
-
+ <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testAjout">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Compagnie Bien Ajouter !</strong>
+</div>
+ <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEdit">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Compagnie Bien Modifier !</strong>
+   </div>
     <div class="row btnMarge">
        
    
@@ -22,8 +33,8 @@
     <div class="row">
         <div class="col-auto" v-for="compagnie of compagnies.data" :key="compagnie.id_compagnie" >
             <div class="card widthCard"  >
-            <img v-if="compagnie.logo_comp != ''" class="card-img-top" :src="'images/'+compagnie.logo_comp" alt="Card image cap" width="100px" height="100px">
-            <img v-if="compagnie.logo_comp === ''" class="card-img-top" :src="'images/compagnie0.jpg'" alt="Card image cap" width="100px" height="100px">
+            <img v-if="compagnie.logo_comp != ''" class="card-img-top" :src="'storage/images/'+compagnie.logo_comp" alt="Card image cap" width="100px" height="100px">
+            <img v-if="compagnie.logo_comp === ''" class="card-img-top" :src="'storage/images/compagnie0.jpg'" alt="Card image cap" width="100px" height="100px">
 
             <div class="card-body">
                 <h5 class="card-title">Raison Sociale : {{compagnie.raison_sociale}}</h5>
@@ -115,7 +126,12 @@ import  Pagination from '../Pagination.vue';
               search : '',
               //name file 
               nameFile : "Choose file",
-         
+           // objet test sur affichage , ajout , recherche
+              Testopen:{
+                testAjout : false,
+                testAffiche : false,
+                testmodelArticle : false,
+              },
     compagnie: {
       id_compagnie:0,
       raison_sociale:"",
@@ -143,9 +159,22 @@ import  Pagination from '../Pagination.vue';
 
    // remplire listes des compagnies aprés la creation complet de ce composant
     mounted(){
+        if(this.$route.params.success == "add")
+            this.Testopen.testAjout =true;
+   if(this.$route.params.success == "edit")
+            this.Testopen.testEdit =true; 
+
           this.getCompagnies();
     },
-
+updated(){
+    if( this.$route.params.success == "add"){
+          let that = this
+              setTimeout(function(){that.Testopen.testAjout = false;}, 2000);
+               }
+          if( this.$route.params.success == "edit"){
+         let that=this;
+              setTimeout(function(){that.Testopen.testEdit = false;}, 2000);}
+},
     methods: {
           
               // methode pour afficher tous les compagnies                  
@@ -272,4 +301,12 @@ a.first::after {
 a.last::before {
   content:'...'
 }
+.show{
+     opacity:0.9;
+    width: 233px;
+    z-index: 100;
+    top: 61px;
+    right: 0;
+    position:  absolute;
+    position :fixed;}
 </style>

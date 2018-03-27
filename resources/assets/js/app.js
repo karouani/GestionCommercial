@@ -17,8 +17,9 @@ Vue.prototype.$swal=swal;
 import Router from './routes.js'
 
 
+import Auth from './Auth.js'
 //import Char from './Chart.min.js'
-
+Vue.use(Auth)
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -52,9 +53,30 @@ Vue.component('app-editcompagnie', require('./components/Compagnie/EditCompagnie
 global.jquery = jquery
 global.$ = jquery*/
 
+Router.beforeEach(
 
+    (to,from,next) => {
+        if(to.matched.some(record => record.meta.SuperAdmin) ){
+            
+            Promise.resolve(Vue.auth.getProfile()).then(function(value){
+               
+                if(value){
+                    next({
+                        path:'/'
+                    })
+                }
+                else next()
+            });
+        
+        
+
+        }else next()
+    }
+)
 const app = new Vue({
     el: '#app',
     router: Router,
-     
+   
+            
+  
 });

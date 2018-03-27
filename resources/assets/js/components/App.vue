@@ -28,6 +28,7 @@ import  EditArticle from './Article/EditArticle.vue'
 import Pagination from './Pagination.vue' 
 
 
+
 export default {
    components:{
      'top-menu':TopMenu,
@@ -41,9 +42,9 @@ export default {
      
   },
   data: () => ({
-   
-  }),
  
+  }),
+
 
 }
 </script>

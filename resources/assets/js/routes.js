@@ -46,7 +46,10 @@ const  router = new VueRouter({
       // route pour ajouter un utilisateur
         {    
             path:"/addUsers",
-            component: AddUsers
+            component: AddUsers,
+            meta:{
+                SuperAdmin:true
+            }
         },
       // route pour afficher les utilisateurs
         {   
@@ -81,6 +84,10 @@ const  router = new VueRouter({
         },
         {    
             path:"/getCompagnies",
+            component: AffCompagnie
+        },
+        {    
+            path:"/getCompagnies/:success",
             component: AffCompagnie
         },
         {    

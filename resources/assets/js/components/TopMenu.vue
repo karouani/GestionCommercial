@@ -29,7 +29,9 @@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img :src="'storage/images/'+profile.photo" class="avatar avatar-sm" alt="logo">
+                    <img v-if="profile.photo != ''" :src="'storage/images/'+profile.photo" class="avatar avatar-sm" alt="logo">
+                    <img v-if="profile.photo === ''" :src="'storage/images/user0.jpg'" class="avatar avatar-sm" alt="logo">
+
                     <span class="small ml-1 d-md-down-none">{{profile.name}}</span>
                 </a>
 
@@ -70,6 +72,7 @@
 
  export default {
         data: () => ({
+            isSuperAd:false,
             profile: {
       id:0,
       name:"",
@@ -102,9 +105,10 @@
                         axios.get('/getProfile')
                         .then(response => {
                             // recuperé ensemble des articles sous format json
-                           
+                           console.log("11")
                            this.profile = response.data.user[0];
-                        // console.log(response.data.user[0]);
+                        //console.log(response.data.user[0]);
+                        console.log(this.profile)
 
                         })
                         .catch(function (error) {
@@ -113,12 +117,36 @@
                          
                                
             },
+            isSuperAdmin(){
+                  axios.get('/isSuperAdmin')
+                        .then(response => {
+                            // recuperé ensemble des articles sous format json
+                           console.log("11")
+                           this.isSuperAd = test;
+                        //console.log(response.data.user[0]);
+                        console.log( this.isSuperAd )
+
+                        })
+                        .catch(function (error) {
+                           
+                        });
+            }
+            
 
         },
 
+created(){
+//this.getProfile();
+},
         mounted(){
-          this.getProfile();
+                    this.getProfile();
+            
+          
+          
+          console.log(this.profile)
+          
     },
+
         
     }
 </script>
