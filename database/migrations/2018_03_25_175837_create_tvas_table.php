@@ -15,7 +15,7 @@ class CreateTvasTable extends Migration
     {
         Schema::create('tvas', function (Blueprint $table) {
             $table->increments('id_tva');
-            $table->string('taux_tva');
+            $table->double('taux_tva')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

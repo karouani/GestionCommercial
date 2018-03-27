@@ -89,11 +89,9 @@
                 :title="'Reference : '+article.reference_art"
                 :body-bg-variant="+' '+modalShow+''+article.designation+''+article.type_art+''+article.description+''+article.prix_ht_achat+''+article.prix_ht_vente+''+article.unite+''+article.quantite+''+article.quantite_min+''+article.photo_art">
                  <div class="row" v-if="modalShow">
-                     <div class="col"> 
                       
-
-
-                   <span>Designation : </span>{{article.designation}}
+                         <div class="col">
+                   <span>fDesignation : </span>{{article.designation}}
                         <hr>
                    <span>Type : </span>{{article.type_art}} 
                    <hr>
@@ -102,13 +100,20 @@
                    <span>Prix ht achat :  </span>{{article.prix_ht_achat}}
                    <hr>
                    <span>Prix ht vente : </span>{{article.prix_ht_vente}}
-                   <hr>
+                   </div>
+                    
+                   <div class="col">
                    <span>Unite :  </span>{{article.unite}}
                    <hr>
                    <span>Quantite : </span>{{article.quantite}}
                    <hr>
                    <span>Quantite minimum : </span>{{article.quantite_min}}
-                   </div>
+                   <hr>
+                   <span>Famille : </span>{{article.fk_famille}}
+                   <hr>
+                   <span>Taux Tva: </span>{{article.fk_tva_applicable}}  
+                   </div>                                   
+                   
                    <div class="col">
                        <div class="pull-right">
                      
@@ -195,6 +200,7 @@ import  Pagination from '../Pagination.vue';
                     photo_art :'',
                     fk_tva_applicable :"",
                     fk_famille :"",
+
               },
             
              
@@ -320,14 +326,15 @@ import  Pagination from '../Pagination.vue';
 })
 
         },
-                     getArticle:function(article){
+        getArticle:function(article){
               
                   axios.get('/getArticle/'+article.id_article).then(
                   response => {
                        
                     this.article= response.data.article;
-                  
-                    
+                    this.article.fk_famille = response.data.libelle_famille[0].libelle_famille;
+                    //console.log(response.data.libelle_famille[0]);
+                    this.article.fk_tva_applicable = response.data.taux_tva[0].taux_tva;
                     this.modalShow = !this.modalShow
                   });         
         },
@@ -427,6 +434,7 @@ table{
     position:  absolute;
     position :fixed;
 }
+
 </style>
 
 

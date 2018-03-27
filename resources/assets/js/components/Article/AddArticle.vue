@@ -4,6 +4,7 @@
     <h2>Ajouter Article</h2>
     <hr>
     </div>
+        <form @submit.prevent="addArticle">
          <div class="row" > 
          
             <div class="col-md-6">
@@ -60,7 +61,7 @@
 
                 <div class="form-group">
                     <label for="fk_tva_applicable"> Tva applicable </label>
-                <select class="form-control custom-select " id="fk_tva_applicable" v-model="article.fk_tva_applicable">
+                <select class="form-control custom-select " id="fk_tva_applicable" v-model="article.fk_tva_applicable" required>
                     <option selected>Choisir Tva</option>
                     <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
                 </select>
@@ -68,14 +69,15 @@
                 <div class="form-group">
 
                 <label for="exampleFormControlSelect1">famille</label>
-                <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="article.fk_famille">
+                <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="article.fk_famille" required>
                     <option selected>Choisir une categorie</option>
                     <option v-for="famille in famille_articles" :key="famille.id_famille" :value="famille.id_famille">{{famille.libelle_famille}}</option>
                 </select>
                 </div>
             </div> 
     </div>
-     <button  @click="addArticle()" class="btn btn-primary mr-20 btn-success">Enregister</button>
+     <button  class="btn btn-primary mr-20 btn-success">Enregister</button>
+     </form>
     </div>
 </template>
 
@@ -176,8 +178,8 @@
                         var context=canvas.getContext("2d");
                         if(image.src.length > 1000000){
                             
-                        canvas.width=image.width/10; 
-                        canvas.height=image.height/10;
+                        canvas.width=image.width/8; 
+                        canvas.height=image.height/8;
                         }
                         else {
                          canvas.width=image.width; 

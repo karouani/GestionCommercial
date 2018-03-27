@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Article;
-
+use App\Famille_article;
+use App\Tva;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Storage;
 class ArticleController extends Controller
 {
@@ -39,10 +42,12 @@ class ArticleController extends Controller
      }
 
      public function getArticle($id_article){
-       //dd(gettype ( $id_article ));
-       $article = Article::find($id_article);
+        $article = Article::find($id_article);
+        $libelle_famille = DB::table('famille_articles')->select('libelle_famille')->where('id_famille','=',$article->fk_famille)->get();      
+        $taux_tva = DB::table('tvas')->select('taux_tva')->where('id_tva','=',$article->fk_tva_applicable)->get();
+        
     
-        return Response()->json(['article' => $article]);
+        return Response()->json(['article' => $article , 'libelle_famille' => $libelle_famille ,'taux_tva' => $taux_tva ]);
      }
 
 

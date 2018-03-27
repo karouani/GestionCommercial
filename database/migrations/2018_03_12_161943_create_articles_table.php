@@ -15,18 +15,18 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id_article');
-            $table->string('reference_art');
-            $table->string('type_art');
-            $table->string('designation');
-            $table->string('description');
-            $table->double('prix_ht_achat');
-            $table->double('prix_ht_vente');
-            $table->string('unite');
-            $table->double('quantite');
-            $table->double('quantite_min');
-            $table->string('photo_art');
-            $table->integer('fk_tva_applicable');
-            $table->integer('fk_famille');
+            $table->string('reference_art')->nullable();
+            $table->string('type_art')->nullable();
+            $table->string('designation')->nullable();
+            $table->string('description')->nullable();
+            $table->double('prix_ht_achat')->nullable();
+            $table->double('prix_ht_vente')->nullable();
+            $table->string('unite')->nullable();
+            $table->double('quantite')->nullable();
+            $table->double('quantite_min')->nullable();
+            $table->string('photo_art')->nullable();
+            $table->integer('fk_tva_applicable')->nullable();
+            $table->integer('fk_famille')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
