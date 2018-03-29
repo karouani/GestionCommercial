@@ -72,7 +72,22 @@ Route::post('/addStatu','ParametresController@addStatu');
 Route::get('/getStatus','ParametresController@getStatus');
 Route::delete('/deleteStatu/{id_status}','ParametresController@deleteStatu');
 
+//Compte 
+Route::post('/addCompte','CompteController@addCompte');
+Route::get('/getComptes','CompteController@getComptes');
+Route::post('/updateCompte','CompteController@updateCompte');
+Route::delete('/deleteCompte/{id_compte}','CompteController@deleteCompte');
+Route::get('/getCompte/{id_compte}','CompteController@getCompte');
+Route::get('/searchComptes/{nomCompte}','CompteController@searchComptes');
 
+//contact 
+Route::post('/addContact','CompteController@addContact');
+Route::post('/updateContact','CompteController@updateContact');
+Route::get('/getContact/{fk_compte}','CompteController@getContact');
+
+// condition facture
+Route::post('/addCFacture','CompteController@addCondtionFacture');
+Route::post('/updateCFacture','CompteController@updateCondtionFacture');
 
 
 Auth::routes();
