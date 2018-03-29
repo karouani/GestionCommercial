@@ -79,7 +79,22 @@ Route::post('/addDevis','DevisController@addDevis')->name('addDevis');
 Route::get('/countDevis','DevisController@countDevis');
 
 
+//Compte 
+Route::post('/addCompte','CompteController@addCompte');
+Route::get('/getComptes','CompteController@getComptes');
+Route::post('/updateCompte','CompteController@updateCompte');
+Route::delete('/deleteCompte/{id_compte}','CompteController@deleteCompte');
+Route::get('/getCompte/{id_compte}','CompteController@getCompte');
+Route::get('/searchComptes/{nomCompte}','CompteController@searchComptes');
 
+//contact 
+Route::post('/addContact','CompteController@addContact');
+Route::post('/updateContact','CompteController@updateContact');
+Route::get('/getContact/{fk_compte}','CompteController@getContact');
+
+// condition facture
+Route::post('/addCFacture','CompteController@addCondtionFacture');
+Route::post('/updateCFacture','CompteController@updateCondtionFacture');
 
 
 Auth::routes();

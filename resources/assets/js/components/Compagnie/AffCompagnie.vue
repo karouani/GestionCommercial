@@ -279,9 +279,7 @@ console.log("testttt");
      width  : 236px;
      height: 13px;
  }
- a {
-  color: #999;
-}
+
 .current {
   color: red;
 }

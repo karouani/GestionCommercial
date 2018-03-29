@@ -6,7 +6,7 @@
 <div class="row btnMarge">
   <div class="col">
     <!-- button pour afficher tous les utilisateurs-->
-       <router-link :to="'/'" class="float-left btn btn-primary">Afficher</router-link>
+       <router-link :to="'/getCompagnies'" class="float-left btn btn-primary">Afficher</router-link>
   </div>
   
 </div>

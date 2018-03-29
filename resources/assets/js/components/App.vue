@@ -27,6 +27,12 @@ import  Addrticles from './Article/AddArticle.vue'
 import  EditArticle from './Article/EditArticle.vue' 
 import Pagination from './Pagination.vue' 
 
+//compte
+import  ShowComptes from './Compte/ShowComptes.vue' 
+import  AddCompte from './Compte/AddCompte.vue' 
+import  EditCompte from './Compte/EditCompte.vue' 
+//contact 
+import  AddContact from './Compte/Contact/AddContact.vue' 
 
 
 export default {

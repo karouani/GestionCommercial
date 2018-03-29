@@ -13,14 +13,14 @@
 <div v-if="!loading">
    
             <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
-        <strong>Article bien ajouter !</strong> 
+        <strong>Compte bien ajouter !</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
 
         <div v-if="Testopen.testnotifEdit" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
-        <strong>Article bien modifier !</strong> 
+        <strong>Compte bien modifier !</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -46,7 +46,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" @keyup.enter="searchArticles"  class="form-control" v-model="search" placeholder="recherche par designation ou reference" aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="text" @keyup.enter="searchComptes"  class="form-control" v-model="search" placeholder="recherche par designation ou reference" aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div> 
         
@@ -58,23 +58,26 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>reference</th>
-                                        <th>designation</th>
-                                        <th>Prix ht achat:</th>
-                                        <th>Quantite:</th>
-                                        <th>options</th>
+                                        <th>nom_compte</th>
+                                        <th>responsable</th>
+                                        <th>type_compte</th>
+                                        <th>fixe:</th>
+                                        <th>portable:</th>
+                                        <th>email:</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr  v-for="article of articles.data" :key="article.id_article" >
-                                        <td>{{article.reference_art}}</td>
-                                        <td>{{ article.designation}}</td>
-                                        <td>{{article.prix_ht_achat}}</td>
-                                        <td>{{article.quantite}} </td>      
+                                    <tr  v-for="compte of comptes.data" :key="compte.id_compte" >
+                                        <td>{{compte.nom_compte}}</td>
+                                        <td>{{compte.responsable}}</td>
+                                        <td>{{compte.type_compte}}</td>
+                                        <td>{{compte.fixe}} </td>    
+                                        <td>{{compte.portable}} </td>  
+                                        <td>{{compte.email}} </td>    
                                         <td  class="optionsWidth"> 
-                                            <a href="#"    @click="getArticle(article)"  class="btn btn-primary"  ><i class="fas fa-eye d-inline-block"></i></a>
-                                         <router-link class="btn btn-success " :to="'/EditArticles/'+article.id_article "><i class="fas fa-edit d-inline-block"></i></router-link>
-                                             <a @click="deleteArticle(article)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
+                                            <a href="#"    @click="getCompte(compte)"  class="btn btn-primary"  ><i class="fas fa-eye d-inline-block"></i></a>
+                                         <router-link class="btn btn-success " :to="'/EditCompte/'+compte.id_compte"><i class="fas fa-edit d-inline-block"></i></router-link>
+                                             <a @click="deleteCompte(compte)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
                                     </tr>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     </div>
@@ -86,41 +89,46 @@
                     <div>
               
                 <b-modal ok-only  v-model="modalShow" no-fade
-                :title="'Reference : '+article.reference_art"
-                :body-bg-variant="+' '+modalShow+''+article.designation+''+article.type_art+''+article.description+''+article.prix_ht_achat+''+article.prix_ht_vente+''+article.unite+''+article.quantite+''+article.quantite_min+''+article.photo_art">
+                :title="'Nom Compte : '+compte.nom_compte"
+                :body-bg-variant="+' '+modalShow+''+compte.responsable+''+compte.type_compte+''+compte.categorie+''+compte.raison_social+''+compte.reference+''+compte.fixe+''+compte.portable+''+compte.fax+''+compte.email+''+compte.site_web+''+compte.secteur_activite+''+compte.taille+''+compte.RC+''+compte.fk_compagnie">
                  <div class="row" v-if="modalShow">
                       
                          <div class="col">
-                   <span>Designation : </span>{{article.designation}}
+                   <span>responsable : </span>{{compte.responsable}}
                         <hr>
-                   <span>Type : </span>{{article.type_art}} 
+                   <span>type_compte : </span>{{compte.type_compte}} 
                    <hr>
-                   <span>Description : </span>{{article.description}}
+                   <span>compte.categorie : </span>{{compte.categorie}}
                    <hr>
-                   <span>Prix ht achat :  </span>{{article.prix_ht_achat}}
+                   <span>raison_social :  </span>{{compte.raison_social}}
                    <hr>
-                   <span>Prix ht vente : </span>{{article.prix_ht_vente}}
+                   <span>reference : </span>{{compte.reference}}
+                   <hr>
+                    <span>fixe :  </span>{{compte.fixe}}
+                   <hr>
+                   <span>portable : </span>{{compte.portable}}
+                   
                    </div>
                     
                    <div class="col">
-                   <span>Unite :  </span>{{article.unite}}
+
+
+                   <span>fax : </span>{{compte.fax}}
                    <hr>
-                   <span>Quantite : </span>{{article.quantite}}
+                   <span>email: </span>{{compte.email}}
                    <hr>
-                   <span>Quantite minimum : </span>{{article.quantite_min}}
+                   <span>site_web: </span>{{compte.site_web}}  
                    <hr>
-                   <span>Famille : </span>{{article.fk_famille}}
+                   <span>secteur_activite: </span>{{compte.secteur_activite}}  
                    <hr>
-                   <span>Taux Tva: </span>{{article.fk_tva_applicable}}  
+                   <span>taille: </span>{{compte.taille}}  
+                   <hr>
+                   <span>RC: </span>{{compte.RC}}  
+                   <hr>
+                   <span>fk_compagnie: </span>{{compte.fk_compagnie}}                     
                    </div>                                   
                    
-                   <div class="col">
-                       <div class="pull-right">
-                     
-                      <img v-if="article.photo_art != ''" class="card-img-top" :src="'storage/images/'+article.photo_art" width="150px" height="150px">
-                    <img v-if="article.photo_art === ''" class="card-img-top" :src="'storage/images/article0.png'"  width="150px" height="200px">
-                     </div>
-                     </div>
+                
                      </div>
                     <div slot="modal-footer" class="w-100">
                     <p class="float-left"> </p>
@@ -132,8 +140,8 @@
             </div>
     </div>
     
-    <vue-pagination  :pagination="articles"
-                     @paginate="getarticles()"
+    <vue-pagination  :pagination="comptes"
+                     @paginate="getcomptes()"
                      :offset="4">
     </vue-pagination>
     </div>
@@ -172,7 +180,7 @@ import  Pagination from '../Pagination.vue';
               // tester  si affiche articles  ou afficher ajouter article 
               
               // initialisation d un article 
-              articles:{
+              comptes:{
                         
                         total: 0,
                         per_page: 2,
@@ -185,33 +193,29 @@ import  Pagination from '../Pagination.vue';
                offset: 4,
 
 
-              article: { 
-                    
-                    id_article :0,
-                    reference_art :"",
-                    type_art :"",
-                    designation :"",
-                    description :"",
-                    prix_ht_achat :"",
-                    prix_ht_vente :"",
-                    unite :"",
-                    quantite :"",
-                    quantite_min :"",
-                    photo_art :'',
-                    fk_tva_applicable :"",
-                    fk_famille :"",
-
+              compte: { 
+                    id_compte : 0,
+                    nom_compte : "",
+                    responsable : "",
+                    type_compte : "",
+                    categorie : "",
+                    raison_social : "",
+                    reference : "",
+                    fixe : "",
+                    portable : "",
+                    fax : "",
+                    email : "",
+                    site_web  : "",
+                    secteur_activite : "",
+                    taille : "",
+                    RC : "",
+                    fk_compagnie : "",
               },
             
              
              
       }),
-     /* mounted(){
-         
-        this.getarticles();
-     
-          
-      },*/
+   
         mounted(){
            
           if( this.$route.params.success == "addsuccess"){
@@ -249,18 +253,18 @@ import  Pagination from '../Pagination.vue';
               let this1 = this
                setTimeout(function () { this1.Testopen.testnotifAdd = false }, 1000);
           },
-          searchArticles(event){
+          searchComptes(event){
              console.log(this.search);
-             this.articles.current_page=1;
+             this.comptes.current_page=1;
              if(this.search === ""){
                 //console.log('test2');
-                    this.getarticles();}
+                    this.getcomptes();}
                 else {
                      // console.log('test1');
-                axios.get('/searchArticles/'+this.search+'?page='+this.articles.current_page+'')
+                axios.get('/searchComptes/'+this.search+'?page='+this.comptes.current_page+'')
                 .then((response) => {
                   
-                    this.articles = response.data.articles;
+                    this.comptes = response.data.comptes;
                   
                 })
                 .catch(() => {
@@ -274,21 +278,21 @@ import  Pagination from '../Pagination.vue';
       this.loading = true
       // replace `getPost` with your data fetching util / API wrapper
    
-      axios.get('/getArticles?page='+this.articles.current_page+'')
+      axios.get('/getComptes?page='+this.comptes.current_page+'')
                 .then((response) => {
                   
-                    this.articles = response.data.articles;
+                    this.comptes = response.data.comptes;
                   this.loading = false;
                 })
                 .catch(() => {
                     console.log('handle server error from here');
                 });
     },
-          getarticles(){
-                axios.get('/getArticles?page='+this.articles.current_page+'')
+          getcomptes(){
+                axios.get('/getComptes?page='+this.comptes.current_page+'')
                 .then((response) => {
                  // console.log('shit');
-                    this.articles = response.data.articles;
+                    this.comptes = response.data.comptes;
                   
                 })
                 .catch(() => {
@@ -299,7 +303,7 @@ import  Pagination from '../Pagination.vue';
 
 
 
-             deleteArticle:function(article){
+             deleteCompte:function(compte){
 
 
                         this.$swal({
@@ -312,29 +316,26 @@ import  Pagination from '../Pagination.vue';
                         confirmButtonText: 'Oui, supprimez-le!'
                                                 }).then((result) => {
                         if (result.value) {
-                            axios.delete('/deleteArticle/'+article.id_article).then(
+                            axios.delete('/deleteCompte/'+compte.id_compte).then(
                                         response => {
                                 
-                                            this.getarticles();
+                                            this.getcomptes();
                                         });
                         this.$swal(
                         'Supprimé!',
-                        'Votre article a été supprimé',
+                        'Votre compte a été supprimé',
                         'success'
                         )
   }
 })
 
         },
-        getArticle:function(article){
+        getCompte:function(compte){
               
-                  axios.get('/getArticle/'+article.id_article).then(
+                  axios.get('/getCompte/'+compte.id_compte).then(
                   response => {
                        
-                    this.article= response.data.article;
-                    this.article.fk_famille = response.data.libelle_famille[0].libelle_famille;
-                    //console.log(response.data.libelle_famille[0]);
-                    this.article.fk_tva_applicable = response.data.taux_tva[0].taux_tva;
+                    this.compte= response.data.compte;
                     this.modalShow = !this.modalShow
                   });         
         },
@@ -427,7 +428,7 @@ table{
 
 .notifArticle{
     opacity:0.9;
-    width: 233px;
+    width: 241px;
     z-index: 100;
     top: 61px;
     right: 0;

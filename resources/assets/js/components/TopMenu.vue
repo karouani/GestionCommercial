@@ -83,6 +83,7 @@
  export default {
         data: () => ({
             loading: false,
+            error:false,
             isSuperAd:false,
             profile: {
       id:0,

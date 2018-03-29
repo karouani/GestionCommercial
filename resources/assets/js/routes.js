@@ -26,9 +26,24 @@ import  EditArticles from './components/Article/EditArticle.vue'
 //parametres
 import  Parametres from './components/Parametres.vue' 
 
+
+//comptes
+import  ShowComptes from './components/Compte/ShowComptes.vue' 
+import  AddCompte from './components/Compte/AddCompte.vue' 
+import  EditCompte from './components/Compte/EditCompte.vue' 
+
+//contact 
+import  AddContact from './components/Compte/Contact/AddContact.vue' 
+import  EditContact from './components/Compte/Contact/EditContact.vue' 
+
+//condition facture 
+import  AddConditionFacture from './components/Compte/ConditionFacture/AddConditionFacture.vue' 
+
+
+
 Vue.use(VueRouter) 
 
-const  router = new VueRouter({
+const  router = new VueRouter({ 
 
     routes: [
         // route gestion de commerce
@@ -137,7 +152,36 @@ const  router = new VueRouter({
         
 
 
+         // ----------------------------------------------------------  // Comptes
 
+         {     path:"/ShowComptes",
+             component: ShowComptes,
+             
+         },
+      
+         {     path:"/ShowComptes/:success",
+         component: ShowComptes,
+         
+          },
+    
+         {     path:"/AddCompte",
+                component: AddCompte
+        },
+   
+        {     path:"/EditCompte/:id_compte",
+                component: EditCompte
+        },
+        // ----------------------------------------------------------  // Contact
+        {     path:"/AddContact/:id_compte",
+        component: AddContact
+        },
+        {     path:"/EditContact/:id_compte",
+        component: EditContact
+        },   
+        // ----------------------------------------------------------  // condition facture
+        {     path:"/AddConditionFacture/:id_compte",
+        component: AddConditionFacture
+        },         
     ],
    
 })
