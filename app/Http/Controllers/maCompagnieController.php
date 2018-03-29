@@ -10,8 +10,9 @@ class maCompagnieController extends Controller
 {
            //ajouter compagnie
            public function store(Request $request){
-                
+            
              $compagnie = new Macompagnie();
+             $compagnie->nom_societe = $request->nom_societe;
              $compagnie->raison_sociale = $request->raison_sociale;
              $compagnie->taille_comp=$request->taille_comp;
              $compagnie->secteur_activite=$request->secteur_activite;
@@ -83,6 +84,7 @@ class maCompagnieController extends Controller
                 
 
         
+        $compagnie->nom_societe = $request->nom_societe;
         $compagnie->raison_sociale = $request->raison_sociale;
         $compagnie->taille_comp=$request->taille_comp;
         $compagnie->secteur_activite=$request->secteur_activite;

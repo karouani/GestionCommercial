@@ -57,6 +57,28 @@
                             
                         </ul>
                     </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle active">
+                            <i class="icon icon-speedometer"></i> Devis <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <router-link :to="'/'" class="nav-link">
+                                    <i class="icon icon-target"></i> Afficher Devis
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
+                                <router-link :to="'/addDevis'" class="nav-link">
+                                    <i class="icon icon-target"></i> Ajouter Devis
+                                </router-link>
+                            </li>
+
+                            
+                        </ul>
+                    </li>
                  
                 </ul>
             </nav>

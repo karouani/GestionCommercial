@@ -11,10 +11,13 @@ import UserConnect from './components/User/UserConnect.vue'
 import AddCompagnie from './components/Compagnie/AddCompagnie.vue'
 import AffCompagnie from './components/Compagnie/AffCompagnie.vue'
 import EditCompagnie from './components/Compagnie/EditCompagnie.vue'
+  //Devis
+import AddDevis from './components/Devis/AddDevis.vue'
+ 
 
 
 
-Vue.use(VueRouter)
+//Vue.use(VueRouter)
 
 //articles
 import  ShowArticles from './components/Article/ShowArticles.vue' 
@@ -123,9 +126,15 @@ const  router = new VueRouter({
             path:"/Parametres",
                 component: Parametres
             
-        }
+        },
 
-
+        // ----------------------------------------------------------  // Devis 
+// ajouter les devis 
+        {    
+            path:"/addDevis",
+            component: AddDevis
+        },
+        
 
 
 

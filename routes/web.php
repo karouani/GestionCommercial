@@ -58,7 +58,7 @@ Route::post('/updateCompagnie','maCompagnieController@updateCompagnie');
 Route::get('/isSuperAdmin','Auth\RegisterController@isSuperAdmin');
 
 
-//parametres
+//parametres-----------------------------------------------------------
         //famille
 Route::post('/addFamille','ParametresController@addFamille');
 Route::get('/getfamilles','ParametresController@getfamille');
@@ -67,10 +67,17 @@ Route::delete('/deletefamille/{id_famille}','ParametresController@deleteFamille'
 Route::post('/addTva','ParametresController@addTva');
 Route::get('/getTvas','ParametresController@getTvas');
 Route::delete('/deleteTva/{id_tva}','ParametresController@deleteTva');
-        //tva 
+        //Status 
 Route::post('/addStatu','ParametresController@addStatu');
 Route::get('/getStatus','ParametresController@getStatus');
 Route::delete('/deleteStatu/{id_status}','ParametresController@deleteStatu');
+ //---------------------------------------------------------------------       
+
+                //Devis
+        // ajouter devis,commande devis, et mode paiement de devis
+Route::post('/addDevis','DevisController@addDevis')->name('addDevis');
+Route::get('/countDevis','DevisController@countDevis');
+
 
 
 

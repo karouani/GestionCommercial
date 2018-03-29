@@ -65,7 +65,7 @@ function addStatu(Request $request){
 }
 
 
-function  getStatus(){
+public function  getStatus(){
 $listeStatus = Statu::all();
 return Response()->json(['status' => $listeStatus  ]);
 }

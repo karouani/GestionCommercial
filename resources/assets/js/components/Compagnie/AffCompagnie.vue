@@ -83,8 +83,8 @@
                    <div class="col">
                        <div class="pull-right">
                      
-                      <img v-if="compagnie.logo_comp != ''" class="card-img-top" :src="'images/'+compagnie.logo_comp" width="150px" height="150px">
-                    <img v-if="compagnie.logo_comp === ''" class="card-img-top" :src="'images/compagnie0.jpg'"  width="150px" height="200px">
+                      <img v-if="compagnie.logo_comp != ''" class="card-img-top" :src="'storage/images/'+compagnie.logo_comp" width="150px" height="150px">
+                    <img v-if="compagnie.logo_comp === ''" class="card-img-top" :src="'storage/images/compagnie0.jpg'"  width="150px" height="200px">
                      </div>
                      </div>
                      </div>

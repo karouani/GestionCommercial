@@ -1,6 +1,13 @@
 <template>
   <div>
-  
+          <div class="loading" v-if="loading">
+      Loading...
+    </div>
+    <div v-if="error" class="error">
+      {{ error }}
+    </div>
+
+<div v-if="!loading">
 <div>
    <div>
  <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testAjout">
@@ -54,7 +61,7 @@
   
     <!-- fin affiche -->
     </div>
-     
+</div>
     </div>
 </template>
 
@@ -126,11 +133,14 @@ updated:function(){
             
               // methode pour afficher tous les users                  
             getUsers(){
+                   this.loading = true
 
                         axios.get('/getUsers?page='+this.users.current_page+'')
                         .then(response => {
                             // recuperé ensemble des articles sous format json
                             this.users = response.data.users;
+                            this.loading = false;
+
                           
                          
                         })

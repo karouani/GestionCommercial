@@ -19,17 +19,21 @@
 
   <div class="row">
     <div class="form-group col-md-6">
-      <label for="inputEmail4">Secteur d'Activité</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.secteur_activite" placeholder="Secteur d'Activité">
+      <label for="inputEmail4">Nom Societe</label>
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.nom_societe" placeholder="Secteur d'Activité">
     </div>
     <div class="form-group col-md-6">
-      <label for="inputEmail4">Adresse</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.adresse_comp" placeholder="Adresse de Compagnie">
+      <label for="inputEmail4">Secteur d'Activité</label>
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.secteur_activite" placeholder="Secteur d'Activité">
     </div>
 
   </div>
    
 <div class="row">
+  <div class="form-group col-md-6">
+      <label for="inputEmail4">Nom Societe</label>
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.nom_societe" placeholder="Secteur d'Activité">
+    </div>
     <div class="form-group col-md-6">
       <label for="inputEmail4">Code Postale</label>
       <input type="text" class="form-control" id="inputname4" v-model="compagnie.cp_comp" placeholder="Code Postale">
@@ -64,6 +68,12 @@
     </div>
 
   </div>
+    <div class="row">
+     <div class="form-group col-md-6">
+      <label for="inputEmail4">Adresse</label>
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.adresse_comp" placeholder="Adresse de Compagnie">
+    </div>
+  <div class="form-group col-md-6">
   <div class="form-group">
       <label for="inputPassword4">Logo</label>
  <div class="input-group mb-3">
@@ -76,6 +86,8 @@
   </div>
 </div>
  </div>
+  </div>
+    </div>
 
      <button  @click="updateCompagnie()" class="btn btn-primary mr-20 btn-success">Modifier</button>
     </div>
@@ -96,6 +108,7 @@
         
              compagnie: {
       id_compagnie:0,
+      nom_societe:"",
       raison_sociale:"",
       taille_comp:"",
       secteur_activite:"",

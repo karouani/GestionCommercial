@@ -16,6 +16,7 @@ class CreateMaCompagnieTable extends Migration
         Schema::create('maCompagnies', function (Blueprint $table) {
             $table->increments('id_compagnie');
             $table->string('raison_sociale')->nullable();
+            $table->string('nom_societe')->nullable();
             $table->integer('taille_comp')->nullable();
             $table->string('secteur_activite')->nullable();
             $table->string('adresse_comp')->nullable();

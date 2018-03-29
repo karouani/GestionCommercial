@@ -1,5 +1,13 @@
 <template>
   <div class="contenu">
+          <div class="loading" v-if="loading">
+      Loading...
+    </div>
+    <div v-if="error" class="error">
+      {{ error }}
+    </div>
+
+<div v-if="!loading">
    <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEdit">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
@@ -12,15 +20,19 @@
       
  
     <!-- afficher les utilisateurs sous formes des cards  -->
-  
-        <div class="card widthCard"  >
-            <div class="card-body">
-                  <div class="row">
-        <div class="col">
+    <div class="row">
+        <div class="card "  >
+            <div class="card-body ">
+                
+        <div class="col img">
             <img v-if="user.photo != ''" class="img-right" :src="'storage/images/'+user.photo" alt="Card image cap" width="100px" height="100px">
             <img v-if="user.photo === ''" class="img-right" :src="'storage/images/user0.jpg'" alt="Card image cap" width="100px" height="100px">
                
             </div>
+            </div>
+        </div>
+                    <div class="card widthCard"  >
+                         <div class="card-body">
             <div class="col text"> 
                  <h5 class="card-title">User Name : {{user.name}}</h5>
                 
@@ -44,7 +56,7 @@
   
     <!-- fin affiche -->
     </div>
-     
+</div>
     </div>
 </template>
 
@@ -54,7 +66,8 @@
     export default{
         
     data: () => ({
-              
+           loading: false,
+
          
         user: {
            id:0,
@@ -95,9 +108,11 @@
           
               // methode pour afficher tous les users                  
               getProfile(){
+                   this.loading = true
                 axios.get('/getProfile')
                 .then(response => {
                     this.user = response.data.user[0];
+                     this.loading = false;
                     console.log(response.data.user[0])
                 })
                 .catch(error => {
@@ -137,16 +152,20 @@
  .text{
      padding-top: 25px;
  }
+ .img{
+     padding: 0px 5px;
+
+ }
  .img-right{
     width: 300px;
      height: 300px;
      float: left;
  }
  .widthCard{
-     width: 750px;
-     height: 330px;
+     width: 50%;
+    /*height: 330px;*/
  }
- .widthTextCard{
+ .widthTextCrd{
      width  : 236px;
      height: 13px;
  }

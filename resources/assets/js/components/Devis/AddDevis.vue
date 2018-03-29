@@ -1,0 +1,434 @@
+<template>
+    <div>
+        <div class="text-center">
+    <h2>Ajouter Devis</h2>
+    <hr>
+    </div>
+             <!-- ajouter devis  -->
+        <form   @submit.prevent="addDevis">
+         <div class="row" > 
+         
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="reference_d"> Reference</label>
+                    <input type="text" class="form-control" id="reference_d" :value="devi.reference_d" disabled>
+                  
+                   
+                </div>
+                <div class="form-group">
+                    <label for="date_d"> Date </label>
+                    <input type="date" class="form-control" id="date_d" v-model="devi.date_d" >
+                </div>
+                <div class="form-group">
+                    <label for="type_operation"> Type Operation </label>
+                    <input type="text" class="form-control" id="type_operation" v-model="devi.type_operation" >
+                </div>
+                <div class="form-group">
+                    <label for="objet_d"> Objet </label>
+                    <input type="text" class="form-control" id="objet_d" v-model="devi.objet_d" >
+                </div>
+                <div class="form-group">
+                    <label for="date_emission_d"> Date d'émission </label>
+                    <input type="date" class="form-control" id="date_emission_d" v-model="devi.date_emission_d" >
+                </div>
+                <div class="form-group">
+                    <label for="remise_total_d"> Remise Total </label>
+                    <input type="text" class="form-control" id="remise_total_d" v-model="devi.remise_total_d" >
+                </div>
+                <div class="form-group">
+                    <label for="majoration_d"> Majoration </label>
+                    <input type="text" class="form-control" id="majoration_d" v-model="devi.majoration_d">
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                
+                <div class="form-group">
+                    <label for="date_limit_d"> Date Limit </label>
+                    <input type="date" class="form-control" id="date_limit_d" v-model="devi.date_limit_d">
+                </div>
+                <div class="form-group">
+                    <label for="introduction_d">Introduction </label>
+                    <input type="text" class="form-control" id="introduction_d" v-model="devi.introduction_d">
+                </div>
+                <div class="form-group">
+                    <label for="conditions_reglements_d">Conditions de reglements </label>
+                    <input type="text" class="form-control" id="conditions_reglements_d" v-model="devi.conditions_reglements_d">
+                </div>
+                 <div class="form-group">
+                    <label for="notes_d">Notes </label>
+                    <input type="text" class="form-control" id="notes_d" v-model="devi.notes_d">
+                </div>
+                <div class="form-group">
+                    <label for="accompte_d">Accompte </label>
+                    <input type="text" class="form-control" id="accompte_d" v-model="devi.accompte_d">
+                </div> 
+                <div class="form-group">
+                    <label for="fk_status_d"> Status </label>
+                <select class="form-control custom-select " id="fk_status_d" v-model="devi.fk_status_d" >
+                    <option selected>Choisir Status</option>
+                    <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
+                </select>
+                </div>
+                <div class="form-group">
+                    <label for=""> Compte </label>
+                <select class="form-control custom-select " id=""  >
+                    <option selected>Choisir Compte</option>
+                    <option></option>
+                </select>
+                </div>
+       
+            </div> 
+    </div>
+    <hr> 
+<div class="text-center">
+    <h4>Ajouter mode Paiement</h4>
+    <hr>
+    </div>
+
+                <!-- ajouter mode de paiement -->
+     <th>
+                             <!--num document: devis -->
+                    <input class="mr-4" :value="modePaiement.fk_document"  type="text" disabled hidden>
+                        </th>
+                    <br>
+<div class="row ">
+ <div class="col-md-4"> 
+                <div class="form-group">
+                    <label for="type_paiement"> Type Paiement </label>
+                <select class="form-control custom-select " id="type_paiement" v-model="modePaiement.type_paiement" >
+                    <option selected>Choisir Type de Paiement</option>
+                    <option>Cheque</option>
+                    <option>Versement</option>
+                    <option>Espece</option>
+                </select>
+                </div>
+ </div>
+  <div class="col-md-4"> 
+                <div class="form-group">
+                    <label for="reference_paiement">Reference Paiement </label>
+                    <input type="text" class="form-control" id="reference_paiement" v-model="modePaiement.reference_paiement">
+                </div>
+  </div>
+  <div class="col-md-4"> 
+
+  
+                 <div class="form-group">
+                    <label for="date_paiement">Date Paiement </label>
+                    <input type="date" class="form-control" id="date_paiement" v-model="modePaiement.date_paiement">
+                </div>
+  </div> 
+
+
+</div>
+
+
+  <hr>
+        <div class="text-center">
+    <h4>Ajouter Commandes</h4>
+    <hr>
+    </div>
+  <div>     
+             <!-- ajouter commandes -->
+        <th>
+                             <!--num document: devis -->
+                    <input class="mr-4" :value="commande.fk_document"  type="text" disabled hidden>
+                        </th>
+                    <br>
+                     <table class="table table-bordered tableau">
+                            <thead>
+                            <tr>
+                            <th>Quantite</th>
+                            <th>Remise</th>
+                            <th>majoration</th>
+                            <th>Prix HT</th>
+                            <th>Article</th>
+                            <th>TVA</th>
+                            </tr>                           
+                        </thead>
+                         <tbody>
+                    <tr>
+                    <th class="form-group"  >
+                            <!--quantite -->
+                    <input class="mr-4"  type="text" v-model="commande.quantite_cmd" >
+                        </th>
+                        <th>
+                            <!--Remise -->
+                    <input class="mr-4"  type="text" v-model="commande.remise_cmd" >
+                        </th>
+                        <th>
+                             <!--majoration -->
+                    <input class="mr-4"  type="text" v-model="commande.majoration_cmd">
+                        </th>
+                        <th>
+                             <!--prix ht-->
+                    <input class="mr-4"  type="text" v-model="commande.prix_ht">
+                        </th>
+                        <th>
+                             <!--article -->
+                   
+                    <select class="form-control custom-select " id="fk_article" v-model="commande.fk_article" >
+                    <option selected>Choisir Article</option>
+                    <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
+                </select>
+                        </th>
+                     
+                        <th>
+                            <!--tva -->
+                 <select class="form-control custom-select " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" >
+                    <option selected>Choisir Tva</option>
+                    <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
+                </select>
+                             
+                        </th>
+                      
+
+                        <th>
+                             <!--ajouter -->
+                         <a  class="btn btn-success" @click="addRow(commande)"><i class="fas fa-plus"></i></a>
+                        </th>
+
+                         </tr>
+                    
+                                            
+                            <tr v-for="commande in $data.commandes" :key="commande.id_cmd" >
+                            <th>{{commande.quantite_cmd}}</th>
+                            <th>{{commande.remise_cmd}}</th> 
+                            <th>{{commande.majoration_cmd}}</th> 
+                            <th>{{commande.prix_ht}}</th> 
+                            <th>{{commande.fk_article}} </th> 
+                            <th>{{commande.fk_tva_cmd}}</th>
+                            <th><a  class="btn btn-danger" @click="removeRow"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                            </tr>
+                      
+                       
+                        </tbody>
+
+
+                         </table>
+
+</div>               
+
+
+
+
+
+
+
+
+
+
+     <button  class="btn btn-primary mr-20 btn-success">Enregister</button>
+</form>
+    </div>
+</template>
+
+<script>
+
+    export default{ 
+        
+          data: () => ({
+           
+              nameFile : "Choose file",
+              // objet test sur affichage , ajout , recherche
+              Testopen:{
+                testAjout : false,
+                testAffiche : false,
+              },
+              testEdit : false,
+              count:"",
+              // devi
+              devi: { 
+            id_devis:0,
+            reference_d:"",
+            date_d:"", 
+            type_operation:"",
+            objet_d:"",
+            date_emission_d:"",
+            remise_total_d:"",
+            majoration_d:"",
+            date_limit_d:"",
+            introduction_d:"",  
+            conditions_reglements_d:"",
+            notes_d:"",
+            accompte_d:"",
+           fk_status_d:"",
+           fk_compte_d:"",
+            fk_user_d:"",
+      
+              },
+              // tableau des devis 
+              devis :[],
+              //tables foreign key 
+              status:[],
+              tvas:[],
+              articles:[],
+index:0,
+              //commandes
+           cmd: {},
+              commande:{
+                  id_cmd:0,
+                quantite_cmd:"",
+                remise_cmd:"",
+                majoration_cmd:"",
+                prix_ht:"",
+                fk_article:"",
+                fk_document:"",
+                fk_tva_cmd:"",
+              },
+              commandes:[],
+                //mode paiement
+                modePaiement:{
+                        id_id_modeP:0,
+                        type_paiement:"",
+                        reference_paiement:"",
+                        date_paiement:"",
+                        fk_document:"",
+
+                },
+                modePaiements:[],
+             
+      }),
+      
+
+      methods: { 
+
+
+addRow (commande) {
+   // console.log(commandes);
+    this.commandes.push( {
+             
+               quantite_cmd:commande.quantite_cmd,
+               remise_cmd:commande.remise_cmd,
+               majoration_cmd: commande.majoration_cmd,
+               prix_ht: commande.prix_ht,
+               fk_article:commande.fk_article,
+               fk_document: commande.fk_document,
+               fk_tva_cmd:commande.fk_tva_cmd,
+    });
+ 
+},
+removeRow: function () {
+    this.commandes.splice(this.commande,1);
+},
+
+
+          addDevis(){ 
+
+                
+              axios.post('/addDevis',{commandes:this.commandes,devis:this.devi,modePaiements:this.modePaiement}).then(response => {         
+                  
+                    this.$router.push('/');
+                  });
+            
+        },
+       
+      getStatus(){
+
+                axios.get('/getStatus')
+                .then((response) => {
+                    this.status= response.data.status;
+                  //  console.log(this.tvas);
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
+        countDevis(){
+
+                axios.get('/countDevis')
+                .then((response) => {
+
+                    this.devi.reference_d='D'+response.data.count;
+                    this.commande.fk_document='D'+response.data.count;
+                    this.modePaiement.fk_document='D'+response.data.count;
+
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          }, 
+            getTvas(){
+                axios.get('/getTvas')
+                .then((response) => {
+                    this.tvas= response.data.tvas;
+                 
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          }, 
+           getarticles(){
+                axios.get('/getArticles')
+                .then((response) => {
+                 
+
+                    this.articles = response.data.articles;
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
+      
+
+    },
+     mounted(){
+
+          this.getStatus();
+          this.countDevis();
+          this.getTvas();
+          this.getarticles();
+      }
+}   
+</script>
+<style scoped>
+ .btnMarge{
+     padding-bottom: 10px;
+ }
+ .widthCard{
+     width: 270px;
+     height: 350px;
+     
+ }
+ .widthTextCard{
+     width  : 236px;
+     height: 13px;
+ }
+ a {
+  color: #999;
+  color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    
+}
+.current {
+  color: red;
+}
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+li {
+  display: inline;
+  margin: 5px 5px;
+}
+
+a.first::after {
+  content:'...'
+}
+
+a.last::before {
+  content:'...'
+}
+.cardbox:hover{
+ box-shadow: 1px 2px 2px 2px #c9ced2;
+}
+.mr-4{
+    margin-right: 0rem!important;
+    width:100px;
+}
+</style>

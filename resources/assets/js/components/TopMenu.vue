@@ -1,4 +1,13 @@
 <template>
+<div>
+    <div class="loading" v-if="loading">
+      Loading...
+    </div>
+    <div v-if="error" class="error">
+      {{ error }}
+    </div>
+
+<div v-if="!loading">
     <nav class="navbar page-header">
         <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
             <i class="fa fa-bars"></i>
@@ -65,13 +74,15 @@
         </ul>
 
     </nav>
-    
+</div>
+</div> 
 </template>
 
 <script>
 
  export default {
         data: () => ({
+            loading: false,
             isSuperAd:false,
             profile: {
       id:0,
@@ -101,14 +112,15 @@
         
             
              getProfile(){
-
+this.loading = true
                         axios.get('/getProfile')
                         .then(response => {
                             // recuperé ensemble des articles sous format json
-                           console.log("11")
+                         //  console.log("11")
                            this.profile = response.data.user[0];
+                           this.loading = false;
                         //console.log(response.data.user[0]);
-                        console.log(this.profile)
+                      //  console.log(this.profile)
 
                         })
                         .catch(function (error) {
@@ -143,7 +155,7 @@ created(){
             
           
           
-          console.log(this.profile)
+         // console.log(this.profile)
           
     },
 
