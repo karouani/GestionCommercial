@@ -67,7 +67,7 @@
         
     data: () => ({
            loading: false,
-
+error: "",
          
         user: {
            id:0,

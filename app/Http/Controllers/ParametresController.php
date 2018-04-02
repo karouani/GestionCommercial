@@ -20,6 +20,7 @@ class ParametresController extends Controller
 
    function  getfamille(){
     $listeFamilles = Famille_article::all();
+    
     //dd($listeArticles);
     return Response()->json(['famille_articles' => $listeFamilles ]);
    }

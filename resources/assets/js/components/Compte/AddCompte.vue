@@ -12,6 +12,14 @@
          
             <div class="col-md-6">
                 <div class="form-group">
+                <label for="exampleFormControlSelect1">Nom Compagnie</label>
+                <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="compte.fk_compagnie" required>
+                    <option selected>Choisir une Compagnie</option>
+                    <option v-for="compagnie in compagnies" :key="compagnie.id_compagnie" :value="compagnie.id_compagnie">{{compagnie.nom_societe}}</option>
+                </select>
+                </div>
+
+                <div class="form-group">
                     <label for="nom_compte"> nom_compte</label>
                     <input type="text" class="form-control" id="nom_compte"  v-model="compte.nom_compte">
                 </div>
@@ -88,9 +96,9 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>prenom</th>
-                                        <th>nom</th>
                                         <th>civilite</th>
+                                        <th>prenom</th>
+                                        <th>nom</th>                                       
                                         <th>fonction</th>
                                         <th>email</th>
                                         <th>fixe</th>
@@ -98,19 +106,20 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(contact,index) in contacts" :key="contact.prenom">
-                                            <th>{{contact.prenom}}</th>
-                                            <th>{{contact.nom}}</th>
-                                            <th>{{contact.civilite}}</th>
-                                            <th>{{contact.fonction}}</th>
-                                            <th>{{contact.email}}</th>
-                                            <th>{{contact.fixe}}</th>
-                                            <th>{{contact.mobile}}</th>
-                                            <th><a @click="spliceContact(index)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
-                                        </tr>
+                                        <tr v-for="(contact,index) in contacts" :key="index">
+                                        <th><input type="text" class="form-control" id="civilite"  v-model="contact.civilite"></th>
                                         <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
                                         <th><input type="text" class="form-control" id="nom"  v-model="contact.nom"></th>
+
+                                        <th><input type="text" class="form-control" id="fonction" v-model="contact.fonction" ></th>
+                                        <th><input type="text" class="form-control" id="email" v-model="contact.email" ></th>
+                                        <th><input type="text" class="form-control" id="fixe" v-model="contact.fixe" ></th>
+                                        <th><input type="text" class="form-control" id="mobile" v-model="contact.mobile"></th> 
+                                            <th><a @click="spliceContact(index)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                                        </tr>
                                         <th><input type="text" class="form-control" id="civilite"  v-model="contact.civilite"></th>
+                                        <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
+                                        <th><input type="text" class="form-control" id="prenom"  v-model="contact.nom"></th>
                                         <th><input type="text" class="form-control" id="fonction" v-model="contact.fonction" ></th>
                                         <th><input type="text" class="form-control" id="email" v-model="contact.email" ></th>
                                         <th><input type="text" class="form-control" id="fixe" v-model="contact.fixe" ></th>
@@ -222,6 +231,7 @@
               
               // tableau des articles 
               contacts :[],
+              compagnies :[],
 
              
       }),
@@ -229,12 +239,6 @@
 
       methods: { 
           testAjoutCompte(){
-            console.log('11111')
-            console.log(this.compte)
-            console.log('22222')
-            console.log(this.contacts)
-             console.log('333333')
-             console.log(this.condition_facture);
 
           },
           addCompte:function(){ 
@@ -244,7 +248,8 @@
                     console.log(response.data.id_compte);   
                     console.log('Compte Bien ajouter !');
                      //this.$router.push('/ShowComptes/addsuccess');
-                     this.$router.push('/AddContact/'+response.data.id_compte);
+                    // this.$router.push('/AddContact/'+response.data.id_compte);
+                     this.$router.push('/ShowComptes/addsuccess');  
 
                   });
             
@@ -277,9 +282,21 @@
         spliceContact(index){
             this.contacts.splice(index, 1);
         },
+        getAllCompagnies(){
+            axios.get('/getAllCompagnies').then(
+                  response => {
+                       
+                    this.compagnies= response.data.compagnies;
+                    console.log("allCompagnies");
+                  });  
 
+        },
+ 
                      
       },
+      mounted(){
+            this.getAllCompagnies();
+      }
 
      
        

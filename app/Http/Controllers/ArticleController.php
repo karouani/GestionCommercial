@@ -39,7 +39,7 @@ class ArticleController extends Controller
 
      public function getArticle($id_article){
         $article = Article::find($id_article);
-        $libelle_famille = DB::table('famille_articles')->select('libelle_famille')->where('id_famille','=',$article->fk_famille)->get();      
+        $libelle_famille = Famille_article::withTrashed()->select('libelle_famille')->where('id_famille','=',$article->fk_famille)->get();      
         $taux_tva = DB::table('tvas')->select('taux_tva')->where('id_tva','=',$article->fk_tva_applicable)->get();
        
     

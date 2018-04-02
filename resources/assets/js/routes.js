@@ -29,6 +29,7 @@ import  Parametres from './components/Parametres.vue'
 
 
 //comptes
+import  ShowCompte from './components/Compte/ShowCompte.vue' 
 import  ShowComptes from './components/Compte/ShowComptes.vue' 
 import  AddCompte from './components/Compte/AddCompte.vue' 
 import  EditCompte from './components/Compte/EditCompte.vue' 
@@ -161,6 +162,10 @@ const  router = new VueRouter({
          {     path:"/ShowComptes",
              component: ShowComptes,
              
+         },
+         {     path:"/ShowCompte/:id_compte",
+         component: ShowCompte,
+         
          },
       
          {     path:"/ShowComptes/:success",
