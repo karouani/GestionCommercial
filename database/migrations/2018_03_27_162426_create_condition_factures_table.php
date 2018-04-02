@@ -17,7 +17,7 @@ class CreateConditionFacturesTable extends Migration
             $table->increments('id_condition');
             $table->string('devise')->nullable();
             $table->double('remise')->nullable();
-            $table->dateTime('delai_paiement')->nullable();
+            $table->date('delai_paiement')->nullable();
             $table->string('remarques')->nullable();
             $table->integer('fk_compte')->nullable();
             $table->softDeletes();

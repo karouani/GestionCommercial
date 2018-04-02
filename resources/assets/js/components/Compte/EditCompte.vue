@@ -1,19 +1,24 @@
 <template>
     <div>
-        <div class="text-center">
-    <h2>Modifier Compte</h2>
-    <hr>
+
+        <div class="text-center pull-right" >
+    <h2>Ajouter Compte</h2>
+    <hr>   
     </div>
-        <ul id="breadcrumbs-two" class="pull-left">
-    <li :id="breadcrumbstree"><a>Compte</a></li>
-    <li><a @click="redirect_To_EditContact">Contact</a></li>
-    <li><a href="#">Condition facture</a></li>
-   
-</ul>
+
+
         <form @submit.prevent="updateCompte">
          <div class="row" > 
          
             <div class="col-md-6">
+                <div class="form-group">
+                <label for="exampleFormControlSelect1">Nom Compagnie</label>
+                <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="compte.fk_compagnie" required>
+                    <option selected>Choisir une Compagnie</option>
+                    <option v-for="compagnie in compagnies" :key="compagnie.id_compagnie" :value="compagnie.id_compagnie">{{compagnie.nom_societe}}</option>
+                </select>
+                </div>
+
                 <div class="form-group">
                     <label for="nom_compte"> nom_compte</label>
                     <input type="text" class="form-control" id="nom_compte"  v-model="compte.nom_compte">
@@ -22,9 +27,14 @@
                     <label for="responsable"> responsable</label>
                     <input type="text" class="form-control" id="responsable"  v-model="compte.responsable">
                 </div>
+
                 <div class="form-group">
-                    <label for="type_compte"> type_compte </label>
-                    <input type="text" class="form-control" id="type_compte" v-model="compte.type_compte" >
+                <label for="type_compte">famille</label>
+                <select class="form-control custom-select " id="type_compte" v-model="compte.type_compte" >
+                    <option selected>Choisir Type du Compte</option>
+                    <option value="Client">Client</option>
+                    <option value="Fournisseur">Fournisseur</option>                   
+                </select>
                 </div>
                 <div class="form-group">
                     <label for="categorie"> categorie </label>
@@ -76,8 +86,82 @@
 
             </div> 
     </div>
-     <button  class="btn btn-primary mr-20 btn-success">Enregister</button>
-     </form>
+     
+     <hr>
+     <h4>Ajouter Contacts</h4>
+     <hr>
+     <div class="row">
+           <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>civilite</th>
+                                        <th>prenom</th>
+                                        <th>nom</th>                                       
+                                        <th>fonction</th>
+                                        <th>email</th>
+                                        <th>fixe</th>
+                                        <th>mobile</th> 
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(contact,index) in contacts" :key="index">
+                                        <th><input type="text" class="form-control" id="civilite"  v-model="contact.civilite"></th>
+                                        <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
+                                        <th><input type="text" class="form-control" id="nom"  v-model="contact.nom"></th>
+
+                                        <th><input type="text" class="form-control" id="fonction" v-model="contact.fonction" ></th>
+                                        <th><input type="text" class="form-control" id="email" v-model="contact.email" ></th>
+                                        <th><input type="text" class="form-control" id="fixe" v-model="contact.fixe" ></th>
+                                        <th><input type="text" class="form-control" id="mobile" v-model="contact.mobile"></th> 
+                                            <th><a @click="spliceContact(index,contact)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                                        </tr>
+                                        <th><input type="text" class="form-control" id="civilite"  v-model="contact.civilite"></th>
+                                        <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
+                                        <th><input type="text" class="form-control" id="prenom"  v-model="contact.nom"></th>
+                                        <th><input type="text" class="form-control" id="fonction" v-model="contact.fonction" ></th>
+                                        <th><input type="text" class="form-control" id="email" v-model="contact.email" ></th>
+                                        <th><input type="text" class="form-control" id="fixe" v-model="contact.fixe" ></th>
+                                        <th><input type="text" class="form-control" id="mobile" v-model="contact.mobile"></th> 
+                                        <th><a    @click="pushContact()"  class="btn btn-success"  ><i class="fas fa-plus-circle"></i></a></th>
+                                    </tbody>
+                                </table>
+                            </div>
+             </div>
+     </div>
+        <hr>
+     <h4>Ajouter Conditions facture</h4>
+     <hr>
+              <div class="row" > 
+             
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="devise"> devise</label>
+                    <input type="text" class="form-control" id="devise"  v-model="condition_facture.devise">
+                </div>
+                <div class="form-group">
+                    <label for="remise"> remise</label>
+                    <input type="text" class="form-control" id="remise"  v-model="condition_facture.remise">
+                </div>
+            <div class="form-group">
+            <label for="example-date-input">Date</label>
+            <div >
+                <input class="form-control" type="date" value="2011-08-19" id="example-date-input" v-model="condition_facture.delai_paiement" >
+            </div>
+            </div>
+                 <div class="form-group">
+                    <label for="remarques"> remarques </label>
+                    <input type="text" class="form-control" id="remarques" v-model="condition_facture.remarques" >
+                </div>
+            </div>
+            <div class="col-md-6"> 
+  
+   
+            </div> 
+    </div>
+          <button  class="btn btn-primary mr-20 btn-success">Enregister</button>
+</form>
     </div>
 </template>
 
@@ -86,9 +170,9 @@
     export default{ 
         
           data: () => ({
-             
-              
-breadcrumbstree : "breadcrumbs-tree",
+             isActive: true,
+              breadcrumbstree : "breadcrumbs-tree",
+
             
             
             
@@ -117,46 +201,150 @@ breadcrumbstree : "breadcrumbs-tree",
                     RC : "",
                     fk_compagnie : "",
               },
+
+
+
               // tableau des articles 
               comptes :[],
 
+              contact: { 
+                    id_contact : 0,
+                    prenom : "",
+                    nom : "",
+                    civilite : "",
+                    fonction : "",
+                    email : "",
+                    fixe : "",
+                    mobile : "",
+                    fk_compte : 0,
+              },
+              condition_facture : { 
+                    id_condition : 0,
+                    devise: "",
+                    remise: "",
+                    delai_paiement : "",
+                    remarques: "",
+                    fk_compte : 0,
+
+              },
+              
+              
+              // tableau des articles 
+              contacts :[],
+              compagnies :[],
+              suppContacts :[],
              
       }),
       
 
-      methods: { 
+      methods: {
          updateCompte: function(){
-           
-  
-                  axios.post('/updateCompte',this.compte).then( response => {             
+              /*  console.log(this.compte)
+                console.log('----- contact')
+                console.log(this.contacts)
+                console.log('condition_facture')
+                console.log(this.condition_facture)*/
+
+                  axios.post('/updateCompte',{compte: this.compte, contacts: this.contacts, condition_facture: this.condition_facture,suppContacts: this.suppContacts}).then( response => {             
                     this.$router.push('/ShowComptes/editsuccess');  
                     
                   
                   });
                   
            
+        },           
+          testAjoutCompte(){
+
+          },
+          addCompte:function(){ 
+           
+               
+              axios.post('/addCompte',{compte: this.compte, contacts: this.contacts, condition_facture: this.condition_facture,}).then(response => {  
+                    console.log(response.data.id_compte);   
+                    console.log('Compte Bien ajouter !');
+                     //this.$router.push('/ShowComptes/addsuccess');
+                     this.$router.push('/AddContact/'+response.data.id_compte);
+
+                  });
+            
         },
-             getCompte(id_compte){
-                        
-                        axios.get('/getCompte/'+id_compte)
-                        
-                        .then(response => {
-                            // recuperé ensemble des articles sous format json
-                           
-                            this.compte = response.data.compte;                                
-                        })
-                        .catch(function (error) {
-                           
-                        });                                     
-     },
-            redirect_To_EditContact(){
-                        this.$router.push('/EditContact/'+this.compte.id_compte);
-            },
+        pushContact(){
+            console.log(this.contact);
+                  
+            this.contacts.push({prenom:this.contact.prenom,
+                                nom : this.contact.nom,
+                                civilite : this.contact.civilite,
+                                fonction : this.contact.fonction,
+                                email : this.contact.fonction,
+                                fixe : this.contact.email,
+                                mobile : this.contact.mobile,
+                                fk_compte: this.contact.fk_compte,
+            });
+            console.log('-----addContacts')
+            console.log(this.contacts)
+
+            this.contact =  { 
+                    id_contact : 0,
+                    prenom : "",
+                    nom : "",
+                    civilite : "",
+                    fonction : "",
+                    email : "",
+                    fixe : "",
+                    mobile : "",
+                    fk_compte : 0,
+              };
+            
+        },
+        spliceContact(index,contact){
+            this.contacts.splice(index, 1);
+                        this.suppContacts.push(contact);
+                        console.log('supp ----------');
+                        console.log(this.suppContacts)
+        },
+        getAllCompagnies(){
+            axios.get('/getAllCompagnies').then(
+                  response => {
+                       
+                    this.compagnies= response.data.compagnies;
+                    console.log("allCompagnies");
+                  });  
+
+        },
+        getCompte:function(id_compte){
+                  axios.get('/getCompte/'+id_compte).then(
+                  response => {
+                       
+                    this.compte= response.data.compte;
+                   
+                  });     
+        },
+        getContacts:function(id_compte){
+                  axios.get('/getContacts/'+id_compte).then(
+                  response => {
+                       
+                    this.contacts= response.data.contacts;
+                    console.log('-------------------');
+                    console.log(this.contacts);
+                  });     
+        },
+        getCondtionFacture:function(id_compte){
+                  axios.get('/getCFacture/'+id_compte).then(
+                  response => {
+                       console.log("Cfacture")
+                    this.condition_facture= response.data.condition_facture[0];
+                   console.log(this.condition_facture)
+                  });     
+        },
+ 
                      
       },
-            mounted(){
-                console.log(this.$route.params.id_compte);
-          this.getCompte(this.$route.params.id_compte);
+      mounted(){
+            this.getAllCompagnies();
+            this.compte.id_compte = this.$route.params.id_compte;
+            this.getCompte(this.compte.id_compte);
+            this.getContacts(this.compte.id_compte);
+            this.getCondtionFacture(this.compte.id_compte);
       }
 
      
@@ -169,130 +357,7 @@ breadcrumbstree : "breadcrumbs-tree",
 </script>
 
 <style scoped>
- .btnMarge{
-     padding-bottom: 10px;
- }
- .widthCard{
-     width: 270px;
-     height: 350px;
-     
- }
- .widthTextCard{
-     width  : 236px;
-     height: 13px;
- }
- a {
-  color: #999;
-  color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    border: 1px solid #ddd;
-    
-}
-.current {
-  color: red;
-}
-ul {
-  padding: 0;
-  list-style-type: none;
-}
-li {
-  display: inline;
-  margin: 5px 5px;
-}
+ 
+ 
 
-a.first::after {
-  content:'...'
-}
-
-a.last::before {
-  content:'...'
-}
-.cardbox:hover{
- box-shadow: 1px 2px 2px 2px #c9ced2;
-}
-#breadcrumbs-two{
-  overflow: hidden;
-  width: 100%;
-}
-
-#breadcrumbs-two li{
-  float: left;
-  margin: 0 .5em 0 1em;
-}
-
-#breadcrumbs-two a{
-  background: #ddd;
-  padding: -0.3em 1em;
-  float: left;
-  text-decoration: none;
-  color: #444;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5); 
-  position: relative;
-}
-
-#breadcrumbs-two a:hover{
-  background: #99db76;
-}
-
-
-#breadcrumbs-two a::before{
-  content: "";
-  position: absolute;
-  top: 50%; 
-  margin-top: -1.5em;   
-  border-width: 1.5em 0 1.5em 1em;
-  border-style: solid;
-  border-color: #ddd #ddd #ddd transparent;
-  left: -1em;
-}
-
-#breadcrumbs-two a:hover::before{
-  border-color: #99db76 #99db76 #99db76 transparent;
-}
-
-#breadcrumbs-two a::after{
-  content: "";
-  position: absolute;
-  top: 50%; 
-  margin-top: -1.5em;   
-  border-top: 1.5em solid transparent;
-  border-bottom: 1.5em solid transparent;
-  border-left: 1em solid #ddd;
-  right: -1em;
-}
-
-#breadcrumbs-two a:hover::after{
-  border-left-color: #99db76;
-}
-
-#breadcrumbs-two .current,
-#breadcrumbs-two .current:hover{
-  font-weight: bold;
-  background: none;
-}
-
-#breadcrumbs-two .current::after,
-#breadcrumbs-two .current::before{
-  content: normal;
-}
-
-.activeBreadcrumbs a{
-    background: #99db76;
-}
-.activeBreadcrumbs2 a{
-    background: #99db76;
-}
-
-
-#breadcrumbs-tree a{
-  background: #99db76;
-}
-#breadcrumbs-tree a::before{
-  border-color: #99db76 #99db76 #99db76 transparent;
-}
-#breadcrumbs-tree a::after{
-  border-left-color: #99db76;
-}
 </style>

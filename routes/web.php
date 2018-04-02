@@ -54,9 +54,9 @@ Route::get('/getCompagnies','maCompagnieController@getCompagnies');
 Route::delete('/deleteCompagnie/{id_compagnie}','maCompagnieController@deleteCompagnie');
 Route::get('/getCompagnie/{id_compagnie}','maCompagnieController@getCompagnie');
 Route::post('/updateCompagnie','maCompagnieController@updateCompagnie');
+Route::get('/getAllCompagnies','maCompagnieController@getAllCompagnies');
 
 Route::get('/isSuperAdmin','Auth\RegisterController@isSuperAdmin');
-
 
 //parametres-----------------------------------------------------------
         //famille
@@ -89,12 +89,13 @@ Route::get('/searchComptes/{nomCompte}','CompteController@searchComptes');
 
 //contact 
 Route::post('/addContact','CompteController@addContact');
-Route::post('/updateContact','CompteController@updateContact');
-Route::get('/getContact/{fk_compte}','CompteController@getContact');
+Route::get('/updateContact','CompteController@updateContact');
+Route::get('/getContacts/{fk_compte}','CompteController@getContacts');
 
 // condition facture
 Route::post('/addCFacture','CompteController@addCondtionFacture');
 Route::post('/updateCFacture','CompteController@updateCondtionFacture');
+Route::get('/getCFacture/{fk_compte}','CompteController@getCondtionFacture');
 
 
 Auth::routes();

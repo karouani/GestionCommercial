@@ -35,7 +35,13 @@
     
     <!-- fin formulaire -->
     <!-- afficher les articles sous formes des cards  -->
-    <div class="row" >
+    
+    <input type="text" v-model.number="test1.searchQuery">
+    {{test1.calculee}}
+    <input type="submit" @click="generatePdfHtml" value="pdf">
+
+
+    <div class="row" id="testdiv">
              <div class="card">
                         <div class="card-header bg-light">
                             <div class="row btnMarge">
@@ -46,7 +52,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" @keyup.enter="searchComptes"  class="form-control" v-model="search" placeholder="recherche par designation ou reference" aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="text" @keyup.enter="searchComptes"  class="form-control" v-model="search" placeholder="recherche par nom du Compte" aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div> 
         
@@ -61,9 +67,10 @@
                                         <th>nom_compte</th>
                                         <th>responsable</th>
                                         <th>type_compte</th>
-                                        <th>fixe:</th>
-                                        <th>portable:</th>
-                                        <th>email:</th>
+                                        <th>fixe</th>
+                                        <th>portable</th>
+                                        <th>email</th>
+                                        <th>options</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -75,7 +82,7 @@
                                         <td>{{compte.portable}} </td>  
                                         <td>{{compte.email}} </td>    
                                         <td  class="optionsWidth"> 
-                                            <a href="#"    @click="getCompte(compte)"  class="btn btn-primary"  ><i class="fas fa-eye d-inline-block"></i></a>
+                                            <a href="#"    @click="redirect_To_ShowCompte(compte.id_compte)"  class="btn btn-primary"  ><i class="fas fa-eye d-inline-block"></i></a>
                                          <router-link class="btn btn-success " :to="'/EditCompte/'+compte.id_compte"><i class="fas fa-edit d-inline-block"></i></router-link>
                                              <a @click="deleteCompte(compte)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
                                     </tr>
@@ -88,55 +95,6 @@
                     </div>
                     <div>
               
-                <b-modal ok-only  v-model="modalShow" no-fade
-                :title="'Nom Compte : '+compte.nom_compte"
-                :body-bg-variant="+' '+modalShow+''+compte.responsable+''+compte.type_compte+''+compte.categorie+''+compte.raison_social+''+compte.reference+''+compte.fixe+''+compte.portable+''+compte.fax+''+compte.email+''+compte.site_web+''+compte.secteur_activite+''+compte.taille+''+compte.RC+''+compte.fk_compagnie">
-                 <div class="row" v-if="modalShow">
-                      
-                         <div class="col">
-                   <span>responsable : </span>{{compte.responsable}}
-                        <hr>
-                   <span>type_compte : </span>{{compte.type_compte}} 
-                   <hr>
-                   <span>compte.categorie : </span>{{compte.categorie}}
-                   <hr>
-                   <span>raison_social :  </span>{{compte.raison_social}}
-                   <hr>
-                   <span>reference : </span>{{compte.reference}}
-                   <hr>
-                    <span>fixe :  </span>{{compte.fixe}}
-                   <hr>
-                   <span>portable : </span>{{compte.portable}}
-                   
-                   </div>
-                    
-                   <div class="col">
-
-
-                   <span>fax : </span>{{compte.fax}}
-                   <hr>
-                   <span>email: </span>{{compte.email}}
-                   <hr>
-                   <span>site_web: </span>{{compte.site_web}}  
-                   <hr>
-                   <span>secteur_activite: </span>{{compte.secteur_activite}}  
-                   <hr>
-                   <span>taille: </span>{{compte.taille}}  
-                   <hr>
-                   <span>RC: </span>{{compte.RC}}  
-                   <hr>
-                   <span>fk_compagnie: </span>{{compte.fk_compagnie}}                     
-                   </div>                                   
-                   
-                
-                     </div>
-                    <div slot="modal-footer" class="w-100">
-                    <p class="float-left"> </p>
-                    <b-btn size="sm" class="float-right" variant="primary" @click="modalShow=false">
-                    Fermer
-                    </b-btn>
-                </div>
-                </b-modal>
             </div>
     </div>
     
@@ -158,6 +116,11 @@ import  Pagination from '../Pagination.vue';
          },
 
           data: () => ({
+              test1 : {
+                  searchQuery: 0,
+                   calculee: 0,
+                  },
+                 
                      loading: false,
       post: null,
       error: null,
@@ -215,6 +178,7 @@ import  Pagination from '../Pagination.vue';
              
              
       }),
+ 
    
         mounted(){
            
@@ -244,9 +208,16 @@ import  Pagination from '../Pagination.vue';
   },
   watch: {
     // call again the method if the route changes
-    '$route': 'fetchData'
+    '$route': 'fetchData',
+  
+   'test1.searchQuery':
+     function(val){
+      //console.log(val)
+      this.test1.calculee = +val + 1
+      console.log(this.test1.calculee)  
+     }
+ 
   },
-
 
       methods: {
           notifArticle(){
@@ -339,8 +310,20 @@ import  Pagination from '../Pagination.vue';
                     this.modalShow = !this.modalShow
                   });         
         },
+                redirect_To_ShowCompte(id_compte){
+                     this.$router.push('/ShowCompte/'+id_compte);
+            },
+
+            generatePdfHtml(){
+                let doc = new this.$Jspdf();
+                
+                doc.fromHTML(window.$('#testdiv').get(0));
+                //doc.text(20,20,'test pdf ');
+                doc.save('test.pdf')
+            }
                
       },
+
 
       computed:{
        

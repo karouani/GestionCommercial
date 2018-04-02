@@ -1,13 +1,11 @@
 <template>
 <div>
-    <div class="loading" v-if="loading">
-      Loading...
-    </div>
+
     <div v-if="error" class="error">
       {{ error }}
     </div>
 
-<div v-if="!loading">
+<div>
     <nav class="navbar page-header">
         <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
             <i class="fa fa-bars"></i>

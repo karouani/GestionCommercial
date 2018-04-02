@@ -50,6 +50,13 @@ class maCompagnieController extends Controller
         return Response()->json(['compagnies'=>$compagnies]);
         
     }
+    public function getAllCompagnies(){
+        
+        $compagnies = Macompagnie::all();
+
+        return Response()->json(['compagnies'=>$compagnies]);
+        
+    }
     public function getCompagnie($id_compagnie){
         //dd($id_compagnie);
         $compagnie = Macompagnie::find($id_compagnie);

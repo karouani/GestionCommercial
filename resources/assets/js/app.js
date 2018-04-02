@@ -14,6 +14,10 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue);
 import swal from 'sweetalert2'
 Vue.prototype.$swal=swal;
+import Jspdf from 'jspdf'
+Vue.prototype.$Jspdf=Jspdf;
+
+
 import Router from './routes.js'
 
 
