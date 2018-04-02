@@ -15,7 +15,7 @@ class CompteController extends Controller
     {
         $this->middleware('auth');
     }
-
+    
     public function getComptes(){
 
          $listeComptes = Compte::paginate(10);
@@ -117,15 +117,19 @@ class CompteController extends Controller
      public function updateContact(Request $request){
 
         $contact = Contact::where('fk_compte', $request->id_compte);
-        $contact->prenom = $request->prenom;
-        $contact->nom = $request->nom;
-        $contact->civilite = $request->civilite;
-        $contact->fonction = $request->fonction;
-        $contact->email = $request->email;
-        $contact->fixe = $request->fixe;
-        $contact->mobile = $request->mobile;
-        $contact->fk_compte = $request->fk_compte;
-
+        $prix_v = DB::table('contacts')->leftJoin('comptes', 'contacts.fk_compte', '=', 'comptes.id_compte')
+        ->update($request->all())->where('contacts.fk_compte','=',$fk_compte);
+/*
+        for($i=0;$i<count($request->commandes);$i++) {    
+       
+            $commande->quantite_cmd=$request->commandes[$i]['quantite_cmd'];
+            $commande->remise_cmd=$request->commandes[$i]['remise_cmd'];
+            $commande->majoration_cmd=$request->commandes[$i]['majoration_cmd'];
+            $commande->prix_ht=$request->commandes[$i]['prix_ht'];
+            $commande->fk_article=$request->commandes[$i]['fk_article'];
+            $commande->fk_document=$request->commandes[$i]['fk_document'];
+            $commande->fk_tva_cmd=$request->commandes[$i]['fk_tva_cmd'];
+        }*/
         $contact->save();
         return Response()->json(['etat' => true]);
 
@@ -159,6 +163,24 @@ class CompteController extends Controller
         $CFacture->save();
         return Response()->json(['etat' => true]);
 
+     }
+
+
+
+
+
+       // pour deviiis
+     public function getClients(){
+
+        $listeClients = Compte::where('type_compte','=','Client')->get();
+        return Response()->json(['comptes' => $listeClients ]);
+     }
+
+     public function getRemise($fk_compte){
+
+        $remise = Condition_facture::where('fk_compte','=',$fk_compte)->get();
+
+        return Response()->json(['conditions_remise' => $remise ]);
      }
 
 }

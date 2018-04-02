@@ -16,37 +16,18 @@
          <div class="row" > 
          
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="prenom"> prenom</label>
-                    <input type="text" class="form-control" id="prenom"  v-model="contact.prenom">
-                </div>
-                <div class="form-group">
-                    <label for="nom"> responsable</label>
-                    <input type="text" class="form-control" id="nom"  v-model="contact.nom">
-                </div>
-                 <div class="form-group">
-                    <label for="civilite"> civilite</label>
-                    <input type="text" class="form-control" id="civilite"  v-model="contact.civilite">
-                </div>
-                 <div class="form-group">
-                    <label for="fonction"> fonction </label>
-                    <input type="text" class="form-control" id="fonction" v-model="contact.fonction" >
-                </div>
-            </div>
-            <div class="col-md-6"> 
-
-                <div class="form-group">
-                    <label for="email"> email </label>
-                    <input type="text" class="form-control" id="email" v-model="contact.email" >
-                </div>
-                <div class="form-group">
-                    <label for="fixe"> fixe </label>
-                    <input type="text" class="form-control" id="fixe" v-model="contact.fixe" >
-                </div>
-                <div class="form-group">
-                    <label for="mobile"> mobile </label>
-                    <input type="text" class="form-control" id="mobile" v-model="contact.mobile">
-                </div>    
+                 <tr>
+                        
+                  
+                        <th>
+                            <!--Remise -->
+                    <input class="mr-4"  type="text" v-model="contact.prenom" >
+                        </th>
+                        <th>
+                             <!--majoration -->
+                    <input class="mr-4"  type="text" v-model="contact.prenom">
+                        </th>
+                 </tr>
    
             </div> 
     </div>

@@ -77,8 +77,10 @@ Route::delete('/deleteStatu/{id_status}','ParametresController@deleteStatu');
         // ajouter devis,commande devis, et mode paiement de devis
 Route::post('/addDevis','DevisController@addDevis')->name('addDevis');
 Route::get('/countDevis','DevisController@countDevis');
+Route::get('/getPrixArticle/{fk_article}','DevisController@getPrixArticle');
+Route::get('/getDevis','DevisController@getDevis');
 
-
+//----------------------------------------------------------------------
 //Compte 
 Route::post('/addCompte','CompteController@addCompte');
 Route::get('/getComptes','CompteController@getComptes');
@@ -86,6 +88,9 @@ Route::post('/updateCompte','CompteController@updateCompte');
 Route::delete('/deleteCompte/{id_compte}','CompteController@deleteCompte');
 Route::get('/getCompte/{id_compte}','CompteController@getCompte');
 Route::get('/searchComptes/{nomCompte}','CompteController@searchComptes');
+     
+    // compte: client recupere pour les commandes
+Route::get('/getClients','CompteController@getClients');
 
 //contact 
 Route::post('/addContact','CompteController@addContact');
@@ -95,6 +100,9 @@ Route::get('/getContact/{fk_compte}','CompteController@getContact');
 // condition facture
 Route::post('/addCFacture','CompteController@addCondtionFacture');
 Route::post('/updateCFacture','CompteController@updateCondtionFacture');
+
+      // compte: remise recupere pour devis
+Route::get('/getRemise/{fk_compte}','CompteController@getRemise');
 
 
 Auth::routes();

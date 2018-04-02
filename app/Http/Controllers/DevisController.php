@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Devi;
 use App\Statu;
 use App\Commande;
+use App\Article;
 use App\Mode_paiement;
+use App\Compte;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class DevisController extends Controller
 {       // ajouter un devis
@@ -65,6 +69,26 @@ class DevisController extends Controller
                  return Response()->json(['etat' => true]);
             
     }
+    public function getDevis(){
+        //$comptes=Compte::select('id_compte')->get();
+//$comptes=Compte::all();
+       // dd($comptes[$i]['nom_compte']);
+
+//$devis=Devi::where('devis.fk_compte_d','=',$comptes[0]['id_compte'])->paginate(10);
+$devis =Devi::paginate(10);
+     
+         return Response()->json(['devis' => $devis ]);
+      }
+
+
+    public function getPrixArticle($fk_article){
+       $commande=Commande::find($fk_article);
+       $article=Article::where('articles.id_article','=',$fk_article)->get();
+       /* $prix_v = DB::table('articles')->leftJoin('commandes', 'articles.id_article', '=', 'commandes.fk_article')
+        ->select('prix_ht_vente','designation','fk_tva_applicable')->where('articles.id_article','=',$fk_article)->get();
+*/
+        return Response()->json(['article' => $article ]);
+     }
 
       // ajouter mode de paiement de devis
       public function addModePaiement(Request $request)

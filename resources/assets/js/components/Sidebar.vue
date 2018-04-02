@@ -86,7 +86,7 @@
 
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                                <router-link :to="'/'" class="nav-link">
+                                <router-link :to="'/getDevis'" class="nav-link">
                                     <i class="icon icon-target"></i> Afficher Devis
                                 </router-link>
                             </li>

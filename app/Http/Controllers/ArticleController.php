@@ -41,7 +41,7 @@ class ArticleController extends Controller
         $article = Article::find($id_article);
         $libelle_famille = DB::table('famille_articles')->select('libelle_famille')->where('id_famille','=',$article->fk_famille)->get();      
         $taux_tva = DB::table('tvas')->select('taux_tva')->where('id_tva','=',$article->fk_tva_applicable)->get();
-        
+       
     
         return Response()->json(['article' => $article , 'libelle_famille' => $libelle_famille ,'taux_tva' => $taux_tva ]);
      }

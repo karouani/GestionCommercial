@@ -13,7 +13,8 @@ import AffCompagnie from './components/Compagnie/AffCompagnie.vue'
 import EditCompagnie from './components/Compagnie/EditCompagnie.vue'
   //Devis
 import AddDevis from './components/Devis/AddDevis.vue'
- 
+import AffDevis from './components/Devis/AffDevis.vue'
+
 
 
 
@@ -149,7 +150,10 @@ const  router = new VueRouter({
             path:"/addDevis",
             component: AddDevis
         },
-        
+        {    
+            path:"/getDevis",
+            component: AffDevis
+        },
 
 
          // ----------------------------------------------------------  // Comptes

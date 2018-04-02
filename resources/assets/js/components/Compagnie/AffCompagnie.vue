@@ -42,7 +42,7 @@
                     <hr>
                     <div class="widthTextCard">Secteur d'Activité : {{ compagnie.secteur_activite}}</div>
                     <hr>
-                    <div class="widthTextCard">Adresse : {{compagnie.adresse_comp}}</div>
+                    <div class="widthTextCard">Nom Societe : {{compagnie.nom_societe}}</div>
                     <hr>
                     <div class="widthTextCard">Taille de Compagnie : {{ compagnie.taille_comp}}</div>
                     <hr>

@@ -43,6 +43,7 @@ Vue.component('app-affcompagnie', require('./components/Compagnie/AffCompagnie.v
 Vue.component('app-editcompagnie', require('./components/Compagnie/EditCompagnie.vue'));
 /* Devis  */
 Vue.component('app-adddevis', require('./components/Devis/AddDevis.vue'));
+Vue.component('app-affdevis', require('./components/Devis/AffDevis.vue'));
 
 
 // afficher un nombre de phrase limité 

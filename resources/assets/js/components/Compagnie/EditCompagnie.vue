@@ -30,10 +30,6 @@
   </div>
    
 <div class="row">
-  <div class="form-group col-md-6">
-      <label for="inputEmail4">Nom Societe</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.nom_societe" placeholder="Secteur d'Activité">
-    </div>
     <div class="form-group col-md-6">
       <label for="inputEmail4">Code Postale</label>
       <input type="text" class="form-control" id="inputname4" v-model="compagnie.cp_comp" placeholder="Code Postale">

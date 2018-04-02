@@ -65,15 +65,16 @@
                 <div class="form-group">
                     <label for="fk_status_d"> Status </label>
                 <select class="form-control custom-select " id="fk_status_d" v-model="devi.fk_status_d" >
-                    <option selected>Choisir Status</option>
+                    <option selected disabled>Choisir Status</option>
                     <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
                 </select>
                 </div>
                 <div class="form-group">
                     <label for=""> Compte </label>
-                <select class="form-control custom-select " id=""  >
-                    <option selected>Choisir Compte</option>
-                    <option></option>
+
+                <select class="form-control custom-select " id="fk_compte" v-model="devi.fk_compte" @click=" getRemise()" >
+                    <option selected disabled>Choisir Status</option>
+                    <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">{{compte.nom_compte}}</option>
                 </select>
                 </div>
        
@@ -96,7 +97,7 @@
                 <div class="form-group">
                     <label for="type_paiement"> Type Paiement </label>
                 <select class="form-control custom-select " id="type_paiement" v-model="modePaiement.type_paiement" >
-                    <option selected>Choisir Type de Paiement</option>
+                    <option selected disabled>Choisir Type de Paiement</option>
                     <option>Cheque</option>
                     <option>Versement</option>
                     <option>Espece</option>
@@ -137,17 +138,49 @@
                      <table class="table table-bordered tableau">
                             <thead>
                             <tr>
+                                <th>Article</th>
                             <th>Quantite</th>
                             <th>Remise</th>
                             <th>majoration</th>
                             <th>Prix HT</th>
-                            <th>Article</th>
                             <th>TVA</th>
+
+                            <th>Total HT</th>
                             </tr>                           
                         </thead>
                          <tbody>
+                             <tr v-for="commande in $data.commandes" :key="commande.id_cmd" >
+                            <th>  <input class="mr-4"  type="text" v-model="commande.fk_article" disabled hidden>
+                           <input class="mr-4"  type="text" v-model="commande.desig" disabled >
+                           
+                            </th>
+                            <th><input class="mr-4"  type="text" v-model="commande.quantite_cmd" ></th>
+                            <th>  <input class="mr-4"  type="text" v-model="commande.remise_cmd" ></th> 
+                            <th>  <input class="mr-4"  type="text" v-model="commande.majoration_cmd" ></th> 
+                            <th>  <input class="mr-4"  type="text" v-model="commande.prix_ht" ></th> 
+                            
+                            <th>  <input class="mr-4"  type="text" v-model="commande.fk_tva_cmd" disabled hidden>
+                              <select class="form-control custom-select " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" >
+                    <option selected>Choisir Tva</option>
+                    <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
+                    </select>
+                            
+                            </th> 
+                            <th>  <input class="mr-4"  type="text" v-model="commande.total_ht">
+                           
+                            </th>
+                            <th><a  class="btn btn-danger" @click="removeRow"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                            </tr>
                     <tr>
-                    <th class="form-group"  >
+                        <th>
+                             <!--article -->
+                   
+                    <select class="form-control custom-select " id="fk_article" v-model="commande.fk_article" @click=" getPrixArticle()">
+                    <option selected>Choisir Article</option>
+                    <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
+                </select>
+                        </th>
+                    <th class="form-group">
                             <!--quantite -->
                     <input class="mr-4"  type="text" v-model="commande.quantite_cmd" >
                         </th>
@@ -163,14 +196,7 @@
                              <!--prix ht-->
                     <input class="mr-4"  type="text" v-model="commande.prix_ht">
                         </th>
-                        <th>
-                             <!--article -->
-                   
-                    <select class="form-control custom-select " id="fk_article" v-model="commande.fk_article" >
-                    <option selected>Choisir Article</option>
-                    <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
-                </select>
-                        </th>
+                        
                      
                         <th>
                             <!--tva -->
@@ -180,7 +206,9 @@
                 </select>
                              
                         </th>
-                      
+                      <th>  <input class="mr-4"  type="text" v-model="commande.totalHT">
+                           
+                            </th>
 
                         <th>
                              <!--ajouter -->
@@ -190,15 +218,7 @@
                          </tr>
                     
                                             
-                            <tr v-for="commande in $data.commandes" :key="commande.id_cmd" >
-                            <th>{{commande.quantite_cmd}}</th>
-                            <th>{{commande.remise_cmd}}</th> 
-                            <th>{{commande.majoration_cmd}}</th> 
-                            <th>{{commande.prix_ht}}</th> 
-                            <th>{{commande.fk_article}} </th> 
-                            <th>{{commande.fk_tva_cmd}}</th>
-                            <th><a  class="btn btn-danger" @click="removeRow"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
-                            </tr>
+                            
                       
                        
                         </tbody>
@@ -262,23 +282,31 @@
               status:[],
               tvas:[],
               articles:[],
-index:0,
+              comptes:[],
+            index:0,
               //commandes
            cmd: {},
               commande:{
                   id_cmd:0,
-                quantite_cmd:"",
-                remise_cmd:"",
-                majoration_cmd:"",
-                prix_ht:"",
+                quantite_cmd:1,
+                remise_cmd:0,
+                majoration_cmd:0,
+                prix_ht:0,
                 fk_article:"",
                 fk_document:"",
                 fk_tva_cmd:"",
+               
+               //affichage
+               
+               desig:"",
+               totalHT:0,
+total_ht:0,
+                
               },
               commandes:[],
                 //mode paiement
                 modePaiement:{
-                        id_id_modeP:0,
+                        id_modeP:0,
                         type_paiement:"",
                         reference_paiement:"",
                         date_paiement:"",
@@ -304,8 +332,12 @@ addRow (commande) {
                fk_article:commande.fk_article,
                fk_document: commande.fk_document,
                fk_tva_cmd:commande.fk_tva_cmd,
+
+               desig:commande.desig,
+              // totalHT:commande.totalHT,
+               total_ht:commande.total_ht,
+               totalHT:commande.reduce((+commande.prix_ht + +commande.majoration_cmd - commande.remise_cmd)*commande.quantite_cmd),
     });
- 
 },
 removeRow: function () {
     this.commandes.splice(this.commande,1);
@@ -363,7 +395,7 @@ removeRow: function () {
                 axios.get('/getArticles')
                 .then((response) => {
                  
-
+                    //this.commande.prix_ht=response.data.articles.prix_ht;
                     this.articles = response.data.articles;
                   
                 })
@@ -371,8 +403,91 @@ removeRow: function () {
                     console.log('handle server error from here');
                 });
           },
+       getPrixArticle(){
+                axios.get('/getPrixArticle/'+this.commande.fk_article)
+                .then((response) => {
+                                      //console.log(this.commande.fk_article)
+
+
+                    this.commande.prix_ht=response.data.article[0].prix_ht_vente;
+                    this.commande.fk_tva_cmd=response.data.article[0].fk_tva_applicable;
+                    this.commande.desig=response.data.article[0].designation;
+
+                    console.log("yyyy: "+response.data.article[0].designation);
+                    //this.articles = response.data.articles;
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
+           getRemise(){
+
+                axios.get('/getRemise/'+this.devi.fk_compte)
+                .then((response) => {
+                               //console.log(this.devi.fk_compte)
+if(response.data.conditions_remise[0].remise==null){
+    this.devi.remise_total_d=0;
+}
+else
+                    this.devi.remise_total_d=response.data.conditions_remise[0].remise;
+                    
+
+                    console.log("remise: "+response.data.conditions_remise[0].remise);
+                    //this.articles = response.data.articles;
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
+           getClients(){
+                axios.get('/getClients')
+                .then((response) => {
+                 
+                    //this.commande.prix_ht=response.data.articles.prix_ht;
+                    this.comptes = response.data.comptes;
+                    //console.log('clients:'+this.comptes);
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
+          testt(){
+              console.log('ooook')
+          }
       
 
+    },
+    computed:{
+
+      /*      totalHT(){
+                            console.log('calcuuul');
+
+             let remise_art=this.commande.remise_cmd;
+             let majoration_art=this.commande.majoration_cmd;
+             let quantite_art=this.commande.quantite_cmd;
+              let prix_v=this.commande.prix_ht;
+             let test=(prix_v - remise_art) + majoration_art;
+             console.log('test:'+majoration_art)
+this.commande.total_ht=(+prix_v + +majoration_art - remise_art)*quantite_art;
+             return  this.commande.total_ht;
+
+          },*/
+    },
+    watch:{
+            'commande':function(query){
+                    console.log("watchhhh")
+                      let remise_art=this.commande.remise_cmd;
+             let majoration_art=this.commande.majoration_cmd;
+             let quantite_art=this.commande.quantite_cmd;
+              let prix_v=this.commande.prix_ht;
+             let test=(prix_v - remise_art) + majoration_art;
+             console.log('test:'+majoration_art)
+            this.commande.totalHT=this.commande.reduce((+prix_v + +majoration_art - remise_art)*quantite_art);
+
+            }
     },
      mounted(){
 
@@ -380,6 +495,10 @@ removeRow: function () {
           this.countDevis();
           this.getTvas();
           this.getarticles();
+          this.getClients();
+          //this.totalHT();
+         // this.getRemise();
+          //this.getPrixArticle(fk_article);
       }
 }   
 </script>

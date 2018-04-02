@@ -62,7 +62,7 @@
                 <div class="form-group">
                     <label for="fk_tva_applicable"> Tva applicable </label>
                 <select class="form-control custom-select " id="fk_tva_applicable" v-model="article.fk_tva_applicable" required>
-                    <option selected>Choisir Tva</option>
+                    <option selected>Choisir TVA</option>
                     <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
                 </select>
                 </div>
