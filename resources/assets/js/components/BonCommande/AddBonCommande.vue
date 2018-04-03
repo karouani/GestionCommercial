@@ -1,70 +1,70 @@
 <template>
     <div>
         <div class="text-center">
-    <h2>Ajouter Devis</h2>
+    <h2>Ajouter Bon de Commande</h2>
     <hr>
     </div>
              <!-- ajouter devis  -->
-        <form   @submit.prevent="addDevis">
+        <form   @submit.prevent="adBonCommande">
          <div class="row" > 
          
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="reference_d"> Reference</label>
-                    <input type="text" class="form-control" id="reference_d" :value="devi.reference_d" disabled>
+                    <input type="text" class="form-control" id="reference_d" :value="bonCommande.reference_bc" disabled>
                   
                    
                 </div>
                 <div class="form-group">
                     <label for="date_d"> Date </label>
-                    <input type="date" class="form-control" id="date_d" v-model="devi.date_d" >
+                    <input type="date" class="form-control" id="date_d" v-model="bonCommande.date_bc" >
                 </div>
                 <div class="form-group">
                     <label for="type_operation"> Type Operation </label>
-                    <input type="text" class="form-control" id="type_operation" v-model="devi.type_operation" >
+                    <input type="text" class="form-control" id="type_operation" v-model="bonCommande.type_operation_bc" >
                 </div>
                 <div class="form-group">
                     <label for="objet_d"> Objet </label>
-                    <input type="text" class="form-control" id="objet_d" v-model="devi.objet_d" >
+                    <input type="text" class="form-control" id="objet_d" v-model="bonCommande.objet_bc" >
                 </div>
                 <div class="form-group">
                     <label for="date_emission_d"> Date d'émission </label>
-                    <input type="date" class="form-control" id="date_emission_d" v-model="devi.date_emission_d" >
+                    <input type="date" class="form-control" id="date_emission_d" v-model="bonCommande.date_emission_bc" >
                 </div>
                 <div class="form-group">
                     <label for="remise_total_d"> Remise Total </label>
-                    <input type="text" class="form-control" id="remise_total_d" v-model="devi.remise_total_d" >
+                    <input type="text" class="form-control" id="remise_total_d" v-model="bonCommande.remise_total_bc" >
                 </div>
                 <div class="form-group">
                     <label for="majoration_d"> Majoration </label>
-                    <input type="text" class="form-control" id="majoration_d" v-model="devi.majoration_d">
+                    <input type="text" class="form-control" id="majoration_d" v-model="bonCommande.majoration_bc">
                 </div>
             </div>
             <div class="col-md-6"> 
                 
                 <div class="form-group">
                     <label for="date_limit_d"> Date Limit </label>
-                    <input type="date" class="form-control" id="date_limit_d" v-model="devi.date_limit_d">
+                    <input type="date" class="form-control" id="date_limit_d" v-model="bonCommande.date_limit_bc">
                 </div>
                 <div class="form-group">
                     <label for="introduction_d">Introduction </label>
-                    <input type="text" class="form-control" id="introduction_d" v-model="devi.introduction_d">
+                    <input type="text" class="form-control" id="introduction_d" v-model="bonCommande.introduction_bc">
                 </div>
                 <div class="form-group">
                     <label for="conditions_reglements_d">Conditions de reglements </label>
-                    <input type="text" class="form-control" id="conditions_reglements_d" v-model="devi.conditions_reglements_d">
+                    <input type="text" class="form-control" id="conditions_reglements_d" v-model="bonCommande.conditions_reglements_bc">
                 </div>
                  <div class="form-group">
                     <label for="notes_d">Notes </label>
-                    <input type="text" class="form-control" id="notes_d" v-model="devi.notes_d">
+                    <input type="text" class="form-control" id="notes_d" v-model="bonCommande.notes_bc">
                 </div>
                 <div class="form-group">
                     <label for="accompte_d">Accompte </label>
-                    <input type="text" class="form-control" id="accompte_d" v-model="devi.accompte_d">
+                    <input type="text" class="form-control" id="accompte_d" v-model="bonCommande.accompte_bc">
                 </div> 
                 <div class="form-group">
                     <label for="fk_status_d"> Status </label>
-                <select class="form-control custom-select " id="fk_status_d" v-model="devi.fk_status_d" >
+                <select class="form-control custom-select " id="fk_status_d" v-model="bonCommande.fk_status_bc" >
                     <option selected disabled>Choisir Status</option>
                     <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
                 </select>
@@ -72,7 +72,7 @@
                 <div class="form-group">
                     <label for=""> Compte </label>
 
-                <select class="form-control custom-select " id="fk_compte" v-model="devi.fk_compte" @change=" getRemise()" >
+                <select class="form-control custom-select " id="fk_compte" v-model="bonCommande.fk_compte" @click=" getRemise()" >
                     <option selected disabled>Choisir Status</option>
                     <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">{{compte.nom_compte}}</option>
                 </select>
@@ -169,13 +169,13 @@
                             <th>  <input class="mr-4"  type="text" v-model="commande.totalHT">
                            
                             </th>
-                            <th><a  class="btn btn-danger" @click="removeRow(index)"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                            <th><a  class="btn btn-danger" @click="removeRow"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                             </tr>
                     <tr>
                         <th>
                              <!--article -->
                    
-                    <select class="form-control custom-select " id="fk_article" v-model="commande.fk_article" @change=" getPrixArticle()">
+                    <select class="form-control custom-select " id="fk_article" v-model="commande.fk_article" @click=" getPrixArticle()">
                     <option selected>Choisir Article</option>
                     <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
                 </select>
@@ -225,11 +225,6 @@
 
 
                          </table>
-                         <div>
-                             Total HT :{{total_prix}}
-                             <br>
-                             Remise Total (montant) :{{remise_T}}
-                         </div>
 
 </div>               
 
@@ -262,23 +257,23 @@
               testEdit : false,
               count:"",
               // devi
-              devi: { 
-            id_devis:0,
-            reference_d:"",
-            date_d:"", 
-            type_operation:"",
-            objet_d:"",
-            date_emission_d:"",
+              bonCommande: { 
+            id_bc:0,
+            reference_bc:"",
+            date_bc:"", 
+            type_operation_bc:"",
+            objet_bc:"",
+            date_emission_bc:"",
             remise_total_d:"",
-            majoration_d:"",
-            date_limit_d:"",
-            introduction_d:"",  
-            conditions_reglements_d:"",
-            notes_d:"",
-            accompte_d:"",
-           fk_status_d:"",
-           fk_compte_d:"",
-            fk_user_d:"",
+            majoration_bc:"",
+            date_limit_bc:"",
+            introduction_bc:"",  
+            conditions_reglements_bc:"",
+            notes_bc:"",
+            accompte_bc:"",
+           fk_status_bc:"",
+           fk_compte_bc:"",
+            fk_user_bc:"",
       
               },
               // tableau des devis 
@@ -289,8 +284,6 @@
               articles:[],
               comptes:[],
             index:0,
-            total_prix:0,
-            remise_T:0,
               //commandes
            cmd: {},
               commande:{
@@ -306,9 +299,9 @@
                //affichage
                
                desig:"",
-                totalHT:0,
+                           totalHT:0,
 
-
+total_ht:0,
                 
               },
               commandes:[],
@@ -328,6 +321,17 @@
 
       methods: { 
 
+          addBonCommande(){ 
+
+                
+              axios.post('/addBonCommande',{commandes:this.commandes,bonCommande:this.bonCommande,modePaiements:this.modePaiement}).then(response => {         
+                  
+                   // this.$router.push('/');
+                   console.log("Bon de Commande Bien ajouter ");
+                  });
+            
+        },
+
 
 addRow (commande) {
    // console.log(commandes);
@@ -344,14 +348,11 @@ addRow (commande) {
                desig:commande.desig,
                totalHT:commande.totalHT,
                total_ht:commande.total_ht,
-               
+               //totalHT:totalHT,
     });
-
 },
-removeRow(index) {
-    this.commandes.splice(index,1);
-    //this.$delete(this.commande, index);
-    
+removeRow: function () {
+    this.commandes.splice(this.commande,1);
 },
 
 
@@ -415,7 +416,6 @@ removeRow(index) {
                 });
           },
        getPrixArticle(){
-           
                 axios.get('/getPrixArticle/'+this.commande.fk_article)
                 .then((response) => {
                                       //console.log(this.commande.fk_article)
@@ -487,42 +487,37 @@ this.commande.totalHT=(+prix_v + +majoration_art - remise_art)*quantite_art;
             // return  this.commande.total_ht;
 
           },
-            TotalDevis(){
-                let sum=0;
-                for (let index = 0; index < this.commandes.length; index++) {
-                      sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
-                     // sum= +this.commandes[index].totalHT ;
-                         console.log('pushhh : '+index)
-                    }
-            this.total_prix = +sum + +this.commande.totalHT;
-                                     console.log('sum : '+this.total_prix)
-
-this.remise_T=this.total_prix*(this.devi.remise_total_d/100);
-            },
           
     },
     watch:{
-      
-        'commande': {
-                handler: function(){
-                    this.totalHTaxe;
-                    this.TotalDevis;
+        'commande.totalHT': function(val){
+            console.log('watchhhhhh');
+            console.log(val);
+        },
+        'commande.prix_ht': function(val){ 
+            //this.commande.totalHT = val;
+            this.totalHTaxe;
+        },
+        'commande.remise_cmd': function(val){ 
+            //this.commande.totalHT = val;
+            this.totalHTaxe;
+        },
+        'commande.majoration_cmd': function(val){ 
+            //this.commande.totalHT = val;
+            this.totalHTaxe;
+        },
+        'commande.quantite_cmd': function(val){ 
+            //this.commande.totalHT = val;
+            this.totalHTaxe;
 
-                    },
-                deep:true
         },
             commandes: {
                 handler: function(){
                     console.log('pushhh')
-                                    let sum=0;
-
                     for (let index = 0; index < this.commandes.length; index++) {
                      this.commandes[index].totalHT  = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
-                          sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
-                     // sum= +this.commandes[index].totalHT ;
                          console.log('pushhh : '+index)
                     }
-            this.total_prix = +sum + +this.commande.totalHT;
                 },
                 deep : true
             },
@@ -536,7 +531,9 @@ this.remise_T=this.total_prix*(this.devi.remise_total_d/100);
           this.getTvas();
           this.getarticles();
           this.getClients();
-         
+          //this.totalHT();
+         // this.getRemise();
+          //this.getPrixArticle(fk_article);
       }
 }   
 </script>
