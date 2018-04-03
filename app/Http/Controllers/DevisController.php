@@ -10,7 +10,7 @@ use App\Mode_paiement;
 use App\Compte;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 
 class DevisController extends Controller
@@ -69,14 +69,19 @@ class DevisController extends Controller
                  return Response()->json(['etat' => true]);
             
     }
+    public function getDevisD($id_devis){
+      $devi= Devi::find($id_devis);
+     /* $devi= Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
+            ->select('devis.*', 'comptes.nom_compte')
+            ->where('id_devis', $id_devis)->get();*/
+      return Response()->json(['devi' => $devi ]);
+   }
     public function getDevis(){
-        //$comptes=Compte::select('id_compte')->get();
-//$comptes=Compte::all();
-       // dd($comptes[$i]['nom_compte']);
-
-//$devis=Devi::where('devis.fk_compte_d','=',$comptes[0]['id_compte'])->paginate(10);
-$devis =Devi::paginate(10);
      
+$devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
+            ->select('devis.*', 'comptes.nom_compte')
+            ->paginate(10);
+           
          return Response()->json(['devis' => $devis ]);
       }
 
@@ -105,5 +110,23 @@ $devis =Devi::paginate(10);
                    return Response()->json(['etat' => true]);
               
       }
+
+
+      public function getCommandes($fk_document){
+       // $commandes= Commande::where('fk_document', $fk_document)->get();
+       $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
+            ->leftJoin('tvas', 'commandes.fk_tva_cmd', '=', 'tvas.id_tva')
+            ->select('commandes.*', 'articles.designation','tvas.taux_tva')
+            ->where('fk_document', $fk_document)->get();
+        return Response()->json(['commandes' => $commandes]);
+
+     }
+
+     public function getPaiement($fk_document){
+        $modePaiement= Mode_paiement::where('fk_document', $fk_document)->get();
+        return Response()->json(['modePaiement' => $modePaiement ]);
+     }
+
+     
 
 }

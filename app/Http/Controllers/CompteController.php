@@ -178,12 +178,14 @@ class CompteController extends Controller
         $CFacture->remarques = $request->condition_facture['remarques'];
         $CFacture->fk_compte = $id_compte;
         $CFacture->save();
-       // return Response()->json(['etat' => true]);
 
      }
 
 
-
+     public function getCondtionFacture($fk_compte){
+        $condition_facture= Condition_facture::where('fk_compte', $fk_compte)->get();
+        return Response()->json(['condition_facture' => $condition_facture ]);
+     }
 
 
        // pour deviiis

@@ -14,6 +14,7 @@ import EditCompagnie from './components/Compagnie/EditCompagnie.vue'
   //Devis
 import AddDevis from './components/Devis/AddDevis.vue'
 import AffDevis from './components/Devis/AffDevis.vue'
+import DevisDetails from './components/Devis/DevisDetails.vue'
 
 
 
@@ -154,6 +155,10 @@ const  router = new VueRouter({
         {    
             path:"/getDevis",
             component: AffDevis
+        },
+        {    
+            path:"/DevisDetails/:id_devis",
+            component: DevisDetails
         },
 
 

@@ -47,10 +47,10 @@
                                         <td>{{ devi.date_d}}</td>
                                         <td>{{devi.date_limit_d}}</td>
                                         <td>{{devi.type_operation}} </td> 
-                                        <td>{{devi.fk_compte_d}} </td>
+                                        <td>{{devi.nom_compte}} </td>
                                         
                                        <td  class="optionsWidth"> 
-                                            <router-link class="btn btn-primary " :to="'/DetailsDevis/'+devi.id_devis "><i class="fas fa-eye d-inline-block"></i></router-link>
+                                            <router-link class="btn btn-primary " :to="'/DevisDetails/'+devi.id_devis "><i class="fas fa-eye d-inline-block"></i></router-link>
                                          <router-link class="btn btn-success " :to="'/EditDevis/'+devi.id_devis "><i class="fas fa-edit d-inline-block"></i></router-link>
                                              <a class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
                                     </tr>
@@ -139,6 +139,7 @@ import  Pagination from '../Pagination.vue';
            fk_compte_d:"",
             fk_user_d:"",
 
+            nom_compte:"",
               },
             
              comptes:[],
@@ -159,7 +160,8 @@ import  Pagination from '../Pagination.vue';
                 .then((response) => {
                  // console.log('shit');
                     this.devis = response.data.devis;
-                    this.devis.fk_compte_d = response.data.comptes[0].nom_compte;
+                    console.log(response.data.devis)
+                    this.devis.fk_compte_d = response.data.devis.nom_compte;
 
                 })
                 .catch(() => {

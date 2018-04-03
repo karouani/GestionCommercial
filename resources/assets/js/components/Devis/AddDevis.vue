@@ -72,7 +72,7 @@
                 <div class="form-group">
                     <label for=""> Compte </label>
 
-                <select class="form-control custom-select " id="fk_compte" v-model="devi.fk_compte" @click=" getRemise()" >
+                <select class="form-control custom-select " id="fk_compte" v-model="devi.fk_compte" @change=" getRemise()" >
                     <option selected disabled>Choisir Status</option>
                     <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">{{compte.nom_compte}}</option>
                 </select>
@@ -149,7 +149,7 @@
                             </tr>                           
                         </thead>
                          <tbody>
-                             <tr v-for="commande in $data.commandes" :key="commande.id_cmd" >
+                             <tr v-for="(commande,index) in commandes" :key="index" >
                             <th>  <input class="mr-4"  type="text" v-model="commande.fk_article" disabled hidden>
                            <input class="mr-4"  type="text" v-model="commande.desig" disabled >
                            
@@ -166,16 +166,16 @@
                     </select>
                             
                             </th> 
-                            <th>  <input class="mr-4"  type="text" v-model="commande.total_ht">
+                            <th>  <input class="mr-4"  type="text" v-model="commande.totalHT">
                            
                             </th>
-                            <th><a  class="btn btn-danger" @click="removeRow"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                            <th><a  class="btn btn-danger" @click="removeRow(index)"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                             </tr>
                     <tr>
                         <th>
                              <!--article -->
                    
-                    <select class="form-control custom-select " id="fk_article" v-model="commande.fk_article" @click=" getPrixArticle()">
+                    <select class="form-control custom-select " id="fk_article" v-model="commande.fk_article" @change=" getPrixArticle()">
                     <option selected>Choisir Article</option>
                     <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
                 </select>
@@ -225,6 +225,11 @@
 
 
                          </table>
+                         <div>
+                             Total HT :{{total_prix}}
+                             <br>
+                             Remise Total (montant) :{{remise_T}}
+                         </div>
 
 </div>               
 
@@ -284,6 +289,8 @@
               articles:[],
               comptes:[],
             index:0,
+            total_prix:0,
+            remise_T:0,
               //commandes
            cmd: {},
               commande:{
@@ -299,8 +306,9 @@
                //affichage
                
                desig:"",
-               totalHT:0,
-total_ht:0,
+                totalHT:0,
+
+
                 
               },
               commandes:[],
@@ -334,13 +342,16 @@ addRow (commande) {
                fk_tva_cmd:commande.fk_tva_cmd,
 
                desig:commande.desig,
-              // totalHT:commande.totalHT,
+               totalHT:commande.totalHT,
                total_ht:commande.total_ht,
-               totalHT:commande.reduce((+commande.prix_ht + +commande.majoration_cmd - commande.remise_cmd)*commande.quantite_cmd),
+               
     });
+
 },
-removeRow: function () {
-    this.commandes.splice(this.commande,1);
+removeRow(index) {
+    this.commandes.splice(index,1);
+    //this.$delete(this.commande, index);
+    
 },
 
 
@@ -462,7 +473,7 @@ else
     },
     computed:{
 
-      /*      totalHT(){
+            totalHTaxe(){
                             console.log('calcuuul');
 
              let remise_art=this.commande.remise_cmd;
@@ -471,24 +482,52 @@ else
               let prix_v=this.commande.prix_ht;
              let test=(prix_v - remise_art) + majoration_art;
              console.log('test:'+majoration_art)
-this.commande.total_ht=(+prix_v + +majoration_art - remise_art)*quantite_art;
-             return  this.commande.total_ht;
+this.commande.totalHT=(+prix_v + +majoration_art - remise_art)*quantite_art;
+            // return  this.commande.total_ht;
 
-          },*/
+          },
+            TotalDevis(){
+                let sum=0;
+                for (let index = 0; index < this.commandes.length; index++) {
+                      sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
+                     // sum= +this.commandes[index].totalHT ;
+                         console.log('pushhh : '+index)
+                    }
+            this.total_prix = +sum + +this.commande.totalHT;
+                                     console.log('sum : '+this.total_prix)
+
+this.remise_T=this.total_prix*(this.devi.remise_total_d/100);
+            },
+          
     },
     watch:{
-            'commande':function(query){
-                    console.log("watchhhh")
-                      let remise_art=this.commande.remise_cmd;
-             let majoration_art=this.commande.majoration_cmd;
-             let quantite_art=this.commande.quantite_cmd;
-              let prix_v=this.commande.prix_ht;
-             let test=(prix_v - remise_art) + majoration_art;
-             console.log('test:'+majoration_art)
-            this.commande.totalHT=this.commande.reduce((+prix_v + +majoration_art - remise_art)*quantite_art);
+      
+        'commande': {
+                handler: function(){
+                    this.totalHTaxe;
+                    this.TotalDevis;
 
-            }
+                    },
+                deep:true
+        },
+            commandes: {
+                handler: function(){
+                    console.log('pushhh')
+                                    let sum=0;
+
+                    for (let index = 0; index < this.commandes.length; index++) {
+                     this.commandes[index].totalHT  = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
+                          sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
+                     // sum= +this.commandes[index].totalHT ;
+                         console.log('pushhh : '+index)
+                    }
+            this.total_prix = +sum + +this.commande.totalHT;
+                },
+                deep : true
+            },
+            
     },
+
      mounted(){
 
           this.getStatus();
@@ -496,9 +535,7 @@ this.commande.total_ht=(+prix_v + +majoration_art - remise_art)*quantite_art;
           this.getTvas();
           this.getarticles();
           this.getClients();
-          //this.totalHT();
-         // this.getRemise();
-          //this.getPrixArticle(fk_article);
+         
       }
 }   
 </script>
