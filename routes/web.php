@@ -106,6 +106,10 @@ Route::get('/getCFacture/{fk_compte}','CompteController@getCondtionFacture');
 Route::get('/getRemise/{fk_compte}','CompteController@getRemise');
 
 
+     // bonCommande 
+Route::post('/addBonCommande','CompteController@addBonCommande');
+
+
 Auth::routes();
 
 

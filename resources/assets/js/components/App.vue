@@ -31,8 +31,7 @@ import Pagination from './Pagination.vue'
 import  ShowComptes from './Compte/ShowComptes.vue' 
 import  AddCompte from './Compte/AddCompte.vue' 
 import  EditCompte from './Compte/EditCompte.vue' 
-//contact 
-import  AddContact from './Compte/Contact/AddContact.vue' 
+
 
 
 export default {

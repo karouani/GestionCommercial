@@ -435,6 +435,10 @@ table{
     position :fixed;
 }
 
+tr:hover{
+        box-shadow: 0.5px 0.5px 0.5px 0.5px;
+
+}
 </style>
 
 

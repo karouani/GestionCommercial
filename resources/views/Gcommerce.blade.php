@@ -9,11 +9,12 @@
 
 
           <!-- Fonts -->
-          <link rel="stylesheet" href="{{asset('vendor/font-awesome/css/fontawesome-all.min.css')}}">
+          <link rel="stylesheet" href="{{asset('css/fontawesome-all.css')}}">
           <!-- plugins:css -->
-           <link rel="stylesheet" href="{{asset('vendor/simple-line-icons/css/simple-line-icons.css')}}">
+           <link rel="stylesheet" href="{{asset('css/simple-line-icons.css')}}">
           <!-- Styles -->
-         
+
+        <!--   <link rel="stylesheet" href="{{asset('css/font-awesome/webfonts/fa-solid-900.woff2')}}">-->
           <link rel="stylesheet" href="{{asset('css/styles.css')}}">
 
 

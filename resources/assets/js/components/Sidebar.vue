@@ -100,6 +100,23 @@
                             
                         </ul>
                     </li>
+                                        <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle active">
+                            <i class="icon icon-speedometer"></i> Bon  Commande <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+
+
+                            <li class="nav-item">
+                                <router-link :to="'/addBonCommande'" class="nav-link">
+                                    <i class="icon icon-target"></i> Ajouter Bon Commande 
+                                </router-link>
+                            </li>
+
+                            
+                        </ul>
+                    </li>
                  
                 </ul>
             </nav>
