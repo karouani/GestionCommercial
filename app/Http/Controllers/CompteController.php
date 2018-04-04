@@ -25,7 +25,7 @@ class CompteController extends Controller
       public function getCompte($id_compte){
           //dd($id_compte->test);
         $compte= Compte::find($id_compte)->with('contacts')->get();
-        dd($compte);
+        //dd($compte);
        // $libelle_famille = DB::table('maCompagnies')->select('libelle_famille')->where('id_famille','=',$article->fk_famille)->get();      
         return Response()->json(['compte' => $compte ]);
      }

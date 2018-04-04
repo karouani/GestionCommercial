@@ -23,8 +23,12 @@
              <div class="card">
                         <div class="card-header bg-light">
                             <div class="row btnMarge">
- 
-        
+ <div class="col">
+    <!-- button pour afficher formulaire de l'ajout d un compagnie -->  
+              <b-btn v-b-modal.modalPrevent>Ajouter</b-btn>
+        </div>
+         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         </div>
     </div>
                        </div>
 
@@ -59,10 +63,58 @@
                                 </table>
                             </div>
                         </div>
+ <div>
+  
+    <!-- Modal Component -->
+    <b-modal id="modalPrevent"
+             ref="modal"
+             title="Devis"
+             @ok="handleOk"
+             ok-title="Enregistrer"
+             @shown="clearName">
+             
+      <form @submit.stop.prevent="handleSubmit">
+          <b-container class="bv-example-row">
+    <b-row>
+        <b-col> Date:</b-col>
+         <b-col cols="8">
+        <b-form-input type="date"
+                      v-model="devi.date_d"> </b-form-input>
+        </b-col>
+    </b-row>
+    <br>
+     <b-row>
+        <b-col> Reference :</b-col>
+         <b-col cols="8">
+         
+        <b-form-input type="text"
+                      placeholder="Reference"
+                      v-model="devi.reference_d" disabled>
+                      </b-form-input>
+         </b-col>
+    </b-row>
+    <br>
+     <b-row>
+        <b-col> Compte :</b-col>
+         <b-col cols="8">
+        
+        <b-form-select v-model="devi.fk_compte_d" v-on:change="getClients">
+        <template slot="first">
+              <option :value="null" disabled>-- Select project --</option>
+            </template>
+        <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">
+          {{compte.nom_compte}}
+        </option>
+      </b-form-select>
+     </b-col>
+    </b-row>
+          </b-container>
+      </form>
+    </b-modal>
+  </div>
+                 
                     </div>
-                    <div>
-              
-            </div>
+                   
     </div>
     
     <vue-pagination  :pagination="devis"
@@ -85,6 +137,7 @@ import  Pagination from '../Pagination.vue';
          },
 
           data: () => ({
+            
                      loading: false,
       post: null,
       error: null,
@@ -118,7 +171,7 @@ import  Pagination from '../Pagination.vue';
 
               },
                offset: 4,
-
+                date : new Date(),
 
               devi: { 
                     
@@ -148,21 +201,46 @@ import  Pagination from '../Pagination.vue';
       mounted(){
          
         this.getDevis();
-     
-          
+        this.getClients();
+          this.countDevis();
       },
 
       methods: {
-         
+    
+    handleOk () {
+      
+    },
+countDevis(){
 
+                axios.get('/countDevis')
+                .then((response) => {
+
+                    this.devi.reference_d='D'+response.data.count;
+                    this.devi.date_d=Date();
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
           getDevis(){
                 axios.get('/getDevis?page='+this.devis.current_page+'')
                 .then((response) => {
                  // console.log('shit');
                     this.devis = response.data.devis;
-                    console.log(response.data.devis)
-                    this.devis.fk_compte_d = response.data.devis.nom_compte;
+                    //console.log(response.data.devis)
+                    //this.devis.fk_compte_d = response.data.devis.nom_compte;
 
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
+          getClients(){
+                axios.get('/getClients')
+                .then((response) => {
+                    this.comptes = response.data.comptes;
+                    console.log(response.data.comptes);
+                  
                 })
                 .catch(() => {
                     console.log('handle server error from here');

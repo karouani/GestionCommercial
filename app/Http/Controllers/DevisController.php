@@ -8,6 +8,7 @@ use App\Commande;
 use App\Article;
 use App\Mode_paiement;
 use App\Compte;
+use App\Tva;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -88,10 +89,9 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
 
     public function getPrixArticle($fk_article){
        $commande=Commande::find($fk_article);
-       $article=Article::where('articles.id_article','=',$fk_article)->get();
-       /* $prix_v = DB::table('articles')->leftJoin('commandes', 'articles.id_article', '=', 'commandes.fk_article')
-        ->select('prix_ht_vente','designation','fk_tva_applicable')->where('articles.id_article','=',$fk_article)->get();
-*/
+       $article=Article::leftJoin('tvas', 'articles.fk_tva_applicable', '=', 'tvas.id_tva')
+       ->select('articles.*', 'tvas.taux_tva')
+       ->where('articles.id_article','=',$fk_article)->get();
         return Response()->json(['article' => $article ]);
      }
 
@@ -113,10 +113,8 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
 
 
       public function getCommandes($fk_document){
-       // $commandes= Commande::where('fk_document', $fk_document)->get();
-       $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
-            ->leftJoin('tvas', 'commandes.fk_tva_cmd', '=', 'tvas.id_tva')
-            ->select('commandes.*', 'articles.designation','tvas.taux_tva')
+        $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
+            ->select('commandes.*', 'articles.designation')
             ->where('fk_document', $fk_document)->get();
         return Response()->json(['commandes' => $commandes]);
 
@@ -126,7 +124,11 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
         $modePaiement= Mode_paiement::where('fk_document', $fk_document)->get();
         return Response()->json(['modePaiement' => $modePaiement ]);
      }
+     public function tauxTva($fk_tva_cmd){
+        $taux_tva=Tva::find($fk_tva_cmd);
+        return Response()->json(['taux_tva' => $taux_tva ]);
 
+     }
      
 
 }

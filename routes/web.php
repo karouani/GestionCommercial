@@ -82,6 +82,7 @@ Route::get('/getDevis','DevisController@getDevis');
 Route::get('/getDevisD/{id_devis}','DevisController@getDevisD');
 Route::get('/getCommandes/{fk_document}','DevisController@getCommandes');
 Route::get('/getPaiement/{fk_document}','DevisController@getPaiement');
+Route::get('/tauxTva/{fk_tva_cmd}','DevisController@tauxTva');
 
 //----------------------------------------------------------------------
 //Compte 

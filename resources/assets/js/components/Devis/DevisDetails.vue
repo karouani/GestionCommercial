@@ -215,9 +215,9 @@
         getPaiement:function(id_devis){
                   axios.get('/getPaiement/'+'D'+id_devis).then(
                   response => {
-                      // console.log("paiement")
+                      console.log("paiement")
                     this.modePaiement= response.data.modePaiement[0];
-                   //console.log(this.modePaiement)
+                   console.log(response.data.modePaiement[0])
                   });     
         },
           },
