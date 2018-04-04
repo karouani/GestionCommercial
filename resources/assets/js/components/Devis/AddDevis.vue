@@ -133,13 +133,12 @@
                                 <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>Article</th>
+                            <th>Article</th>
                             <th>Quantite</th>
                             <th>Remise</th>
                             <th>majoration</th>
                             <th>Prix HT</th>
                             <th>TVA</th>
-
                             <th>Total HT</th>
                             </tr>                           
                         </thead>

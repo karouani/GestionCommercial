@@ -39,6 +39,7 @@ import  EditCompte from './components/Compte/EditCompte.vue'
 
 // Bon de Commande
 import  AddBonCommande from './components/BonCommande/AddBonCommande.vue' 
+import  AffAddBonCommande from './components/BonCommande/AffBonCommande.vue' 
 
 
 
@@ -189,8 +190,13 @@ const  router = new VueRouter({
         // ----------------------------------------------------------  // Bon commande
         {     
         path:"/addBonCommande",
-        component: AddBonCommande
+        component: AddBonCommande,
+        name: "addBonCommande",
         },
+        {     
+         path:"/AffAddBonCommande",
+          component: AffAddBonCommande
+         },
         
     ],
    

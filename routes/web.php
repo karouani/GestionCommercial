@@ -111,7 +111,11 @@ Route::get('/getRemise/{fk_compte}','CompteController@getRemise');
 
 
      // bonCommande 
-Route::post('/addBonCommande','CompteController@addBonCommande');
+Route::post('/addBonCommande','BonCommandeController@addBonCommande');
+Route::get('/countBonCommandes','BonCommandeController@countBonCommandes');
+
+
+
 
 
 Auth::routes();

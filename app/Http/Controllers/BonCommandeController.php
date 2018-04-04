@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\BonCommande;
+use App\Boncommande;
 
 
 class BonCommandeController extends Controller
@@ -34,5 +34,11 @@ class BonCommandeController extends Controller
                // $this->addModePaiement($request);
                  return Response()->json(['etat' => true]);
             
+    }
+    public function countBonCommandes(){
+        $count = Boncommande::withTrashed()->count();
+       
+        $count ++;
+        return Response()->json(['count' => $count]);
     }
 }

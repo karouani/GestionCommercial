@@ -113,6 +113,11 @@
                                     <i class="icon icon-target"></i> Ajouter Bon Commande 
                                 </router-link>
                             </li>
+                            <li class="nav-item">
+                                <router-link :to="'/AffAddBonCommande'" class="nav-link">
+                                    <i class="icon icon-target"></i> Bon Commandes
+                                </router-link>
+                            </li>
 
                             
                         </ul>
