@@ -79,7 +79,7 @@
     <h3>Conditions Facture</h3>
      <hr>
      <div class="row">
-         <div class="col-6">
+         <div class="col-md-6 col-sm-12">
            <div class="card">
             <div class="card-body">
                 
@@ -178,9 +178,9 @@
 </script>
 <style scoped>
 .card-header{
-    background-color: #42a5f5;
+    background-color: #cac8c8;
 }
 span{
-    color:#4278f5;
+    color:#007ee4;
 }
 </style>

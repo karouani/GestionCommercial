@@ -1,7 +1,8 @@
+
 <template>
     <div>
         <div class="text-center">
-    <h2>Ajouter Devis</h2>
+    <h2>Ajouter Bon de Commande</h2>
     <hr>
     </div>
              <!-- ajouter devis  -->
@@ -11,60 +12,60 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="reference_d"> Reference</label>
-                    <input type="text" class="form-control" id="reference_d" :value="devi.reference_d" disabled>
+                    <input type="text" class="form-control" id="reference_d" :value="bonCommande.reference_bc" disabled>
                   
                    
                 </div>
                 <div class="form-group">
                     <label for="date_d"> Date </label>
-                    <input type="date" class="form-control" id="date_d" v-model="devi.date_d" >
+                    <input type="date" class="form-control" id="date_d" v-model="bonCommande.date_bc" >
                 </div>
                 <div class="form-group">
                     <label for="type_operation"> Type Operation </label>
-                    <input type="text" class="form-control" id="type_operation" v-model="devi.type_operation" >
+                    <input type="text" class="form-control" id="type_operation" v-model="bonCommande.type_operation_bc" >
                 </div>
                 <div class="form-group">
                     <label for="objet_d"> Objet </label>
-                    <input type="text" class="form-control" id="objet_d" v-model="devi.objet_d" >
+                    <input type="text" class="form-control" id="objet_d" v-model="bonCommande.objet_bc" >
                 </div>
                 <div class="form-group">
                     <label for="date_emission_d"> Date d'émission </label>
-                    <input type="date" class="form-control" id="date_emission_d" v-model="devi.date_emission_d" >
+                    <input type="date" class="form-control" id="date_emission_d" v-model="bonCommande.date_emission_bc" >
                 </div>
                 <div class="form-group">
                     <label for="remise_total_d"> Remise Total </label>
-                    <input type="text" class="form-control" id="remise_total_d" v-model="devi.remise_total_d" >
+                    <input type="text" class="form-control" id="remise_total_d" v-model="bonCommande.remise_total_bc" >
                 </div>
                 <div class="form-group">
                     <label for="majoration_d"> Majoration </label>
-                    <input type="text" class="form-control" id="majoration_d" v-model="devi.majoration_d">
+                    <input type="text" class="form-control" id="majoration_d" v-model="bonCommande.majoration_bc">
                 </div>
             </div>
             <div class="col-md-6"> 
                 
                 <div class="form-group">
                     <label for="date_limit_d"> Date Limit </label>
-                    <input type="date" class="form-control" id="date_limit_d" v-model="devi.date_limit_d">
+                    <input type="date" class="form-control" id="date_limit_d" v-model="bonCommande.date_limit_bc">
                 </div>
                 <div class="form-group">
                     <label for="introduction_d">Introduction </label>
-                    <input type="text" class="form-control" id="introduction_d" v-model="devi.introduction_d">
+                    <input type="text" class="form-control" id="introduction_d" v-model="bonCommande.introduction_bc">
                 </div>
                 <div class="form-group">
                     <label for="conditions_reglements_d">Conditions de reglements </label>
-                    <input type="text" class="form-control" id="conditions_reglements_d" v-model="devi.conditions_reglements_d">
+                    <input type="text" class="form-control" id="conditions_reglements_d" v-model="bonCommande.conditions_reglements_bc">
                 </div>
                  <div class="form-group">
                     <label for="notes_d">Notes </label>
-                    <input type="text" class="form-control" id="notes_d" v-model="devi.notes_d">
+                    <input type="text" class="form-control" id="notes_d" v-model="bonCommande.notes_bc">
                 </div>
                 <div class="form-group">
                     <label for="accompte_d">Accompte </label>
-                    <input type="text" class="form-control" id="accompte_d" v-model="devi.accompte_d">
+                    <input type="text" class="form-control" id="accompte_d" v-model="bonCommande.accompte_bc">
                 </div> 
                 <div class="form-group">
                     <label for="fk_status_d"> Status </label>
-                <select class="form-control custom-select " id="fk_status_d" v-model="devi.fk_status_d" >
+                <select class="form-control custom-select " id="fk_status_d" v-model="bonCommande.fk_status_bc" >
                     <option selected disabled>Choisir Status</option>
                     <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
                 </select>
@@ -72,7 +73,7 @@
                 <div class="form-group">
                     <label for=""> Compte </label>
 
-                <select class="form-control custom-select " id="fk_compte" v-model="devi.fk_compte" @change=" getRemise()" >
+                <select class="form-control custom-select " id="fk_compte" v-model="bonCommande.fk_compte" @change=" getRemise()" >
                     <option selected disabled>Choisir Status</option>
                     <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">{{compte.nom_compte}}</option>
                 </select>
@@ -138,12 +139,13 @@
                      <table class="table table-bordered tableau">
                             <thead>
                             <tr>
-                            <th>Article</th>
+                                <th>Article</th>
                             <th>Quantite</th>
                             <th>Remise</th>
                             <th>majoration</th>
                             <th>Prix HT</th>
                             <th>TVA</th>
+
                             <th>Total HT</th>
                             </tr>                           
                         </thead>
@@ -261,23 +263,23 @@
               testEdit : false,
               count:"",
               // devi
-              devi: { 
-            id_devis:0,
-            reference_d:"",
-            date_d:"", 
-            type_operation:"",
-            objet_d:"",
-            date_emission_d:"",
-            remise_total_d:"",
-            majoration_d:"",
-            date_limit_d:"",
-            introduction_d:"",  
-            conditions_reglements_d:"",
-            notes_d:"",
-            accompte_d:"",
-           fk_status_d:"",
-           fk_compte_d:"",
-            fk_user_d:"",
+             bonCommande : { 
+            id_bc:0,
+            reference_bc:"",
+            date_bc:"", 
+            type_operation_bc:"",
+            objet_bc:"",
+            date_emission_bc:"",
+            remise_total_bc:"",
+            majoration_bc:"",
+            date_limit_bc:"",
+            introduction_bc:"",  
+            conditions_reglements_bc:"",
+            notes_bc:"",
+            accompte_bc:"",
+           fk_status_bc:"",
+           fk_compte_bc:"",
+            fk_user_bc:"",
       
               },
               // tableau des devis 
@@ -287,9 +289,9 @@
               tvas:[],
               articles:[],
               comptes:[],
-            index:0,
-            total_prix:0,
-            remise_T:0,
+                index:0,
+                total_prix:0,
+                remise_T:0,
               //commandes
            cmd: {},
               commande:{
@@ -321,11 +323,64 @@
 
                 },
                 modePaiements:[],
+
+                compte: { 
+                    id_compte : 0,
+                    nom_compte : "",
+                    responsable : "",
+                    type_compte : "",
+                    categorie : "",
+                    raison_social : "",
+                    reference : "",
+                    fixe : "",
+                    portable : "",
+                    fax : "",
+                    email : "",
+                    site_web  : "",
+                    secteur_activite : "",
+                    taille : "",
+                    RC : "",
+                    fk_compagnie : "",
+              },
+              condition_facture : { 
+                    id_condition : 0,
+                    devise: "",
+                    remise: "",
+                    delai_paiement : "",
+                    remarques: "",
+                    fk_compte : 0,
+
+              },
+              contacts : [],
              
       }),
       
 
-      methods: { 
+      methods: {
+                 getCompte:function(id_compte){
+                  axios.get('/getCompte/'+id_compte).then(
+                  response => {
+                       
+                    this.compte= response.data.compte;
+                    console.log(this.compte)
+                  });     
+        },
+        getContacts:function(id_compte){
+                  axios.get('/getContacts/'+id_compte).then(
+                  response => {
+                       
+                    this.contacts= response.data.contacts;
+                     console.log(this.contacts)
+                  });     
+        },
+        getCondtionFacture:function(id_compte){
+                  axios.get('/getCFacture/'+id_compte).then(
+                  response => {
+                       console.log("Cfacture")
+                    this.condition_facture= response.data.condition_facture[0];
+                   console.log(this.condition_facture)
+                  });     
+        }, 
 
 
 addRow (commande) {
@@ -529,6 +584,16 @@ this.remise_T=this.total_prix*(this.devi.remise_total_d/100);
     },
 
      mounted(){
+           
+
+            console.log('----------------')
+            console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_bc+
+            " / "+ this.$route.params.currentDate )
+            
+
+          this.getCompte(this.$route.params.id_compte);
+          this.getContacts(this.$route.params.id_compte);
+          this.getCondtionFacture(this.$route.params.id_compte); 
 
           this.getStatus();
           this.countDevis();
@@ -588,3 +653,6 @@ a.last::before {
     width:100px;
 }
 </style>
+
+
+ 
