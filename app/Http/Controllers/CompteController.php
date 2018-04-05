@@ -46,6 +46,7 @@ class CompteController extends Controller
         $compte->secteur_activite = $request->compte['secteur_activite'];
         $compte->taille = $request->compte['taille'];
         $compte->RC = $request->compte['RC'];
+        $compte->adresse_compte = $request->compte['adresse_compte'];
         $compte->fk_compagnie = $request->compte['fk_compagnie'];
 
         $compte->save();
@@ -76,6 +77,7 @@ class CompteController extends Controller
         $compte->secteur_activite = $request->compte['secteur_activite'];
         $compte->taille = $request->compte['taille'];
         $compte->RC = $request->compte['RC'];
+        $compte->adresse_compte = $request->compte['adresse_compte'];
         $compte->fk_compagnie = $request->compte['fk_compagnie'];
         
 

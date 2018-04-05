@@ -8,81 +8,119 @@
 
 
         <form @submit.prevent="updateCompte">
-         <div class="row" > 
+        <div class="row" > 
          
             <div class="col-md-6">
-                <div class="form-group">
-                <label for="exampleFormControlSelect1">Nom Compagnie</label>
+                <div class="form-group row">
+                <label for="exampleFormControlSelect1" class="col-sm-4">Nom Compagnie</label>
+                <div class="col-sm-8">
                 <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="compte.fk_compagnie" required>
                     <option selected>Choisir une Compagnie</option>
                     <option v-for="compagnie in compagnies" :key="compagnie.id_compagnie" :value="compagnie.id_compagnie">{{compagnie.nom_societe}}</option>
                 </select>
                 </div>
+                </div>
 
-                <div class="form-group">
-                    <label for="nom_compte"> nom_compte</label>
+                <div class="form-group row">
+                    <label for="nom_compte" class="col-sm-4"> Nom_compte</label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="nom_compte"  v-model="compte.nom_compte">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="responsable"> responsable</label>
+                <div class="form-group row">
+                    <label for="responsable" class="col-sm-4" > Responsable</label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="responsable"  v-model="compte.responsable">
+                    </div>
                 </div>
 
-                <div class="form-group">
-                <label for="type_compte">famille</label>
+                <div class="form-group row ">
+                <label for="type_compte" class="col-sm-4" >Famille</label>
+                <div class="col-sm-8">
                 <select class="form-control custom-select " id="type_compte" v-model="compte.type_compte" >
                     <option selected>Choisir Type du Compte</option>
                     <option value="Client">Client</option>
                     <option value="Fournisseur">Fournisseur</option>                   
                 </select>
                 </div>
-                <div class="form-group">
-                    <label for="categorie"> categorie </label>
+                </div>
+                <div class="form-group row ">
+                    <label for="categorie" class="col-sm-4" > Categorie </label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="categorie" v-model="compte.categorie" >
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="raison_social"> raison_social </label>
+                <div class="form-group row ">
+                    <label for="raison_social" class="col-sm-4" > Raison_social </label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="raison_social" v-model="compte.raison_social" >
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="reference"> reference </label>
+                <div class="form-group row ">
+                    <label for="reference" class="col-sm-4" > Reference </label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="reference" v-model="compte.reference" >
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="fixe"> fixe</label>
-                    <input type="text" class="form-control" id="fixe" v-model="compte.fixe" >
+                <div class="form-group row ">
+                    <label for="fixe" class="col-sm-4" >Adresse</label>
+                    <div class="col-sm-8">
+                      <textarea name="" id="" cols="40" rows="3" v-model="compte.adresse_compte"></textarea>
+                    </div>
                 </div>
             
             </div>
             <div class="col-md-6"> 
-                <div class="form-group">
-                    <label for="portable"> portable </label>
+                <div class="form-group row ">
+                    <label for="fixe" class="col-sm-4" > Fixe</label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="fixe" v-model="compte.fixe" >
+                    </div>
+                </div>
+                <div class="form-group row ">
+                    <label for="portable" class="col-sm-4" > Portable </label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="portable" v-model="compte.portable">
+                    </div>
                 </div>    
-                <div class="form-group">
-                    <label for="fax"> fax </label>
+                <div class="form-group row ">
+                    <label for="fax" class="col-sm-4" > Fax </label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="fax" v-model="compte.fax">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email"> email </label>
+                <div class="form-group row ">
+                    <label for="email" class="col-sm-4" > Email </label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="email" v-model="compte.email">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="site_web"> site_web </label>
+                <div class="form-group row ">
+                    <label for="site_web" class="col-sm-4" > Site_web </label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="site_web" v-model="compte.site_web">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="secteur_activite"> secteur_activite </label>
+                <div class="form-group row ">
+                    <label for="secteur_activite" class="col-sm-4" > Secteur_activite </label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="secteur_activite" v-model="compte.secteur_activite">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="taille"> taille </label>
+                <div class="form-group row ">
+                    <label for="taille" class="col-sm-4" > Taille </label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="taille" v-model="compte.taille">
+                    </div>
                 </div>                                                
-                <div class="form-group">
-                    <label for="RC">RC </label>
+                <div class="form-group row ">
+                    <label for="RC" class="col-sm-4" >RC </label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="RC" v-model="compte.RC">
+                    </div>
                 </div>   
+
+                
 
             </div> 
     </div>
@@ -133,26 +171,34 @@
         <hr>
      <h4>Ajouter Conditions facture</h4>
      <hr>
-              <div class="row" > 
+               <div class="row" > 
              
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="devise"> devise</label>
+                <div class="form-group row">
+                    <label for="devise" class="col-sm-4"> devise</label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="devise"  v-model="condition_facture.devise">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="remise"> remise</label>
+                <div class="form-group row">
+                    <label for="remise" class="col-sm-4"> remise</label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="remise"  v-model="condition_facture.remise">
+                    </div>
                 </div>
-            <div class="form-group">
-            <label for="example-date-input">Date</label>
-            <div >
-                <input class="form-control" type="date" value="2011-08-19" id="example-date-input" v-model="condition_facture.delai_paiement" >
-            </div>
-            </div>
-                 <div class="form-group">
-                    <label for="remarques"> remarques </label>
+                 <div class="form-group row">
+                <label for="delai_paiement" class="col-sm-4">delai_paiement</label>
+                <div class="col-sm-8">
+                
+                    <input class="form-control" type="date" value="2011-08-19" id="delai_paiement" v-model="condition_facture.delai_paiement">
+                    </div>
+                
+                </div>
+                 <div class="form-group row">
+                    <label for="remarques" class="col-sm-4"> remarques </label>
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" id="remarques" v-model="condition_facture.remarques" >
+                    </div>
                 </div>
             </div>
             <div class="col-md-6"> 
@@ -200,6 +246,7 @@
                     taille : "",
                     RC : "",
                     fk_compagnie : "",
+                    adresse_compte:""
               },
 
 
