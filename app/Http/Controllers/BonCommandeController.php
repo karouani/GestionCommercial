@@ -27,6 +27,9 @@ class BonCommandeController extends Controller
                 $bonCommande->accompte_bc= $request->bonCommande['accompte_bc'];
                 $bonCommande->fk_status_bc = $request->bonCommande['fk_status_bc'];
                 $bonCommande->fk_compte_bc = $request->bonCommande['fk_compte_bc'];
+                $bonCommande->fk_compte_bc = $request->bonCommande['adresse_bc'];
+
+                
                 $bonCommande->fk_user_bc = Auth::user()->id;
                 $bonCommande->save();
 

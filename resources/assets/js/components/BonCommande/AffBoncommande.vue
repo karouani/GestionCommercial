@@ -70,7 +70,8 @@
                 <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" >
                     <option selected disabled>Choisir Client</option>
                     <option v-for="compte of comptes.data" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
-                </select>                    </div>
+                </select>                    
+                </div>
                 </div>      
       
       </form>
@@ -218,6 +219,7 @@ import  Pagination from '../Pagination.vue';
                     taille : "",
                     RC : "",
                     fk_compagnie : "",
+                    adresse_compte:""
               },
             
              

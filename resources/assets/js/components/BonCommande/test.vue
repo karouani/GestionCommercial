@@ -656,3 +656,88 @@ a.last::before {
 
 
  
+
+              bonCommande : { 
+            id_bc:0,
+            reference_bc:"",
+            date_bc:"", 
+            type_operation_bc:"",
+            objet_bc:"",
+            date_emission_bc:"",
+            remise_total_bc:"",
+            majoration_bc:"",
+            date_limit_bc:"",
+            introduction_bc:"",  
+            conditions_reglements_bc:"",
+            notes_bc:"",
+            accompte_bc:"",
+           fk_status_bc:"",
+           fk_compte_bc:"",
+            fk_user_bc:"",
+      
+              },
+
+                     compte: { 
+                    id_compte : 0,
+                    nom_compte : "",
+                    responsable : "",
+                    type_compte : "",
+                    categorie : "",
+                    raison_social : "",
+                    reference : "",
+                    fixe : "",
+                    portable : "",
+                    fax : "",
+                    email : "",
+                    site_web  : "",
+                    secteur_activite : "",
+                    taille : "",
+                    RC : "",
+                    fk_compagnie : "",
+              },
+              condition_facture : { 
+                    id_condition : 0,
+                    devise: "",
+                    remise: "",
+                    delai_paiement : "",
+                    remarques: "",
+                    fk_compte : 0,
+
+              },
+              contacts : [],
+
+                    getCompte:function(id_compte){
+                  axios.get('/getCompte/'+id_compte).then(
+                  response => {
+                       
+                    this.compte= response.data.compte;
+                    console.log(this.compte)
+                  });     
+        },
+        getContacts:function(id_compte){
+                  axios.get('/getContacts/'+id_compte).then(
+                  response => {
+                       
+                    this.contacts= response.data.contacts;
+                     console.log(this.contacts)
+                  });     
+        },
+        getCondtionFacture:function(id_compte){
+                  axios.get('/getCFacture/'+id_compte).then(
+                  response => {
+                       console.log("Cfacture")
+                    this.condition_facture= response.data.condition_facture[0];
+                   console.log(this.condition_facture)
+                  });     
+        }, 
+
+
+
+              console.log('----------------')
+            console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_bc+
+            " / "+ this.$route.params.currentDate )
+            
+
+          this.getCompte(this.$route.params.id_compte);
+          this.getContacts(this.$route.params.id_compte);
+          this.getCondtionFacture(this.$route.params.id_compte); 

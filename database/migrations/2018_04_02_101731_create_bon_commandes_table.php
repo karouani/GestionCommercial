@@ -26,6 +26,7 @@ class CreateBonCommandesTable extends Migration
             $table->string('introduction_bc')->nullable();
             $table->string('conditions_reglements_bc')->nullable();
             $table->string('notes_bc')->nullable();
+            $table->string('adresse_bc')->nullable();
             $table->double('accompte_bc')->nullable();
             $table->integer('fk_status_bc')->nullable();
             $table->integer('fk_compte_bc')->nullable();
