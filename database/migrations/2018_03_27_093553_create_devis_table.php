@@ -28,6 +28,13 @@ class CreateDevisTable extends Migration
             $table->string('conditions_reglements_d')->nullable();
             $table->string('notes_d')->nullable();
             $table->double('accompte_d')->nullable();
+
+            $table->double('total_ht_d')->nullable();
+            $table->double('remise_ht_d')->nullable();
+            $table->double('montant_net_d')->nullable();
+            $table->double('tva_montant_d')->nullable();
+            $table->double('montant_ttc_d')->nullable();
+
             $table->integer('fk_status_d')->nullable();
             $table->integer('fk_compte_d')->nullable();
             $table->integer('fk_user_d')->nullable();

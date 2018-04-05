@@ -32,10 +32,17 @@ class DevisController extends Controller
                 $devi->introduction_d = $request->devis['introduction_d'];
                 $devi->conditions_reglements_d=$request->devis['conditions_reglements_d'];
                 $devi->notes_d = $request->devis['notes_d'];
+                $devi->adresse_d = $request->devis['adresse_d'];
                 $devi->accompte_d = $request->devis['accompte_d'];
                 $devi->fk_status_d = $request->devis['fk_status_d'];
                 $devi->fk_compte_d = $request->devis['fk_compte_d'];
                 $devi->fk_user_d = Auth::user()->id;
+                
+                $devi->total_ht_d = $request->devis['total_ht_d'];
+                $devi->remise_ht_d = $request->devis['remise_ht_d'];
+                $devi->montant_net_d = $request->devis['montant_net_d'];
+                $devi->tva_montant_d = $request->devis['tva_montant_d'];
+                $devi->montant_ttc_d = $request->devis['montant_ttc_d'];
                 $devi->save();
 
                 $this->addCommandes($request);
@@ -61,6 +68,7 @@ class DevisController extends Controller
         $commande->remise_cmd=$request->commandes[$i]['remise_cmd'];
         $commande->majoration_cmd=$request->commandes[$i]['majoration_cmd'];
         $commande->prix_ht=$request->commandes[$i]['prix_ht'];
+        $commande->total_ht_cmd=$request->commandes[$i]['total_ht_cmd'];
         $commande->fk_article=$request->commandes[$i]['fk_article'];
         $commande->fk_document=$request->commandes[$i]['fk_document'];
         $commande->fk_tva_cmd=$request->commandes[$i]['fk_tva_cmd'];

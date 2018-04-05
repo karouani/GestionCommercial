@@ -1,5 +1,6 @@
 <template>
 <div class=" container colBackround">
+          <form   @submit.prevent="addDevis">
 <div class="row">
     <div class="col">
         <br>
@@ -80,7 +81,7 @@
                     </select>
 
                             </th> 
-                            <th>  <input class="form-control"  type="text" v-model="commande.totalHT" disabled></th>
+                            <th>  <input class="form-control"  type="text" v-model="commande.total_ht_cmd" disabled></th>
                             <th><a  class="btn btn-danger" @click="removeRow(index)"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                             </tr>
                     <tr>
@@ -117,7 +118,7 @@
                     <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
                 </select>
                         </th>
-                      <th>  <input class="form-control"  type="text" v-model="commande.totalHT" disabled> </th>
+                      <th>  <input class="form-control"  type="text" v-model="commande.total_ht_cmd" disabled> </th>
 
                         <th>
                              <!--ajouter -->
@@ -186,7 +187,7 @@
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Total HT </label>
             <div class="col-sm-8">
-            <input type="text" readonly class="form-control-plaintext calculePadding " id="staticEmail" v-model="total_prix">
+            <input type="text" readonly class="form-control-plaintext calculePadding " id="staticEmail" v-model="devi.total_ht_d">
             </div>
          </div>
    
@@ -194,25 +195,25 @@
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Remise Total (montant) </label>
             <div class="col-sm-8">
-            <input type="text" readonly class="form-control-plaintext calculePadding " id="staticEmail" v-model="remise_T">
+            <input type="text" readonly class="form-control-plaintext calculePadding " id="staticEmail" v-model="devi.remise_ht_d">
             </div>
          </div>
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label"> Montant Net HT  </label>
             <div class="col-sm-8">
-            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="net_HT">
+            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="devi.montant_net_d">
             </div>
          </div>
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">TVA (Montant) </label>
             <div class="col-sm-8">
-            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="tva_total">
+            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="devi.tva_montant_d">
             </div>
          </div>
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Montant TTC (Montant) </label>
             <div class="col-sm-8">
-            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="total_ttc">
+            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="devi.montant_ttc_d">
             </div>
          </div>
    
@@ -248,6 +249,7 @@
  <button  class="btn mb-3 float-right btn-success">Enregister</button>
 </div>
 </div>
+          </form>
 </div>
 </template>
 
@@ -270,19 +272,25 @@
             reference_d:"",
             date_d:"", 
             adresse_d:"",
-            //type_operation:"",
+            type_operation:"",
             objet_d:"",
             date_emission_d:"",
             remise_total_d:"",
             majoration_d:"",
             date_limit_d:"",
-            //introduction_d:"",  
+            introduction_d:"",  
             conditions_reglements_d:"",
             notes_d:"",
             accompte_d:"",
            fk_status_d:"",
            fk_compte_d:"",
             fk_user_d:"",
+
+            total_ht_d:0,
+            remise_ht_d:0,
+            montant_net_d:0,
+            tva_montant_d:0,
+            montant_ttc_d:0,
       
               },
               compte:{
@@ -327,7 +335,7 @@
                // designation d'article pr chaque commande
                desig:"",
                // montant total de chaque commande
-                totalHT:0,
+                total_ht_cmd:0,
               },
              
               commandes:[],
@@ -362,7 +370,7 @@ methods: {
 
               
                desig:commande.desig,
-               totalHT:commande.totalHT,
+               total_ht_cmd:commande.total_ht_cmd,
                total_ht:commande.total_ht,
                tva_montant:commande.tva_montant,
                taux_tva:commande.taux_tva,
@@ -374,9 +382,8 @@ this.commande = {
                 majoration_cmd:0,
                 prix_ht:0,
                 fk_article:"",
-                fk_document:"",
                 fk_tva_cmd:"",
-               
+               fk_document: commande.fk_document,
                //montant tva de chaque commande
                tva_montant:0,
                //affichage
@@ -385,7 +392,7 @@ this.commande = {
                // designation d'article pr chaque commande
                desig:"",
                // montant total de chaque commande
-                totalHT:0,
+                total_ht_cmd:0,
                 };
     },
 
@@ -400,7 +407,7 @@ this.commande = {
         axios.post('/addDevis',{commandes:this.commandes,devis:this.devi,modePaiements:this.modePaiement})
         .then(response => {         
                   
-                this.$router.push('/');
+                this.$router.push('/getDevis');
         })
         .catch(() => {
                 console.log('handle server error from here');
@@ -433,7 +440,7 @@ this.commande = {
     },
         
         //Reference de devis
-    countDevis(){
+   /* countDevis(){
 
         axios.get('/countDevis')
             .then((response) => {
@@ -447,7 +454,7 @@ this.commande = {
             .catch(() => {
                     console.log('handle server error from here');
             });
-    },
+    },*/
         // recuperer tvas
     getTvas(){
                 
@@ -525,7 +532,8 @@ this.commande = {
         axios.get('/getClient/'+id_compte)
             .then((response) => {
                     this.compte = response.data.compte;
-                  
+                    this.getRemise(id_compte)
+                  this.devi.adresse_d=response.data.compte.adresse_compte;
             })
             .catch(() => {
                     console.log('handle server error from here');
@@ -543,12 +551,12 @@ computed:{
             let quantite_art=this.commande.quantite_cmd;
             let prix_v=this.commande.prix_ht;
 
-            this.commande.totalHT=(+prix_v + +majoration_art - remise_art)*quantite_art;
+            this.commande.total_ht_cmd=(+prix_v + +majoration_art - remise_art)*quantite_art;
 
                 //montant de remise pour chque commande
-            let remise=this.commande.totalHT*(this.devi.remise_total_d/100);
+            let remise=this.commande.total_ht_cmd*(this.devi.remise_total_d/100);
                 //montant de commande apres remise
-            let net=this.commande.totalHT - this.commande.totalHT*(this.devi.remise_total_d/100);
+            let net=this.commande.total_ht_cmd - this.commande.total_ht_cmd*(this.devi.remise_total_d/100);
                 //montant tva par article
             let tva=net*(this.commande.taux_tva/100);
             this.commande.tva_montant=tva;
@@ -564,24 +572,29 @@ computed:{
                 //montant tva de chaque commande apres remise
             this.tva_montant=this.total_prix*(this.devi.remise_total_d/100)*(this.commande.taux_tva/100);
                 //montant de remise
-            let remise=this.commandes[index].totalHT*(this.devi.remise_total_d/100);
+            let remise=this.commandes[index].total_ht_cmd*(this.devi.remise_total_d/100);
                 //montant apres remise
-            let net=this.commandes[index].totalHT - this.commandes[index].totalHT*(this.devi.remise_total_d/100);
+            let net=this.commandes[index].total_ht_cmd - this.commandes[index].total_ht_cmd*(this.devi.remise_total_d/100);
                 // montant de tva
             let tva=net*(this.commandes[index].fk_tva_cmd/100);
                 // total de montant des tvas
             sum_tva= +sum_tva + +tva;
         }
                 // total de prix de tt commandes (affectation)
-            this.total_prix = +sum + +this.commande.totalHT;
+            this.total_prix = +sum + +this.commande.total_ht_cmd;
+            this.devi.total_ht_d=this.total_prix;
                 // total de montant tvas (affectation)
             this.tva_total=+sum_tva + +this.commande.tva_montant ;
+            this.devi.tva_montant_d=this.tva_total;
                 //remise sur le montant total
             this.remise_T=this.total_prix*(this.devi.remise_total_d/100);
+            this.devi.remise_ht_d=this.remise_T;
                 // montant total apres remise
             this.net_HT=this.total_prix - this.remise_T;
+            this.devi.montant_net_d=this.net_HT;
                // montant total final
             this.total_ttc=  +this.net_HT + +this.tva_total;
+            this.devi.montant_ttc_d=this.total_ttc;
     },
           
 },
@@ -610,20 +623,25 @@ watch:{
                         let sum_tva=0;
 
                 for (let index = 0; index < this.commandes.length; index++) {
-                    this.commandes[index].totalHT  = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
+                    this.commandes[index].total_ht_cmd  = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
                     sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
 
-                    let remise=this.commandes[index].totalHT*(this.devi.remise_total_d/100);
-                    let net=this.commandes[index].totalHT - this.commandes[index].totalHT*(this.devi.remise_total_d/100);
+                    let remise=this.commandes[index].total_ht_cmd*(this.devi.remise_total_d/100);
+                    let net=this.commandes[index].total_ht_cmd - this.commandes[index].total_ht_cmd*(this.devi.remise_total_d/100);
                     let tva=net*(this.commandes[index].fk_tva_cmd/100);
                     sum_tva= +sum_tva + +tva;
 
                 }
-                    this.total_prix = +sum + +this.commande.totalHT;
+                    this.total_prix = +sum + +this.commande.total_ht_cmd;
+                    this.devi.total_ht_d=this.total_prix;
                     this.remise_T=this.total_prix*(this.devi.remise_total_d/100);
+                    this.devi.remise_ht_d=this.remise_T;
                     this.net_HT=this.total_prix - this.remise_T;
+                    this.devi.montant_net_d=this.net_HT;
                     this.tva_total=+sum_tva + +this.commande.tva_montant ;
+                    this.devi.tva_montant_d=this.tva_total;
                     this.total_ttc=  +this.net_HT + +this.tva_total;
+                    this.devi.montant_ttc_d=this.total_ttc;
 
             },
             deep : true
@@ -637,8 +655,10 @@ watch:{
             " / " + this.$route.params.currentDate)
             this.devi.date_d=this.$route.params.currentDate;
             this.devi.reference_d=this.$route.params.reference_d;
+            this.commande.fk_document=this.$route.params.reference_d;
+            this.modePaiement.fk_document=this.$route.params.reference_d;
             this.getStatus();
-            this.countDevis();
+            //this.countDevis();
             this.getTvas();
             this.getarticles();
             this.getClients();
