@@ -28,6 +28,13 @@ class CreateBonCommandesTable extends Migration
             $table->string('notes_bc')->nullable();
             $table->string('adresse_bc')->nullable();
             $table->double('accompte_bc')->nullable();
+
+            $table->double('total_ht_bc')->nullable();
+            $table->double('remise_ht_bc')->nullable();
+            $table->double('montant_net_bc')->nullable();
+            $table->double('tva_montant_bc')->nullable();
+            $table->double('montant_ttc_bc')->nullable();
+
             $table->integer('fk_status_bc')->nullable();
             $table->integer('fk_compte_bc')->nullable();
             $table->integer('fk_user_bc')->nullable();
