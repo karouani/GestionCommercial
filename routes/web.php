@@ -114,8 +114,10 @@ Route::get('/getRemise/{fk_compte}','CompteController@getRemise');
      // bonCommande 
 Route::post('/addBonCommande','BonCommandeController@addBonCommande');
 Route::get('/countBonCommandes','BonCommandeController@countBonCommandes');
-
-
+Route::get('/getPrixArticle_bc/{fk_article}','BonCommandeController@getPrixArticle_bc');
+Route::get('/getCommandes/{fk_document}','BonCommandeController@getCommandes_bc');
+Route::get('/getPaiement_bc/{fk_document}','BonCommandeController@getPaiement_bc');
+Route::get('/tauxTva_bc/{fk_tva_cmd}','BonCommandeController@tauxTva_bc');
 
 
 

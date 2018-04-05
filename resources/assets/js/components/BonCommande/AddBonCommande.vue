@@ -128,7 +128,7 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
                 <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.date_limit_bc">
+                <input type="date" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.date_limit_bc">
                 </div>
             </div>
             <div class="form-group row">
@@ -157,7 +157,7 @@
                 <div class="form-group row">
                     <label for="reference_paiement"  class="col-sm-4 col-form-label" >Remise Total </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="reference_paiement">
+                    <input type="text" class="form-control" id="reference_paiement" v-model="bonCommande.remise_total_bc">
                     </div>
                 </div>                  
                       
@@ -255,9 +255,15 @@
             conditions_reglements_bc:"",
             notes_bc:"",
             accompte_bc:"",
-           fk_status_bc:"",
-           fk_compte_bc:"",
+            adresse_bc:"",
+            fk_status_bc:"",
+            fk_compte_bc:"",
             fk_user_bc:"",
+            total_ht_bc: 0,
+            remise_ht_bc: 0,
+            montant_net_bc: 0,
+            tva_montant_bc: 0,
+            montant_ttc_bc: 0,
       
               },
 
@@ -378,7 +384,24 @@
 methods: { 
 
     addBonCommande(){
+            this.bonCommande.total_ht_bc =  this.total_prix,
+            this.bonCommande.remise_ht_bc = this.remise_T, 
+            this.bonCommande.montant_net_bc = this.net_HT ,
+            this.bonCommande.tva_montant_bc = this.tva_total ,
+            this.bonCommande.montant_ttc_bc =  this.total_ttc,
+            this.bonCommande.adresse_bc=  this.compte.adresse_compte
+            this.bonCommande.fk_compte_bc = this.compte.id_compte;
             console.log(this.bonCommande)
+            console.log(this.commandes)
+
+                  axios.post('/addBonCommande',{commandes:this.commandes,bonCommande:this.bonCommande,modePaiements:this.modePaiement})
+        .then(response => {         
+                  console.log("bonCommande Bien ajouter ")
+               // this.$router.push('/');
+        })
+        .catch(() => {
+                console.log('handle server error from here');
+        });
     },
 
 
@@ -512,7 +535,7 @@ methods: {
         // recuperer des infos sur un article
     getPrixArticle(){
            
-        axios.get('/getPrixArticle/'+this.commande.fk_article)
+        axios.get('/getPrixArticle_bc/'+this.commande.fk_article)
             .then((response) => {
                         // prix de vente d'article
                     this.commande.prix_ht=response.data.article[0].prix_ht_vente;
@@ -528,15 +551,16 @@ methods: {
             });
     },
         // recuperer remise associe a un compte
-    getRemise(){
-
-        axios.get('/getRemise/'+this.devi.fk_compte)
+    getRemise(id_compte){
+                        
+        axios.get('/getRemise/'+id_compte)
             .then((response) => {
                 if(response.data.conditions_remise[0].remise==null){
-                    this.devi.remise_total_d=0;
+                    this.bonCommande.remise_total_bc=0;
                 }
                 else
-                    this.devi.remise_total_d=response.data.conditions_remise[0].remise;
+                    this.bonCommande.remise_total_bc=response.data.conditions_remise[0].remise;
+                    console.log('getRemiseeeeee2222')
              
             })
             .catch(() => {
@@ -561,7 +585,8 @@ methods: {
                        
                     this.compte= response.data.compte;
                     console.log(this.compte)
-                  });     
+                  });
+                  this.getRemise(id_compte);     
         },
         getContacts:function(id_compte){
                   axios.get('/getContacts/'+id_compte).then(
@@ -598,27 +623,27 @@ computed:{
             this.commande.totalHT=(+prix_v + +majoration_art - remise_art)*quantite_art;
 
                 //montant de remise pour chque commande
-            let remise=this.commande.totalHT*(this.devi.remise_total_d/100);
+            let remise=this.commande.totalHT*(this.bonCommande.remise_total_bc/100);
                 //montant de commande apres remise
-            let net=this.commande.totalHT - this.commande.totalHT*(this.devi.remise_total_d/100);
+            let net=this.commande.totalHT - this.commande.totalHT*(this.bonCommande.remise_total_bc/100);
                 //montant tva par article
             let tva=net*(this.commande.taux_tva/100);
             this.commande.tva_montant=tva;
 
     },
             
-    TotalDevis(){
+    TotalBonCommande(){
             let sum=0;
             let sum_tva=0;
         for (let index = 0; index < this.commandes.length; index++) {
                 //total de prix de tt commandes
             sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
                 //montant tva de chaque commande apres remise
-            this.tva_montant=this.total_prix*(this.devi.remise_total_d/100)*(this.commande.taux_tva/100);
+            this.tva_montant=this.total_prix*(this.bonCommande.remise_total_bc/100)*(this.commande.taux_tva/100);
                 //montant de remise
-            let remise=this.commandes[index].totalHT*(this.devi.remise_total_d/100);
+            let remise=this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100);
                 //montant apres remise
-            let net=this.commandes[index].totalHT - this.commandes[index].totalHT*(this.devi.remise_total_d/100);
+            let net=this.commandes[index].totalHT - this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100);
                 // montant de tva
             let tva=net*(this.commandes[index].fk_tva_cmd/100);
                 // total de montant des tvas
@@ -629,7 +654,7 @@ computed:{
                 // total de montant tvas (affectation)
             this.tva_total=+sum_tva + +this.commande.tva_montant ;
                 //remise sur le montant total
-            this.remise_T=this.total_prix*(this.devi.remise_total_d/100);
+            this.remise_T=this.total_prix*(this.bonCommande.remise_total_bc/100);
                 // montant total apres remise
             this.net_HT=this.total_prix - this.remise_T;
                // montant total final
@@ -639,10 +664,10 @@ computed:{
 },
 
 watch:{
-    'devi.remise_total_d':{
+    'bonCommande.remise_total_bc':{
             handler: function(){
                     this.totalHTaxe;
-                    this.TotalDevis;
+                    this.TotalBonCommande;
 
             },
     },
@@ -650,7 +675,7 @@ watch:{
     'commande': {
             handler: function(){
                     this.totalHTaxe;
-                    this.TotalDevis;
+                    this.TotalBonCommande;
 
             },
             deep:true
@@ -665,14 +690,14 @@ watch:{
                     this.commandes[index].totalHT  = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
                     sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
 
-                    let remise=this.commandes[index].totalHT*(this.devi.remise_total_d/100);
-                    let net=this.commandes[index].totalHT - this.commandes[index].totalHT*(this.devi.remise_total_d/100);
+                    let remise=this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100);
+                    let net=this.commandes[index].totalHT - this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100);
                     let tva=net*(this.commandes[index].fk_tva_cmd/100);
                     sum_tva= +sum_tva + +tva;
 
                 }
                     this.total_prix = +sum + +this.commande.totalHT;
-                    this.remise_T=this.total_prix*(this.devi.remise_total_d/100);
+                    this.remise_T=this.total_prix*(this.bonCommande.remise_total_bc/100);
                     this.net_HT=this.total_prix - this.remise_T;
                     this.tva_total=+sum_tva + +this.commande.tva_montant ;
                     this.total_ttc=  +this.net_HT + +this.tva_total;
@@ -691,14 +716,16 @@ watch:{
             
             this.bonCommande.reference_bc = this.$route.params.reference_bc
             this.bonCommande.date_bc = this.$route.params.currentDate
+            this.commande.fk_document=this.$route.params.reference_bc
+            this.modePaiement.fk_document=this.$route.params.reference_bc
             this.getCompte(this.$route.params.id_compte);
             this.getContacts(this.$route.params.id_compte);
             this.getCondtionFacture(this.$route.params.id_compte); 
             this.getStatus();
-            this.countDevis();
             this.getTvas();
             this.getarticles();
             this.getClients();
+            this.getRemise(this.$route.params.id_compte)
          
 }
 }   
