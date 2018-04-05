@@ -149,7 +149,8 @@ const  router = new VueRouter({
 // ajouter les devis 
         {    
             path:"/addDevis",
-            component: AddDevis
+            component: AddDevis,
+            name: "addDevis",
         },
         {    
             path:"/getDevis",

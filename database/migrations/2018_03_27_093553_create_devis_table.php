@@ -19,6 +19,7 @@ class CreateDevisTable extends Migration
             $table->date('date_d')->nullable();
             $table->string('type_operation')->nullable();
             $table->string('objet_d')->nullable();
+            $table->string('adresse_d')->nullable();
             $table->date('date_emission_d')->nullable();
             $table->double('remise_total_d')->nullable();
             $table->double('majoration_d')->nullable();

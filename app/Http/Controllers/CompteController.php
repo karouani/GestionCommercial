@@ -23,10 +23,7 @@ class CompteController extends Controller
       }
 
       public function getCompte($id_compte){
-          //dd($id_compte->test);
         $compte= Compte::find($id_compte);
-        
-       // $libelle_famille = DB::table('maCompagnies')->select('libelle_famille')->where('id_famille','=',$article->fk_famille)->get();      
         return Response()->json(['compte' => $compte ]);
      }
 
@@ -188,11 +185,16 @@ class CompteController extends Controller
      }
 
 
-       // pour deviiis
+       //------------------------ pour deviiis
      public function getClients(){
 
         $listeClients = Compte::where('type_compte','=','Client')->get();
         return Response()->json(['comptes' => $listeClients ]);
+     }
+     public function getClient($id_compte){
+
+        $compte = Compte::find($id_compte);
+        return Response()->json(['compte' => $compte ]);
      }
 
      public function getRemise($fk_compte){

@@ -1,68 +1,148 @@
 <template>
-<div class=" container colBackround">
-<div class="row">
-    <div class="col">
-        <br>
-    <h5><i class="far fa-file"></i> Ajouter un devis : <strong>{{devi.reference_d}}</strong></h5>
+    <div>
+        <div class="text-center">
+    <h2>Ajouter Devis</h2>
+    <hr>
     </div>
-</div>
-<hr>
-<div class="row">
-    <div class="col-md-6 col-sm-12">
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Compte  </label>
-                <div class="col-sm-10">
-                    <select class="form-control custom-select " id="id_compte" v-model="compte.id_compte" @change="getClient(compte.id_compte)">
-                    <option selected disabled>Choisir Compte</option>
+             <!-- ajouter devis  -->
+        <form   @submit.prevent="addDevis">
+         <div class="row" > 
+         
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="reference_d"> Reference</label>
+                    <input type="text" class="form-control" id="reference_d" :value="devi.reference_d" disabled>
+                  
+                   
+                </div>
+                <div class="form-group">
+                    <label for="date_d"> Date </label>
+                    <input type="date" class="form-control" id="date_d" v-model="devi.date_d" >
+                </div>
+                <div class="form-group">
+                    <label for="objet_d"> Objet </label>
+                    <input type="text" class="form-control" id="objet_d" v-model="devi.objet_d" >
+                </div>
+                <div class="form-group">
+                    <label for="date_emission_d"> Date d'émission </label>
+                    <input type="date" class="form-control" id="date_emission_d" v-model="devi.date_emission_d" >
+                </div>
+                <div class="form-group">
+                    <label for="remise_total_d"> Remise Total </label>
+                    <input type="text" class="form-control" id="remise_total_d" v-model="devi.remise_total_d" >
+                </div>
+                <div class="form-group">
+                    <label for="majoration_d"> Majoration </label>
+                    <input type="text" class="form-control" id="majoration_d" v-model="devi.majoration_d">
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                
+                <div class="form-group">
+                    <label for="date_limit_d"> Date Limit </label>
+                    <input type="date" class="form-control" id="date_limit_d" v-model="devi.date_limit_d">
+                </div>
+                <div class="form-group">
+                    <label for="conditions_reglements_d">Conditions de reglements </label>
+                    <input type="text" class="form-control" id="conditions_reglements_d" v-model="devi.conditions_reglements_d">
+                </div>
+                 <div class="form-group">
+                    <label for="notes_d">Notes </label>
+                    <input type="text" class="form-control" id="notes_d" v-model="devi.notes_d">
+                </div>
+                <div class="form-group">
+                    <label for="accompte_d">Accompte </label>
+                    <input type="text" class="form-control" id="accompte_d" v-model="devi.accompte_d">
+                </div> 
+                <div class="form-group">
+                    <label for="fk_status_d"> Status </label>
+                <select class="form-control custom-select " id="fk_status_d" v-model="devi.fk_status_d" >
+                    <option selected disabled>Choisir Status</option>
+                    <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
+                </select>
+                </div>
+                <div class="form-group">
+                    <label for=""> Compte </label>
+
+                <select class="form-control custom-select " id="fk_compte" v-model="devi.fk_compte" @change=" getRemise()" >
+                    <option selected disabled>Choisir Status</option>
                     <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">{{compte.nom_compte}}</option>
                 </select>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Date</label>
-                <div class="col-sm-10">
-                <input type="date" class="form-control" v-model="devi.date_d" id="inputPassword" placeholder="">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Objet  </label>
-                <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="devi.objet_d">
-                </div>
-            </div>
-          
+       
+            </div> 
     </div>
-    <div class="col-md-6 col-sm-12">
-        
-        <div class="container  infoClient">
-            <label for="">{{compte.nom_compte}} </label>
-            <div class="form-group row">
-            <div class="col-sm-10">
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="devi.adresse_d"></textarea>
-            </div>
-         </div>
-        </div>
+    <hr> 
+<div class="text-center">
+    <h4>Ajouter mode Paiement</h4>
+    <hr>
     </div>
+
+                <!-- ajouter mode de paiement -->
+     <th>
+                             <!--num document: devis -->
+                    <input class="mr-4" :value="modePaiement.fk_document"  type="text" disabled hidden>
+                        </th>
+                    <br>
+<div class="row ">
+ <div class="col-md-4"> 
+                <div class="form-group">
+                    <label for="type_paiement"> Type Paiement </label>
+                <select class="form-control custom-select " id="type_paiement" v-model="modePaiement.type_paiement" >
+                    <option selected disabled>Choisir Type de Paiement</option>
+                    <option>Cheque</option>
+                    <option>Versement</option>
+                    <option>Espece</option>
+                </select>
+                </div>
+ </div>
+  <div class="col-md-4"> 
+                <div class="form-group">
+                    <label for="reference_paiement">Reference Paiement </label>
+                    <input type="text" class="form-control" id="reference_paiement" v-model="modePaiement.reference_paiement">
+                </div>
+  </div>
+  <div class="col-md-4"> 
+
+  
+                 <div class="form-group">
+                    <label for="date_paiement">Date Paiement </label>
+                    <input type="date" class="form-control" id="date_paiement" v-model="modePaiement.date_paiement">
+                </div>
+  </div> 
+
+
 </div>
-<hr>
-<div class="row"> 
-    <div class="col">
-       <div class="row">
+
+
+  <hr>
+        <div class="text-center">
+    <h4>Ajouter Commandes</h4>
+    <hr>
+    </div>
+  <div>     
+             <!-- ajouter commandes -->
+        <th>
+                             <!--num document: devis -->
+                    <input class="mr-4" :value="commande.fk_document"  type="text" disabled hidden>
+                        </th>
+                    <br>
+                      <div class="row">
            <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                    <th>Article</th>
-                                    <th>Quantite</th>
-                                    <th>Remise</th>
-                                    <th>majoration</th>
-                                    <th>Prix HT</th>
-                                    <th>TVA</th>
-                                    <th>Total HT</th>
-                                    </tr>  
-                                    </thead>
-                                    <tbody>
+                            <thead>
+                            <tr>
+                            <th>Article</th>
+                            <th>Quantite</th>
+                            <th>Remise</th>
+                            <th>majoration</th>
+                            <th>Prix HT</th>
+                            <th>TVA</th>
+                            <th>Total HT</th>
+                            </tr>                           
+                        </thead>
+                         <tbody>
                              <tr v-for="(commande,index) in commandes" :key="index" >
                             <th>  <input class="mr-4"  type="text" v-model="commande.fk_article" disabled hidden>
                            <input class="form-control"  type="text" v-model="commande.desig" disabled >
@@ -131,124 +211,29 @@
                       
                        
                         </tbody>
-                                </table>
+
+
+                         </table>
                             </div>
-             </div>
-     </div>
-    
-    
-    
-    </div>
-</div>
-<hr>
-<div class="row">
-    <div class="col-md-6 col-sm-12">
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
-                <div class="col-sm-8">
-                <input type="date" class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d">
-                </div>
-            </div>
-            <div class="form-group row">
-                    <label for="type_paiement" class="col-sm-4 col-form-label" > Type Paiement </label>
-                <div class="col-sm-8">
-                <select class="form-control custom-select " id="type_paiement" v-model="modePaiement.type_paiement" >
-                    <option selected disabled>Choisir Type de Paiement</option>
-                    <option>Cheque</option>
-                    <option>Versement</option>
-                    <option>Espece</option>
-                </select>
-                </div>
-            </div>
-                <div class="form-group row">
-                    <label for="reference_paiement"  class="col-sm-4 col-form-label" >Reference Paiement </label>
-                    <div class="col-sm-8">
-                    <input type="text" class="form-control" id="reference_paiement" v-model="modePaiement.reference_paiement">
-                    </div>
-                </div> 
-                 <div class="form-group row">
-                    <label for="date_paiement"  class="col-sm-4 col-form-label" >Date Paiement </label>
-                    <div class="col-sm-8">
-                    <input type="date" class="form-control" id="date_paiement" v-model="modePaiement.date_paiement">
-                    </div>
-                </div>  
-                <div class="form-group row">
-                    <label for="remise_total_d"  class="col-sm-4 col-form-label" >Remise Total </label>
-                    <div class="col-sm-8">
-                    <input type="text" class="form-control" id="remise_total_d" v-model="devi.remise_total_d">
-                    </div>
-                </div>                  
-                      
+                            </div>
+           </div>
+                         <div>
+                             Total HT :{{total_prix}}
+                             <br>
+                             Remise Total (montant) :{{remise_T}}
+                             <br>
+                             Montant Net HT :{{net_HT}}
+                             <br>
+                             Tva (montant) : {{tva_total}}
+                              <br>
+                             Montant TTC (montant) : {{total_ttc}}
+                         </div>
 
-                                 
-    </div>
-    <div class="col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-4 col-form-label">Total HT </label>
-            <div class="col-sm-8">
-            <input type="text" readonly class="form-control-plaintext calculePadding " id="staticEmail" v-model="total_prix">
-            </div>
-         </div>
-   
-       
-          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-4 col-form-label">Remise Total (montant) </label>
-            <div class="col-sm-8">
-            <input type="text" readonly class="form-control-plaintext calculePadding " id="staticEmail" v-model="remise_T">
-            </div>
-         </div>
-          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-4 col-form-label"> Montant Net HT  </label>
-            <div class="col-sm-8">
-            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="net_HT">
-            </div>
-         </div>
-          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-4 col-form-label">TVA (Montant) </label>
-            <div class="col-sm-8">
-            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="tva_total">
-            </div>
-         </div>
-          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-4 col-form-label">Montant TTC (Montant) </label>
-            <div class="col-sm-8">
-            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="total_ttc">
-            </div>
-         </div>
-   
- </div>
+</div>               
 
-        
-</div>
-<br>
-<div class="row">
-  <div class="col">
-                <div class="form-group row">
-            <label for="staticEmail" class="col-sm-2 col-form-label">Notes </label>
-            <div class="col-sm-10">
-            <textarea class="noteCondition" name="" id="" cols="80" rows="3" v-model="devi.notes_d"></textarea>
-            </div>
-         </div>
-  </div>
-</div>
-<br>
-<div class="row">
-   <div class="col">
-          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-2 col-form-label">Conditions </label>
-            <div class="col-sm-10">
-            <textarea class="noteCondition" name="" id="" cols="80" rows="3" v-model="devi.conditions_reglements_d"></textarea>
-            </div>
-         </div>
-   </div>
-</div>
-<hr>
-<div class="row">            
-<div class="col">
- <button  class="btn mb-3 float-right btn-success">Enregister</button>
-</div>
-</div>
-</div>
+ <button  class="btn btn-primary mr-20 btn-success">Enregister</button>
+</form>
+    </div>
 </template>
 
 <script>
@@ -269,7 +254,6 @@
             id_devis:0,
             reference_d:"",
             date_d:"", 
-            adresse_d:"",
             //type_operation:"",
             objet_d:"",
             date_emission_d:"",
@@ -284,10 +268,6 @@
            fk_compte_d:"",
             fk_user_d:"",
       
-              },
-              compte:{
-                  id_compte:0,
-                  nom_compte:"",
               },
               // tableau des devis 
               devis :[],
@@ -367,26 +347,7 @@ methods: {
                tva_montant:commande.tva_montant,
                taux_tva:commande.taux_tva,
         });
-this.commande = {
-                     id_cmd:0,
-                quantite_cmd:1,
-                remise_cmd:0,
-                majoration_cmd:0,
-                prix_ht:0,
-                fk_article:"",
-                fk_document:"",
-                fk_tva_cmd:"",
-               
-               //montant tva de chaque commande
-               tva_montant:0,
-               //affichage
-               // % de tva
-               taux_tva:0,
-               // designation d'article pr chaque commande
-               desig:"",
-               // montant total de chaque commande
-                totalHT:0,
-                };
+
     },
 
     removeRow(index) {
@@ -492,10 +453,9 @@ this.commande = {
             });
     },
         // recuperer remise associe a un compte
-    getRemise(id_compte){
-        console.log("remise"+id_compte);
+    getRemise(){
 
-        axios.get('/getRemise/'+id_compte)
+        axios.get('/getRemise/'+this.devi.fk_compte)
             .then((response) => {
                 if(response.data.conditions_remise[0].remise==null){
                     this.devi.remise_total_d=0;
@@ -520,17 +480,7 @@ this.commande = {
                     console.log('handle server error from here');
         });
     },
-    getClient(id_compte){
-                
-        axios.get('/getClient/'+id_compte)
-            .then((response) => {
-                    this.compte = response.data.compte;
-                  
-            })
-            .catch(() => {
-                    console.log('handle server error from here');
-        });
-    },
+    
 },
     
     
@@ -587,14 +537,7 @@ computed:{
 },
 
 watch:{
-    'devi.remise_total_d':{
-            handler: function(){
-                    this.totalHTaxe;
-                    this.TotalDevis;
-
-            },
-    },
-
+      
     'commande': {
             handler: function(){
                     this.totalHTaxe;
@@ -632,21 +575,17 @@ watch:{
 },
 
     mounted(){
- console.log('----------------')
-            console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_d+
-            " / " + this.$route.params.currentDate)
-            this.devi.date_d=this.$route.params.currentDate;
-            this.devi.reference_d=this.$route.params.reference_d;
+
             this.getStatus();
             this.countDevis();
             this.getTvas();
             this.getarticles();
             this.getClients();
-            this.getClient(this.$route.params.id_compte);
-            this.getRemise(this.$route.params.id_compte);
+         
 }
 }   
 </script>
+
 <style scoped>
  .btnMarge{
      padding-bottom: 10px;
@@ -694,24 +633,5 @@ a.last::before {
 .mr-4{
     margin-right: 0rem!important;
     width:100px;
-}
-.colBackround{
-     background-color: whitesmoke;
-    box-shadow: 1px 1px 3px 4px #d2cfcf;
-}
-.infoClient{
-
-    background-color:  #42a5f529;
-
-}
-.AdressClient{
-    width: 121%;
-}
-
-.noteCondition{
-    width: 77%;
-}
-.calculePadding{
-    padding-left: 50%;
 }
 </style>

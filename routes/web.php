@@ -95,6 +95,7 @@ Route::get('/searchComptes/{nomCompte}','CompteController@searchComptes');
      
     // compte: client recupere pour les commandes
 Route::get('/getClients','CompteController@getClients');
+Route::get('/getClient/{id_compte}','CompteController@getClient');
 
 //contact 
 Route::post('/addContact','CompteController@addContact');

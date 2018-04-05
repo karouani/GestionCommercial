@@ -74,42 +74,32 @@
              @shown="clearName">
              
       <form @submit.stop.prevent="handleSubmit">
-          <b-container class="bv-example-row">
-    <b-row>
-        <b-col> Date:</b-col>
-         <b-col cols="8">
-        <b-form-input type="date"
-                      v-model="devi.date_d"> </b-form-input>
-        </b-col>
-    </b-row>
-    <br>
-     <b-row>
-        <b-col> Reference :</b-col>
-         <b-col cols="8">
-         
-        <b-form-input type="text"
-                      placeholder="Reference"
-                      v-model="devi.reference_d" disabled>
-                      </b-form-input>
-         </b-col>
-    </b-row>
-    <br>
-     <b-row>
-        <b-col> Compte :</b-col>
-         <b-col cols="8">
-        
-        <b-form-select v-model="devi.fk_compte_d" v-on:change="getClients">
-        <template slot="first">
-              <option :value="null" disabled>-- Select project --</option>
-            </template>
-        <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">
+
+<div class="form-group row">
+                    <label for="inputPassword" class="col-sm-3 col-form-label">date: </label>
+                    <div class="col-sm-9">
+                    <input  type="date" v-model="currentDate" class="form-control" id="date" placeholder="Password"/>
+                    </div>
+                </div>                 
+                <div class="form-group row">
+                    <label for="reference_d" class="col-sm-3 col-form-label">Référence: </label>
+                    <div class="col-sm-9">
+                    <b-form-input  type="text" v-model="devi.reference_d" class="form-control" id="date" placeholder="" disabled/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-3 col-form-label">compte: </label>
+                    <div class="col-sm-9">
+                <select class="form-control custom-select " id="fk_compte" v-model="devi.fk_compte_d" v-on:change="getClients" >
+                    <option selected disabled>Choisir Client</option>
+<option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">
           {{compte.nom_compte}}
-        </option>
-      </b-form-select>
-     </b-col>
-    </b-row>
-          </b-container>
-      </form>
+        </option>       
+                 </select>   
+            </div>
+                
+        </div>   
+ </form>
     </b-modal>
   </div>
                  
@@ -171,8 +161,7 @@ import  Pagination from '../Pagination.vue';
 
               },
                offset: 4,
-                date : new Date(),
-
+                currentDate:"",
               devi: { 
                     
                        id_devis:0,
@@ -199,7 +188,22 @@ import  Pagination from '../Pagination.vue';
              
       }),
       mounted(){
-         
+         var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth(); 
+            var yyyy = today.getFullYear();
+             if(dd<10) 
+                {
+                    dd='0'+dd;
+                } 
+
+                if(mm<10) 
+                {
+                    mm='0'+mm;
+                } 
+            this.currentDate  = yyyy+'-'+mm+'-'+dd;
+                        console.log(this.currentDate);
+
         this.getDevis();
         this.getClients();
           this.countDevis();
@@ -207,16 +211,22 @@ import  Pagination from '../Pagination.vue';
 
       methods: {
     
-    handleOk () {
-      
-    },
+    handleOk(){
+        this.$router.push({ name: 'addDevis', params: { id_compte: this.devi.fk_compte_d ,reference_d: this.devi.reference_d ,currentDate: this.currentDate }});
+
+            },
+             clearName(){
+
+               },
+            handleSubmit(){
+
+            },
 countDevis(){
 
                 axios.get('/countDevis')
                 .then((response) => {
 
                     this.devi.reference_d='D'+response.data.count;
-                    this.devi.date_d=Date();
                 })
                 .catch(() => {
                     console.log('handle server error from here');
