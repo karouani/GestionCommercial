@@ -104,8 +104,10 @@
 </template>
 <script>
 //import { Line } from 'vue-chartjs'
+import Chart from 'chart.js';
+
+
 export default {
-  
  /* data: () => ({
    extends: Line,
   props: ['data', 'options'],

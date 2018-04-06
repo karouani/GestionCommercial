@@ -39,7 +39,9 @@ import  EditCompte from './components/Compte/EditCompte.vue'
 
 // Bon de Commande
 import  AddBonCommande from './components/BonCommande/AddBonCommande.vue' 
-import  AffAddBonCommande from './components/BonCommande/AffBonCommande.vue' 
+import  ShowBonCommandes from './components/BonCommande/ShowBonCommandes.vue' 
+import  ShowBonCommande from './components/BonCommande/ShowBonCommande.vue' 
+import  EditBonCommande from './components/BonCommande/EditBonCommande.vue' 
 
 
 
@@ -166,17 +168,12 @@ const  router = new VueRouter({
 
          {     path:"/ShowComptes",
              component: ShowComptes,
-             
+             name:"ShowComptes"
          },
          {     path:"/ShowCompte/:id_compte",
          component: ShowCompte,
          
          },
-      
-         {     path:"/ShowComptes/:success",
-         component: ShowComptes,
-         
-          },
     
          {     path:"/AddCompte",
                 component: AddCompte
@@ -195,9 +192,18 @@ const  router = new VueRouter({
         name: "addBonCommande",
         },
         {     
-         path:"/AffAddBonCommande",
-          component: AffAddBonCommande
+         path:"/ShowBonCommandes",
+          component: ShowBonCommandes,
+          name: "ShowBonCommandes",
          },
+        {     
+         path:"/ShowBonCommande/:reference_bc",
+         component: ShowBonCommande
+            },
+        {     
+         path:"/EditBonCommande/:reference_bc",
+         component: EditBonCommande
+        },           
         
     ],
    

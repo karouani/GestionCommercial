@@ -9,6 +9,11 @@
 
 <div v-if="!loading">
    <div>
+            <div class="row">
+        <div class="col">
+    <router-link class="float-right btn btn-secondary" :to="'/addCompagnie'" ><i class="fas fa-plus-circle"/> Ajouter </router-link>
+    </div>
+    </div>  
  <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testAjout">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
@@ -21,14 +26,7 @@
   </button>
   <strong>Compagnie Bien Modifier !</strong>
    </div>
-    <div class="row btnMarge">
-       
-   
-         <div class="col">
-    <!-- button pour afficher formulaire de l'ajout d un compagnie -->         
-           <router-link :to="'/addCompagnie'" class="float-right btn btn-primary">Ajouter</router-link>
-        </div>
-    </div>
+
     <!-- afficher les utilisateurs sous formes des cards  -->
     <div class="row">
         <div class="col-auto" v-for="compagnie of compagnies.data" :key="compagnie.id_compagnie" >

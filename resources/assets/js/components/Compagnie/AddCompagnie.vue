@@ -2,14 +2,11 @@
 <template>
  <div>
  <div>
-    
-<div class="row btnMarge">
-  <div class="col">
-    <!-- button pour afficher tous les utilisateurs-->
-       <router-link :to="'/getCompagnies'" class="float-left btn btn-primary">Afficher</router-link>
-  </div>
-  
-</div>
+     <div class="row">
+        <div class="col">
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/getCompagnies'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        </div>
+    </div>      
 
 <div class="text-center">
     <h2>Ajouter Compagnie</h2>
@@ -175,3 +172,18 @@ export default {
 
 }
 </script>
+<style scoped>
+a {
+  color: #999;
+  color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    
+}
+.fontsize{
+
+    font-size: 1.30rem;
+}
+</style>

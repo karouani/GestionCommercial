@@ -11,7 +11,11 @@
     </div>
 
 <div v-if="!loading">
-   
+        <div class="row">
+        <div class="col">
+    <router-link class="float-right btn btn-secondary" :to="'/AddArticles'" ><i class="fas fa-plus-circle"/> Ajouter </router-link>
+    </div>
+    </div>  
             <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
         <strong>Article bien ajouter !</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

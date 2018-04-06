@@ -13,14 +13,14 @@
 <div v-if="!loading">
    
             <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
-        <strong>Compte bien ajouter !</strong> 
+        <strong>Bon Commande bien ajouter !</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
 
         <div v-if="Testopen.testnotifEdit" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
-        <strong>Compte bien modifier !</strong> 
+        <strong>Bon Commande bien modifier !</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -69,7 +69,7 @@
                     <div class="col-sm-10">
                 <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" >
                     <option selected disabled>Choisir Client</option>
-                    <option v-for="compte of comptes.data" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
+                    <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
                 </select>                    
                 </div>
                 </div>      
@@ -96,7 +96,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" @keyup.enter="searchComptes"  class="form-control" v-model="search" placeholder="recherche par nom du Compte ou responsable " aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="text" @keyup.enter="searchBonCommande"  class="form-control" v-model="search" placeholder="recherche par nom du Compte ou responsable " aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div> 
         
@@ -108,27 +108,25 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>nom_compte</th>
-                                        <th>responsable</th>
-                                        <th>type_compte</th>
-                                        <th>fixe</th>
-                                        <th>portable</th>
-                                        <th>email</th>
+                                        <th>reference</th>
+                                        <th>date Bon commande</th>
+                                        <th>date limit</th>
+                                        <th>Montant TTC</th>
+                                        <th>nom societe</th>
                                         <th>options</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr  v-for="compte of comptes.data" :key="compte.id_compte" >
-                                        <td>{{compte.nom_compte}}</td>
-                                        <td>{{compte.responsable}}</td>
-                                        <td>{{compte.type_compte}}</td>
-                                        <td>{{compte.fixe}} </td>    
-                                        <td>{{compte.portable}} </td>  
-                                        <td>{{compte.email}} </td>    
+                                    <tr  v-for="bonCommande of bonCommandes.data" :key="bonCommande.id_bc" >
+                                        <td>{{bonCommande.reference_bc}}</td>
+                                        <td>{{bonCommande.date_bc}}</td>
+                                        <td>{{bonCommande.date_limit_bc}}</td>
+                                        <td>{{bonCommande.montant_ttc_bc}} </td>    
+                                        <td>{{bonCommande.nom_compte}} </td>  
                                         <td  class="optionsWidth"> 
-                                            <a href="#"    @click="redirect_To_ShowCompte(compte.id_compte)"  class="btn btn-primary"  ><i class="fas fa-eye d-inline-block"></i></a>
-                                         <router-link class="btn btn-success " :to="'/EditCompte/'+compte.id_compte"><i class="fas fa-edit d-inline-block"></i></router-link>
-                                             <a @click="deleteCompte(compte)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
+                                            <a href="#"    @click="redirect_To_ShowBonCommande(bonCommande.reference_bc)"  class="btn btn-primary" ><i class="fas fa-eye d-inline-block"></i></a>
+                                         <router-link class="btn btn-success " :to="'/EditBonCommande/'+bonCommande.reference_bc"><i class="fas fa-edit d-inline-block"></i></router-link>
+                                             <a @click="deleteBonCommande(bonCommande)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
                                     </tr>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     </div>
@@ -142,8 +140,8 @@
             </div>
     </div>
     
-    <vue-pagination  :pagination="comptes"
-                     @paginate="getcomptes()"
+    <vue-pagination  :pagination="bonCommandes"
+                     @paginate="getBonCommandes()"
                      :offset="4">
     </vue-pagination>
     </div>
@@ -189,7 +187,7 @@ import  Pagination from '../Pagination.vue';
               // tester  si affiche articles  ou afficher ajouter article 
               
               // initialisation d un article 
-              comptes:{
+              bonCommandes:{
                         
                         total: 0,
                         per_page: 2,
@@ -199,6 +197,7 @@ import  Pagination from '../Pagination.vue';
                         data: [],
 
               },
+              comptes: [],
                offset: 4,
 
 
@@ -220,6 +219,31 @@ import  Pagination from '../Pagination.vue';
                     RC : "",
                     fk_compagnie : "",
                     adresse_compte:""
+              },
+               bonCommande : { 
+            id_bc:0,
+            reference_bc:"",
+            date_bc:"", 
+            type_operation_bc:"",
+            objet_bc:"",
+            date_emission_bc:"",
+            remise_total_bc:"",
+            majoration_bc:"",
+            date_limit_bc:"",
+            introduction_bc:"",  
+            conditions_reglements_bc:"",
+            notes_bc:"",
+            accompte_bc:"",
+            adresse_bc:"",
+            fk_status_bc:"",
+            fk_compte_bc:"",
+            fk_user_bc:"",
+            total_ht_bc: 0,
+            remise_ht_bc: 0,
+            montant_net_bc: 0,
+            tva_montant_bc: 0,
+            montant_ttc_bc: 0,
+      
               },
             
              
@@ -245,6 +269,7 @@ import  Pagination from '../Pagination.vue';
             this.countBonCommandes()
             console.log(this.currentDate);
             console.log('test date ')
+            this.getClients();
           if( this.$route.params.success == "addsuccess"){
              
                         this.Testopen.testnotifAdd = true;
@@ -283,7 +308,19 @@ import  Pagination from '../Pagination.vue';
   },
 
       methods: {
-                  countBonCommandes(){
+         getClients(){
+                axios.get('/getClients')
+                .then((response) => {
+                    this.comptes = response.data.comptes;
+                    console.log(response.data.comptes);
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
+
+           countBonCommandes(){
 
                 axios.get('/countBonCommandes')
                 .then((response) => {
@@ -302,18 +339,19 @@ import  Pagination from '../Pagination.vue';
               let this1 = this
                setTimeout(function () { this1.Testopen.testnotifAdd = false }, 1000);
           },
-          searchComptes(event){
+          searchBonCommande(event){
              console.log(this.search);
-             this.comptes.current_page=1;
+             this.bonCommandes.current_page=1;
              if(this.search === ""){
                 //console.log('test2');
-                    this.getcomptes();}
+                    this.getBonCommandes();}
                 else {
                      // console.log('test1');
-                axios.get('/searchComptes/'+this.search+'?page='+this.comptes.current_page+'')
+                axios.get('/searchBonCommande/'+this.search+'?page='+this.bonCommandes.current_page+'')
                 .then((response) => {
-                  
-                    this.comptes = response.data.comptes;
+                  console.log('serchhhh ')
+                  console.log(response.data.boncommandes)
+                    this.bonCommandes = response.data.boncommandes;
                   
                 })
                 .catch(() => {
@@ -326,23 +364,18 @@ import  Pagination from '../Pagination.vue';
       //this.error = this.post = null
       this.loading = true
       // replace `getPost` with your data fetching util / API wrapper
-   
-      axios.get('/getComptes?page='+this.comptes.current_page+'')
-                .then((response) => {
-                  
-                    this.comptes = response.data.comptes;
-                  this.loading = false;
-                })
-                .catch(() => {
-                    console.log('handle server error from here');
-                });
+  console.log("getBC mazal ")
+   this.getBonCommandes();
+
     },
-          getcomptes(){
-                axios.get('/getComptes?page='+this.comptes.current_page+'')
+          getBonCommandes(){
+               axios.get('/getBonCommandes?page='+this.bonCommandes.current_page+'')
                 .then((response) => {
-                 // console.log('shit');
-                    this.comptes = response.data.comptes;
+                  this.loading = false;
+                    this.bonCommandes = response.data.bonCommandes;
                   
+                  console.log(response.data.bonCommandes)
+                  console.log("getBC oook ")
                 })
                 .catch(() => {
                     console.log('handle server error from here');
@@ -352,7 +385,7 @@ import  Pagination from '../Pagination.vue';
 
 
 
-             deleteCompte:function(compte){
+             deleteBonCommande:function(bonCommande){
 
 
                         this.$swal({
@@ -365,10 +398,10 @@ import  Pagination from '../Pagination.vue';
                         confirmButtonText: 'Oui, supprimez-le!'
                                                 }).then((result) => {
                         if (result.value) {
-                            axios.delete('/deleteCompte/'+compte.id_compte).then(
+                            axios.delete('/deleteBonCommande/'+bonCommande.id_bc).then(
                                         response => {
                                 
-                                            this.getcomptes();
+                                            this.getBonCommandes();
                                         });
                         this.$swal(
                         'Supprimé!',
@@ -379,17 +412,9 @@ import  Pagination from '../Pagination.vue';
 })
 
         },
-        getCompte:function(compte){
-              
-                  axios.get('/getCompte/'+compte.id_compte).then(
-                  response => {
-                       
-                    this.compte= response.data.compte;
-                    this.modalShow = !this.modalShow
-                  });         
-        },
-                redirect_To_ShowCompte(id_compte){
-                     this.$router.push('/ShowCompte/'+id_compte);
+
+                redirect_To_ShowBonCommande(reference_bc){
+                     this.$router.push('/ShowBonCommande/'+reference_bc);
             },
 
          /*   generatePdfHtml(){
@@ -502,7 +527,7 @@ table{
 
 .notifArticle{
     opacity:0.9;
-    width: 241px;
+    width: 295px;
     z-index: 100;
     top: 61px;
     right: 0;
