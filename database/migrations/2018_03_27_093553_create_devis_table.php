@@ -35,7 +35,7 @@ class CreateDevisTable extends Migration
             $table->double('tva_montant_d')->nullable();
             $table->double('montant_ttc_d')->nullable();
 
-            $table->integer('fk_status_d')->nullable();
+            $table->string('fk_status_d')->nullable();
             $table->integer('fk_compte_d')->nullable();
             $table->integer('fk_user_d')->nullable();
             $table->softDeletes();

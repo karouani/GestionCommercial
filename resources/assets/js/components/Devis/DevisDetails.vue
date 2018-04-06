@@ -1,67 +1,49 @@
 <template>
-  <div>
-     <center> <h3>Informations du Devis</h3></center>
-     <hr>
-        <div class="row">
-        <div class="col-sm-6">
-            <div class="card">
-            <div class="card-body">
-                
-                <p class="card-text">
-                   
-                   <span>Reference : </span>{{devi.reference_d}}
-                    <hr>
-                    <span>Date : </span>{{devi.date_d}}
-                    <hr>
-                   <span>Type Operation : </span>{{devi.type_operation}} 
-                   <hr>
-                   <span>Objet : </span>{{devi.objet_d}}
-                   <hr>
-                   <span>Date d'émission :  </span>{{devi.date_emission_d}}
-                   <hr>
-                   <span>Remise Total : </span>{{devi.remise_total_d}}
-                   <hr>
-                    <span>Majoration :  </span>{{devi.majoration_d}}
-                   <hr>
-                   <span>Date Limit : </span>{{devi.date_limit_d}}
-                </p>
-                
-            </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-            <div class="card-body">
-              
-                <p class="card-text">
-                   <span>Introduction : </span>{{devi.introduction_d}}
-                   <hr>
-                   <span>Conditions de reglements : </span>{{devi.conditions_reglements_d}}
-                   <hr>
-                   <span>Notes : </span>{{devi.notes_d}}  
-                   <hr>
-                   <span>Accompte : </span>{{devi.accompte_d}}  
-                   <hr>
-                   <span>Status : </span>{{devi.fk_status_d}}  
-                   <hr>
-                   <span>Compte : </span>{{devi.nom_compte}}  
-                </p>
-               
-            </div>
-            </div>
-        </div>
-        </div>
-  
-  <hr>
-        <div class="text-center">
-    <h4>Commandes</h4>
-    <hr>
+<div class=" container colBackround">
+          
+<div class="row">
+    <div class="col">
+        <br>
+    <h5><i class="far fa-file"></i> Informations du Devis : <strong>{{devi.reference_d}}</strong></h5>
     </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+            <div class="top form-group row">
+                <label for="inputPassword" class="col-sm-12 col-form-label"><strong>Devis {{devi.reference_d}} [{{devi.montant_ttc_d}} DH]</strong> </label>
+
+            </div>
+            <div class="top form-group row">
+                <label for="inputPassword" class="col-sm-12 col-form-label">Date : {{devi.date_d}}</label>
+            </div>
+            <div class="top form-group row">
+                <label for="inputPassword" class="col-sm-12 col-form-label">Validité : {{devi.date_limit_d}}  </label>
+            </div>
+            <div class="top form-group row">
+                <label for="inputPassword" class="col-sm-12 col-form-label">Vendeur : {{devi.nom_societe}}  </label>
+            </div>
+          
+    </div>
+    <div class="col-md-6 col-sm-12">
+        
+        <div class="container  infoClient">
+            <label class="compte" for="">{{devi.nom_compte}} </label>
+            <div class="form-group row">
+            <div class="col-sm-10">
+            {{devi.adresse_d}}
+            </div>
+         </div>
+        </div>
+    </div>
+</div>
+<hr>
+
   <div>     
         
                      <table class="table table-bordered tableau">
                             <thead>
-                          <tr>
+                          <tr class="heade">
                             <th>Article</th>
                             <th>Quantite</th>
                             <th>Remise</th>
@@ -71,7 +53,7 @@
                             <th>Total HT</th>
                           </tr>                           
                         </thead>
-                         <tbody>
+                         <tbody class="boby-table">
                           <tr v-for="(commande,index) in commandes" :key="index" >
                             <th> {{commande.designation}}</th>
                             <th>{{commande.quantite_cmd}}</th>
@@ -79,7 +61,7 @@
                             <th> {{commande.majoration_cmd}}</th>
                             <th>{{commande.prix_ht}}</th>
                             <th>{{commande.taux_tva}} </th> 
-                            <th>{{commande.totalHT}} </th> 
+                            <th>{{commande.total_ht_cmd}} </th> 
 
                          </tr>              
                         </tbody>
@@ -87,34 +69,85 @@
 
                          </table>
   </div>
-   <div class="text-center">
-       <hr>
-    <h3>Mode Paiement</h3>
-    <hr>
-    </div>
-       
-     <div class="row">
-         <div class="col-6">
-           <div class="card">
-            <div class="card-body">
-                
-                <p class="card-text">
-                   
-                   <span> Type Paiement : </span>{{modePaiement.type_paiement }}
-                    <hr>
-                    <span>Reference Paiement : </span>{{modePaiement.reference_paiement}}
-                    <hr>
-                   <span>Date Paiement : </span>{{modePaiement.date_paiement}} 
-                  
-                   
-              
-                </p>
-                
+<hr>
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
+                <div class="col-sm-8 cam">
+                {{devi.date_limit_d}}
+                </div>
             </div>
-            </div>             
+            <div class="form-group row">
+                    <label for="type_paiement" class="col-sm-4 col-form-label" > Type Paiement </label>
+                <div class="col-sm-8">
+                {{devi.type_paiement}}
+                   
+                </div>
+            </div>
+                <div class="form-group row">
+                    <label for="reference_paiement"  class="col-sm-4 col-form-label" >Reference Paiement </label>
+                    <div class="col-sm-8">
+                    {{devi.reference_paiement}}
+                    </div>
+                </div> 
+                 <div class="form-group row">
+                    <label for="date_paiement"  class="col-sm-4 col-form-label" >Date Paiement </label>
+                    <div class="col-sm-8">
+                    
+                    {{devi.date_paiement}} 
+                    </div>
+                </div>  
+                <div class="form-group row">
+                    <label for="remise_total_d"  class="col-sm-4 col-form-label" >Remise Total </label>
+                    <div class="col-sm-8">
+                    {{devi.remise_total_d}}
+                    </div>
+                </div>                  
+                      
+
+                                 
+    </div>
+    <div class="col-md-6 col-sm-12">
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Total HT </label>
+            <div class="col-sm-8 cal">
+            {{devi.total_ht_d}}
+            </div>
          </div>
-     </div>
-  </div>
+   
+       
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Remise Total (montant) </label>
+            <div class="col-sm-8 cal">
+            {{devi.remise_ht_d}}
+            </div>
+         </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label"> Montant Net HT  </label>
+            <div class="col-sm-8 cal">
+            {{devi.montant_net_d}}
+            </div>
+         </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">TVA (Montant) </label>
+            <div class="col-sm-8 cal">
+            {{devi.tva_montant_d}}
+            </div>
+         </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Montant TTC (Montant) </label>
+            <div class="col-sm-8 cal">
+            {{devi.montant_ttc_d}}
+            </div>
+         </div>
+   
+ </div>
+
+        
+</div>
+
+</div>
 </template>
 <script>
     
@@ -128,6 +161,7 @@
             id_devis:0,
             reference_d:"",
             date_d:"", 
+            adresse_d:"",
             type_operation:"",
             objet_d:"",
             date_emission_d:"",
@@ -145,7 +179,14 @@
             designation:"",
             nom_compte:"",
             taux_tva:"",
+
+            total_ht_d:0,
+            remise_ht_d:0,
+            montant_net_d:0,
+            tva_montant_d:0,
+            montant_ttc_d:0,
       
+            nom_societe:"",
               },
               // tableau des devis 
               devis :[],
@@ -158,7 +199,7 @@
             total_prix:0,
             remise_T:0,
               //commandes
-           cmd: {},
+      
               commande:{
                   id_cmd:0,
                 quantite_cmd:1,
@@ -172,22 +213,13 @@
                //affichage
                
                desig:"",
-                totalHT:0,
-
+                total_ht_cmd:0,
+                taux_tva:0,
 
                 
               },
               commandes:[],
-                //mode paiement
-                modePaiement:{
-                        id_modeP:0,
-                        type_paiement:"",
-                        reference_paiement:"",
-                        date_paiement:"",
-                        fk_document:"",
-
-                },
-                modePaiements:[],
+            
 
           }),
           methods:{
@@ -195,47 +227,148 @@
        getDevisD:function(id_devis){
                   axios.get('/getDevisD/'+id_devis).then(
                   response => {
-                         //console.log(response.data.articles);
+                         //console.log(response.data.devi.fk_compte_d);
 
-                    this.devi= response.data.devi;
+                    this.devi= response.data.devi[0];
 
                   });     
         },
         getCommandes:function(id_devis){
                   axios.get('/getCommandes/'+'D'+id_devis).then(
                   response => {
-                      // console.log("commandes:  ");
-                         //console.log(response.data.commandes);
+                      console.log("commandes:  ");
+                         console.log(response.data.commandes);
 
                     this.commandes= response.data.commandes;
                     // this.commande.fk_article= response.data.articles;
 
                   });     
         },
-        getPaiement:function(id_devis){
-                  axios.get('/getPaiement/'+'D'+id_devis).then(
+
+       /* tauxTva(){
+            axios.get('/tauxTva/'+commandes.fk_tva_cmd).then(
                   response => {
-                      console.log("paiement")
-                    this.modePaiement= response.data.modePaiement[0];
-                   console.log(response.data.modePaiement[0])
-                  });     
-        },
-          },
+                      console.log(response.data.taux_tva.taux_tva)
+                    this.commande.taux_tva= response.data.taux_tva.taux_tva;
+                   //console.log(response.data.modePaiement[0])
+                  });
+
+        }*/
+        
+    },
            
           mounted(){
               this.devi.id_devis = this.$route.params.id_devis;
               this.getDevisD(this.devi.id_devis);
               this.getCommandes(this.devi.id_devis);
-              this.getPaiement(this.devi.id_devis);
+
           }
 
       }
 </script>
 <style scoped>
-.card-header{
-    background-color: #42a5f5;
+ .btnMarge{
+     padding-bottom: 10px;
+ }
+ .widthCard{
+     width: 270px;
+     height: 350px;
+     
+ }
+ .widthTextCard{
+     width  : 236px;
+     height: 13px;
+ }
+ a {
+  color: #999;
+  color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    
 }
-span{
-    color:#4278f5;
+.current {
+  color: red;
+}
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+li {
+  display: inline;
+  margin: 5px 5px;
+}
+
+a.first::after {
+  content:'...'
+}
+
+a.last::before {
+  content:'...'
+}
+.cardbox:hover{
+ box-shadow: 1px 2px 2px 2px #c9ced2;
+}
+.mr-4{
+    margin-right: 0rem!important;
+    width:100px;
+}
+.colBackround{
+     background-color: whitesmoke;
+    box-shadow: 1px 1px 3px 4px #d2cfcf;
+}
+.infoClient{
+
+    background-color:  #42a5f529;
+
+}
+.AdressClient{
+    width: 121%;
+}
+
+.noteCondition{
+    width: 77%;
+}
+.calculePadding{
+    padding-left: 50%;
+}
+.top{
+        margin-left: 100px;
+    margin-bottom: 0rem;
+}
+.compte{
+        color: blue;
+    font-size: large;
+}
+
+
+.table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table td, .table th {
+    border: 0px solid #ddd;
+    padding: 8px;
+}
+
+.table tr:nth-child(even){background-color: rgb(236, 236, 236);}
+
+
+.heade {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    color: #898585;
+    background-color: #d8e9f6;
+}
+
+.form-group{
+    margin-bottom: 0rem;
+}
+.cal{
+padding-right: 0px;
 }
 </style>

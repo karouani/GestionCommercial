@@ -1,10 +1,10 @@
 <template>
 <div class=" container colBackround">
-          <form   @submit.prevent="addDevis">
+          <form   @submit.prevent="updateDevis">
 <div class="row">
     <div class="col">
         <br>
-    <h5><i class="far fa-file"></i> Ajouter un devis : <strong>{{devi.reference_d}}</strong></h5>
+    <h5><i class="far fa-file"></i> Modifier un devis : <strong>{{devi.reference_d}}</strong></h5>
     </div>
 </div>
 <hr>
@@ -13,10 +13,8 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Compte  </label>
                 <div class="col-sm-10">
-                    <select class="form-control custom-select " id="id_compte" v-model="compte.id_compte" @change="getClient(compte.id_compte)">
-                    <option selected disabled>Choisir Compte</option>
-                    <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">{{compte.nom_compte}}</option>
-                </select>
+             <input type="text" class="form-control" v-model="devi.fk_compte_d" id="inputPassword" placeholder="">
+    
                 </div>
             </div>
             <div class="form-group row">
@@ -36,7 +34,7 @@
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
-            <label for="">{{compte.nom_compte}} </label>
+            <label for="">{{devi.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
             <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="devi.adresse_d"></textarea>
@@ -66,7 +64,7 @@
                                     <tbody>
                              <tr v-for="(commande,index) in commandes" :key="index" >
                             <th>  <input class="mr-4"  type="text" v-model="commande.fk_article" disabled hidden>
-                           <input class="form-control"  type="text" v-model="commande.desig" disabled >
+                           <input class="form-control"  type="text" v-model="commande.designation" disabled >
                            
                             </th>
                             <th><input class="mr-4"  type="text" v-model="commande.quantite_cmd" ></th>
@@ -82,7 +80,7 @@
 
                             </th> 
                             <th>  <input class="form-control"  type="text" v-model="commande.total_ht_cmd" disabled></th>
-                            <th><a  class="btn btn-danger" @click="removeRow(index)"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                            <th><a  class="btn btn-danger" @click="spliceCommande(index,commande)"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                             </tr>
                     <tr>
                         <th>
@@ -292,6 +290,7 @@
             tva_montant_d:0,
             montant_ttc_d:0,
       
+      nom_compte:"",
               },
               compte:{
                   id_compte:0,
@@ -304,7 +303,7 @@
               tvas:[],
               articles:[],
               comptes:[],
-            
+            suppCommandes :[],
             index:0,
             // total de prix de tt les commandes
             total_prix:0,
@@ -332,8 +331,8 @@
                //affichage
                // % de tva
                taux_tva:0,
-               // designation d'article pr chaque commande
-               desig:"",
+               // designationnation d'article pr chaque commande
+               designation:"",
                // montant total de chaque commande
                 total_ht_cmd:0,
               },
@@ -369,7 +368,7 @@ methods: {
                fk_tva_cmd:commande.fk_tva_cmd,
 
               
-               desig:commande.desig,
+               designation:commande.designation,
                total_ht_cmd:commande.total_ht_cmd,
                total_ht:commande.total_ht,
                tva_montant:commande.tva_montant,
@@ -389,8 +388,8 @@ this.commande = {
                //affichage
                // % de tva
                taux_tva:0,
-               // designation d'article pr chaque commande
-               desig:"",
+               // designationnation d'article pr chaque commande
+               designation:"",
                // montant total de chaque commande
                 total_ht_cmd:0,
                 };
@@ -401,20 +400,35 @@ this.commande = {
     
     },
 
-
-    addDevis(){ 
-
-        axios.post('/addDevis',{commandes:this.commandes,devis:this.devi,modePaiements:this.modePaiement})
-        .then(response => {         
+ updateDevis: function(){
+        axios.post('/updateDevis',{devis:this.devi,commandes:this.commandes,modePaiements:this.modePaiement,suppCommandes: this.suppCommandes}).then( response => {             
+                    this.$router.push('/getDevis/editsuccess');  
+                    
                   
-                this.$router.push('/getDevis');
-        })
-        .catch(() => {
-                console.log('handle server error from here');
-        });
-            
-    },
-    
+                  });
+                  
+           
+        },
+        
+        spliceCommande(index,commande){
+            this.commandes.splice(index, 1);
+                        this.suppCommandes.push(commande);
+                        console.log('supp ----------');
+                        console.log(this.suppCommandes)
+        },  
+
+    getPaiement(id_devis){
+        console.log("referennnce")
+        console.log();
+        
+     axios.get('/getPaiement/'+'D'+id_devis).then(
+                  response => {
+                         console.log(response.data.modePaiement);
+
+                    this.modePaiement= response.data.modePaiement[0];
+
+                  }); 
+},
         // Taux de tva
     tauxTva(){
         axios.get('/tauxTva/'+this.commande.fk_tva_cmd)
@@ -438,23 +452,7 @@ this.commande = {
                 console.log('handle server error from here');
         });
     },
-        
-        //Reference de devis
-   /* countDevis(){
 
-        axios.get('/countDevis')
-            .then((response) => {
-
-                    this.devi.reference_d='D'+response.data.count;
-                    this.commande.fk_document='D'+response.data.count;
-                    this.modePaiement.fk_document='D'+response.data.count;
-
-                  
-            })
-            .catch(() => {
-                    console.log('handle server error from here');
-            });
-    },*/
         // recuperer tvas
     getTvas(){
                 
@@ -480,6 +478,19 @@ this.commande = {
                     console.log('handle server error from here');
             });
     },
+    getClient(devi){
+                console.log("compteee "+devi.fk_compte_d);
+        axios.get('/getClient/'+devi.fk_compte_d)
+            .then((response) => {
+                    this.compte = response.data.compte;
+                    this.getRemise(devi.fk_compte_d)
+                  this.devi.adresse_d=response.data.compte.adresse_compte;
+            })
+            .catch(() => {
+                    console.log('handle server error from here');
+        });
+    },
+
         // recuperer des infos sur un article
     getPrixArticle(){
            
@@ -489,8 +500,8 @@ this.commande = {
                     this.commande.prix_ht=response.data.article[0].prix_ht_vente;
                         // fk de tva d'article
                     this.commande.fk_tva_cmd=response.data.article[0].fk_tva_applicable;
-                        // designation d'article
-                    this.commande.desig=response.data.article[0].designation;
+                        // designationnation d'article
+                    this.commande.designation=response.data.article[0].designation;
                     this.tauxTva();
                   
             })
@@ -515,30 +526,27 @@ this.commande = {
                     console.log('handle server error from here');
             });
     },
-        // recuperer liste des clients
-    getClients(){
-                
-        axios.get('/getClients')
-            .then((response) => {
-                    this.comptes = response.data.comptes;
-                  
-            })
-            .catch(() => {
-                    console.log('handle server error from here');
-        });
-    },
-    getClient(id_compte){
-                
-        axios.get('/getClient/'+id_compte)
-            .then((response) => {
-                    this.compte = response.data.compte;
-                    this.getRemise(id_compte)
-                  this.devi.adresse_d=response.data.compte.adresse_compte;
-            })
-            .catch(() => {
-                    console.log('handle server error from here');
-        });
-    },
+  getDevisD:function(id_devis){
+                  axios.get('/getDevisD/'+id_devis).then(
+                  response => {
+                         //console.log(response.data.devi.fk_compte_d);
+
+                    this.devi= response.data.devi[0];
+
+                  });     
+        },
+        getCommandes:function(id_devis){
+                  axios.get('/getCommandes/'+'D'+id_devis).then(
+                  response => {
+                      console.log("commandes:  ");
+                         console.log(response.data.commandes);
+
+                    this.commandes= response.data.commandes;
+                    // this.commande.fk_article= response.data.articles;
+
+                  });     
+        },
+
 },
     
     
@@ -651,21 +659,19 @@ watch:{
 
     mounted(){
  console.log('----------------')
-            console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_d+
-            " / " + this.$route.params.currentDate)
-            this.devi.date_d=this.$route.params.currentDate;
-            this.devi.reference_d=this.$route.params.reference_d;
-            this.commande.fk_document=this.$route.params.reference_d;
-            this.modePaiement.fk_document=this.$route.params.reference_d;
-            this.devi.fk_compte_d=this.$route.params.id_compte;
+  
+            this.devi.id_devis = this.$route.params.id_devis;
 
             this.getStatus();
             //this.countDevis();
             this.getTvas();
             this.getarticles();
-            this.getClients();
-            this.getClient(this.$route.params.id_compte);
-            this.getRemise(this.$route.params.id_compte);
+           this.getClient(this.devi.id_devis)
+
+            console.log(this.devi.id_devis);
+              this.getDevisD(this.devi.id_devis);
+              this.getCommandes(this.devi.id_devis);
+              this.getPaiement(this.devi.id_devis);
 }
 }   
 </script>

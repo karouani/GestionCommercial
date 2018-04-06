@@ -11,7 +11,25 @@
     </div>
 
 <div v-if="!loading">
-   
+              <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
+        <strong>Devis bien ajouter !</strong> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+
+        <div v-if="Testopen.testnotifEdit" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
+        <strong>Devis bien modifier !</strong> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="row">
+ <div class="col">
+    <!-- button pour afficher formulaire de l'ajout d un compagnie -->  
+              <b-btn v-b-modal.modalPrevent class="float-right btn btn-primary"><i class="fas fa-plus-circle"/> Ajouter</b-btn>
+        </div>
+        </div>
     <hr>
     <!-- formulaire pour Ajouter un devi -->
    
@@ -23,10 +41,7 @@
              <div class="card">
                         <div class="card-header bg-light">
                             <div class="row btnMarge">
- <div class="col">
-    <!-- button pour afficher formulaire de l'ajout d un compagnie -->  
-              <b-btn v-b-modal.modalPrevent>Ajouter</b-btn>
-        </div>
+
          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          </div>
     </div>
@@ -38,25 +53,27 @@
                                     <thead>
                                     <tr>
                                         <th>reference</th>
+                                        <th>Nom Societe </th>
                                         <th>date devis</th>
                                         <th>date limit</th>
-                                        <th>Quantite:</th>
-                                        <th>Nom Societe </th>
+                                        <th>Status</th>                                        
+                                        <th>Montant TTC</th>
                                         <th>options</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr  v-for="devi of devis.data" :key="devi.id_devis" >
                                         <td>{{devi.reference_d}}</td>
+                                        <td>{{devi.nom_compte}} </td>
                                         <td>{{ devi.date_d}}</td>
                                         <td>{{devi.date_limit_d}}</td>
-                                        <td>{{devi.type_operation}} </td> 
-                                        <td>{{devi.nom_compte}} </td>
+                                        <td>{{devi.fk_status_d}} </td> 
+                                        <td>{{devi.montant_ttc_d}} </td> 
                                         
                                        <td  class="optionsWidth"> 
                                             <router-link class="btn btn-primary " :to="'/DevisDetails/'+devi.id_devis "><i class="fas fa-eye d-inline-block"></i></router-link>
                                          <router-link class="btn btn-success " :to="'/EditDevis/'+devi.id_devis "><i class="fas fa-edit d-inline-block"></i></router-link>
-                                             <a class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
+                                             <a @click="deleteDevis(devi)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
                                     </tr>
                                    
                                     </tbody>
@@ -68,7 +85,7 @@
     <!-- Modal Component -->
     <b-modal id="modalPrevent"
              ref="modal"
-             title="Devis"
+             title="+ Devis"
              @ok="handleOk"
              ok-title="Enregistrer"
              @shown="clearName">
@@ -164,7 +181,7 @@ import  Pagination from '../Pagination.vue';
                 currentDate:"",
               devi: { 
                     
-                       id_devis:0,
+            id_devis:0,
             reference_d:"",
             date_d:"", 
             type_operation:"",
@@ -207,6 +224,7 @@ import  Pagination from '../Pagination.vue';
         this.getDevis();
         this.getClients();
           this.countDevis();
+    
       },
 
       methods: {
@@ -256,10 +274,37 @@ countDevis(){
                     console.log('handle server error from here');
                 });
           },
+          
+       deleteDevis(devi){
+
+
+                        this.$swal({
+                        title: 'Etes-vous sur?',
+                        text: "Vous ne serez pas capable de revenir a cela!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Oui, supprimez-le!'
+                                                }).then((result) => {
+                        if (result.value) {
+                            axios.delete('/deleteDevis/'+devi.id_devis).then(
+                                        response => {
+                                
+                                            this.getDevis();
+                                        });
+                        this.$swal(
+                        'Supprimé!',
+                        'Votre compte a été supprimé',
+                        'success'
+                        )
+  }
+})
+
+        },  
    },
 
 
-        
       
 
     }

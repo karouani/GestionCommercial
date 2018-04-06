@@ -83,7 +83,8 @@ Route::get('/getDevisD/{id_devis}','DevisController@getDevisD');
 Route::get('/getCommandes/{fk_document}','DevisController@getCommandes');
 Route::get('/getPaiement/{fk_document}','DevisController@getPaiement');
 Route::get('/tauxTva/{fk_tva_cmd}','DevisController@tauxTva');
-
+Route::post('/updateDevis','DevisController@updateDevis');
+Route::delete('/deleteDevis/{id_devis}','DevisController@deleteDevis');
 //----------------------------------------------------------------------
 //Compte 
 Route::post('/addCompte','CompteController@addCompte');
@@ -117,7 +118,7 @@ Route::get('/countBonCommandes','BonCommandeController@countBonCommandes');
 Route::get('/getPrixArticle_bc/{fk_article}','BonCommandeController@getPrixArticle_bc');
 Route::get('/getCommandes/{fk_document}','BonCommandeController@getCommandes_bc');
 Route::get('/getPaiement_bc/{fk_document}','BonCommandeController@getPaiement_bc');
-Route::get('/tauxTva_bc/{fk_tva_cmd}','BonCommandeController@tauxTva_bc');
+Route::get('/tauxTva_bc/{id_tva}','BonCommandeController@tauxTva_bc');
 
 
 
