@@ -116,10 +116,17 @@ Route::get('/getRemise/{fk_compte}','CompteController@getRemise');
 Route::post('/addBonCommande','BonCommandeController@addBonCommande');
 Route::get('/countBonCommandes','BonCommandeController@countBonCommandes');
 Route::get('/getPrixArticle_bc/{fk_article}','BonCommandeController@getPrixArticle_bc');
-Route::get('/getCommandes/{fk_document}','BonCommandeController@getCommandes_bc');
+Route::get('/getCommandes_bc/{fk_document}','BonCommandeController@getCommandes_bc');
 Route::get('/getPaiement_bc/{fk_document}','BonCommandeController@getPaiement_bc');
 Route::get('/tauxTva_bc/{id_tva}','BonCommandeController@tauxTva_bc');
 
+Route::get('/getBonCommandes','BonCommandeController@getBonCommandes');
+Route::get('/getBonCommande/{id_bc}','BonCommandeController@getBonCommande');
+Route::get('/searchBonCommande/{search_BC}','BonCommandeController@searchBonCommande');
+
+Route::delete('/deleteBonCommande/{id_bc}','BonCommandeController@deleteBonCommande');
+Route::get('/showBonCommande/{reference_bc}','BonCommandeController@showBonCommande');
+Route::post('/UpdateBonCommande','BonCommandeController@UpdateBonCommande');
 
 
 Auth::routes();

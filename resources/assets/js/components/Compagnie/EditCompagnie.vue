@@ -1,5 +1,10 @@
  <template>
     <div>
+        <div class="row">
+        <div class="col">
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/getCompagnies'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        </div>
+    </div> 
         <div class="text-center">
     <h2>Modifier Compagnie</h2>
     </div>
@@ -7,11 +12,11 @@
         
             <div class="form-group col-md-6">
       <label for="inputEmail4">Raison Sociale</label>
-      <input type="text" class="form-control" id="inputEmail4" v-model="compagnie.raison_sociale" placeholder="Raison Social">
+      <input type="text" class="form-control" id="inputEmail4" v-model="compagnie.raison_sociale" placeholder="">
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">Taille Compagnie</label>
-      <input type="text" class="form-control" id="inputPassword4" v-model="compagnie.taille_comp" placeholder="Taille de Compagnie">
+      <input type="text" class="form-control" id="inputPassword4" v-model="compagnie.taille_comp" placeholder="">
     </div>
 
   </div>
@@ -20,11 +25,11 @@
   <div class="row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Nom Societe</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.nom_societe" placeholder="Secteur d'Activité">
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.nom_societe" placeholder="">
     </div>
     <div class="form-group col-md-6">
       <label for="inputEmail4">Secteur d'Activité</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.secteur_activite" placeholder="Secteur d'Activité">
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.secteur_activite" placeholder="">
     </div>
 
   </div>
@@ -32,11 +37,11 @@
 <div class="row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Code Postale</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.cp_comp" placeholder="Code Postale">
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.cp_comp" placeholder="">
     </div>
     <div class="form-group col-md-6">
       <label for="inputEmail4">Ville</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.ville_comp" placeholder="Ville de Compagnie">
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.ville_comp" placeholder="">
     </div>
 
   </div>
@@ -44,11 +49,11 @@
 <div class="row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Pays</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.pays_comp" placeholder="Pays">
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.pays_comp" placeholder="">
     </div>
     <div class="form-group col-md-6">
       <label for="inputEmail4">Téléphone</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.tel_comp" placeholder="télephone">
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.tel_comp" placeholder="">
     </div>
 
   </div>
@@ -56,18 +61,18 @@
 <div class="row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Fix</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.fix_comp" placeholder="fix">
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.fix_comp" placeholder="">
     </div>
     <div class="form-group col-md-6">
       <label for="inputEmail4">Site Web</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.webSite_comp" placeholder="Site web">
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.webSite_comp" placeholder="">
     </div>
 
   </div>
     <div class="row">
      <div class="form-group col-md-6">
       <label for="inputEmail4">Adresse</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.adresse_comp" placeholder="Adresse de Compagnie">
+      <input type="text" class="form-control" id="inputname4" v-model="compagnie.adresse_comp" placeholder="">
     </div>
   <div class="form-group col-md-6">
   <div class="form-group">
@@ -231,6 +236,13 @@ a.last::before {
 }
 .cardbox:hover{
  box-shadow: 1px 2px 2px 2px #c9ced2;
+}
+
+
+
+.fontsize{
+
+    font-size: 1.30rem;
 }
 </style>
 

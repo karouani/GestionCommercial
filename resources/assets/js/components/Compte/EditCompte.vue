@@ -1,6 +1,10 @@
 <template>
     <div>
-
+    <div class="row">
+        <div class="col">
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowComptes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        </div>
+    </div>   
         <div class="text-center pull-right" >
     <h2>Ajouter Compte</h2>
     <hr>   
@@ -293,8 +297,7 @@
                 console.log(this.condition_facture)*/
 
                   axios.post('/updateCompte',{compte: this.compte, contacts: this.contacts, condition_facture: this.condition_facture,suppContacts: this.suppContacts}).then( response => {             
-                    this.$router.push('/ShowComptes/editsuccess');  
-                    
+                    this.$router.push({ name: 'ShowComptes', params: { success: "editsuccess"  }});
                   
                   });
                   
@@ -405,6 +408,17 @@
 
 <style scoped>
  
- 
+ a {
+  color: #999;
+  color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    
+}
+.fontsize{
 
+    font-size: 1.30rem;
+}
 </style>

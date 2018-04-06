@@ -1,7 +1,21 @@
 <template>
   <div>
-     <center> <h3>Informations du Compte</h3></center>
-     <hr>
+    <div class="row">
+        <div class="col">
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowComptes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        </div>
+    </div>   
+     <div class=" container colBackround">
+
+
+<div class="row">
+    <div class="col">
+        <br>
+    <h5><i class="fas fa-address-book"></i> Compte de {{compte.nom_compte}} </h5>
+    </div>
+</div>
+<hr>
+    
         <div class="row">
         <div class="col-sm-6">
             <div class="card">
@@ -45,8 +59,7 @@
                    <span>taille: </span>{{compte.taille}}  
                    <hr>
                    <span>RC: </span>{{compte.RC}}  
-                   <hr>
-                   <span>fk_compagnie: </span>{{compte.fk_compagnie}}  
+
                 </p>
                
             </div>
@@ -100,6 +113,7 @@
             </div>             
          </div>
      </div>
+  </div>
   </div>
 </template>
 <script>
@@ -182,5 +196,22 @@
 }
 span{
     color:#007ee4;
+}
+.fontsize{
+
+    font-size: 1.30rem;
+}
+a {
+  color: #999;
+  color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    
+}
+.colBackround{
+    background-color: whitesmoke;
+    box-shadow: 1px 1px 3px 4px #d2cfcf;
 }
 </style>

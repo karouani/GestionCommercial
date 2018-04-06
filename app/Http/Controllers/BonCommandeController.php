@@ -50,6 +50,91 @@ class BonCommandeController extends Controller
                  return Response()->json(['etat' => true]);
             
     }
+    public function UpdateBonCommande(Request $request)
+    { 
+        $bonCommande = BonCommande::where('reference_bc',$request->bonCommande['reference_bc'])->update([
+        'date_bc' => $request->bonCommande['date_bc'],
+        'type_operation_bc' => "achat",
+        'objet_bc' => $request->bonCommande['objet_bc'],
+        'date_emission_bc' => $request->bonCommande['date_emission_bc'],
+        'remise_total_bc' => $request->bonCommande['remise_total_bc'],
+        'majoration_bc' => $request->bonCommande['majoration_bc'],
+        'date_limit_bc' => $request->bonCommande['date_limit_bc'],
+        'introduction_bc' => $request->bonCommande['introduction_bc'],
+        'conditions_reglements_bc' => $request->bonCommande['conditions_reglements_bc'],
+        'notes_bc' => $request->bonCommande['notes_bc'],
+        'accompte_bc' => $request->bonCommande['accompte_bc'],
+        'fk_status_bc' => $request->bonCommande['fk_status_bc'],
+        'fk_compte_bc' => $request->bonCommande['fk_compte_bc'],
+        'adresse_bc' => $request->bonCommande['adresse_bc'],
+        'total_ht_bc' => $request->bonCommande['total_ht_bc'],
+        'remise_ht_bc' => $request->bonCommande['remise_ht_bc'],
+        'montant_net_bc' => $request->bonCommande['montant_net_bc'],
+        'tva_montant_bc' => $request->bonCommande['tva_montant_bc'],
+        'montant_ttc_bc' => $request->bonCommande['montant_ttc_bc'],
+        'fk_user_bc' => Auth::user()->id
+        ]);
+            
+
+                $this->updateCommandes_bc($request);
+                $this->updateModePaiement_bc($request);
+                return Response()->json(['etat' => true]);
+            
+    }
+
+    function updateCommandes_bc($request){
+
+        for($i=0;$i<count($request->suppBonCommandes);$i++){
+            $commande = Commande::find($request->suppBonCommandes[$i]['id_cmd']);
+            $commande->delete();
+    
+            }
+
+            for($i=0;$i<count($request->commandes);$i++){
+                if (!isset($request->commandes[$i]['id_cmd'])) {
+                    $commande = new Commande();  
+                    $commande->quantite_cmd=$request->commandes[$i]['quantite_cmd'];
+                    $commande->remise_cmd=$request->commandes[$i]['remise_cmd'];
+                    $commande->majoration_cmd=$request->commandes[$i]['majoration_cmd'];
+                    $commande->prix_ht=$request->commandes[$i]['prix_ht'];
+                    $commande->fk_article=$request->commandes[$i]['fk_article'];
+                    $commande->fk_document=$request->commandes[$i]['fk_document'];
+                    $commande->fk_tva_cmd=$request->commandes[$i]['fk_tva_cmd'];
+                    $commande->total_ht_cmd=$request->commandes[$i]['totalHT'];
+                    $commande->save();
+                }    
+            }
+           for($i=0;$i<count($request->commandes);$i++){
+                if (isset($request->commandes[$i]['id_cmd'])) {
+            Commande::where('id_cmd','=', $request->commandes[$i]['id_cmd'])->update([
+            "quantite_cmd" => $request->commandes[$i]['quantite_cmd'],
+            "remise_cmd" => $request->commandes[$i]['remise_cmd'],
+            "majoration_cmd" => $request->commandes[$i]['majoration_cmd'],
+            "prix_ht" => $request->commandes[$i]['prix_ht'],
+            "fk_article" => $request->commandes[$i]['fk_article'],
+            "fk_tva_cmd" => $request->commandes[$i]['fk_tva_cmd'],
+            "total_ht_cmd" => $request->commandes[$i]['totalHT']]);
+                }
+            }
+
+    }
+
+    function updateModePaiement_bc($request){
+
+        $bonCommande = Mode_paiement::where('id_modeP',$request->modePaiements['id_modeP'])->update([
+        "reference_paiement" => $request->modePaiements['reference_paiement'],
+        "date_paiement" => $request->modePaiements['date_paiement'],
+        "type_paiement" => $request->modePaiements['type_paiement'],   
+         ]);
+
+
+    }
+
+
+
+
+
+
     public function countBonCommandes(){
         $count = Boncommande::withTrashed()->count();
        
@@ -73,7 +158,9 @@ class BonCommandeController extends Controller
         $commande->fk_article=$request->commandes[$i]['fk_article'];
         $commande->fk_document=$request->commandes[$i]['fk_document'];
         $commande->fk_tva_cmd=$request->commandes[$i]['fk_tva_cmd'];
+        $commande->total_ht_cmd=$request->commandes[$i]['totalHT'];
 
+        
                 $commande->save();
            }
                 // return Response()->json(['etat' => true]);
@@ -110,7 +197,8 @@ class BonCommandeController extends Controller
 
       public function getCommandes_bc($fk_document){
         $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
-            ->select('commandes.*', 'articles.designation')
+            ->leftJoin('tvas', 'commandes.fk_tva_cmd', '=', 'tvas.id_tva')
+            ->select('commandes.*', 'articles.designation','tvas.taux_tva')
             ->where('fk_document', $fk_document)->get();
         return Response()->json(['commandes' => $commandes]);
 
@@ -125,7 +213,45 @@ class BonCommandeController extends Controller
         return Response()->json(['taux_tva' => $taux_tva ]);
 
      }
-     
+
+     public function getBonCommande($id_bc){
+        $boncommande= Boncommande::find($id_bc);
+        return Response()->json(['bonCommande' => $boncommande]);
+     }
+
+         public function getBonCommandes(){
+           
+        $boncommandes = Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
+            ->select('bonCommandes.*', 'comptes.nom_compte')
+            ->paginate(10);
+           
+         return Response()->json(['bonCommandes' => $boncommandes ]);
+      }
+
+
+      public function searchBonCommande($search_BC){
+        $boncommandes = Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')->where('reference_bc','like', '%' .$search_BC . '%')->orWhere('comptes.nom_compte','like', '%' .$search_BC . '%')->paginate(10);
+        return Response()->json(['boncommandes' => $boncommandes ]);
+     }
 
     
+     public function deleteBonCommande($id_bc){
+
+        Boncommande::find($id_bc)->delete();
+        Commande::where('fk_document','=',$id_bc)->delete();   
+        Mode_paiement::where('fk_document','=',$id_bc)->delete(); 
+        
+        return Response()->json(['delete' => 'true']);
+     }
+    
+     public function showBonCommande($reference_bc){
+        // $devi= Devi::find($id_devis);
+         $bonCommande= Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
+               ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
+               ->leftJoin('mode_paiements', 'bonCommandes.reference_bc', '=', 'mode_paiements.fk_document')
+               ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.nom_societe','mode_paiements.*')
+               ->where('reference_bc', $reference_bc)->get();
+         return Response()->json(['bonCommande' => $bonCommande ]);
+      }
+
 }

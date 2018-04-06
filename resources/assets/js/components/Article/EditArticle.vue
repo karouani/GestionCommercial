@@ -1,5 +1,10 @@
  <template>
     <div>
+          <div class="row">
+        <div class="col">
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowArticles'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        </div>
+    </div>   
         <div class="text-center">
     <h2>Modifier Article</h2>
     </div>
@@ -249,6 +254,10 @@ a.last::before {
 }
 .cardbox:hover{
  box-shadow: 1px 2px 2px 2px #c9ced2;
+}
+.fontsize{
+
+    font-size: 1.30rem;
 }
 </style>
 

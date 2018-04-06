@@ -1,15 +1,15 @@
 
 <template>
 <div>
+
     <div class="row">
         <div class="col">
         <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
-    </div>     
+    </div>    
 
 <div class=" container colBackround">
-
-    <form   @submit.prevent="addBonCommande">
+    <form   @submit.prevent="EditBonCommande">
 <div class="row">
     <div class="col">
         <br>
@@ -82,7 +82,7 @@
                                     <tbody>
                              <tr v-for="(commande,index) in commandes" :key="index" >
                             <th>  <input class="form-control"  type="text" v-model="commande.fk_article" disabled hidden>
-                           <input class="form-control"  type="text" v-model="commande.desig" disabled >
+                           <input class="form-control"  type="text" v-model="commande.designation" disabled >
                            
                             </th>
                             <th><input class="form-control"  type="text" v-model="commande.quantite_cmd" ></th>
@@ -99,7 +99,7 @@
                             <th>  <input class="form-control"  type="text" v-model="commande.totalHT" disabled>
                            
                             </th>
-                                            <th><a @click="removeRow(index)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                                            <th><a @click="spliceBonCommande(index,commande)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                                         </tr>
                                         <th>
                                         <select class="form-control custom-select " id="fk_article" v-model="commande.fk_article" @change=" getPrixArticle()">
@@ -249,6 +249,10 @@
     export default{ 
         
           data: () => ({
+              suppBonCommandes :[],
+
+
+
                bonCommande : { 
             id_bc:0,
             reference_bc:"",
@@ -368,7 +372,7 @@
                // % de tva
                taux_tva:0,
                // designation d'article pr chaque commande
-               desig:"",
+               designation:"",
                // montant total de chaque commande
                 totalHT:0,
               },
@@ -391,7 +395,50 @@
 
 methods: { 
 
-    addBonCommande(){
+     spliceBonCommande(index,commande){
+            this.commandes.splice(index, 1);
+           // commande.fk_document = this.$route.params.reference_bc;
+                        this.suppBonCommandes.push(commande);
+                        console.log('supp ----------');
+                        console.log(this.suppContacts)
+        },
+    showBonCommande(reference_bc){
+
+            axios.get('/showBonCommande/'+reference_bc)
+                                .then((response) => {
+                                   
+                                    this.bonCommande = response.data.bonCommande[0];
+                                    this.compte.id_compte = this.bonCommande.id_compte;
+                                    this.compte.nom_compte = this.bonCommande.nom_compte;
+                                    this.compte.adresse_compte = this.bonCommande.adresse_bc;
+                                    this.modePaiement.id_modeP =this.bonCommande.id_modeP
+                                      this.modePaiement.type_paiement =this.bonCommande.type_paiement
+                                    this.modePaiement.reference_paiement    = this.bonCommande.reference_paiement
+                                     this.modePaiement.date_paiement   =this.bonCommande.date_paiement
+                                     this.modePaiement.fk_document =this.bonCommande.fk_document
+                                })
+                                .catch(() => {
+                                        console.log('handle server error from here');
+                                });
+        },
+
+        getCommandes(reference_bc){
+
+         axios.get('/getCommandes_bc/'+reference_bc)
+                        .then((response) => {
+                                console.log("getCommande ------ ")
+                                console.log(response.data.commandes)
+                               this.commandes = response.data.commandes;
+    
+                        })
+                        .catch(() => {
+                                console.log('handle server error from here');
+                        });
+
+        },
+
+
+    EditBonCommande(){
             this.bonCommande.total_ht_bc =  this.total_prix,
             this.bonCommande.remise_ht_bc = this.remise_T, 
             this.bonCommande.montant_net_bc = this.net_HT ,
@@ -399,15 +446,16 @@ methods: {
             this.bonCommande.montant_ttc_bc =  this.total_ttc,
             this.bonCommande.adresse_bc=  this.compte.adresse_compte
             this.bonCommande.fk_compte_bc = this.compte.id_compte;
-            console.log(this.bonCommande)
-            console.log('-------------BonCommandes---------------')
+            console.log('verifie fk_document  : ')
             console.log(this.commandes)
-            console.log('-------------Commandes---------------')
-                  axios.post('/addBonCommande',{commandes:this.commandes,bonCommande:this.bonCommande,modePaiements:this.modePaiement})
+            console.log(this.modePaiement)
+                  axios.post('/UpdateBonCommande',{commandes:this.commandes,bonCommande:this.bonCommande,modePaiements:this.modePaiement,suppBonCommandes: this.suppBonCommandes})
         .then(response => {         
-                  console.log("bonCommande Bien ajouter ")
+                console.log(response.data)
+               // this.$router.push('/ShowBonCommandes/editsuccess');
+                this.$router.push({ name: 'ShowBonCommandes', params: { success: "editsuccess"  }});
                // this.$router.push('/');
-               this.$router.push({ name: 'ShowBonCommandes', params: { success: "addsuccess"  }});
+              // this.$router.push('/ShowBonCommandes/addsuccess');  
         })
         .catch(() => {
                 console.log('handle server error from here');
@@ -416,19 +464,17 @@ methods: {
 
 
     addRow (commande) {
-        console.log("addrowwwwww")
+       
         this.commandes.push( {
-             
+            
                quantite_cmd:commande.quantite_cmd,
                remise_cmd:commande.remise_cmd,
                majoration_cmd: commande.majoration_cmd,
                prix_ht: commande.prix_ht,
                fk_article:commande.fk_article,
-               fk_document: commande.fk_document,
+               fk_document:this.$route.params.reference_bc,
                fk_tva_cmd:commande.fk_tva_cmd,
-
-              
-               desig:commande.desig,
+               designation:commande.designation,
                totalHT:commande.totalHT,
                total_ht:commande.total_ht,
                tva_montant:commande.tva_montant,
@@ -451,7 +497,7 @@ methods: {
                // % de tva
                taux_tva:0,
                // designation d'article pr chaque commande
-               desig:"",
+               designation:"",
                // montant total de chaque commande
                 totalHT:0,
               };
@@ -552,7 +598,7 @@ methods: {
                         // fk de tva d'article
                     this.commande.fk_tva_cmd=response.data.article[0].fk_tva_applicable;
                         // designation d'article
-                    this.commande.desig=response.data.article[0].designation;
+                    this.commande.designation=response.data.article[0].designation;
                     this.tauxTva();
                   
             })
@@ -570,7 +616,7 @@ methods: {
                 }
                 else
                     this.bonCommande.remise_total_bc=response.data.conditions_remise[0].remise;
-                    console.log('getRemiseeeeee2222')
+                  
              
             })
             .catch(() => {
@@ -594,7 +640,7 @@ methods: {
                   response => {
                        
                     this.compte= response.data.compte;
-                    console.log(this.compte)
+                   
                   });
                   this.getRemise(id_compte);     
         },
@@ -603,15 +649,15 @@ methods: {
                   response => {
                        
                     this.contacts= response.data.contacts;
-                     console.log(this.contacts)
+                     
                   });     
         },
         getCondtionFacture:function(id_compte){
                   axios.get('/getCFacture/'+id_compte).then(
                   response => {
-                       console.log("Cfacture")
+                      
                     this.condition_facture= response.data.condition_facture[0];
-                   console.log(this.condition_facture)
+                  
                   });     
         }, 
 
@@ -720,23 +766,22 @@ watch:{
 
     mounted(){
 
-              console.log('----------------')
-            console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_bc+
-            " / "+ this.$route.params.currentDate )
+          
             
-            this.bonCommande.reference_bc = this.$route.params.reference_bc
+           /* this.bonCommande.reference_bc = this.$route.params.reference_bc
             this.bonCommande.date_bc = this.$route.params.currentDate
             this.commande.fk_document=this.$route.params.reference_bc
             this.modePaiement.fk_document=this.$route.params.reference_bc
             this.getCompte(this.$route.params.id_compte);
             this.getContacts(this.$route.params.id_compte);
-            this.getCondtionFacture(this.$route.params.id_compte); 
+            this.getCondtionFacture(this.$route.params.id_compte); */
             this.getStatus();
             this.getTvas();
             this.getarticles();
             this.getClients();
             this.getRemise(this.$route.params.id_compte)
-         
+            this.getCommandes(this.$route.params.reference_bc);
+            this.showBonCommande(this.$route.params.reference_bc);
 }
 }   
 </script>
