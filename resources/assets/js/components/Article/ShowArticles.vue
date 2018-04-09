@@ -65,6 +65,7 @@
                                         <th>reference</th>
                                         <th>designation</th>
                                         <th>Prix ht achat:</th>
+                                        <th>Prix ht vente:</th>
                                         <th>Quantite:</th>
                                         <th>options</th>
                                     </tr>
@@ -74,6 +75,7 @@
                                         <td>{{article.reference_art}}</td>
                                         <td>{{ article.designation}}</td>
                                         <td>{{article.prix_ht_achat}}</td>
+                                        <td>{{article.prix_ht_vente}}</td>
                                         <td>{{article.quantite}} </td>      
                                         <td  class="optionsWidth"> 
                                             <a href="#"    @click="getArticle(article)"  class="btn btn-primary"  ><i class="fas fa-eye d-inline-block"></i></a>

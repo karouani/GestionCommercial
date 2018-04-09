@@ -30,7 +30,8 @@
   
     <hr>
     <!-- formulaire pour Ajouter un article -->
-   
+
+  
    <div>
     <div class="row">
         <div class="col">
@@ -85,7 +86,7 @@
   
 
 
-    <div class="row" id="testdiv">
+    <div class="row" >
              <div class="card">
                         <div class="card-header bg-light">
                             <div class="row btnMarge">
@@ -125,6 +126,10 @@
                                         <td>{{bonCommande.nom_compte}} </td>  
                                         <td  class="optionsWidth"> 
                                             <a href="#"    @click="redirect_To_ShowBonCommande(bonCommande.reference_bc)"  class="btn btn-primary" ><i class="fas fa-eye d-inline-block"></i></a>
+                                            <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn bg-secondary" ><i class="far fa-file-pdf"></i></a>
+                                            
+
+
                                          <router-link class="btn btn-success " :to="'/EditBonCommande/'+bonCommande.reference_bc"><i class="fas fa-edit d-inline-block"></i></router-link>
                                              <a @click="deleteBonCommande(bonCommande)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
                                     </tr>
@@ -150,14 +155,19 @@
 </template>
 
 <script>
+import  Test from './test.vue' 
+
 import  Pagination from '../Pagination.vue';
 
     export default{
          components:{
             'vue-pagination':Pagination,
+            'app-test':Test,
          },
 
           data: () => ({
+              ninjas: "hello ninjas ",
+              datahidden: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, eius?",
               reference_bc: "",
               currentDate : "",
               test1 : {
@@ -308,6 +318,13 @@ import  Pagination from '../Pagination.vue';
   },
 
       methods: {
+
+          PdfBonCommande(reference_bc){
+                           
+                //   window.location.href='/pdf/'+reference_bc
+                  window.open('/pdf/'+reference_bc,'_blank');
+          },
+
          getClients(){
                 axios.get('/getClients')
                 .then((response) => {
@@ -417,13 +434,7 @@ import  Pagination from '../Pagination.vue';
                      this.$router.push('/ShowBonCommande/'+reference_bc);
             },
 
-         /*   generatePdfHtml(){
-                let doc = new this.$Jspdf();
-                
-                doc.fromHTML(window.$('#testdiv').get(0));
-                //doc.text(20,20,'test pdf ');
-                doc.save('test.pdf')
-            }*/
+            
             handleOk(){
                     this.$router.push({ name: 'addBonCommande', params: { id_compte: this.compte.id_compte ,reference_bc: this.reference_bc, currentDate: this.currentDate  }});
 
@@ -466,7 +477,7 @@ thead{
     background-color: #efefef;
 }
 .optionsWidth{
-width : 171px;
+width : 230px;
 
 }
  .btnMarge{

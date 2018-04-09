@@ -100,7 +100,7 @@
                     </div>
                 </div>
 
-     </div>
+     </div> 
 </template>
 <script>
 //import { Line } from 'vue-chartjs'

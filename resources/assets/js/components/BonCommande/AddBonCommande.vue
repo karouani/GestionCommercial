@@ -107,17 +107,7 @@
                                         <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
                                          </select>
                                         </th>
-                                        <th><input class="form-control"  type="text" v-model="commande.quantite_cmd"></th>
-                                        <th><input class="form-control"  type="text" v-model="commande.remise_cmd" ></th>
-                                        <th><input class="form-control"  type="text" v-model="commande.majoration_cmd"></th>
-                                        <th><input class="form-control"  type="text" v-model="commande.prix_ht"></th>
-                                        <th>
-                                        <select class="form-control custom-select " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" >
-                                            <option selected>Choisir Tva</option>
-                                            <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
-                                        </select>   
-                                        </th>
-                                        <th><input class="mr-4"  type="text" v-model="commande.totalHT" disabled></th>
+                                      
                                         <th><a     @click="addRow(commande)" class="btn btn-success"  ><i class="fas fa-plus-circle"></i></a></th>
                                     </tbody>
                                 </table>
@@ -660,9 +650,9 @@ computed:{
             sum_tva= +sum_tva + +tva;
         }
                 // total de prix de tt commandes (affectation)
-            this.total_prix = +sum + +this.commande.totalHT;
+            this.total_prix = sum;
                 // total de montant tvas (affectation)
-            this.tva_total=+sum_tva + +this.commande.tva_montant ;
+            this.tva_total= sum_tva;
                 //remise sur le montant total
             this.remise_T=this.total_prix*(this.bonCommande.remise_total_bc/100);
                 // montant total apres remise
@@ -682,14 +672,7 @@ watch:{
             },
     },
       
-    'commande': {
-            handler: function(){
-                    this.totalHTaxe;
-                    this.TotalBonCommande;
 
-            },
-            deep:true
-    },
 
     commandes: {
             handler: function(){
@@ -706,10 +689,10 @@ watch:{
                     sum_tva= +sum_tva + +tva;
 
                 }
-                    this.total_prix = +sum + +this.commande.totalHT;
+                    this.total_prix = sum;
                     this.remise_T=this.total_prix*(this.bonCommande.remise_total_bc/100);
                     this.net_HT=this.total_prix - this.remise_T;
-                    this.tva_total=+sum_tva + +this.commande.tva_montant ;
+                    this.tva_total=+sum_tva;
                     this.total_ttc=  +this.net_HT + +this.tva_total;
 
             },
