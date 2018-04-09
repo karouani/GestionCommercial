@@ -113327,6 +113327,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -113670,6 +113672,8 @@ var render = function() {
                               _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(article.prix_ht_achat))]),
                               _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(article.prix_ht_vente))]),
+                              _vm._v(" "),
                               _c("td", [
                                 _vm._v(_vm._s(article.quantite) + " ")
                               ]),
@@ -114008,6 +114012,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("designation")]),
         _vm._v(" "),
         _c("th", [_vm._v("Prix ht achat:")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Prix ht vente:")]),
         _vm._v(" "),
         _c("th", [_vm._v("Quantite:")]),
         _vm._v(" "),
@@ -120939,16 +120945,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -121359,9 +121355,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 sum_tva = +sum_tva + +tva;
             }
             // total de prix de tt commandes (affectation)
-            this.total_prix = +sum + +this.commande.totalHT;
+            this.total_prix = sum;
             // total de montant tvas (affectation)
-            this.tva_total = +sum_tva + +this.commande.tva_montant;
+            this.tva_total = sum_tva;
             //remise sur le montant total
             this.remise_T = this.total_prix * (this.bonCommande.remise_total_bc / 100);
             // montant total apres remise
@@ -121379,14 +121375,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
 
-        'commande': {
-            handler: function handler() {
-                this.totalHTaxe;
-                this.TotalBonCommande;
-            },
-            deep: true
-        },
-
         commandes: {
             handler: function handler() {
                 var sum = 0;
@@ -121401,10 +121389,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     var tva = net * (this.commandes[index].fk_tva_cmd / 100);
                     sum_tva = +sum_tva + +tva;
                 }
-                this.total_prix = +sum + +this.commande.totalHT;
+                this.total_prix = sum;
                 this.remise_T = this.total_prix * (this.bonCommande.remise_total_bc / 100);
                 this.net_HT = this.total_prix - this.remise_T;
-                this.tva_total = +sum_tva + +this.commande.tva_montant;
+                this.tva_total = +sum_tva;
                 this.total_ttc = +this.net_HT + +this.tva_total;
             },
             deep: true
@@ -122105,201 +122093,6 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("th", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.commande.quantite_cmd,
-                                  expression: "commande.quantite_cmd"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "text" },
-                              domProps: { value: _vm.commande.quantite_cmd },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.commande,
-                                    "quantite_cmd",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.commande.remise_cmd,
-                                  expression: "commande.remise_cmd"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "text" },
-                              domProps: { value: _vm.commande.remise_cmd },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.commande,
-                                    "remise_cmd",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.commande.majoration_cmd,
-                                  expression: "commande.majoration_cmd"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "text" },
-                              domProps: { value: _vm.commande.majoration_cmd },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.commande,
-                                    "majoration_cmd",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.commande.prix_ht,
-                                  expression: "commande.prix_ht"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "text" },
-                              domProps: { value: _vm.commande.prix_ht },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.commande,
-                                    "prix_ht",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
-                            _c(
-                              "select",
-                              {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.commande.fk_tva_cmd,
-                                    expression: "commande.fk_tva_cmd"
-                                  }
-                                ],
-                                staticClass: "form-control custom-select ",
-                                attrs: { id: "fk_tva_cmd" },
-                                on: {
-                                  change: function($event) {
-                                    var $$selectedVal = Array.prototype.filter
-                                      .call($event.target.options, function(o) {
-                                        return o.selected
-                                      })
-                                      .map(function(o) {
-                                        var val =
-                                          "_value" in o ? o._value : o.value
-                                        return val
-                                      })
-                                    _vm.$set(
-                                      _vm.commande,
-                                      "fk_tva_cmd",
-                                      $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    )
-                                  }
-                                }
-                              },
-                              [
-                                _c("option", { attrs: { selected: "" } }, [
-                                  _vm._v("Choisir Tva")
-                                ]),
-                                _vm._v(" "),
-                                _vm._l(_vm.tvas, function(tva) {
-                                  return _c(
-                                    "option",
-                                    {
-                                      key: tva.id_tva,
-                                      domProps: { value: tva.id_tva }
-                                    },
-                                    [_vm._v(_vm._s(tva.taux_tva))]
-                                  )
-                                })
-                              ],
-                              2
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.commande.totalHT,
-                                  expression: "commande.totalHT"
-                                }
-                              ],
-                              staticClass: "mr-4",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.commande.totalHT },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.commande,
-                                    "totalHT",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
                             _c(
                               "a",
                               {
@@ -122972,7 +122765,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, "\n.btnMarge[data-v-616036e6]{\n     padding-bottom: 10px;\n}\n.shadawTr[data-v-616036e6]:hover {\n  -webkit-box-shadow: 1px 1px 1px 1px #888888;\n          box-shadow: 1px 1px 1px 1px #888888;\n}\nthead[data-v-616036e6]{\n    background-color: #efefef;\n}\n.optionsWidth[data-v-616036e6]{\nwidth : 171px;\n}\n.btnMarge[data-v-616036e6]{\n     padding-bottom: 10px;\n}\n.widthCard[data-v-616036e6]{\n     width: 270px;\n     height: 350px;\n}\n.widthTextCard[data-v-616036e6]{\n     width  : 236px;\n     height: 13px;\n}\na[data-v-616036e6] {\n  color: #999;\n  color: black;\n    float: left;\n    padding: 8px 16px;\n    text-decoration: none;\n    border: 1px solid #ddd;\n}\n.current[data-v-616036e6] {\n  color: red;\n}\nul[data-v-616036e6] {\n  padding: 0;\n  list-style-type: none;\n}\nli[data-v-616036e6] {\n  display: inline;\n  margin: 5px 5px;\n}\na.first[data-v-616036e6]::after {\n  content:'...'\n}\na.last[data-v-616036e6]::before {\n  content:'...'\n}\n.cardbox[data-v-616036e6]:hover{\n -webkit-box-shadow: 1px 2px 2px 2px #c9ced2;\n         box-shadow: 1px 2px 2px 2px #c9ced2;\n}\nspan[data-v-616036e6] {\n    color: #42a5f5;\n}\nthead[data-v-616036e6]{\n    background-color: #e9ecef;\n}\ntable[data-v-616036e6]{\n    background-color: white;\n}\n.card-body[data-v-616036e6]{\n    background-color: #f8f9fa\n}\n.notifArticle[data-v-616036e6]{\n    opacity:0.9;\n    width: 295px;\n    z-index: 100;\n    top: 61px;\n    right: 0;\n    position:  absolute;\n    position :fixed;\n}\n\n", ""]);
+exports.push([module.i, "\n.btnMarge[data-v-616036e6]{\n     padding-bottom: 10px;\n}\n.shadawTr[data-v-616036e6]:hover {\n  -webkit-box-shadow: 1px 1px 1px 1px #888888;\n          box-shadow: 1px 1px 1px 1px #888888;\n}\nthead[data-v-616036e6]{\n    background-color: #efefef;\n}\n.optionsWidth[data-v-616036e6]{\nwidth : 230px;\n}\n.btnMarge[data-v-616036e6]{\n     padding-bottom: 10px;\n}\n.widthCard[data-v-616036e6]{\n     width: 270px;\n     height: 350px;\n}\n.widthTextCard[data-v-616036e6]{\n     width  : 236px;\n     height: 13px;\n}\na[data-v-616036e6] {\n  color: #999;\n  color: black;\n    float: left;\n    padding: 8px 16px;\n    text-decoration: none;\n    border: 1px solid #ddd;\n}\n.current[data-v-616036e6] {\n  color: red;\n}\nul[data-v-616036e6] {\n  padding: 0;\n  list-style-type: none;\n}\nli[data-v-616036e6] {\n  display: inline;\n  margin: 5px 5px;\n}\na.first[data-v-616036e6]::after {\n  content:'...'\n}\na.last[data-v-616036e6]::before {\n  content:'...'\n}\n.cardbox[data-v-616036e6]:hover{\n -webkit-box-shadow: 1px 2px 2px 2px #c9ced2;\n         box-shadow: 1px 2px 2px 2px #c9ced2;\n}\nspan[data-v-616036e6] {\n    color: #42a5f5;\n}\nthead[data-v-616036e6]{\n    background-color: #e9ecef;\n}\ntable[data-v-616036e6]{\n    background-color: white;\n}\n.card-body[data-v-616036e6]{\n    background-color: #f8f9fa\n}\n.notifArticle[data-v-616036e6]{\n    opacity:0.9;\n    width: 295px;\n    z-index: 100;\n    top: 61px;\n    right: 0;\n    position:  absolute;\n    position :fixed;\n}\n\n", ""]);
 
 // exports
 
@@ -122983,8 +122776,10 @@ exports.push([module.i, "\n.btnMarge[data-v-616036e6]{\n     padding-bottom: 10p
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__test_vue__ = __webpack_require__(591);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__test_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__test_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Pagination_vue__);
 //
 //
 //
@@ -123136,16 +122931,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        'vue-pagination': __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default.a
+        'vue-pagination': __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default.a,
+        'app-test': __WEBPACK_IMPORTED_MODULE_0__test_vue___default.a
     },
 
     data: function data() {
         return {
+            ninjas: "hello ninjas ",
+            datahidden: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, eius?",
             reference_bc: "",
             currentDate: "",
             test1: {
@@ -123295,6 +123100,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        PdfBonCommande: function PdfBonCommande(reference_bc) {
+
+            //   window.location.href='/pdf/'+reference_bc
+            window.open('/pdf/' + reference_bc, '_blank');
+        },
         getClients: function getClients() {
             var _this2 = this;
 
@@ -123389,15 +123199,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         redirect_To_ShowBonCommande: function redirect_To_ShowBonCommande(reference_bc) {
             this.$router.push('/ShowBonCommande/' + reference_bc);
         },
-
-
-        /*   generatePdfHtml(){
-               let doc = new this.$Jspdf();
-               
-               doc.fromHTML(window.$('#testdiv').get(0));
-               //doc.text(20,20,'test pdf ');
-               doc.save('test.pdf')
-           }*/
         handleOk: function handleOk() {
             this.$router.push({ name: 'addBonCommande', params: { id_compte: this.compte.id_compte, reference_bc: this.reference_bc, currentDate: this.currentDate } });
         },
@@ -123677,7 +123478,7 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "row", attrs: { id: "testdiv" } }, [
+            _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: "card-header bg-light" }, [
                   _c("div", { staticClass: "row btnMarge" }, [
@@ -123774,6 +123575,26 @@ var render = function() {
                                     [
                                       _c("i", {
                                         staticClass: "fas fa-eye d-inline-block"
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "btn bg-secondary",
+                                      attrs: { href: "#" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.PdfBonCommande(
+                                            bonCommande.reference_bc
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "far fa-file-pdf"
                                       })
                                     ]
                                   ),
@@ -128219,7 +128040,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -128245,7 +128066,7 @@ var render = function() {
               "router-link",
               { staticClass: "nav-link active", attrs: { to: "/" } },
               [
-                _c("i", { staticClass: "icon icon-speedometer" }),
+                _c("i", { staticClass: "fas fa-chart-line" }),
                 _vm._v(" Dashboard\n                       ")
               ]
             )
@@ -128264,7 +128085,7 @@ var render = function() {
                 attrs: { to: "/getCompagnies" }
               },
               [
-                _c("i", { staticClass: "icon icon-speedometer" }),
+                _c("i", { staticClass: "far fa-building" }),
                 _vm._v(" Ma Compagnie\n                       ")
               ]
             )
@@ -128280,8 +128101,8 @@ var render = function() {
               "router-link",
               { staticClass: "nav-link active", attrs: { to: "/ShowComptes" } },
               [
-                _c("i", { staticClass: "icon icon-speedometer" }),
-                _vm._v(" Compte\n                       ")
+                _c("i", { staticClass: "fas fa-address-book" }),
+                _vm._v("Compte\n                       ")
               ]
             )
           ],
@@ -128296,8 +128117,8 @@ var render = function() {
               "router-link",
               { staticClass: "nav-link active", attrs: { to: "/Parametres" } },
               [
-                _c("i", { staticClass: "icon icon-speedometer" }),
-                _vm._v(" Paramètres\n                       ")
+                _c("i", { staticClass: "fas fa-cogs" }),
+                _vm._v("Paramètres\n                       ")
               ]
             )
           ],
@@ -128315,7 +128136,7 @@ var render = function() {
                 attrs: { to: "/ShowArticles" }
               },
               [
-                _c("i", { staticClass: "icon icon-speedometer" }),
+                _c("i", { staticClass: "fab fa-product-hunt" }),
                 _vm._v(" Article\n                       ")
               ]
             )
@@ -128362,7 +128183,26 @@ var render = function() {
               1
             )
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "nav-item" },
+          [
+            _c(
+              "router-link",
+              {
+                staticClass: "nav-link active",
+                attrs: { to: "/ShowBonCommandes" }
+              },
+              [
+                _c("i", { staticClass: "far fa-file" }),
+                _vm._v(" Bon  Commande\n                       ")
+              ]
+            )
+          ],
+          1
+        )
       ])
     ])
   ])
@@ -128379,8 +128219,8 @@ var staticRenderFns = [
         attrs: { href: "#" }
       },
       [
-        _c("i", { staticClass: "icon icon-speedometer" }),
-        _vm._v(" Vente "),
+        _c("i", { staticClass: "far fa-file" }),
+        _vm._v(" Devis "),
         _c("i", { staticClass: "fa fa-caret-left" })
       ]
     )
@@ -128569,6 +128409,97 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 590 */,
+/* 591 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(5)
+/* script */
+var __vue_script__ = __webpack_require__(594)
+/* template */
+var __vue_template__ = __webpack_require__(596)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\BonCommande\\test.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-14873b2c", Component.options)
+  } else {
+    hotAPI.reload("data-v-14873b2c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 592 */,
+/* 593 */,
+/* 594 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['ninjas'],
+  data: function data() {
+    return {};
+  }
+});
+
+/***/ }),
+/* 595 */,
+/* 596 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("h1", [_vm._v(_vm._s(_vm.ninjas))])])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-14873b2c", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

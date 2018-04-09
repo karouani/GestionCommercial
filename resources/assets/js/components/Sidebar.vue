@@ -6,36 +6,36 @@
 
                     <li class="nav-item">
                       <router-link :to="'/'" class="nav-link active">
-                            <i class="icon icon-speedometer"></i> Dashboard
+                            <i class="fas fa-chart-line"></i> Dashboard
                         </router-link>
                     </li>            
                  <li class="nav-item">
                       <router-link :to="'/getCompagnies'" class="nav-link active">
-                            <i class="icon icon-speedometer"></i> Ma Compagnie
+                            <i class="far fa-building"></i> Ma Compagnie
                         </router-link>
                     </li>
                      
                    <li class="nav-item">
                       <router-link :to="'/ShowComptes'" class="nav-link active">
-                            <i class="icon icon-speedometer"></i> Compte
+                            <i class="fas fa-address-book"></i>Compte
                         </router-link>
                     </li>
                     <li class="nav-item">
                       <router-link :to="'/Parametres'" class="nav-link active">
-                            <i class="icon icon-speedometer"></i> Paramètres
+                            <i class="fas fa-cogs"></i>Paramètres
                         </router-link>
                     </li>    
                
    
                    <li class="nav-item">
                       <router-link :to="'/ShowArticles'" class="nav-link active">
-                            <i class="icon icon-speedometer"></i> Article
+                            <i class="fab fa-product-hunt"></i> Article
                         </router-link>
                     </li>
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle active">
-                            <i class="icon icon-speedometer"></i> Vente <i class="fa fa-caret-left"></i>
+                             <i class="far fa-file"></i> Devis <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">
@@ -53,6 +53,12 @@
 
                             
                         </ul>
+                    </li>
+              
+                    <li class="nav-item">
+                      <router-link :to="'/ShowBonCommandes'" class="nav-link active">
+                           <i class="far fa-file"></i> Bon  Commande
+                        </router-link>
                     </li>
                  
                 </ul>

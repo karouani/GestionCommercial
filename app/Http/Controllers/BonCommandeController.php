@@ -11,6 +11,7 @@ use App\Mode_paiement;
 use App\Compte;
 use App\Tva;
 use Auth;
+use PDF;
 
 class BonCommandeController extends Controller
 {
@@ -252,6 +253,48 @@ class BonCommandeController extends Controller
                ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.nom_societe','mode_paiements.*')
                ->where('reference_bc', $reference_bc)->get();
          return Response()->json(['bonCommande' => $bonCommande ]);
+      }
+
+
+      public function pdf($reference_bc){
+        $bonCommande= Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
+        ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
+        ->leftJoin('mode_paiements', 'bonCommandes.reference_bc', '=', 'mode_paiements.fk_document')
+        ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.nom_societe','macompagnies.logo_comp','mode_paiements.*')
+        ->where('reference_bc', $reference_bc)->get();
+
+        $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
+        ->leftJoin('tvas', 'commandes.fk_tva_cmd', '=', 'tvas.id_tva')
+        ->select('commandes.*', 'articles.designation','articles.unite','tvas.taux_tva')
+        ->where('fk_document', $reference_bc)->get();
+        //dd($bonCommande);
+  
+        $logo = public_path().'/storage/images/'.$bonCommande[0]->logo_comp;
+        //dd($filename);
+        //return view('pdf', ['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
+       /*  $options = new PDF\Options();
+        $options->setDpi(150);
+        $pdf= new PDF($options);*/
+       // $pdf = PDF::loadView('pdf',['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
+
+        //return  $pdf->stream($reference_bc.'.pdf',array('Attachment'=>0));
+       // $pdf = PDF::loadView('pdf', ['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
+         // return $pdf->download('invoice.pdf');
+         $view = \View::make('pdf', array('bonCommande' => $bonCommande[0],'commandes' => $commandes ,'logo' => $logo ));
+         $html_content = $view->render();
+         
+    
+
+         //PDF::SetHeaderData('PDF_HEADER_LOGO', 'PDF_HEADER_LOGO_WIDTH', 'PDF_HEADER_TITLE'.' 001', 'PDF_HEADER_STRING', array(0,64,255), array(0,64,128));
+         PDF::SetY(0, true, true);
+         PDF::SetMargins(5, 0, 5);
+         PDF::SetHeaderMargin(0);
+  
+         //PDF::SetTitle('Sample PDF');
+         PDF::AddPage();
+         PDF::writeHTML($html_content, true, false, true, false, '');
+  
+         PDF::Output($reference_bc.'.pdf');
       }
 
 }
