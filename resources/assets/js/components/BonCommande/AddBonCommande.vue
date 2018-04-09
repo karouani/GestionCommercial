@@ -614,6 +614,29 @@ methods: {
                    console.log(this.condition_facture)
                   });     
         }, 
+// pour convert
+ getDevisD(id_devis){
+                  axios.get('/getDevisD/'+id_devis).then(
+                  response => {
+                         console.log("deviiiiiiiis");
+                         console.log(id_devis);
+                         console.log(response.data.devi[0].objet_d);
+  // reference_bc
+            
+                    this.bonCommande.objet_bc= response.data.devi[0].objet_d;
+                    this.bonCommande.date_bc= response.data.devi[0].date_d;
+
+                    this.bonCommande.remise_total_bc= response.data.devi[0].remise_total_d;
+                    this.bonCommande.date_limit_bc= response.data.devi[0].date_limit_d;
+                    this.bonCommande.conditions_reglements_bc= response.data.devi[0].conditions_reglements_d;
+                    this.bonCommande.notes_bc= response.data.devi[0].notes_d;
+                    this.compte.adresse_compte= response.data.devi[0].adresse_d;
+
+                         console.log(this.bonCommande.objet_bc);
+
+                  });     
+        },
+
 
 
     
@@ -723,7 +746,8 @@ watch:{
               console.log('----------------')
             console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_bc+
             " / "+ this.$route.params.currentDate )
-            
+            this.id_devis = this.$route.params.id_devis;
+this.getDevisD(this.$route.params.id_devis);
             this.bonCommande.reference_bc = this.$route.params.reference_bc
             this.bonCommande.date_bc = this.$route.params.currentDate
             this.commande.fk_document=this.$route.params.reference_bc
@@ -735,8 +759,8 @@ watch:{
             this.getTvas();
             this.getarticles();
             this.getClients();
-            this.getRemise(this.$route.params.id_compte)
-         
+            this.getRemise(this.$route.params.id_compte);
+            
 }
 }   
 </script>

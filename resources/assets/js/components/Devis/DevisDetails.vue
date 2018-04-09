@@ -1,4 +1,13 @@
 <template>
+<div>
+     <div class="row">
+        <div class="col">
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/getDevis'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        </div>
+         <div class="col">
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/addBonCommande/'+devi.id_devis "> Convertir</router-link>
+        </div>
+    </div>
 <div class=" container colBackround">
           
 <div class="row">
@@ -34,6 +43,14 @@
             {{devi.adresse_d}}
             </div>
          </div>
+        </div>
+        <br>
+        <div class="form-group">
+                
+                <select class="form-control custom-select " id="fk_status_d" v-model="devi.fk_status_d" >
+                    <option selected disabled>Choisir Status</option>
+                    <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
+                </select>
         </div>
     </div>
 </div>
@@ -146,7 +163,7 @@
 
         
 </div>
-
+</div>
 </div>
 </template>
 <script>

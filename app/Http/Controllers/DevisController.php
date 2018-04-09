@@ -227,7 +227,10 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
         return Response()->json(['commandes' => $commandes]);
 
      }
-
+     public function searchDevis($search_D){
+        $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')->where('reference_d','like', '%' .$search_D . '%')->orWhere('comptes.nom_compte','like', '%' .$search_D . '%')->paginate(10);
+        return Response()->json(['devis' => $devis ]);
+     }
      public function getPaiement($fk_document){
         $modePaiement= Mode_paiement::where('fk_document', $fk_document)->get();
         return Response()->json(['modePaiement' => $modePaiement ]);

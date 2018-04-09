@@ -1,5 +1,12 @@
 <template>
+<div>
+     <div class="row">
+        <div class="col">
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/getDevis'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        </div>
+    </div> 
 <div class=" container colBackround">
+   
           <form   @submit.prevent="addDevis">
 <div class="row">
     <div class="col">
@@ -251,6 +258,7 @@
 </div>
           </form>
 </div>
+</div>
 </template>
 
 <script>
@@ -407,7 +415,7 @@ this.commande = {
         axios.post('/addDevis',{commandes:this.commandes,devis:this.devi,modePaiements:this.modePaiement})
         .then(response => {         
                   
-                this.$router.push('/getDevis');
+                this.$router.push('/getDevis/add');
         })
         .catch(() => {
                 console.log('handle server error from here');
@@ -439,22 +447,6 @@ this.commande = {
         });
     },
         
-        //Reference de devis
-   /* countDevis(){
-
-        axios.get('/countDevis')
-            .then((response) => {
-
-                    this.devi.reference_d='D'+response.data.count;
-                    this.commande.fk_document='D'+response.data.count;
-                    this.modePaiement.fk_document='D'+response.data.count;
-
-                  
-            })
-            .catch(() => {
-                    console.log('handle server error from here');
-            });
-    },*/
         // recuperer tvas
     getTvas(){
                 

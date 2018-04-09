@@ -160,6 +160,10 @@ const  router = new VueRouter({
             component: AffDevis
         },
         {    
+            path:"/getDevis/:success",
+            component: AffDevis
+        },
+        {    
             path:"/DevisDetails/:id_devis",
             component: DevisDetails
         },
@@ -196,6 +200,10 @@ const  router = new VueRouter({
         component: AddBonCommande,
         name: "addBonCommande",
         },
+        {     
+            path:"/addBonCommande/:id_devis",
+            component: AddBonCommande,
+            },
         {     
          path:"/ShowBonCommandes",
           component: ShowBonCommandes,

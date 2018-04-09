@@ -85,6 +85,8 @@ Route::get('/getPaiement/{fk_document}','DevisController@getPaiement');
 Route::get('/tauxTva/{fk_tva_cmd}','DevisController@tauxTva');
 Route::post('/updateDevis','DevisController@updateDevis');
 Route::delete('/deleteDevis/{id_devis}','DevisController@deleteDevis');
+Route::get('/searchDevis/{search_D}','DevisController@searchDevis');
+
 //----------------------------------------------------------------------
 //Compte 
 Route::post('/addCompte','CompteController@addCompte');

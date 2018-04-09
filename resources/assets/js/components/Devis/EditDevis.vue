@@ -1,4 +1,10 @@
 <template>
+<div>
+     <div class="row">
+        <div class="col">
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/getDevis'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        </div>
+    </div>
 <div class=" container colBackround">
           <form   @submit.prevent="updateDevis">
 <div class="row">
@@ -249,6 +255,7 @@
 </div>
           </form>
 </div>
+</div>
 </template>
 
 <script>
@@ -402,7 +409,7 @@ this.commande = {
 
  updateDevis: function(){
         axios.post('/updateDevis',{devis:this.devi,commandes:this.commandes,modePaiements:this.modePaiement,suppCommandes: this.suppCommandes}).then( response => {             
-                    this.$router.push('/getDevis/editsuccess');  
+                    this.$router.push('/getDevis/edit');  
                     
                   
                   });

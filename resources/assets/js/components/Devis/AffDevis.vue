@@ -11,19 +11,18 @@
     </div>
 
 <div v-if="!loading">
-              <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
-        <strong>Devis bien ajouter !</strong> 
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-
-        <div v-if="Testopen.testnotifEdit" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
-        <strong>Devis bien modifier !</strong> 
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
+       <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testAjout">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Compagnie Bien Ajouter !</strong>
+</div>
+ <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEdit">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Compagnie Bien Modifier !</strong>
+   </div>
         <div class="row">
  <div class="col">
     <!-- button pour afficher formulaire de l'ajout d un compagnie -->  
@@ -41,7 +40,15 @@
              <div class="card">
                         <div class="card-header bg-light">
                             <div class="row btnMarge">
-
+  <div class="col"  >
+    <!-- button pour afficher formulaire de l'ajout d un article -->         
+                <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="text" @keyup.enter="searchDevis"  class="form-control" v-model="search" placeholder="recherche par Compte ou Reference  " aria-label="Username" aria-describedby="basic-addon1" >
+            </div>
+        </div> 
          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          </div>
     </div>
@@ -146,6 +153,10 @@ import  Pagination from '../Pagination.vue';
           data: () => ({
             
                      loading: false,
+                     test1 : {
+                  searchQuery: 0,
+                   calculee: 0,
+                  },
       post: null,
       error: null,
              modalShow: false,
@@ -205,6 +216,11 @@ import  Pagination from '../Pagination.vue';
              
       }),
       mounted(){
+          if(this.$route.params.success == "add")
+            this.Testopen.testAjout =true;
+   if(this.$route.params.success == "edit")
+            this.Testopen.testEdit =true; 
+
          var today = new Date();
             var dd = today.getDate();
             var mm = today.getMonth(); 
@@ -226,6 +242,33 @@ import  Pagination from '../Pagination.vue';
           this.countDevis();
     
       },
+           created () {
+    // fetch the data when the view is created and the data is
+    // already being observed
+    this.fetchData()
+  },
+    watch: {
+    // call again the method if the route changes
+    '$route': 'fetchData',
+  
+   'test1.searchQuery':
+     function(val){
+      //console.log(val)
+      this.test1.calculee = +val + 1
+      console.log(this.test1.calculee)  
+     }
+ 
+  },
+    updated(){
+        if( this.$route.params.success == "add"){
+          let that = this
+              setTimeout(function(){that.Testopen.testAjout = false;}, 2000);
+        }
+        if( this.$route.params.success == "edit"){
+         let that=this;
+              setTimeout(function(){that.Testopen.testEdit = false;}, 2000);
+        }
+    },
 
       methods: {
     
@@ -239,6 +282,13 @@ import  Pagination from '../Pagination.vue';
             handleSubmit(){
 
             },
+                   fetchData () {
+      //this.error = this.post = null
+      this.loading = true
+      // replace `getPost` with your data fetching util / API wrapper
+   this.getDevis();
+
+    },
 countDevis(){
 
                 axios.get('/countDevis')
@@ -254,6 +304,7 @@ countDevis(){
                 axios.get('/getDevis?page='+this.devis.current_page+'')
                 .then((response) => {
                  // console.log('shit');
+                    this.loading = false;
                     this.devis = response.data.devis;
                     //console.log(response.data.devis)
                     //this.devis.fk_compte_d = response.data.devis.nom_compte;
@@ -274,7 +325,26 @@ countDevis(){
                     console.log('handle server error from here');
                 });
           },
-          
+           searchDevis(event){
+             console.log(this.search);
+             this.devis.current_page=1;
+             if(this.search === ""){
+                //console.log('test2');
+                    this.getDevis();}
+                else {
+                     // console.log('test1');
+                axios.get('/searchDevis/'+this.search+'?page='+this.devis.current_page+'')
+                .then((response) => {
+                  console.log('serchhhh ')
+                  console.log(response.data.devis)
+                    this.devis = response.data.devis;
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });}
+                    
+          },
        deleteDevis(devi){
 
 
@@ -378,14 +448,13 @@ table{
     background-color: #f8f9fa
 }
 
-.notifArticle{
-    opacity:0.9;
+.show{
+     opacity:0.9;
     width: 233px;
     z-index: 100;
     top: 61px;
     right: 0;
     position:  absolute;
-    position :fixed;
-}
+    position :fixed;}
 
 </style>
