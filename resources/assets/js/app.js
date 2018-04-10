@@ -17,7 +17,8 @@ Vue.use(BootstrapVue);
 import swal from 'sweetalert2'
 Vue.prototype.$swal=swal;
 
-
+import vSelect from 'vue-select'
+Vue.component('v-select', vSelect)
 
 
 

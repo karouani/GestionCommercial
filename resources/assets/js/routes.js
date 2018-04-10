@@ -214,8 +214,9 @@ const  router = new VueRouter({
          component: ShowBonCommande
             },
         {     
-         path:"/EditBonCommande/:reference_bc",
-         component: EditBonCommande
+         path:"/EditBonCommande",
+         component: EditBonCommande,
+         name: "EditBonCommande",
         },           
         
     ],

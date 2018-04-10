@@ -129,8 +129,8 @@
                                             <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary" ><i class="far fa-file-pdf"></i></a>
                                             
 
+                                     <a href="#"  @click="redirect_To_EditBonCommande(bonCommande)" class="btn btn-success"><i class="fas fa-edit d-inline-block"></i></a>                                
 
-                                         <router-link class="btn btn-success " :to="'/EditBonCommande/'+bonCommande.reference_bc"><i class="fas fa-edit d-inline-block"></i></router-link>
                                              <a href="#"  @click="deleteBonCommande(bonCommande)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
                                     </tr>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -432,6 +432,11 @@ import  Pagination from '../Pagination.vue';
 
                 redirect_To_ShowBonCommande(reference_bc){
                      this.$router.push('/ShowBonCommande/'+reference_bc);
+            },
+            redirect_To_EditBonCommande(boncommande){
+                   //  this.$router.push('/ShowBonCommande/'+reference_bc);
+                     this.$router.push({ name: 'EditBonCommande', params: { reference_bc: boncommande.reference_bc, fk_compte_bc: boncommande.fk_compte_bc}});
+
             },
 
             

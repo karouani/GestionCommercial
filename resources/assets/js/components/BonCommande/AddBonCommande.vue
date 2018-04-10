@@ -22,10 +22,10 @@
             <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
-                <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" @change="getCompte(compte.id_compte)">
+                <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" @click="getCompte(compte.id_compte)" @change="getCompte(compte.id_compte)">
                     <option selected disabled>Choisir Client</option>
                     <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
-                </select>                    
+                </select>    
                 </div>
             </div> 
 
@@ -56,7 +56,7 @@
             <label for="">{{compte.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="compte.adresse_compte"></textarea>
+            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_bc"></textarea>
             </div>
          </div>
         </div>
@@ -401,7 +401,7 @@ methods: {
             this.bonCommande.montant_net_bc = this.net_HT ,
             this.bonCommande.tva_montant_bc = this.tva_total ,
             this.bonCommande.montant_ttc_bc =  this.total_ttc,
-            this.bonCommande.adresse_bc=  this.compte.adresse_compte
+           // this.bonCommande.adresse_bc=  this.compte.adresse_compte
             this.bonCommande.fk_compte_bc = this.compte.id_compte;
 
             
@@ -585,6 +585,7 @@ methods: {
                   response => {
                        
                     this.compte= response.data.compte;
+                    this.bonCommande.adresse_bc = this.compte.adresse_compte;
                     console.log(this.compte)
                   });
                   this.getRemise(id_compte);     
