@@ -94,9 +94,16 @@ class DevisController extends Controller
     }
 
 
+    public function updateStatusDevis(Request $request){
+  //dd($request->id_devis);
+        $devi = Devi::find($request->id_devis);
+                $devi->fk_status_d = $request->fk_status_d;
+                $devi->save();
+        return Response()->json(['etat' => true]);
+    }
+
         // ajouter les commandes de devis
-    public function addCommandes(Request $request)
-    { 
+    public function addCommandes(Request $request){ 
         
            for($i=0;$i<count($request->commandes);$i++) {    
         $commande = new Commande();  
@@ -167,7 +174,8 @@ class DevisController extends Controller
     public function getDevis(){
      
 $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
-            ->select('devis.*', 'comptes.nom_compte')
+->leftJoin('status', 'devis.fk_status_d', '=', 'status.id_status')
+            ->select('devis.*', 'comptes.nom_compte','status.type_status')
             ->paginate(10);
            
          return Response()->json(['devis' => $devis ]);

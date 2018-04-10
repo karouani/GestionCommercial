@@ -45,14 +45,16 @@
          </div>
         </div>
         <br>
-        <div class="form-group">
-                
+        <div class="form-group row">
+                 <div class="col-sm-4"> 
                 <select class="form-control custom-select " id="fk_status_d" v-model="devi.fk_status_d" >
-                    <option selected disabled>Choisir Status</option>
+                    <option value="Brouillon" selected disabled>Brouillon</option>
                     <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
                 </select>
-                <a href="#" class="btn btn-info"><i class="fa fa-undo" style="font-size:24px"></i></a>                                
-
+                 </div>
+                 <div class="col-sm-2"> 
+                <a href="#" @click="updateStatusDevis()"  class="btn btn-info" style="font-size:10px"><i class="fa fa-undo"></i></a>                                
+                 </div>
         </div>
     </div>
 </div>
@@ -242,7 +244,18 @@
 
           }),
           methods:{
+updateStatusDevis(){
+                axios.post('/updateStatusDevis',this.devi)
+                .then(response => {
+                        console.log("updateStatusDevis")
 
+                    if(response.data.etat){
+                        this.$router.push('/');
+                    }
+                })
+                .catch(error => {
+                })
+    },
        getDevisD:function(id_devis){
                   axios.get('/getDevisD/'+id_devis).then(
                   response => {
@@ -272,6 +285,17 @@
         })
         .catch(() => {
                 console.log('handle server error from here');
+        });
+    },
+    getStatu(devi){
+                
+        axios.get('/getStatu/'+devi.fk_status_d)
+            .then((response) => {
+                    this.statu = response.data.statu;
+                 // this.devi.fk_status_d=response.data.statu.adresse_compte;
+            })
+            .catch(() => {
+                    console.log('handle server error from here');
         });
     },
         

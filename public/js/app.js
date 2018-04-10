@@ -108149,6 +108149,9 @@ var render = function() {
                       staticClass: "form-control custom-select ",
                       attrs: { id: "id_compte" },
                       on: {
+                        click: function($event) {
+                          _vm.getClient(_vm.compte.id_compte)
+                        },
                         change: [
                           function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -109625,6 +109628,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -109780,12 +109787,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getDevis: function getDevis() {
             var _this2 = this;
 
+            //type_status
             axios.get('/getDevis?page=' + this.devis.current_page + '').then(function (response) {
-                // console.log('shit');
                 _this2.loading = false;
                 _this2.devis = response.data.devis;
-                //console.log(response.data.devis)
-                //this.devis.fk_compte_d = response.data.devis.nom_compte;
             }).catch(function () {
                 console.log('handle server error from here');
             });
@@ -110006,7 +110011,21 @@ var render = function() {
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(devi.date_limit_d))]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(devi.fk_status_d) + " ")]),
+                            devi.fk_status_d == "Brouillon"
+                              ? _c("td", [
+                                  _vm._v(
+                                    "\n                                            \n                                            " +
+                                      _vm._s(devi.fk_status_d) +
+                                      " "
+                                  )
+                                ])
+                              : _c("td", [
+                                  _vm._v(
+                                    "   \n                                            " +
+                                      _vm._s(devi.type_status) +
+                                      " "
+                                  )
+                                ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(_vm._s(devi.montant_ttc_d) + " ")
@@ -110572,117 +110591,140 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-  data: function data() {
-    return {
-      // devi
-      devi: {
-        id_devis: 0,
-        reference_d: "",
-        date_d: "",
-        adresse_d: "",
-        type_operation: "",
-        objet_d: "",
-        date_emission_d: "",
-        remise_total_d: "",
-        majoration_d: "",
-        date_limit_d: "",
-        introduction_d: "",
-        conditions_reglements_d: "",
-        notes_d: "",
-        accompte_d: "",
-        fk_status_d: "",
-        fk_compte_d: "",
-        fk_user_d: "",
+    data: function data() {
+        return {
+            // devi
+            devi: {
+                id_devis: 0,
+                reference_d: "",
+                date_d: "",
+                adresse_d: "",
+                type_operation: "",
+                objet_d: "",
+                date_emission_d: "",
+                remise_total_d: "",
+                majoration_d: "",
+                date_limit_d: "",
+                introduction_d: "",
+                conditions_reglements_d: "",
+                notes_d: "",
+                accompte_d: "",
+                fk_status_d: "",
+                fk_compte_d: "",
+                fk_user_d: "",
 
-        designation: "",
-        nom_compte: "",
-        taux_tva: "",
+                designation: "",
+                nom_compte: "",
+                taux_tva: "",
 
-        total_ht_d: 0,
-        remise_ht_d: 0,
-        montant_net_d: 0,
-        tva_montant_d: 0,
-        montant_ttc_d: 0,
+                total_ht_d: 0,
+                remise_ht_d: 0,
+                montant_net_d: 0,
+                tva_montant_d: 0,
+                montant_ttc_d: 0,
 
-        nom_societe: ""
-      },
-      // tableau des devis 
-      devis: [],
-      //tables foreign key 
-      status: [],
-      tvas: [],
-      articles: [],
-      comptes: [],
-      index: 0,
-      total_prix: 0,
-      remise_T: 0,
-      //commandes
+                nom_societe: ""
+            },
+            // tableau des devis 
+            devis: [],
+            //tables foreign key 
+            status: [],
+            tvas: [],
+            articles: [],
+            comptes: [],
+            index: 0,
+            total_prix: 0,
+            remise_T: 0,
+            //commandes
 
-      commande: {
-        id_cmd: 0,
-        quantite_cmd: 1,
-        remise_cmd: 0,
-        majoration_cmd: 0,
-        prix_ht: 0,
-        fk_article: "",
-        fk_document: "",
-        fk_tva_cmd: "",
+            commande: {
+                id_cmd: 0,
+                quantite_cmd: 1,
+                remise_cmd: 0,
+                majoration_cmd: 0,
+                prix_ht: 0,
+                fk_article: "",
+                fk_document: "",
+                fk_tva_cmd: "",
 
-        //affichage
+                //affichage
 
-        desig: "",
-        total_ht_cmd: 0,
-        taux_tva: 0
+                desig: "",
+                total_ht_cmd: 0,
+                taux_tva: 0
 
-      },
-      commandes: []
+            },
+            commandes: []
 
-    };
-  },
-  methods: {
-
-    getDevisD: function getDevisD(id_devis) {
-      var _this = this;
-
-      axios.get('/getDevisD/' + id_devis).then(function (response) {
-        //console.log(response.data.devi.fk_compte_d);
-
-        _this.devi = response.data.devi[0];
-      });
+        };
     },
-    getCommandes: function getCommandes(id_devis) {
-      var _this2 = this;
+    methods: {
+        updateStatusDevis: function updateStatusDevis() {
+            var _this = this;
 
-      axios.get('/getCommandes/' + 'D' + id_devis).then(function (response) {
-        console.log("commandes:  ");
-        console.log(response.data.commandes);
+            axios.post('/updateStatusDevis', this.devi).then(function (response) {
+                console.log("updateStatusDevis");
 
-        _this2.commandes = response.data.commandes;
-        // this.commande.fk_article= response.data.articles;
-      });
+                if (response.data.etat) {
+                    _this.$router.push('/');
+                }
+            }).catch(function (error) {});
+        },
+
+        getDevisD: function getDevisD(id_devis) {
+            var _this2 = this;
+
+            axios.get('/getDevisD/' + id_devis).then(function (response) {
+                //console.log(response.data.devi.fk_compte_d);
+
+                _this2.devi = response.data.devi[0];
+            });
+        },
+        getCommandes: function getCommandes(id_devis) {
+            var _this3 = this;
+
+            axios.get('/getCommandes/' + 'D' + id_devis).then(function (response) {
+                console.log("commandes:  ");
+                console.log(response.data.commandes);
+
+                _this3.commandes = response.data.commandes;
+                // this.commande.fk_article= response.data.articles;
+            });
+        },
+
+        getStatus: function getStatus() {
+            var _this4 = this;
+
+            axios.get('/getStatus').then(function (response) {
+                _this4.status = response.data.status;
+            }).catch(function () {
+                console.log('handle server error from here');
+            });
+        },
+        getStatu: function getStatu(devi) {
+            var _this5 = this;
+
+            axios.get('/getStatu/' + devi.fk_status_d).then(function (response) {
+                _this5.statu = response.data.statu;
+                // this.devi.fk_status_d=response.data.statu.adresse_compte;
+            }).catch(function () {
+                console.log('handle server error from here');
+            });
+        }
     },
 
-    getStatus: function getStatus() {
-      var _this3 = this;
-
-      axios.get('/getStatus').then(function (response) {
-        _this3.status = response.data.status;
-      }).catch(function () {
-        console.log('handle server error from here');
-      });
+    mounted: function mounted() {
+        this.devi.id_devis = this.$route.params.id_devis;
+        this.getDevisD(this.devi.id_devis);
+        this.getCommandes(this.devi.id_devis);
+        this.getStatus();
     }
-  },
-
-  mounted: function mounted() {
-    this.devi.id_devis = this.$route.params.id_devis;
-    this.getDevisD(this.devi.id_devis);
-    this.getCommandes(this.devi.id_devis);
-    this.getStatus();
-  }
 });
 
 /***/ }),
@@ -110819,58 +110861,81 @@ var render = function() {
           _vm._v(" "),
           _c("br"),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.devi.fk_status_d,
-                    expression: "devi.fk_status_d"
+          _c("div", { staticClass: "form-group row" }, [
+            _c("div", { staticClass: "col-sm-4" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.devi.fk_status_d,
+                      expression: "devi.fk_status_d"
+                    }
+                  ],
+                  staticClass: "form-control custom-select ",
+                  attrs: { id: "fk_status_d" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.devi,
+                        "fk_status_d",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
                   }
-                ],
-                staticClass: "form-control custom-select ",
-                attrs: { id: "fk_status_d" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.devi,
-                      "fk_status_d",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
-                }
-              },
-              [
-                _c("option", { attrs: { selected: "", disabled: "" } }, [
-                  _vm._v("Choisir Status")
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.status, function(statu) {
-                  return _c(
+                },
+                [
+                  _c(
                     "option",
                     {
-                      key: statu.id_status,
-                      domProps: { value: statu.id_status }
+                      attrs: { value: "Brouillon", selected: "", disabled: "" }
                     },
-                    [_vm._v(_vm._s(statu.type_status))]
-                  )
-                })
-              ],
-              2
-            ),
+                    [_vm._v("Brouillon")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.status, function(statu) {
+                    return _c(
+                      "option",
+                      {
+                        key: statu.id_status,
+                        domProps: { value: statu.id_status }
+                      },
+                      [_vm._v(_vm._s(statu.type_status))]
+                    )
+                  })
+                ],
+                2
+              )
+            ]),
             _vm._v(" "),
-            _vm._m(0)
+            _c("div", { staticClass: "col-sm-2" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-info",
+                  staticStyle: { "font-size": "10px" },
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.updateStatusDevis()
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-undo" })]
+              )
+            ])
           ])
         ])
       ]),
@@ -110879,7 +110944,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", [
         _c("table", { staticClass: "table table-bordered tableau" }, [
-          _vm._m(1),
+          _vm._m(0),
           _vm._v(" "),
           _c(
             "tbody",
@@ -111110,17 +111175,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "btn btn-info", attrs: { href: "#" } }, [
-      _c("i", {
-        staticClass: "fa fa-undo",
-        staticStyle: { "font-size": "24px" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", { staticClass: "heade" }, [
         _c("th", [_vm._v("Article")]),
@@ -111195,6 +111249,8 @@ exports.push([module.i, "\n.btnMarge[data-v-457cb631]{\n     padding-bottom: 10p
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -111650,14 +111706,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log('handle server error from here');
             });
         },
+        getClients: function getClients() {
+            var _this5 = this;
+
+            axios.get('/getClients').then(function (response) {
+                _this5.comptes = response.data.comptes;
+            }).catch(function () {
+                console.log('handle server error from here');
+            });
+        },
 
 
         // recuperer tvas
         getTvas: function getTvas() {
-            var _this5 = this;
+            var _this6 = this;
 
             axios.get('/getTvas').then(function (response) {
-                _this5.tvas = response.data.tvas;
+                _this6.tvas = response.data.tvas;
             }).catch(function () {
                 console.log('handle server error from here');
             });
@@ -111665,23 +111730,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         //recuperer tt les articles
         getarticles: function getarticles() {
-            var _this6 = this;
+            var _this7 = this;
 
             axios.get('/getArticles').then(function (response) {
 
-                _this6.articles = response.data.articles;
+                _this7.articles = response.data.articles;
             }).catch(function () {
                 console.log('handle server error from here');
             });
         },
-        getClient: function getClient(devi) {
-            var _this7 = this;
+        getClient: function getClient(fk_compte_d) {
+            var _this8 = this;
 
-            console.log("compteee " + devi.fk_compte_d);
-            axios.get('/getClient/' + devi.fk_compte_d).then(function (response) {
-                _this7.compte = response.data.compte;
-                _this7.getRemise(devi.fk_compte_d);
-                _this7.devi.adresse_d = response.data.compte.adresse_compte;
+            console.log("compteee " + fk_compte_d);
+            axios.get('/getClient/' + fk_compte_d).then(function (response) {
+                _this8.compte = response.data.compte;
+
+                _this8.getRemise(fk_compte_d);
+                console.log("adresse ----------- " + _this8.devi.adresse_d);
+
+                _this8.devi.adresse_d = response.data.compte.adresse_compte;
+                _this8.devi.nom_compte = response.data.compte.nom_compte;
             }).catch(function () {
                 console.log('handle server error from here');
             });
@@ -111690,16 +111759,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         // recuperer des infos sur un article
         getPrixArticle: function getPrixArticle() {
-            var _this8 = this;
+            var _this9 = this;
 
             axios.get('/getPrixArticle/' + this.commande.fk_article).then(function (response) {
                 // prix de vente d'article
-                _this8.commande.prix_ht = response.data.article[0].prix_ht_vente;
+                _this9.commande.prix_ht = response.data.article[0].prix_ht_vente;
                 // fk de tva d'article
-                _this8.commande.fk_tva_cmd = response.data.article[0].fk_tva_applicable;
+                _this9.commande.fk_tva_cmd = response.data.article[0].fk_tva_applicable;
                 // designationnation d'article
-                _this8.commande.designation = response.data.article[0].designation;
-                _this8.tauxTva();
+                _this9.commande.designation = response.data.article[0].designation;
+                _this9.tauxTva();
             }).catch(function () {
                 console.log('handle server error from here');
             });
@@ -111707,36 +111776,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         // recuperer remise associe a un compte
         getRemise: function getRemise(id_compte) {
-            var _this9 = this;
+            var _this10 = this;
 
             console.log("remise" + id_compte);
 
             axios.get('/getRemise/' + id_compte).then(function (response) {
                 if (response.data.conditions_remise[0].remise == null) {
-                    _this9.devi.remise_total_d = 0;
-                } else _this9.devi.remise_total_d = response.data.conditions_remise[0].remise;
+                    _this10.devi.remise_total_d = 0;
+                } else _this10.devi.remise_total_d = response.data.conditions_remise[0].remise;
             }).catch(function () {
                 console.log('handle server error from here');
             });
         },
 
         getDevisD: function getDevisD(id_devis) {
-            var _this10 = this;
+            var _this11 = this;
 
             axios.get('/getDevisD/' + id_devis).then(function (response) {
                 //console.log(response.data.devi.fk_compte_d);
 
-                _this10.devi = response.data.devi[0];
+                _this11.devi = response.data.devi[0];
             });
         },
         getCommandes: function getCommandes(id_devis) {
-            var _this11 = this;
+            var _this12 = this;
 
             axios.get('/getCommandes/' + 'D' + id_devis).then(function (response) {
                 console.log("commandes:  ");
                 console.log(response.data.commandes);
 
-                _this11.commandes = response.data.commandes;
+                _this12.commandes = response.data.commandes;
                 // this.commande.fk_article= response.data.articles;
             });
         }
@@ -111847,15 +111916,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log('----------------');
 
         this.devi.id_devis = this.$route.params.id_devis;
-
+        this.getDevisD(this.devi.id_devis);
         this.getStatus();
         //this.countDevis();
         this.getTvas();
         this.getarticles();
-        this.getClient(this.devi.id_devis);
-
+        // console.log("++++++++++++++++"+this.devi.fk_compte_d);
+        // this.getClient(this.devi.fk_compte_d)
+        this.getClients();
         console.log(this.devi.id_devis);
-        this.getDevisD(this.devi.id_devis);
+
         this.getCommandes(this.devi.id_devis);
         this.getPaiement(this.devi.id_devis);
     }
@@ -111927,31 +111997,62 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-sm-10" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.devi.fk_compte_d,
-                        expression: "devi.fk_compte_d"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "text",
-                      id: "inputPassword",
-                      placeholder: ""
-                    },
-                    domProps: { value: _vm.devi.fk_compte_d },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.devi.fk_compte_d,
+                          expression: "devi.fk_compte_d"
                         }
-                        _vm.$set(_vm.devi, "fk_compte_d", $event.target.value)
+                      ],
+                      staticClass: "form-control custom-select ",
+                      attrs: { id: "id_compte" },
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.devi,
+                              "fk_compte_d",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            _vm.getClient(_vm.devi.fk_compte_d)
+                          }
+                        ]
                       }
-                    }
-                  })
+                    },
+                    [
+                      _c("option", { attrs: { selected: "", disabled: "" } }, [
+                        _vm._v("Choisir Compte")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.comptes, function(compte) {
+                        return _c(
+                          "option",
+                          {
+                            key: compte.id_compte,
+                            domProps: { value: compte.id_compte }
+                          },
+                          [_vm._v(_vm._s(compte.nom_compte))]
+                        )
+                      })
+                    ],
+                    2
+                  )
                 ])
               ]),
               _vm._v(" "),

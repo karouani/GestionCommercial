@@ -74,7 +74,11 @@
                                         <td>{{devi.nom_compte}} </td>
                                         <td>{{ devi.date_d}}</td>
                                         <td>{{devi.date_limit_d}}</td>
-                                        <td>{{devi.fk_status_d}} </td> 
+                                        <td v-if="devi.fk_status_d == 'Brouillon'">
+                                            
+                                            {{devi.fk_status_d}} </td>
+                                         <td v-else>   
+                                            {{devi.type_status}} </td>
                                         <td>{{devi.montant_ttc_d}} </td> 
                                         
                                        <td  class="optionsWidth"> 
@@ -300,16 +304,12 @@ countDevis(){
                     console.log('handle server error from here');
                 });
           },
-          getDevis(){
+          getDevis(){//type_status
                 axios.get('/getDevis?page='+this.devis.current_page+'')
                 .then((response) => {
-                 // console.log('shit');
                     this.loading = false;
                     this.devis = response.data.devis;
-                    //console.log(response.data.devis)
-                    //this.devis.fk_compte_d = response.data.devis.nom_compte;
-
-                })
+               })
                 .catch(() => {
                     console.log('handle server error from here');
                 });
@@ -372,6 +372,7 @@ countDevis(){
 })
 
         },  
+        
    },
 
 

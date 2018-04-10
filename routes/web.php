@@ -70,6 +70,7 @@ Route::delete('/deleteTva/{id_tva}','ParametresController@deleteTva');
         //Status 
 Route::post('/addStatu','ParametresController@addStatu');
 Route::get('/getStatus','ParametresController@getStatus');
+Route::get('/getStatu/{id_status}','ParametresController@getStatu');
 Route::delete('/deleteStatu/{id_status}','ParametresController@deleteStatu');
  //---------------------------------------------------------------------       
 
@@ -86,6 +87,8 @@ Route::get('/tauxTva/{fk_tva_cmd}','DevisController@tauxTva');
 Route::post('/updateDevis','DevisController@updateDevis');
 Route::delete('/deleteDevis/{id_devis}','DevisController@deleteDevis');
 Route::get('/searchDevis/{search_D}','DevisController@searchDevis');
+Route::post('/updateStatusDevis','DevisController@updateStatusDevis');
+
 
 //----------------------------------------------------------------------
 //Compte 

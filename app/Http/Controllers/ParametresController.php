@@ -71,6 +71,12 @@ $listeStatus = Statu::all();
 return Response()->json(['status' => $listeStatus  ]);
 }
 
+public function getStatu($id_status){
+
+    $statu = Statu::find($id_status);
+    return Response()->json(['statu' => $statu ]);
+}
+
 public function deleteStatu($id_status){
 $statu = Statu::find($id_status);
 $statu->delete();

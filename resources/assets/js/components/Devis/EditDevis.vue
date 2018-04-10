@@ -19,8 +19,10 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Compte  </label>
                 <div class="col-sm-10">
-             <input type="text" class="form-control" v-model="devi.fk_compte_d" id="inputPassword" placeholder="">
-    
+    <select class="form-control custom-select " id="id_compte" v-model="devi.fk_compte_d" @change="getClient(devi.fk_compte_d)">
+                    <option selected disabled>Choisir Compte</option>
+                    <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">{{compte.nom_compte}}</option>
+                </select>
                 </div>
             </div>
             <div class="form-group row">
@@ -459,7 +461,18 @@ this.commande = {
                 console.log('handle server error from here');
         });
     },
-
+ getClients(){
+                
+        axios.get('/getClients')
+            .then((response) => {
+                    this.comptes = response.data.comptes;
+                  
+            })
+            .catch(() => {
+                    console.log('handle server error from here');
+        });
+    },
+    
         // recuperer tvas
     getTvas(){
                 
@@ -485,14 +498,19 @@ this.commande = {
                     console.log('handle server error from here');
             });
     },
-    getClient(devi){
-                console.log("compteee "+devi.fk_compte_d);
-        axios.get('/getClient/'+devi.fk_compte_d)
+   
+    getClient(fk_compte_d){
+                console.log("compteee "+fk_compte_d);
+        axios.get('/getClient/'+fk_compte_d)
             .then((response) => {
                     this.compte = response.data.compte;
-                    this.getRemise(devi.fk_compte_d)
+
+                    this.getRemise(fk_compte_d)
+                                                        console.log("adresse ----------- "+this.devi.adresse_d)
+
                   this.devi.adresse_d=response.data.compte.adresse_compte;
-            })
+                  this.devi.nom_compte =response.data.compte.nom_compte;
+                             })
             .catch(() => {
                     console.log('handle server error from here');
         });
@@ -668,15 +686,16 @@ watch:{
  console.log('----------------')
   
             this.devi.id_devis = this.$route.params.id_devis;
-
+ this.getDevisD(this.devi.id_devis);
             this.getStatus();
             //this.countDevis();
             this.getTvas();
             this.getarticles();
-           this.getClient(this.devi.id_devis)
-
+       // console.log("++++++++++++++++"+this.devi.fk_compte_d);
+          // this.getClient(this.devi.fk_compte_d)
+            this.getClients();
             console.log(this.devi.id_devis);
-              this.getDevisD(this.devi.id_devis);
+             
               this.getCommandes(this.devi.id_devis);
               this.getPaiement(this.devi.id_devis);
 }

@@ -20,7 +20,7 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Compte  </label>
                 <div class="col-sm-10">
-                    <select class="form-control custom-select " id="id_compte" v-model="compte.id_compte" @change="getClient(compte.id_compte)">
+                    <select class="form-control custom-select " id="id_compte" v-model="compte.id_compte" @click="getClient(compte.id_compte)" @change="getClient(compte.id_compte)">
                     <option selected disabled>Choisir Compte</option>
                     <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">{{compte.nom_compte}}</option>
                 </select>
