@@ -51108,9 +51108,9 @@ module.exports = Component.exports
 var disposed = false
 var normalizeComponent = __webpack_require__(5)
 /* script */
-var __vue_script__ = __webpack_require__(581)
+var __vue_script__ = __webpack_require__(584)
 /* template */
-var __vue_template__ = __webpack_require__(582)
+var __vue_template__ = __webpack_require__(585)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -51155,13 +51155,13 @@ module.exports = Component.exports
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(583)
+  __webpack_require__(586)
 }
 var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = null
 /* template */
-var __vue_template__ = __webpack_require__(585)
+var __vue_template__ = __webpack_require__(588)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -51204,7 +51204,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(245);
-module.exports = __webpack_require__(589);
+module.exports = __webpack_require__(592);
 
 
 /***/ }),
@@ -51217,7 +51217,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(423);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert2__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routes_js__ = __webpack_require__(424);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Auth_js__ = __webpack_require__(577);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Auth_js__ = __webpack_require__(580);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -51250,7 +51250,7 @@ Vue.component('app-sidebar', __webpack_require__(243));
 Vue.component('app-content', __webpack_require__(53));
 /* Users*/
 
-Vue.component('app-vue', __webpack_require__(586));
+Vue.component('app-vue', __webpack_require__(589));
 Vue.component('app-addusers', __webpack_require__(225));
 Vue.component('app-affusers', __webpack_require__(226));
 Vue.component('app-edituser', __webpack_require__(227));
@@ -87815,9 +87815,9 @@ if (typeof window !== 'undefined' && window.Sweetalert2) window.sweetAlert = win
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_BonCommande_AddBonCommande_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23__components_BonCommande_AddBonCommande_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_BonCommande_ShowBonCommandes_vue__ = __webpack_require__(562);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_BonCommande_ShowBonCommandes_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24__components_BonCommande_ShowBonCommandes_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_BonCommande_ShowBonCommande_vue__ = __webpack_require__(567);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_BonCommande_ShowBonCommande_vue__ = __webpack_require__(570);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_BonCommande_ShowBonCommande_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_25__components_BonCommande_ShowBonCommande_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_BonCommande_EditBonCommande_vue__ = __webpack_require__(572);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_BonCommande_EditBonCommande_vue__ = __webpack_require__(575);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_BonCommande_EditBonCommande_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26__components_BonCommande_EditBonCommande_vue__);
 
 
@@ -110524,6 +110524,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -110616,23 +110618,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this2.commandes = response.data.commandes;
         // this.commande.fk_article= response.data.articles;
       });
+    },
+
+    getStatus: function getStatus() {
+      var _this3 = this;
+
+      axios.get('/getStatus').then(function (response) {
+        _this3.status = response.data.status;
+      }).catch(function () {
+        console.log('handle server error from here');
+      });
     }
-
-    /* tauxTva(){
-         axios.get('/tauxTva/'+commandes.fk_tva_cmd).then(
-               response => {
-                   console.log(response.data.taux_tva.taux_tva)
-                 this.commande.taux_tva= response.data.taux_tva.taux_tva;
-                //console.log(response.data.modePaiement[0])
-               });
-      }*/
-
   },
 
   mounted: function mounted() {
     this.devi.id_devis = this.$route.params.id_devis;
     this.getDevisD(this.devi.id_devis);
     this.getCommandes(this.devi.id_devis);
+    this.getStatus();
   }
 });
 
@@ -110819,7 +110822,9 @@ var render = function() {
                 })
               ],
               2
-            )
+            ),
+            _vm._v(" "),
+            _vm._m(0)
           ])
         ])
       ]),
@@ -110828,7 +110833,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", [
         _c("table", { staticClass: "table table-bordered tableau" }, [
-          _vm._m(0),
+          _vm._m(1),
           _vm._v(" "),
           _c(
             "tbody",
@@ -111055,6 +111060,17 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "btn btn-info", attrs: { href: "#" } }, [
+      _c("i", {
+        staticClass: "fa fa-undo",
+        staticStyle: { "font-size": "24px" }
+      })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -120945,6 +120961,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -120954,6 +120973,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             bonCommande: {
                 id_bc: 0,
                 reference_bc: "",
+                fk_devis: "",
                 date_bc: "",
                 type_operation_bc: "",
                 objet_bc: "",
@@ -121006,7 +121026,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             },
             contacts: [],
-
+            fk_document_cmd: "",
             // objet test sur affichage , ajout , recherche
             Testopen: {
                 testAjout: false,
@@ -121070,7 +121090,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 // % de tva
                 taux_tva: 0,
                 // designation d'article pr chaque commande
-                desig: "",
+                designation: "",
                 // montant total de chaque commande
                 totalHT: 0
             },
@@ -121097,6 +121117,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.bonCommande.total_ht_bc = this.total_prix, this.bonCommande.remise_ht_bc = this.remise_T, this.bonCommande.montant_net_bc = this.net_HT, this.bonCommande.tva_montant_bc = this.tva_total, this.bonCommande.montant_ttc_bc = this.total_ttc, this.bonCommande.adresse_bc = this.compte.adresse_compte;
             this.bonCommande.fk_compte_bc = this.compte.id_compte;
+
             console.log(this.bonCommande);
             console.log('-------------BonCommandes---------------');
             console.log(this.commandes);
@@ -121118,10 +121139,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 majoration_cmd: commande.majoration_cmd,
                 prix_ht: commande.prix_ht,
                 fk_article: commande.fk_article,
-                fk_document: commande.fk_document,
+                fk_document: this.fk_document_cmd,
                 fk_tva_cmd: commande.fk_tva_cmd,
 
-                desig: commande.desig,
+                designation: commande.designation,
                 totalHT: commande.totalHT,
                 total_ht: commande.total_ht,
                 tva_montant: commande.tva_montant,
@@ -121135,7 +121156,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 majoration_cmd: 0,
                 prix_ht: 0,
                 fk_article: "",
-                fk_document: this.$route.params.reference_bc,
+                //fk_document:this.$route.params.reference_bc,
+                fk_document: this.fk_document_cmd,
                 fk_tva_cmd: "",
 
                 //montant tva de chaque commande
@@ -121144,7 +121166,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 // % de tva
                 taux_tva: 0,
                 // designation d'article pr chaque commande
-                desig: "",
+                designation: "",
                 // montant total de chaque commande
                 totalHT: 0
             };
@@ -121187,26 +121209,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
 
-        //Reference de devis
-        countDevis: function countDevis() {
-            var _this5 = this;
-
-            axios.get('/countDevis').then(function (response) {
-
-                _this5.devi.reference_d = 'D' + response.data.count;
-                _this5.commande.fk_document = 'D' + response.data.count;
-                _this5.modePaiement.fk_document = 'D' + response.data.count;
-            }).catch(function () {
-                console.log('handle server error from here');
-            });
-        },
-
         // recuperer tvas
         getTvas: function getTvas() {
-            var _this6 = this;
+            var _this5 = this;
 
             axios.get('/getTvas').then(function (response) {
-                _this6.tvas = response.data.tvas;
+                _this5.tvas = response.data.tvas;
             }).catch(function () {
                 console.log('handle server error from here');
             });
@@ -121214,11 +121222,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         //recuperer tt les articles
         getarticles: function getarticles() {
-            var _this7 = this;
+            var _this6 = this;
 
             axios.get('/getArticles').then(function (response) {
 
-                _this7.articles = response.data.articles;
+                _this6.articles = response.data.articles;
             }).catch(function () {
                 console.log('handle server error from here');
             });
@@ -121226,16 +121234,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         // recuperer des infos sur un article
         getPrixArticle: function getPrixArticle() {
-            var _this8 = this;
+            var _this7 = this;
 
             axios.get('/getPrixArticle_bc/' + this.commande.fk_article).then(function (response) {
                 // prix de vente d'article
-                _this8.commande.prix_ht = response.data.article[0].prix_ht_vente;
+                _this7.commande.prix_ht = response.data.article[0].prix_ht_vente;
                 // fk de tva d'article
-                _this8.commande.fk_tva_cmd = response.data.article[0].fk_tva_applicable;
+                _this7.commande.fk_tva_cmd = response.data.article[0].fk_tva_applicable;
                 // designation d'article
-                _this8.commande.desig = response.data.article[0].designation;
-                _this8.tauxTva();
+                _this7.commande.designation = response.data.article[0].designation;
+                _this7.tauxTva();
             }).catch(function () {
                 console.log('handle server error from here');
             });
@@ -121243,12 +121251,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         // recuperer remise associe a un compte
         getRemise: function getRemise(id_compte) {
-            var _this9 = this;
+            var _this8 = this;
 
             axios.get('/getRemise/' + id_compte).then(function (response) {
                 if (response.data.conditions_remise[0].remise == null) {
-                    _this9.bonCommande.remise_total_bc = 0;
-                } else _this9.bonCommande.remise_total_bc = response.data.conditions_remise[0].remise;
+                    _this8.bonCommande.remise_total_bc = 0;
+                } else _this8.bonCommande.remise_total_bc = response.data.conditions_remise[0].remise;
                 console.log('getRemiseeeeee2222');
             }).catch(function () {
                 console.log('handle server error from here');
@@ -121257,90 +121265,114 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         // recuperer liste des clients
         getClients: function getClients() {
-            var _this10 = this;
+            var _this9 = this;
 
             axios.get('/getClients').then(function (response) {
-                _this10.comptes = response.data.comptes;
+                _this9.comptes = response.data.comptes;
             }).catch(function () {
                 console.log('handle server error from here');
             });
         },
 
         getCompte: function getCompte(id_compte) {
-            var _this11 = this;
+            var _this10 = this;
 
             axios.get('/getCompte/' + id_compte).then(function (response) {
 
-                _this11.compte = response.data.compte;
-                console.log(_this11.compte);
+                _this10.compte = response.data.compte;
+                console.log(_this10.compte);
             });
             this.getRemise(id_compte);
         },
         getContacts: function getContacts(id_compte) {
-            var _this12 = this;
+            var _this11 = this;
 
             axios.get('/getContacts/' + id_compte).then(function (response) {
 
-                _this12.contacts = response.data.contacts;
-                console.log(_this12.contacts);
+                _this11.contacts = response.data.contacts;
+                console.log(_this11.contacts);
             });
         },
         getCondtionFacture: function getCondtionFacture(id_compte) {
-            var _this13 = this;
+            var _this12 = this;
 
             axios.get('/getCFacture/' + id_compte).then(function (response) {
                 console.log("Cfacture");
-                _this13.condition_facture = response.data.condition_facture[0];
-                console.log(_this13.condition_facture);
+                _this12.condition_facture = response.data.condition_facture[0];
+                console.log(_this12.condition_facture);
             });
         },
         // pour convert
         getDevisD: function getDevisD(id_devis) {
-            var _this14 = this;
+            var _this13 = this;
 
             axios.get('/getDevisD/' + id_devis).then(function (response) {
                 console.log("deviiiiiiiis");
                 console.log(id_devis);
-                console.log(response.data.devi[0].objet_d);
-                // reference_bc
+                console.log(response.data.devi[0]);
 
-                _this14.bonCommande.objet_bc = response.data.devi[0].objet_d;
-                _this14.bonCommande.date_bc = response.data.devi[0].date_d;
+                _this13.bonCommande.objet_bc = response.data.devi[0].objet_d;
+                _this13.bonCommande.date_bc = response.data.devi[0].date_d;
 
-                _this14.bonCommande.remise_total_bc = response.data.devi[0].remise_total_d;
-                _this14.bonCommande.date_limit_bc = response.data.devi[0].date_limit_d;
-                _this14.bonCommande.conditions_reglements_bc = response.data.devi[0].conditions_reglements_d;
-                _this14.bonCommande.notes_bc = response.data.devi[0].notes_d;
-                _this14.compte.adresse_compte = response.data.devi[0].adresse_d;
+                _this13.bonCommande.remise_total_bc = response.data.devi[0].remise_total_d;
+                _this13.bonCommande.date_limit_bc = response.data.devi[0].date_limit_d;
+                _this13.bonCommande.conditions_reglements_bc = response.data.devi[0].conditions_reglements_d;
+                _this13.bonCommande.notes_bc = response.data.devi[0].notes_d;
+                _this13.bonCommande.fk_devis = response.data.devi[0].reference_d;
 
-                console.log(_this14.bonCommande.objet_bc);
+                _this13.compte.adresse_compte = response.data.devi[0].adresse_d;
+                _this13.compte.nom_compte = response.data.devi[0].nom_compte;
+                _this13.compte.id_compte = response.data.devi[0].fk_compte_d;
+
+                _this13.modePaiement.reference_paiement = response.data.devi[0].reference_paiement;
+                _this13.modePaiement.date_paiement = response.data.devi[0].date_paiement;
+                _this13.modePaiement.type_paiement = response.data.devi[0].type_paiement;
+
+                console.log(_this13.fk_document_cmd);
+            });
+        },
+
+        getCommandes: function getCommandes(id_devis) {
+            var _this14 = this;
+
+            axios.get('/getCommandes/' + 'D' + id_devis).then(function (response) {
+                console.log("commandes:  ");
+                console.log(response.data.commandes);
+
+                _this14.commandes = response.data.commandes;
+                for (var index = 0; index < _this14.commandes.length; index++) {
+                    console.log("compuuuuuted");
+                    _this14.commandes[index].fk_document = _this14.fk_document_cmd;
+                }
+                // this.commande.fk_article= response.data.articles;
+            });
+        },
+        countBonCommandes: function countBonCommandes() {
+            var _this15 = this;
+
+            axios.get('/countBonCommandes').then(function (response) {
+
+                _this15.bonCommande.reference_bc = 'BC' + response.data.count;
+                _this15.modePaiement.fk_document = 'BC' + response.data.count;
+                _this15.fk_document_cmd = 'BC' + response.data.count;
+
+                /*this.commande.fk_document='D'+response.data.count;
+                this.modePaiement.fk_document='D'+response.data.count;*/
+            }).catch(function () {
+                console.log('handle server error from here');
             });
         }
     },
 
     computed: {
-        // calcul
-        totalHTaxe: function totalHTaxe() {
-
-            var remise_art = this.commande.remise_cmd;
-            var majoration_art = this.commande.majoration_cmd;
-            var quantite_art = this.commande.quantite_cmd;
-            var prix_v = this.commande.prix_ht;
-
-            this.commande.totalHT = (+prix_v + +majoration_art - remise_art) * quantite_art;
-
-            //montant de remise pour chque commande
-            var remise = this.commande.totalHT * (this.bonCommande.remise_total_bc / 100);
-            //montant de commande apres remise
-            var net = this.commande.totalHT - this.commande.totalHT * (this.bonCommande.remise_total_bc / 100);
-            //montant tva par article
-            var tva = net * (this.commande.taux_tva / 100);
-            this.commande.tva_montant = tva;
-        },
         TotalBonCommande: function TotalBonCommande() {
             var sum = 0;
             var sum_tva = 0;
+
             for (var index = 0; index < this.commandes.length; index++) {
+
+                this.commandes[index].totalHT = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd) * this.commandes[index].quantite_cmd;
+
                 //total de prix de tt commandes
                 sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd) * this.commandes[index].quantite_cmd;
                 //montant tva de chaque commande apres remise
@@ -121370,30 +121402,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     watch: {
         'bonCommande.remise_total_bc': {
             handler: function handler() {
-                this.totalHTaxe;
                 this.TotalBonCommande;
             }
         },
-
         commandes: {
             handler: function handler() {
-                var sum = 0;
-                var sum_tva = 0;
 
-                for (var index = 0; index < this.commandes.length; index++) {
-                    this.commandes[index].totalHT = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd) * this.commandes[index].quantite_cmd;
-                    sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd) * this.commandes[index].quantite_cmd;
-
-                    var remise = this.commandes[index].totalHT * (this.bonCommande.remise_total_bc / 100);
-                    var net = this.commandes[index].totalHT - this.commandes[index].totalHT * (this.bonCommande.remise_total_bc / 100);
-                    var tva = net * (this.commandes[index].fk_tva_cmd / 100);
-                    sum_tva = +sum_tva + +tva;
-                }
-                this.total_prix = sum;
-                this.remise_T = this.total_prix * (this.bonCommande.remise_total_bc / 100);
-                this.net_HT = this.total_prix - this.remise_T;
-                this.tva_total = +sum_tva;
-                this.total_ttc = +this.net_HT + +this.tva_total;
+                this.TotalBonCommande;
             },
             deep: true
         }
@@ -121401,23 +121416,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     mounted: function mounted() {
+        if (this.$route.params.id_devis != null) {
+            this.countBonCommandes();
+            this.id_devis = this.$route.params.id_devis;
+            this.getDevisD(this.$route.params.id_devis);
+            this.getCommandes(this.$route.params.id_devis);
 
-        console.log('----------------');
-        console.log(this.$route.params.id_compte + " / " + this.$route.params.reference_bc + " / " + this.$route.params.currentDate);
-        this.id_devis = this.$route.params.id_devis;
-        this.getDevisD(this.$route.params.id_devis);
-        this.bonCommande.reference_bc = this.$route.params.reference_bc;
-        this.bonCommande.date_bc = this.$route.params.currentDate;
-        this.commande.fk_document = this.$route.params.reference_bc;
-        this.modePaiement.fk_document = this.$route.params.reference_bc;
-        this.getCompte(this.$route.params.id_compte);
-        this.getContacts(this.$route.params.id_compte);
-        this.getCondtionFacture(this.$route.params.id_compte);
-        this.getStatus();
-        this.getTvas();
-        this.getarticles();
-        this.getClients();
-        this.getRemise(this.$route.params.id_compte);
+            this.getarticles();
+            this.getClients();
+            this.getTvas();
+        } else {
+            console.log('----------------');
+            console.log(this.$route.params.id_compte + " / " + this.$route.params.reference_bc + " / " + this.$route.params.currentDate);
+
+            this.bonCommande.reference_bc = this.$route.params.reference_bc;
+            this.bonCommande.date_bc = this.$route.params.currentDate;
+            this.commande.fk_document = this.$route.params.reference_bc;
+            this.modePaiement.fk_document = this.$route.params.reference_bc;
+            this.getCompte(this.$route.params.id_compte);
+            this.getContacts(this.$route.params.id_compte);
+            this.getCondtionFacture(this.$route.params.id_compte);
+            this.getStatus();
+            this.getTvas();
+            this.getarticles();
+            this.getClients();
+            this.getRemise(this.$route.params.id_compte);
+        }
     }
 });
 
@@ -121759,13 +121783,13 @@ var render = function() {
                                     {
                                       name: "model",
                                       rawName: "v-model",
-                                      value: commande.desig,
-                                      expression: "commande.desig"
+                                      value: commande.designation,
+                                      expression: "commande.designation"
                                     }
                                   ],
                                   staticClass: "form-control",
                                   attrs: { type: "text", disabled: "" },
-                                  domProps: { value: commande.desig },
+                                  domProps: { value: commande.designation },
                                   on: {
                                     input: function($event) {
                                       if ($event.target.composing) {
@@ -121773,7 +121797,7 @@ var render = function() {
                                       }
                                       _vm.$set(
                                         commande,
-                                        "desig",
+                                        "designation",
                                         $event.target.value
                                       )
                                     }
@@ -122692,7 +122716,7 @@ var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(565)
 /* template */
-var __vue_template__ = __webpack_require__(566)
+var __vue_template__ = __webpack_require__(569)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -122776,7 +122800,7 @@ exports.push([module.i, "\n.btnMarge[data-v-616036e6]{\n     padding-bottom: 10p
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__test_vue__ = __webpack_require__(591);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__test_vue__ = __webpack_require__(566);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__test_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__test_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Pagination_vue__);
@@ -123214,6 +123238,93 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 566 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
+var normalizeComponent = __webpack_require__(5)
+/* script */
+var __vue_script__ = __webpack_require__(567)
+/* template */
+var __vue_template__ = __webpack_require__(568)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\BonCommande\\test.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-14873b2c", Component.options)
+  } else {
+    hotAPI.reload("data-v-14873b2c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 567 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['ninjas'],
+  data: function data() {
+    return {};
+  }
+});
+
+/***/ }),
+/* 568 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("h1", [_vm._v(_vm._s(_vm.ninjas))])])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-14873b2c", module.exports)
+  }
+}
+
+/***/ }),
+/* 569 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -123582,7 +123693,7 @@ var render = function() {
                                   _c(
                                     "a",
                                     {
-                                      staticClass: "btn bg-secondary",
+                                      staticClass: "btn btn-secondary",
                                       attrs: { href: "#" },
                                       on: {
                                         click: function($event) {
@@ -123621,6 +123732,7 @@ var render = function() {
                                     "a",
                                     {
                                       staticClass: "btn btn-danger",
+                                      attrs: { href: "#" },
                                       on: {
                                         click: function($event) {
                                           _vm.deleteBonCommande(bonCommande)
@@ -123753,19 +123865,19 @@ if (false) {
 }
 
 /***/ }),
-/* 567 */
+/* 570 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(568)
+  __webpack_require__(571)
 }
 var normalizeComponent = __webpack_require__(5)
 /* script */
-var __vue_script__ = __webpack_require__(570)
+var __vue_script__ = __webpack_require__(573)
 /* template */
-var __vue_template__ = __webpack_require__(571)
+var __vue_template__ = __webpack_require__(574)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -123804,13 +123916,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 568 */
+/* 571 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(569);
+var content = __webpack_require__(572);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -123830,7 +123942,7 @@ if(false) {
 }
 
 /***/ }),
-/* 569 */
+/* 572 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)(false);
@@ -123844,7 +123956,7 @@ exports.push([module.i, "\n.btnMarge[data-v-fb1eb154]{\n     padding-bottom: 10p
 
 
 /***/ }),
-/* 570 */
+/* 573 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -124108,7 +124220,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 571 */
+/* 574 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -124518,19 +124630,19 @@ if (false) {
 }
 
 /***/ }),
-/* 572 */
+/* 575 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(573)
+  __webpack_require__(576)
 }
 var normalizeComponent = __webpack_require__(5)
 /* script */
-var __vue_script__ = __webpack_require__(575)
+var __vue_script__ = __webpack_require__(578)
 /* template */
-var __vue_template__ = __webpack_require__(576)
+var __vue_template__ = __webpack_require__(579)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -124569,13 +124681,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 573 */
+/* 576 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(574);
+var content = __webpack_require__(577);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -124595,7 +124707,7 @@ if(false) {
 }
 
 /***/ }),
-/* 574 */
+/* 577 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)(false);
@@ -124609,7 +124721,7 @@ exports.push([module.i, "\n.btnMarge[data-v-afb20eae]{\n     padding-bottom: 10p
 
 
 /***/ }),
-/* 575 */
+/* 578 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -125355,7 +125467,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 576 */
+/* 579 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -126808,11 +126920,11 @@ if (false) {
 }
 
 /***/ }),
-/* 577 */
+/* 580 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(578);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(581);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 
 
@@ -126864,14 +126976,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 });
 
 /***/ }),
-/* 578 */
+/* 581 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(579);
+module.exports = __webpack_require__(582);
 
 
 /***/ }),
-/* 579 */
+/* 582 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -126896,7 +127008,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(580);
+module.exports = __webpack_require__(583);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -126912,7 +127024,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 580 */
+/* 583 */
 /***/ (function(module, exports) {
 
 /**
@@ -127645,7 +127757,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 581 */
+/* 584 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -127796,7 +127908,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 582 */
+/* 585 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -128006,13 +128118,13 @@ if (false) {
 }
 
 /***/ }),
-/* 583 */
+/* 586 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(584);
+var content = __webpack_require__(587);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -128032,7 +128144,7 @@ if(false) {
 }
 
 /***/ }),
-/* 584 */
+/* 587 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)(false);
@@ -128046,7 +128158,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 585 */
+/* 588 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -128236,15 +128348,15 @@ if (false) {
 }
 
 /***/ }),
-/* 586 */
+/* 589 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(5)
 /* script */
-var __vue_script__ = __webpack_require__(587)
+var __vue_script__ = __webpack_require__(590)
 /* template */
-var __vue_template__ = __webpack_require__(588)
+var __vue_template__ = __webpack_require__(591)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -128283,7 +128395,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 587 */
+/* 590 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -128360,7 +128472,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 588 */
+/* 591 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -128405,101 +128517,10 @@ if (false) {
 }
 
 /***/ }),
-/* 589 */
+/* 592 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 590 */,
-/* 591 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(5)
-/* script */
-var __vue_script__ = __webpack_require__(594)
-/* template */
-var __vue_template__ = __webpack_require__(596)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\BonCommande\\test.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-14873b2c", Component.options)
-  } else {
-    hotAPI.reload("data-v-14873b2c", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 592 */,
-/* 593 */,
-/* 594 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['ninjas'],
-  data: function data() {
-    return {};
-  }
-});
-
-/***/ }),
-/* 595 */,
-/* 596 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [_c("h1", [_vm._v(_vm._s(_vm.ninjas))])])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-14873b2c", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

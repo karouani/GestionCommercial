@@ -16,6 +16,7 @@ class CreateBonCommandesTable extends Migration
         Schema::create('bonCommandes', function (Blueprint $table) {
             $table->increments('id_bc');
             $table->string('reference_bc')->nullable();
+            $table->string('fk_devis')->nullable();
             $table->date('date_bc')->nullable();
             $table->string('type_operation_bc')->nullable();
             $table->string('objet_bc')->nullable();
@@ -38,6 +39,7 @@ class CreateBonCommandesTable extends Migration
             $table->integer('fk_status_bc')->nullable();
             $table->integer('fk_compte_bc')->nullable();
             $table->integer('fk_user_bc')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });

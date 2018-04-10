@@ -51,6 +51,8 @@
                     <option selected disabled>Choisir Status</option>
                     <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
                 </select>
+                <a href="#" class="btn btn-info"><i class="fa fa-undo" style="font-size:24px"></i></a>                                
+
         </div>
     </div>
 </div>
@@ -262,15 +264,16 @@
                   });     
         },
 
-       /* tauxTva(){
-            axios.get('/tauxTva/'+commandes.fk_tva_cmd).then(
-                  response => {
-                      console.log(response.data.taux_tva.taux_tva)
-                    this.commande.taux_tva= response.data.taux_tva.taux_tva;
-                   //console.log(response.data.modePaiement[0])
-                  });
-
-        }*/
+        getStatus(){
+        axios.get('/getStatus')
+        .then((response) => {
+                this.status= response.data.status;
+               
+        })
+        .catch(() => {
+                console.log('handle server error from here');
+        });
+    },
         
     },
            
@@ -278,6 +281,7 @@
               this.devi.id_devis = this.$route.params.id_devis;
               this.getDevisD(this.devi.id_devis);
               this.getCommandes(this.devi.id_devis);
+              this.getStatus();
 
           }
 

@@ -33,6 +33,7 @@
                 <label for="inputPassword" class="col-sm-2 col-form-label">Devis</label>
                 <div class="col-sm-10">
                 <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.reference_bc" disabled>
+
                 </div>
             </div>
                  <div class="form-group row">
@@ -81,8 +82,9 @@
                                     </thead>
                                     <tbody>
                              <tr v-for="(commande,index) in commandes" :key="index" >
-                            <th>  <input class="form-control"  type="text" v-model="commande.fk_article" disabled hidden>
-                           <input class="form-control"  type="text" v-model="commande.desig" disabled >
+                            <th>
+                                 <input class="form-control"  type="text" v-model="commande.fk_article" disabled hidden>
+                           <input class="form-control"  type="text" v-model="commande.designation" disabled >
                            
                             </th>
                             <th><input class="form-control"  type="text" v-model="commande.quantite_cmd" ></th>
@@ -125,6 +127,7 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
                 <div class="col-sm-8">
+
                 <input type="date" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.date_limit_bc">
                 </div>
             </div>
@@ -242,6 +245,7 @@
                bonCommande : { 
             id_bc:0,
             reference_bc:"",
+            fk_devis:"",
             date_bc:"", 
             type_operation_bc:"",
             objet_bc:"",
@@ -294,7 +298,7 @@
 
               },
               contacts : [],
-           
+           fk_document_cmd:"",
               // objet test sur affichage , ajout , recherche
               Testopen:{
                 testAjout : false,
@@ -358,7 +362,7 @@
                // % de tva
                taux_tva:0,
                // designation d'article pr chaque commande
-               desig:"",
+               designation:"",
                // montant total de chaque commande
                 totalHT:0,
               },
@@ -389,6 +393,8 @@ methods: {
             this.bonCommande.montant_ttc_bc =  this.total_ttc,
             this.bonCommande.adresse_bc=  this.compte.adresse_compte
             this.bonCommande.fk_compte_bc = this.compte.id_compte;
+
+            
             console.log(this.bonCommande)
             console.log('-------------BonCommandes---------------')
             console.log(this.commandes)
@@ -414,11 +420,11 @@ methods: {
                majoration_cmd: commande.majoration_cmd,
                prix_ht: commande.prix_ht,
                fk_article:commande.fk_article,
-               fk_document: commande.fk_document,
+               fk_document: this.fk_document_cmd,
                fk_tva_cmd:commande.fk_tva_cmd,
 
               
-               desig:commande.desig,
+               designation:commande.designation,
                totalHT:commande.totalHT,
                total_ht:commande.total_ht,
                tva_montant:commande.tva_montant,
@@ -432,7 +438,8 @@ methods: {
                 majoration_cmd:0,
                 prix_ht:0,
                 fk_article:"",
-                fk_document:this.$route.params.reference_bc,
+                //fk_document:this.$route.params.reference_bc,
+                fk_document:this.fk_document_cmd,
                 fk_tva_cmd:"",
                
                //montant tva de chaque commande
@@ -441,7 +448,7 @@ methods: {
                // % de tva
                taux_tva:0,
                // designation d'article pr chaque commande
-               desig:"",
+               designation:"",
                // montant total de chaque commande
                 totalHT:0,
               };
@@ -490,23 +497,7 @@ methods: {
                 console.log('handle server error from here');
         });
     },
-        
-        //Reference de devis
-    countDevis(){
-
-        axios.get('/countDevis')
-            .then((response) => {
-
-                    this.devi.reference_d='D'+response.data.count;
-                    this.commande.fk_document='D'+response.data.count;
-                    this.modePaiement.fk_document='D'+response.data.count;
-
-                  
-            })
-            .catch(() => {
-                    console.log('handle server error from here');
-            });
-    },
+  
         // recuperer tvas
     getTvas(){
                 
@@ -542,7 +533,7 @@ methods: {
                         // fk de tva d'article
                     this.commande.fk_tva_cmd=response.data.article[0].fk_tva_applicable;
                         // designation d'article
-                    this.commande.desig=response.data.article[0].designation;
+                    this.commande.designation=response.data.article[0].designation;
                     this.tauxTva();
                   
             })
@@ -610,8 +601,8 @@ methods: {
                   response => {
                          console.log("deviiiiiiiis");
                          console.log(id_devis);
-                         console.log(response.data.devi[0].objet_d);
-  // reference_bc
+                         console.log(response.data.devi[0]);
+
             
                     this.bonCommande.objet_bc= response.data.devi[0].objet_d;
                     this.bonCommande.date_bc= response.data.devi[0].date_d;
@@ -620,12 +611,55 @@ methods: {
                     this.bonCommande.date_limit_bc= response.data.devi[0].date_limit_d;
                     this.bonCommande.conditions_reglements_bc= response.data.devi[0].conditions_reglements_d;
                     this.bonCommande.notes_bc= response.data.devi[0].notes_d;
-                    this.compte.adresse_compte= response.data.devi[0].adresse_d;
+                    this.bonCommande.fk_devis= response.data.devi[0].reference_d;
 
-                         console.log(this.bonCommande.objet_bc);
+                    this.compte.adresse_compte= response.data.devi[0].adresse_d;
+                    this.compte.nom_compte= response.data.devi[0].nom_compte;
+                    this.compte.id_compte= response.data.devi[0].fk_compte_d;
+
+                    this.modePaiement.reference_paiement=response.data.devi[0].reference_paiement;
+                    this.modePaiement.date_paiement=response.data.devi[0].date_paiement;
+                    this.modePaiement.type_paiement=response.data.devi[0].type_paiement;
+                    
+
+                         console.log(this.fk_document_cmd);
 
                   });     
         },
+         getCommandes:function(id_devis){
+                  axios.get('/getCommandes/'+'D'+id_devis).then(
+                  response => {
+                      console.log("commandes:  ");
+                         console.log(response.data.commandes);
+
+                    this.commandes= response.data.commandes;
+                      for (let index = 0; index < this.commandes.length; index++) {
+            console.log("compuuuuuted")
+            this.commandes[index].fk_document=this.fk_document_cmd;
+                      }
+                    // this.commande.fk_article= response.data.articles;
+
+                  });     
+        },
+        countBonCommandes(){
+
+                axios.get('/countBonCommandes')
+                .then((response) => {
+
+                    this.bonCommande.reference_bc='BC'+response.data.count;
+                    this.modePaiement.fk_document='BC'+response.data.count;
+                    this.fk_document_cmd='BC'+response.data.count;
+
+
+                    /*this.commande.fk_document='D'+response.data.count;
+                    this.modePaiement.fk_document='D'+response.data.count;*/
+
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
 
 
 
@@ -634,31 +668,14 @@ methods: {
     
     
 computed:{
-        // calcul
-    totalHTaxe(){
-        
-
-            let remise_art=this.commande.remise_cmd;
-            let majoration_art=this.commande.majoration_cmd;
-            let quantite_art=this.commande.quantite_cmd;
-            let prix_v=this.commande.prix_ht;
-
-            this.commande.totalHT=(+prix_v + +majoration_art - remise_art)*quantite_art;
-
-                //montant de remise pour chque commande
-            let remise=this.commande.totalHT*(this.bonCommande.remise_total_bc/100);
-                //montant de commande apres remise
-            let net=this.commande.totalHT - this.commande.totalHT*(this.bonCommande.remise_total_bc/100);
-                //montant tva par article
-            let tva=net*(this.commande.taux_tva/100);
-            this.commande.tva_montant=tva;
-
-    },
-            
     TotalBonCommande(){
             let sum=0;
             let sum_tva=0;
+           
         for (let index = 0; index < this.commandes.length; index++) {
+       
+            this.commandes[index].totalHT  = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
+
                 //total de prix de tt commandes
             sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
                 //montant tva de chaque commande apres remise
@@ -689,35 +706,14 @@ computed:{
 watch:{
     'bonCommande.remise_total_bc':{
             handler: function(){
-                    this.totalHTaxe;
                     this.TotalBonCommande;
 
             },
     },
-      
-
-
-    commandes: {
+commandes: {
             handler: function(){
-                        let sum=0;
-                        let sum_tva=0;
-
-                for (let index = 0; index < this.commandes.length; index++) {
-                    this.commandes[index].totalHT  = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
-                    sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
-
-                    let remise=this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100);
-                    let net=this.commandes[index].totalHT - this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100);
-                    let tva=net*(this.commandes[index].fk_tva_cmd/100);
-                    sum_tva= +sum_tva + +tva;
-
-                }
-                    this.total_prix = sum;
-                    this.remise_T=this.total_prix*(this.bonCommande.remise_total_bc/100);
-                    this.net_HT=this.total_prix - this.remise_T;
-                    this.tva_total=+sum_tva;
-                    this.total_ttc=  +this.net_HT + +this.tva_total;
-
+                     
+                    this.TotalBonCommande;
             },
             deep : true
     },
@@ -725,12 +721,22 @@ watch:{
 },
 
     mounted(){
-
+    if(this.$route.params.id_devis != null){
+         this.countBonCommandes();
+        this.id_devis = this.$route.params.id_devis;
+        this.getDevisD(this.$route.params.id_devis);
+        this.getCommandes(this.$route.params.id_devis);
+       
+        this.getarticles();
+        this.getClients();
+        this.getTvas();
+    }
+    else{
               console.log('----------------')
             console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_bc+
             " / "+ this.$route.params.currentDate )
-            this.id_devis = this.$route.params.id_devis;
-this.getDevisD(this.$route.params.id_devis);
+
+
             this.bonCommande.reference_bc = this.$route.params.reference_bc
             this.bonCommande.date_bc = this.$route.params.currentDate
             this.commande.fk_document=this.$route.params.reference_bc
@@ -743,7 +749,7 @@ this.getDevisD(this.$route.params.id_devis);
             this.getarticles();
             this.getClients();
             this.getRemise(this.$route.params.id_compte);
-            
+    }        
 }
 }   
 </script>

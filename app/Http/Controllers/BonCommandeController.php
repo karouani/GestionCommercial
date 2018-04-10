@@ -21,6 +21,7 @@ class BonCommandeController extends Controller
         $bonCommande = new BonCommande();
  
                 $bonCommande->reference_bc = $request->bonCommande['reference_bc'];
+                $bonCommande->fk_devis = $request->bonCommande['fk_devis'];                
                 $bonCommande->date_bc = $request->bonCommande['date_bc'];
                 $bonCommande->type_operation_bc = "achat";//$request->bonCommande['type_operation_bc'];
                 $bonCommande->objet_bc = $request->bonCommande['objet_bc'];
@@ -35,7 +36,7 @@ class BonCommandeController extends Controller
                 $bonCommande->fk_status_bc = $request->bonCommande['fk_status_bc'];
                 $bonCommande->fk_compte_bc = $request->bonCommande['fk_compte_bc'];
                 $bonCommande->adresse_bc = $request->bonCommande['adresse_bc'];
-
+                
 
                 $bonCommande->total_ht_bc = $request->bonCommande['total_ht_bc'];
                 $bonCommande->remise_ht_bc = $request->bonCommande['remise_ht_bc'];
