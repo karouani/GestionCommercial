@@ -22,8 +22,8 @@
             <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
-                <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" @change="getCompte(compte.id_compte)">
-                    <option selected disabled>Choisir Client</option>
+                <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" @click="getCompte(compte.id_compte)"  @change="getCompte(compte.id_compte)">
+                    <option selected >Choisir Client</option>
                     <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
                 </select>                    
                 </div>
@@ -55,7 +55,7 @@
             <label for="">{{compte.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="compte.adresse_compte"></textarea>
+            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_bc"></textarea>
             </div>
          </div>
         </div>
@@ -409,7 +409,7 @@ methods: {
                                     this.bonCommande = response.data.bonCommande[0];
                                     this.compte.id_compte = this.bonCommande.id_compte;
                                     this.compte.nom_compte = this.bonCommande.nom_compte;
-                                    this.compte.adresse_compte = this.bonCommande.adresse_bc;
+                                   // this.compte.adresse_compte = this.bonCommande.adresse_bc;
                                     this.modePaiement.id_modeP =this.bonCommande.id_modeP
                                       this.modePaiement.type_paiement =this.bonCommande.type_paiement
                                     this.modePaiement.reference_paiement    = this.bonCommande.reference_paiement
@@ -443,7 +443,7 @@ methods: {
             this.bonCommande.montant_net_bc = this.net_HT ,
             this.bonCommande.tva_montant_bc = this.tva_total ,
             this.bonCommande.montant_ttc_bc =  this.total_ttc,
-            this.bonCommande.adresse_bc=  this.compte.adresse_compte
+            //this.bonCommande.adresse_bc=  this.compte.adresse_compte
             this.bonCommande.fk_compte_bc = this.compte.id_compte;
             console.log('verifie fk_document  : ')
             console.log(this.commandes)
@@ -639,7 +639,7 @@ methods: {
                   response => {
                        
                     this.compte= response.data.compte;
-                   
+                    this.bonCommande.adresse_bc = this.compte.adresse_compte;
                   });
                   this.getRemise(id_compte);     
         },
@@ -746,7 +746,7 @@ watch:{
     mounted(){
 
           
-            
+            this.getCompte(this.$route.params.fk_compte_bc);
            /* this.bonCommande.reference_bc = this.$route.params.reference_bc
             this.bonCommande.date_bc = this.$route.params.currentDate
             this.commande.fk_document=this.$route.params.reference_bc
@@ -757,7 +757,11 @@ watch:{
             this.getStatus();
             this.getTvas();
             this.getarticles();
+             
+            console.log('-------------- id_Compte ----- ---- ')
+            console.log(this.$route.params.fk_compte_bc)
             this.getClients();
+           
             this.getRemise(this.$route.params.id_compte)
             this.getCommandes(this.$route.params.reference_bc);
             this.showBonCommande(this.$route.params.reference_bc);
