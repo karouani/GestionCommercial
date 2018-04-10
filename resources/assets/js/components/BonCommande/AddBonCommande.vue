@@ -103,20 +103,24 @@
                             </th>
                                             <th><a @click="removeRow(index)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                                         </tr>
-                                        <th>
-                                        <select class="form-control custom-select " id="fk_article" v-model="commande.fk_article" @change=" getPrixArticle()">
-                                        <option selected>Choisir Article</option>
-                                        <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
-                                         </select>
-                                        </th>
-                                      
-                                        <th><a     @click="addRow(commande)" class="btn btn-success"  ><i class="fas fa-plus-circle"></i></a></th>
+                                    
                                     </tbody>
                                 </table>
+                                                
                             </div>
              </div>
      </div>
-    
+    <div class="row">
+                                            <div class="col-sm-4"> 
+                                                <select class="custom-select " id="fk_article" v-model="commande.fk_article" @change=" getPrixArticle()">
+                                                 <option selected>Choisir Article</option>
+                                                <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
+                                                </select>                                                                     
+                                            </div>
+                                            <div class="col-sm-6">
+                                            <a  @click="addRow(commande)" class="btn btn-success"  ><i class="fas fa-plus-circle"></i> Ajouter un article </a>
+                                            </div>
+                             </div>  
     
     
     </div>
@@ -384,6 +388,12 @@
       
 
 methods: { 
+    precisionRound(number, precision) {
+  var factor = Math.pow(10, precision);
+  return Math.round(number * factor) / factor;
+},
+
+
 
     addBonCommande(){
             this.bonCommande.total_ht_bc =  this.total_prix,
@@ -677,28 +687,29 @@ computed:{
             this.commandes[index].totalHT  = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
 
                 //total de prix de tt commandes
-            sum = +sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
+                this.commandes[index].totalHT  = this.precisionRound( (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd,2);
+            sum = this.precisionRound(+sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd,2);
                 //montant tva de chaque commande apres remise
-            this.tva_montant=this.total_prix*(this.bonCommande.remise_total_bc/100)*(this.commande.taux_tva/100);
+            this.tva_montant= this.precisionRound( this.total_prix*(this.bonCommande.remise_total_bc/100)*(this.commande.taux_tva/100),2);
                 //montant de remise
-            let remise=this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100);
+            let remise= this.precisionRound( this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100),2);
                 //montant apres remise
-            let net=this.commandes[index].totalHT - this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100);
+            let net=this.precisionRound( this.commandes[index].totalHT - this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100),2);
                 // montant de tva
-            let tva=net*(this.commandes[index].fk_tva_cmd/100);
+            let tva=this.precisionRound( net*(this.commandes[index].fk_tva_cmd/100),2);
                 // total de montant des tvas
-            sum_tva= +sum_tva + +tva;
+            sum_tva= this.precisionRound( +sum_tva + +tva,2);
         }
                 // total de prix de tt commandes (affectation)
-            this.total_prix = sum;
+            this.total_prix = this.precisionRound( sum ,2);
                 // total de montant tvas (affectation)
-            this.tva_total= sum_tva;
+            this.tva_total= this.precisionRound( sum_tva ,2);
                 //remise sur le montant total
-            this.remise_T=this.total_prix*(this.bonCommande.remise_total_bc/100);
+            this.remise_T= this.precisionRound( this.total_prix*(this.bonCommande.remise_total_bc/100),2);
                 // montant total apres remise
-            this.net_HT=this.total_prix - this.remise_T;
+            this.net_HT=this.precisionRound( this.total_prix - this.remise_T,2);
                // montant total final
-            this.total_ttc=  +this.net_HT + +this.tva_total;
+            this.total_ttc=  this.precisionRound( +this.net_HT + +this.tva_total,2);
     },
           
 },
@@ -706,6 +717,7 @@ computed:{
 watch:{
     'bonCommande.remise_total_bc':{
             handler: function(){
+                   
                     this.TotalBonCommande;
 
             },

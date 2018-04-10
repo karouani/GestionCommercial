@@ -1,5 +1,7 @@
 <template>
         <div>
+            
+
                 <div class="row">
                     <div class="col-md-3">
                         <div class="card p-4">
@@ -62,44 +64,37 @@
                     </div>
                 </div>
 
-                <div class="row ">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                Total Users
-                            </div>
-
-                            <div class="card-body p-0">
-                                <div class="p-4">
-                                    <canvas id="line-chart" width="100%" height="20"></canvas>
-                                </div>
-
-                                <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                    <div class="text-center">
-                                        <div class="text-muted small">Total Traffic</div>
-                                        <div>12,457 Users (40%)</div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <div class="text-muted small">Banned Users</div>
-                                        <div>95,333 Users (5%)</div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <div class="text-muted small">Page Views</div>
-                                        <div>957,565 Pages (50%)</div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <div class="text-muted small">Total Downloads</div>
-                                        <div>957,565 Files (100 TB)</div>
-                                    </div>
-                                </div>
-                            </div>
+                
+                        
+                   
+                <div class="row">
+                     <div class="col-md-6">
+                        <div class="card p-4">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <canvas id="myChart"></canvas>
+                            </div> 
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card p-4">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <canvas id="myLine"></canvas>
+                            </div> 
+                        </div>
+                     </div>                     
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card p-4">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <canvas id="PieChart"></canvas>
+                            </div> 
                         </div>
                     </div>
                 </div>
+                      
 
+                
      </div> 
 </template>
 <script>
@@ -108,15 +103,136 @@ import Chart from 'chart.js';
 
 
 export default {
- /* data: () => ({
-   extends: Line,
-  props: ['data', 'options'],
-  donnee : ["test"],
- 
+data: () => ({
+        message: "Vue.js & Chart.js",
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        votes: [12, 19, 3, 5, 2, 15],
+        type : "bar"
   }),
    mounted () {
-    this.renderChart(this.data, this.options)
-  }*/
+    var ctx =    document.getElementById("myChart");
+    var ctxL =    document.getElementById("myLine");
+    var ctxP =    document.getElementById("PieChart");
+    
+    var myPieChart = new Chart(ctxP ,{
+    type: 'pie',
+    data: {
+                labels: this.labels,
+                    datasets: [
+                        {
+                            label: "# Clients",
+                            data: this.votes,
+                            backgroundColor: [
+                                "rgba(255, 99, 132, 0.6)",
+                                "rgba(54, 162, 235, 0.6)",
+                                "rgba(255, 206, 86, 0.6)",
+                                "rgba(75, 192, 192, 0.6)",
+                                "rgba(153, 102, 255, 0.6)",
+                                "rgba(255, 159, 64, 0.6)"
+                            ],
+                            borderColor: [
+                                "rgba(255,99,132,1)",
+                                "rgba(54, 162, 235, 1)",
+                                "rgba(255, 206, 86, 1)",
+                                "rgba(75, 192, 192, 1)",
+                                "rgba(153, 102, 255, 1)",
+                                "rgba(255, 159, 64, 1)"
+                            ],
+                            borderWidth: 1
+                        }
+                    ] 
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                stacked: true
+            }]
+        }
+    }
+});
+
+
+var stackedLine = new Chart(ctxL, {
+    type: 'line',
+    data: {
+        labels: this.labels,
+                    datasets: [
+                        {
+                            label: "# articles",
+                            data: this.votes,
+                            backgroundColor: [
+                                "rgba(255, 99, 132, 0.6)",
+                                "rgba(54, 162, 235, 0.6)",
+                                "rgba(255, 206, 86, 0.6)",
+                                "rgba(75, 192, 192, 0.6)",
+                                "rgba(153, 102, 255, 0.6)",
+                                "rgba(255, 159, 64, 0.6)"
+                            ],
+                            borderColor: [
+                                "rgba(255,99,132,1)",
+                                "rgba(54, 162, 235, 1)",
+                                "rgba(255, 206, 86, 1)",
+                                "rgba(75, 192, 192, 1)",
+                                "rgba(153, 102, 255, 1)",
+                                "rgba(255, 159, 64, 1)"
+                            ],
+                            borderWidth: 1
+                        }
+                    ] 
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                stacked: true
+            }]
+        }
+    }
+});
+
+    new Chart(ctx, {
+                type: this.type,
+                data: {
+                    labels: this.labels,
+                    datasets: [
+                        {
+                            label: "# clients",
+                            data: this.votes,
+                            backgroundColor: [
+                                "rgba(255, 99, 132, 0.6)",
+                                "rgba(54, 162, 235, 0.6)",
+                                "rgba(255, 206, 86, 0.6)",
+                                "rgba(75, 192, 192, 0.6)",
+                                "rgba(153, 102, 255, 0.6)",
+                                "rgba(255, 159, 64, 0.6)"
+                            ],
+                            borderColor: [
+                                "rgba(255,99,132,1)",
+                                "rgba(54, 162, 235, 1)",
+                                "rgba(255, 206, 86, 1)",
+                                "rgba(75, 192, 192, 1)",
+                                "rgba(153, 102, 255, 1)",
+                                "rgba(255, 159, 64, 1)"
+                            ],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
+                    }
+                }
+            }); 
+            
+        
+        }
+
  
 
 }
