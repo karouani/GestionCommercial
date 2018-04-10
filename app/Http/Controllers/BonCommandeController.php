@@ -15,8 +15,18 @@ use PDF;
 
 class BonCommandeController extends Controller
 {
+    public function updateStatusBC(Request $request){
+        //dd($request->id_devis);
+              $boncommande = Boncommande::find($request->id_bc);
+              $boncommande->fk_status_bc = $request->fk_status_bc;
+              $boncommande->save();
+              return Response()->json(['etat' => true]);
+          }
+
+
     public function addBonCommande(Request $request)
     { 
+      
         
         $bonCommande = new BonCommande();
  
@@ -224,7 +234,8 @@ class BonCommandeController extends Controller
          public function getBonCommandes(){
            
         $boncommandes = Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
-            ->select('bonCommandes.*', 'comptes.nom_compte')
+            ->leftJoin('status', 'bonCommandes.fk_status_bc', '=', 'status.id_status')
+            ->select('bonCommandes.*', 'comptes.nom_compte','status.*')
             ->paginate(10);
            
          return Response()->json(['bonCommandes' => $boncommandes ]);
@@ -232,7 +243,12 @@ class BonCommandeController extends Controller
 
 
       public function searchBonCommande($search_BC){
-        $boncommandes = Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')->where('reference_bc','like', '%' .$search_BC . '%')->orWhere('comptes.nom_compte','like', '%' .$search_BC . '%')->paginate(10);
+        $boncommandes = Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
+        ->leftJoin('status', 'bonCommandes.fk_status_bc', '=', 'status.id_status')
+        ->select('bonCommandes.*', 'comptes.nom_compte','status.*')
+        ->where('reference_bc','like', '%' .$search_BC . '%')
+        ->orWhere('comptes.nom_compte','like', '%' .$search_BC . '%')
+        ->paginate(10);
         return Response()->json(['boncommandes' => $boncommandes ]);
      }
 

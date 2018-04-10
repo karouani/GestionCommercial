@@ -137,6 +137,7 @@ Route::post('/UpdateBonCommande','BonCommandeController@UpdateBonCommande');
 
 Route::get('/pdf/{reference_bc}','BonCommandeController@pdf');
 
+Route::post('/updateStatusBC','BonCommandeController@updateStatusBC');
 
 Auth::routes();
 

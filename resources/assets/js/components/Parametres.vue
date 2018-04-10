@@ -53,8 +53,23 @@
                      </div>
                      <div v-if="testAffich.testStatus"> 
                     <div class="row">
-                    <input v-model="statu.type_status" class="mr-4" type="text"  placeholder="Entrez Status"><button @click="addStatu" class="btn btn-success">Ajouter </button>
+                        <div class="col">
+                    <input v-model="statu.type_status"  type="text"  placeholder="Entrez Status">
                     </div>
+                    <div class="col">
+                    <input type="color" id="html5colorpicker" style="height: 37px;width:150px" v-model="statu.colorStatu">
+                    </div>
+                    <div class="col">
+                     <button @click="addStatu" class="btn btn-success">Ajouter </button>
+                     </div>
+                   </div>
+                
+                    
+
+
+
+
+                    
                     <div class="row">
                        <table class="table table-bordered tableau">
                         <thead>
@@ -85,6 +100,7 @@
     export default {
   
   data : () => ({
+      colorStatu:"#ff0000",
         testAffich:{
             testfamille:true,
             testTVA:false,
@@ -104,7 +120,8 @@
 
         statu:{
             id_status : 0 ,
-            type_status : ""
+            type_status : "",
+            colorStatu : "",
         },
         status:[],
 
@@ -209,7 +226,9 @@
                         },
                         //-------------------------------------- status
             addStatu(){
-                  axios.post('/addStatu',this.statu).then(response => {     
+                console.log('-------- color ')
+                console.log(this.colorStatu);
+                axios.post('/addStatu',this.statu).then(response => {     
                     this.getStatus();
                     console.log('status Bien ajouter !');
                   });

@@ -36,7 +36,7 @@ class CreateBonCommandesTable extends Migration
             $table->double('tva_montant_bc')->nullable();
             $table->double('montant_ttc_bc')->nullable();
 
-            $table->integer('fk_status_bc')->nullable();
+            $table->string('fk_status_bc')->nullable();
             $table->integer('fk_compte_bc')->nullable();
             $table->integer('fk_user_bc')->nullable();
 

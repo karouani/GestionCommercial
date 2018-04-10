@@ -113,7 +113,7 @@
     <div class="row">
                                             <div class="col-sm-4"> 
                                                 <select class="custom-select " id="fk_article" v-model="commande.fk_article" @change=" getPrixArticle()">
-                                                 <option selected>Choisir Article</option>
+                                                 <option selected disabled>Choisir Article</option>
                                                 <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
                                                 </select>                                                                     
                                             </div>
@@ -396,13 +396,14 @@ methods: {
 
 
     addBonCommande(){
-            this.bonCommande.total_ht_bc =  this.total_prix,
-            this.bonCommande.remise_ht_bc = this.remise_T, 
-            this.bonCommande.montant_net_bc = this.net_HT ,
-            this.bonCommande.tva_montant_bc = this.tva_total ,
-            this.bonCommande.montant_ttc_bc =  this.total_ttc,
+            this.bonCommande.total_ht_bc =  this.total_prix 
+            this.bonCommande.remise_ht_bc = this.remise_T 
+            this.bonCommande.montant_net_bc = this.net_HT  
+            this.bonCommande.tva_montant_bc = this.tva_total  
+            this.bonCommande.montant_ttc_bc =  this.total_ttc 
            // this.bonCommande.adresse_bc=  this.compte.adresse_compte
             this.bonCommande.fk_compte_bc = this.compte.id_compte;
+            this.bonCommande.fk_status_bc = "Brouillon"
 
             
             console.log(this.bonCommande)

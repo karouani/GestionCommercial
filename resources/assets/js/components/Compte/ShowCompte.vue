@@ -23,21 +23,21 @@
                 
                 <p class="card-text">
                    
-                   <span>nom compte : </span>{{compte.nom_compte}}
+                   <span>Nom compte : </span>{{compte.nom_compte}}
                     <hr>
-                    <span>responsable : </span>{{compte.responsable}}
+                    <span>Responsable : </span>{{compte.responsable}}
                     <hr>
-                   <span>type_compte : </span>{{compte.type_compte}} 
+                    <span>Type compte : </span> <span class="badge badge-pill" style="background-color:#42d202;color:white;font-size:14px"> <b>{{compte.type_compte}}  </b></span> 
                    <hr>
-                   <span>compte.categorie : </span>{{compte.categorie}}
+                   <span>Categorie : </span>{{compte.categorie}}
                    <hr>
-                   <span>raison_social :  </span>{{compte.raison_social}}
+                   <span>Raison social :  </span>{{compte.raison_social}}
                    <hr>
-                   <span>reference : </span>{{compte.reference}}
+                   <span>Reference : </span>{{compte.reference}}
                    <hr>
-                    <span>fixe :  </span>{{compte.fixe}}
+                    <span>Fixe :  </span>{{compte.fixe}}
                    <hr>
-                   <span>portable : </span>{{compte.portable}}
+                   <span>Portable : </span>{{compte.portable}}
                 </p>
                 
             </div>
@@ -48,15 +48,15 @@
             <div class="card-body">
               
                 <p class="card-text">
-                   <span>fax : </span>{{compte.fax}}
+                   <span>Fax : </span>{{compte.fax}}
                    <hr>
-                   <span>email: </span>{{compte.email}}
+                   <span>Email: </span>{{compte.email}}
                    <hr>
-                   <span>site_web: </span>{{compte.site_web}}  
+                   <span>Site_web: </span>{{compte.site_web}}  
                    <hr>
-                   <span>secteur_activite: </span>{{compte.secteur_activite}}  
+                   <span>Secteur_activite: </span>{{compte.secteur_activite}}  
                    <hr>
-                   <span>taille: </span>{{compte.taille}}  
+                   <span>Taille: </span>{{compte.taille}}  
                    <hr>
                    <span>RC: </span>{{compte.RC}}  
 
