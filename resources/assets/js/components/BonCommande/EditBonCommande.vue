@@ -1,7 +1,11 @@
 
 <template>
 <div>
+  <div class="loading" v-if="loading">
+          <div class="lds-hourglass"></div>
 
+    </div>
+    <div v-if="!loading" >
     <div class="row">
         <div class="col">
         <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
@@ -235,6 +239,7 @@
     </form>
 </div>
 </div>
+</div>
 </template>
 
 <script>
@@ -243,6 +248,7 @@
     export default{ 
         
           data: () => ({
+              loading: false,
               suppBonCommandes :[],
 
 
@@ -385,13 +391,52 @@
                 modePaiements:[],
              
       }),
+               created () {
+    // fetch the data when the view is created and the data is
+    // already being observed
+    this.fetchData()
+  },
       
 
 methods: { 
+
+
+ fetchData () {
+      //this.error = this.post = null
+      this.loading = true
+            this.getTvas();
+            this.getClients();
+            this.getCompte(this.$route.params.fk_compte_bc);
+            this.showBonCommande(this.$route.params.reference_bc);
+            this.getCommandes(this.$route.params.reference_bc);
+           /* this.bonCommande.reference_bc = this.$route.params.reference_bc
+            this.bonCommande.date_bc = this.$route.params.currentDate
+            this.commande.fk_document=this.$route.params.reference_bc
+            this.modePaiement.fk_document=this.$route.params.reference_bc
+            this.getCompte(this.$route.params.id_compte);
+            this.getContacts(this.$route.params.id_compte);
+            this.getCondtionFacture(this.$route.params.id_compte); */
+            this.getStatus();
+           
+            this.getarticles();
+             
+            console.log('-------------- id_Compte ----- ---- ')
+            console.log(this.$route.params.fk_compte_bc)
+            
+           
+            this.getRemise(this.$route.params.id_compte)
+
+
+    },
+
+ 
+
+  
         precisionRound(number, precision) {
   var factor = Math.pow(10, precision);
   return Math.round(number * factor) / factor;
 },
+
 
 
      spliceBonCommande(index,commande){
@@ -415,6 +460,7 @@ methods: {
                                     this.modePaiement.reference_paiement    = this.bonCommande.reference_paiement
                                      this.modePaiement.date_paiement   =this.bonCommande.date_paiement
                                      this.modePaiement.fk_document =this.bonCommande.fk_document
+                                    
                                 })
                                 .catch(() => {
                                         console.log('handle server error from here');
@@ -428,7 +474,7 @@ methods: {
                                 console.log("getCommande ------ ")
                                 console.log(response.data.commandes)
                                this.commandes = response.data.commandes;
-    
+                            this.loading= false;
                         })
                         .catch(() => {
                                 console.log('handle server error from here');
@@ -727,6 +773,7 @@ watch:{
                     this.TotalBonCommande;
 
             },
+            '$route': 'fetchData',
     },
       
 
@@ -746,25 +793,7 @@ watch:{
     mounted(){
 
           
-            this.getCompte(this.$route.params.fk_compte_bc);
-           /* this.bonCommande.reference_bc = this.$route.params.reference_bc
-            this.bonCommande.date_bc = this.$route.params.currentDate
-            this.commande.fk_document=this.$route.params.reference_bc
-            this.modePaiement.fk_document=this.$route.params.reference_bc
-            this.getCompte(this.$route.params.id_compte);
-            this.getContacts(this.$route.params.id_compte);
-            this.getCondtionFacture(this.$route.params.id_compte); */
-            this.getStatus();
-            this.getTvas();
-            this.getarticles();
-             
-            console.log('-------------- id_Compte ----- ---- ')
-            console.log(this.$route.params.fk_compte_bc)
-            this.getClients();
-           
-            this.getRemise(this.$route.params.id_compte)
-            this.getCommandes(this.$route.params.reference_bc);
-            this.showBonCommande(this.$route.params.reference_bc);
+         
 }
 }   
 </script>
@@ -838,6 +867,41 @@ a.last::before {
 .fontsize{
 
     font-size: 1.30rem;
+}
+
+
+
+
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
 }
 </style>
 

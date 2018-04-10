@@ -57,7 +57,19 @@
             </div>
          </div>
         </div>
+               <div class="form-group row">
+                 <div class="col-sm-4"> 
+                <select class="form-control custom-select " id="fk_status_d"  v-model="bonCommande.fk_status_bc" >
+                    <option value="Brouillon">Brouillon</option>
+                    <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
+                </select>
+                 </div>
+                 <div class="col-sm-2"> 
+                <a href="#" @click="updateStatusBC()"  class="btn btn-info" style="font-size:10px"><i class="fa fa-undo"></i></a>                                
+                 </div>
+        </div>
     </div>
+
 </div>
 <hr>
 <div class="row"> 
@@ -218,14 +230,48 @@
           data: () => ({
               bonCommandes : [],
             bonCommande : {},
-                commandes : []
-           
+                commandes : [],
+                status : []
 
                
       }),
       
 
 methods: { 
+    updateStatusBC(){
+                axios.post('/updateStatusBC',this.bonCommande)
+                .then(response => {
+                        console.log("updateStatusDevis")
+
+                    if(response.data.etat){
+                        this.$router.push({ name: 'ShowBonCommandes', params: { success: "editsuccess"  }});
+                    }
+                })
+                .catch(error => {
+                })
+    },
+
+         getStatus(){
+        axios.get('/getStatus')
+        .then((response) => {
+                this.status= response.data.status;
+               
+        })
+        .catch(() => {
+                console.log('handle server error from here');
+        });
+    },
+    getStatu(devi){
+                
+        axios.get('/getStatu/'+devi.fk_status_d)
+            .then((response) => {
+                    this.statu = response.data.statu;
+                 // this.devi.fk_status_d=response.data.statu.adresse_compte;
+            })
+            .catch(() => {
+                    console.log('handle server error from here');
+        });
+    },
 
         showBonCommande(reference_bc){
 
@@ -278,7 +324,7 @@ methods: {
 
             this.getCommandes(this.$route.params.reference_bc);
             this.showBonCommande(this.$route.params.reference_bc);
-        
+            this.getStatus();
          
 }
 }   

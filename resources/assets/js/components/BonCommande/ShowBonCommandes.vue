@@ -4,7 +4,8 @@
             
    
     <div class="loading" v-if="loading">
-      Loading...
+          <div class="lds-hourglass"></div>
+
     </div>
     <div v-if="error" class="error">
       {{ error }}
@@ -113,6 +114,7 @@
                                         <th>date Bon commande</th>
                                         <th>date limit</th>
                                         <th>Montant TTC</th>
+                                        <th>Statut</th>
                                         <th>nom societe</th>
                                         <th>options</th>
                                     </tr>
@@ -122,8 +124,14 @@
                                         <td>{{bonCommande.reference_bc}}</td>
                                         <td>{{bonCommande.date_bc}}</td>
                                         <td>{{bonCommande.date_limit_bc}}</td>
-                                        <td>{{bonCommande.montant_ttc_bc}} </td>    
+                                        <td>{{bonCommande.montant_ttc_bc}} </td>  
+                                              <td v-if="bonCommande.fk_status_bc == 'Brouillon'">
+                                            
+                                             <span class="badge badge-pill" style="background-color:rgb(170, 170, 170);color:white;font-size:14px"> <b>{{bonCommande.fk_status_bc}} </b></span> </td>
+                                         <td  v-else>   
+                                             <span class="badge badge-pill" :style="{'background-color': bonCommande.colorStatu ,'color':fontStatu.white , 'font-size':fontStatu.size}"> <b>{{bonCommande.type_status}} </b></span> </td>
                                         <td>{{bonCommande.nom_compte}} </td>  
+                                       
                                         <td  class="optionsWidth"> 
                                             <a href="#"    @click="redirect_To_ShowBonCommande(bonCommande.reference_bc)"  class="btn btn-primary" ><i class="fas fa-eye d-inline-block"></i></a>
                                             <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary" ><i class="far fa-file-pdf"></i></a>
@@ -166,6 +174,11 @@ import  Pagination from '../Pagination.vue';
          },
 
           data: () => ({
+              fontStatu : {
+                    white : "white",
+                    size: "14px"
+              },
+              
               ninjas: "hello ninjas ",
               datahidden: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, eius?",
               reference_bc: "",
@@ -549,6 +562,41 @@ table{
     right: 0;
     position:  absolute;
     position :fixed;
+}
+
+
+
+
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
 }
 
 </style>

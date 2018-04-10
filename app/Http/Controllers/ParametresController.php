@@ -61,6 +61,7 @@ return Response()->json(['delete' => true]);
 function addStatu(Request $request){
     $statu  = new  Statu();
     $statu->type_status = $request->type_status;
+    $statu->colorStatu = $request->colorStatu;
     $statu->save();
     return Response()->json(['etat' => true]);
 }
