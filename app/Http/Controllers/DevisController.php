@@ -10,6 +10,7 @@ use App\Mode_paiement;
 use App\Compte;
 use App\Tva;
 use Auth;
+use PDF;
 use Illuminate\Http\Request;
 
 
@@ -229,7 +230,7 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
       public function getCommandes($fk_document){
         $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
             ->leftJoin('tvas', 'commandes.fk_tva_cmd', '=', 'tvas.id_tva')
-            ->select('commandes.*', 'articles.designation','tvas.id_tva')
+            ->select('commandes.*', 'articles.designation','tvas.taux_tva')
             ->where('fk_document', $fk_document)->get();
             //dd($commandes);
         return Response()->json(['commandes' => $commandes]);
@@ -248,6 +249,47 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
         return Response()->json(['taux_tva' => $taux_tva ]);
 
      }
+
+     public function pdf_d($reference_d){
+        $devi= Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
+        ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
+        ->leftJoin('mode_paiements', 'devis.reference_d', '=', 'mode_paiements.fk_document')
+        ->select('devis.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.nom_societe','macompagnies.logo_comp','mode_paiements.*')
+        ->where('reference_d', $reference_d)->get();
+
+        $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
+        ->leftJoin('tvas', 'commandes.fk_tva_cmd', '=', 'tvas.id_tva')
+        ->select('commandes.*', 'articles.designation','articles.unite','tvas.taux_tva')
+        ->where('fk_document', $reference_d)->get();
+        //dd($bonCommande);
+  
+        $logo = public_path().'/storage/images/'.$devi[0]->logo_comp;
+        //dd($filename);
+        //return view('pdf', ['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
+       /*  $options = new PDF\Options();
+        $options->setDpi(150);
+        $pdf= new PDF($options);*/
+       // $pdf = PDF::loadView('pdf',['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
+
+        //return  $pdf->stream($reference_bc.'.pdf',array('Attachment'=>0));
+       // $pdf = PDF::loadView('pdf', ['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
+         // return $pdf->download('invoice.pdf');
+         $view = \View::make('pdf_d', array('devi' => $devi[0],'commandes' => $commandes ,'logo' => $logo ));
+         $html_content = $view->render();
+         
+    
+
+         //PDF::SetHeaderData('PDF_HEADER_LOGO', 'PDF_HEADER_LOGO_WIDTH', 'PDF_HEADER_TITLE'.' 001', 'PDF_HEADER_STRING', array(0,64,255), array(0,64,128));
+         PDF::SetY(0, true, true);
+         PDF::SetMargins(5, 0, 5);
+         PDF::SetHeaderMargin(0);
+  
+         //PDF::SetTitle('Sample PDF');
+         PDF::AddPage();
+         PDF::writeHTML($html_content, true, false, true, false, '');
+  
+         PDF::Output($reference_d.'.pdf');
+      }
      
 
 }

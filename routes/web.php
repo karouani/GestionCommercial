@@ -89,6 +89,7 @@ Route::delete('/deleteDevis/{id_devis}','DevisController@deleteDevis');
 Route::get('/searchDevis/{search_D}','DevisController@searchDevis');
 Route::post('/updateStatusDevis','DevisController@updateStatusDevis');
 
+Route::get('/pdf_d/{reference_d}','DevisController@pdf_d');
 
 //----------------------------------------------------------------------
 //Compte 

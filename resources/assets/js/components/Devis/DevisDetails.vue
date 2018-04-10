@@ -1,11 +1,12 @@
 <template>
 <div>
+    
      <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/getDevis'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
-        </div>
-         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/addBonCommande/'+devi.id_devis "> Convertir</router-link>
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/addBonCommande/'+devi.id_devis "><i class="fas fa-exchange-alt"></i> Convertir </router-link>
+        <a href="#"    @click="PdfDevis(devi.reference_d)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i> Imprimer</a>
+
+        <router-link class="btn btn-info mb-3  float-right " :to="'/getDevis'"><i class="fas fa-long-arrow-alt-left fontsize"></i></router-link>
         </div>
     </div>
 <div class=" container colBackround">
@@ -256,6 +257,11 @@ updateStatusDevis(){
                 .catch(error => {
                 })
     },
+     PdfDevis(reference_d){
+                           
+                //   window.location.href='/pdf/'+reference_bc
+                  window.open('/pdf_d/'+reference_d,'_blank');
+          },
        getDevisD:function(id_devis){
                   axios.get('/getDevisD/'+id_devis).then(
                   response => {

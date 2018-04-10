@@ -83,6 +83,8 @@
                                         
                                        <td  class="optionsWidth"> 
                                             <router-link class="btn btn-primary " :to="'/DevisDetails/'+devi.id_devis "><i class="fas fa-eye d-inline-block"></i></router-link>
+                                            <a href="#"    @click="PdfDevis(devi.reference_d)"  class="btn btn-secondary" ><i class="far fa-file-pdf"></i></a>
+
                                          <router-link class="btn btn-success " :to="'/EditDevis/'+devi.id_devis "><i class="fas fa-edit d-inline-block"></i></router-link>
                                              <a @click="deleteDevis(devi)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
                                     </tr>
@@ -275,7 +277,11 @@ import  Pagination from '../Pagination.vue';
     },
 
       methods: {
-    
+    PdfDevis(reference_d){
+                           
+                //   window.location.href='/pdf/'+reference_bc
+                  window.open('/pdf_d/'+reference_d,'_blank');
+          },
     handleOk(){
         this.$router.push({ name: 'addDevis', params: { id_compte: this.devi.fk_compte_d ,reference_d: this.devi.reference_d ,currentDate: this.currentDate }});
 
@@ -390,7 +396,7 @@ thead{
     background-color: #efefef;
 }
 .optionsWidth{
-width : 171px;
+width : 230px;
 
 }
  .btnMarge{

@@ -35,19 +35,19 @@
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle active">
-                             <i class="far fa-file"></i> Devis <i class="fa fa-caret-left"></i>
+                           <i class="fas fa-plus"></i> Vente <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
                                 <router-link :to="'/getDevis'" class="nav-link">
-                                    <i class="icon icon-target"></i> Devis
+                                    <i class="far fa-file"></i> Devis
                                 </router-link>
                             </li>
 
                             <li class="nav-item">
                                 <router-link :to="'/ShowBonCommandes'" class="nav-link">
-                                    <i class="icon icon-target"></i> Bon  Commande
+                                    <i class="far fa-file"></i> Bon  Commande
                                 </router-link>
                             </li>
 
@@ -55,11 +55,7 @@
                         </ul>
                     </li>
               
-                    <li class="nav-item">
-                      <router-link :to="'/ShowBonCommandes'" class="nav-link active">
-                           <i class="far fa-file"></i> Bon  Commande
-                        </router-link>
-                    </li>
+                    
                  
                 </ul>
             </nav>
