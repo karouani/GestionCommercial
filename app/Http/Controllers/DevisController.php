@@ -168,7 +168,8 @@ class DevisController extends Controller
       $devi= Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
             ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
             ->leftJoin('mode_paiements', 'devis.reference_d', '=', 'mode_paiements.fk_document')
-            ->select('devis.*', 'comptes.nom_compte', 'macompagnies.nom_societe','mode_paiements.reference_paiement','mode_paiements.date_paiement','mode_paiements.type_paiement')
+            ->leftJoin('status', 'devis.fk_status_d', '=', 'status.id_status')
+            ->select('devis.*', 'comptes.nom_compte','status.*', 'macompagnies.nom_societe','mode_paiements.reference_paiement','mode_paiements.date_paiement','mode_paiements.type_paiement')
             ->where('id_devis', $id_devis)->get();
       return Response()->json(['devi' => $devi ]);
    }
@@ -176,7 +177,7 @@ class DevisController extends Controller
      
 $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
 ->leftJoin('status', 'devis.fk_status_d', '=', 'status.id_status')
-            ->select('devis.*', 'comptes.nom_compte','status.type_status')
+            ->select('devis.*', 'comptes.nom_compte','status.*')
             ->paginate(10);
            
          return Response()->json(['devis' => $devis ]);

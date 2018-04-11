@@ -1,5 +1,16 @@
 <template>
 <div>
+            
+   
+    <div class="loading" v-if="loading">
+          <div class="lds-hourglass"></div>
+
+    </div>
+    <div v-if="error" class="error">
+      {{ error }}
+    </div>
+
+<div v-if="!loading">
      <div class="row">
         <div class="col">
         <router-link class="btn btn-primary mb-3  float-right " :to="'/getDevis'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
@@ -228,6 +239,7 @@
           </form>
 </div>
 </div>
+</div>
 </template>
 
 <script>
@@ -235,7 +247,8 @@
     export default{ 
         
           data: () => ({
-           
+                                loading: false,
+error: null,
               // objet test sur affichage , ajout , recherche
               Testopen:{
                 testAjout : false,
@@ -388,7 +401,14 @@ this.commande = {
                   
            
         },
-        
+                         fetchData () {
+      //this.error = this.post = null
+      this.loading = true
+      console.log("loading+++++++++++++++++++++")
+      // replace `getPost` with your data fetching util / API wrapper
+   this.getDevisD(this.$route.params.id_devis);
+
+    },
         spliceCommande(index,commande){
             this.commandes.splice(index, 1);
                         this.suppCommandes.push(commande);
@@ -525,6 +545,7 @@ this.commande = {
                   axios.get('/getDevisD/'+id_devis).then(
                   response => {
                          //console.log(response.data.devi.fk_compte_d);
+                    this.loading = false;
 
                     this.devi= response.data.devi[0];
 
@@ -588,7 +609,11 @@ computed:{
     },
           
 },
-
+            created () {
+    // fetch the data when the view is created and the data is
+    // already being observed
+    this.fetchData()
+  }, 
 watch:{
     'devi.remise_total_d':{
             handler: function(){
@@ -613,7 +638,9 @@ watch:{
             },
             deep : true
     },
-            
+    
+    // call again the method if the route changes
+    '$route': 'fetchData', 
 },
 
     mounted(){
@@ -701,5 +728,39 @@ a.last::before {
 }
 .calculePadding{
     padding-left: 50%;
+}
+
+
+/*loading*/
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
 }
 </style>

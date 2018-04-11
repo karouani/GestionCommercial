@@ -4,25 +4,26 @@
             
            
     <div class="loading" v-if="loading">
-      Loading...
+          <div class="lds-hourglass"></div>
     </div>
     <div v-if="error" class="error">
       {{ error }}
     </div>
 
 <div v-if="!loading">
-       <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testAjout">
+    <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testAjout">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
   <strong>Compagnie Bien Ajouter !</strong>
 </div>
- <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEdit">
+  <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEdit">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
   <strong>Compagnie Bien Modifier !</strong>
-   </div>
+</div>
+
         <div class="row">
  <div class="col">
     <!-- button pour afficher formulaire de l'ajout d un compagnie -->  
@@ -76,9 +77,9 @@
                                         <td>{{devi.date_limit_d}}</td>
                                         <td v-if="devi.fk_status_d == 'Brouillon'">
                                             
-                                            {{devi.fk_status_d}} </td>
+                                           <span class="badge badge-pill" style="background-color:rgb(170, 170, 170);color:white;font-size:14px"> {{devi.fk_status_d}}</span> </td>
                                          <td v-else>   
-                                            {{devi.type_status}} </td>
+                                             <span class="badge badge-pill" :style="{'background-color': devi.colorStatu ,'color':fontStatu.white , 'font-size':fontStatu.size}"> {{devi.type_status}} </span></td>
                                         <td>{{devi.montant_ttc_d}} </td> 
                                         
                                        <td  class="optionsWidth"> 
@@ -157,7 +158,10 @@ import  Pagination from '../Pagination.vue';
          },
 
           data: () => ({
-            
+                        fontStatu : {
+                    white : "white",
+                    size: "14px"
+              },
                      loading: false,
                      test1 : {
                   searchQuery: 0,
@@ -463,5 +467,39 @@ table{
     right: 0;
     position:  absolute;
     position :fixed;}
+
+
+    /*loading*/
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
 
 </style>

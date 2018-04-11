@@ -1,12 +1,28 @@
 <template>
 <div>
-    
+            
+    <div class="loading" v-if="loading">
+          <div class="lds-hourglass"></div>
+    </div>
+    <div v-if="error" class="error">
+      {{ error }}
+    </div>
+
+<div v-if="!loading">
+  <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEditS">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Status Bien Modifier !</strong>
+</div>
      <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/addBonCommande/'+devi.id_devis "><i class="fas fa-exchange-alt"></i> Convertir </router-link>
+        <router-link class="btn  mb-3  float-right convert " :to="'/addBonCommande/'+devi.id_devis "><i class="fas fa-exchange-alt"></i> Convertir </router-link>
         <a href="#"    @click="PdfDevis(devi.reference_d)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i> Imprimer</a>
 
-        <router-link class="btn btn-info mb-3  float-right " :to="'/getDevis'"><i class="fas fa-long-arrow-alt-left fontsize"></i></router-link>
+        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getDevis'">
+        <i class="fas fa-long-arrow-alt-left fontsize"></i>
+        </router-link>
         </div>
     </div>
 <div class=" container colBackround">
@@ -48,13 +64,13 @@
         <br>
         <div class="form-group row">
                  <div class="col-sm-4"> 
-                <select class="form-control custom-select " id="fk_status_d" v-model="devi.fk_status_d" >
+                <select class="form-control custom-select " id="fk_status_d" v-model="devi.fk_status_d" @change="getStatu()">
                     <option value="Brouillon" selected disabled>Brouillon</option>
                     <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
                 </select>
                  </div>
                  <div class="col-sm-2"> 
-                <a href="#" @click="updateStatusDevis()"  class="btn btn-info" style="font-size:10px"><i class="fa fa-undo"></i></a>                                
+                    <a href="#" @click="updateStatusDevis()"  class="btn btn-secondary badge badge-pill" style="background-color:black" :style="{'background-color': devi.colorStatu ,'color':fontStatu.white , 'font-size':fontStatu.size}"><i class="fa fa-undo"></i></a>                                
                  </div>
         </div>
     </div>
@@ -170,6 +186,7 @@
 </div>
 </div>
 </div>
+</div>
 </template>
 <script>
     
@@ -178,6 +195,15 @@
       export default{ 
         
           data: () => ({
+              fontStatu : {
+                    white : "white",
+                    size: "14px",
+              },
+                    loading: false,
+                    error: null,
+                     Testopen:{
+                testEditS : false,
+              },
    // devi
               devi: { 
             id_devis:0,
@@ -209,6 +235,10 @@
             montant_ttc_d:0,
       
             nom_societe:"",
+              },
+              statu :{
+type_status:"",
+colorStatu:"",
               },
               // tableau des devis 
               devis :[],
@@ -251,7 +281,11 @@ updateStatusDevis(){
                         console.log("updateStatusDevis")
 
                     if(response.data.etat){
-                        this.$router.push('/');
+                        this.$router.push('/DevisDetails/editS/'+this.devi.id_devis);
+                         if(this.$route.params.success == "editS"){
+                            console.log("methode");
+                            this.Testopen.testEditS =true; 
+                            }
                     }
                 })
                 .catch(error => {
@@ -262,13 +296,24 @@ updateStatusDevis(){
                 //   window.location.href='/pdf/'+reference_bc
                   window.open('/pdf_d/'+reference_d,'_blank');
           },
+                        fetchData () {
+      //this.error = this.post = null
+      this.loading = true
+      console.log("loading+++++++++++++++++++++")
+      // replace `getPost` with your data fetching util / API wrapper
+   this.getDevisD(this.$route.params.id_devis);
+
+    },
        getDevisD:function(id_devis){
                   axios.get('/getDevisD/'+id_devis).then(
                   response => {
                          //console.log(response.data.devi.fk_compte_d);
+                    this.loading = false;
 
                     this.devi= response.data.devi[0];
-
+                    this.devi.colorStatu=response.data.devi[0].colorStatu;
+                    console.log("color devi +++++++"+this.devi.colorStatu);
+console.log(this.devi);
                   });     
         },
         getCommandes:function(id_devis){
@@ -293,11 +338,16 @@ updateStatusDevis(){
                 console.log('handle server error from here');
         });
     },
-    getStatu(devi){
-                
-        axios.get('/getStatu/'+devi.fk_status_d)
+    getStatu(){
+        axios.get('/getStatu/'+this.devi.fk_status_d)
             .then((response) => {
+
                     this.statu = response.data.statu;
+                    console.log("devi"+this.devi.fk_status_d)
+                    console.log("color   "+response.data.statu.colorStatu)
+
+                     this.devi.colorStatu=response.data.statu.colorStatu;
+
                  // this.devi.fk_status_d=response.data.statu.adresse_compte;
             })
             .catch(() => {
@@ -306,14 +356,30 @@ updateStatusDevis(){
     },
         
     },
-           
+                created () {
+    // fetch the data when the view is created and the data is
+    // already being observed
+    this.fetchData()
+  },  
+ 
           mounted(){
+                          
               this.devi.id_devis = this.$route.params.id_devis;
               this.getDevisD(this.devi.id_devis);
               this.getCommandes(this.devi.id_devis);
               this.getStatus();
-
-          }
+            },
+              updated(){
+        if( this.$route.params.success == "editS"){
+          let that = this
+                            console.log("updated");
+              setTimeout(function(){that.Testopen.testEditS = false;}, 2000);
+        }
+              },
+           watch: {
+    // call again the method if the route changes
+    '$route': 'fetchData',
+           }
 
       }
 </script>
@@ -421,5 +487,55 @@ a.last::before {
 }
 .cal{
 padding-right: 0px;
+}
+
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
+}
+.convert{
+    background-color: #3f51b5;
+}
+.show{
+     opacity:0.9;
+    width: 233px;
+    z-index: 100;
+    top: 61px;
+    right: 0;
+    position:  absolute;
+    position :fixed;}
+
+
+/*loading*/
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
 }
 </style>
