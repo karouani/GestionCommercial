@@ -1,9 +1,19 @@
 
 <template>
 <div>
+
+      <div class="loading" v-if="loading">
+          <div class="lds-hourglass"></div>
+
+    </div>
+    <div v-if="!loading" >
     <div class="row">
         <div class="col">
+           <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
+
      <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+      
+
     </div>
     </div>
 <div class=" container colBackround">
@@ -18,34 +28,26 @@
 <hr>
 <div class="row">
     <div class="col-md-6 col-sm-12">
-            <div class="row">
-                    <label for="inputPassword" class="col-sm-2">compte </label>
-                    <div class="col-sm-10">         
-                    <label>{{bonCommande.nom_compte}}</label>
-                </div>
-            </div> 
 
-            <div class="row">
-                <label for="inputPassword" class="col-sm-2">Devis</label>
-                <div class="col-sm-10">
-                <label>{{bonCommande.reference_bc}} [ {{bonCommande.montant_ttc_bc}} DH ]</label>
-                </div>
+          <div class="top form-group row">
+                <label for="inputPassword" class="col-sm-12 col-form-label"><strong>Bon Commande {{bonCommande.reference_bc}} [{{bonCommande.montant_ttc_bc}} DH]</strong> </label>
+
             </div>
-                 <div class="row">
-                    <label for="inputPassword" class="col-sm-2">Date </label>
-                    <div class="col-sm-10">
-                     <label>{{bonCommande.date_bc}}</label>
-                    </div>
-                </div> 
-                <div class="row">
-                <label for="inputPassword" class="col-sm-2">Objet  </label>
-                <div class="col-sm-10">
-                 <label>{{bonCommande.objet_bc}}</label>
+            <div class="top form-group row">
+                <label for="inputPassword" class="col-sm-12 col-form-label">Date : {{bonCommande.date_bc}}</label>
+            </div>
+            <div class="top form-group row">
+                <label for="inputPassword" class="col-sm-12 col-form-label">Validité : {{bonCommande.date_limit_bc}}  </label>
+            </div>
+            <div class="top form-group row">
+                <label for="inputPassword" class="col-sm-12 col-form-label">Vendeur : {{bonCommande.nom_compte}}  </label>
+            </div>
 
-                </div>
+        
+            
             </div>
           
-    </div>
+    
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
@@ -65,12 +67,12 @@
                 </select>
                  </div>
                  <div class="col-sm-2"> 
-                <a href="#" @click="updateStatusBC()"  class="btn btn-info" style="font-size:10px"><i class="fa fa-undo"></i></a>                                
+                <a href="#" @click="updateStatusBC()"  class="btn btn-info refresh" style="font-size:10px"><i class="fa fa-undo"></i></a>                                
                  </div>
         </div>
     </div>
-
 </div>
+
 <hr>
 <div class="row"> 
     <div class="col">
@@ -79,7 +81,7 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
-                                    <tr>
+                                    <tr class="trHead">
                                     <th>Article</th>
                                     <th>Quantite</th>
                                     <th>Remise</th>
@@ -120,6 +122,7 @@
 <hr>
 <div class="row">
     <div class="col-md-6 col-sm-12">
+        
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
                 <div class="col-sm-8 col-form-label ">
@@ -217,7 +220,8 @@
 <hr>
 
 
-   
+   </div>
+</div>
 </div>
 </div>
 </template>
@@ -228,6 +232,7 @@
     export default{ 
         
           data: () => ({
+              loading: false,
               bonCommandes : [],
             bonCommande : {},
                 commandes : [],
@@ -235,9 +240,28 @@
 
                
       }),
-      
+                     created () {
+    // fetch the data when the view is created and the data is
+    // already being observed
+    this.fetchData()
+  },
+     
 
 methods: { 
+
+          PdfBonCommande(reference_bc){
+                           
+                //   window.location.href='/pdf/'+reference_bc
+                  window.open('/pdf/'+reference_bc,'_blank');
+          },
+    fetchData () { 
+        this.loading = true
+        this.getStatus();
+            this.showBonCommande(this.$route.params.reference_bc);
+             this.getCommandes(this.$route.params.reference_bc);
+    },
+
+    
     updateStatusBC(){
                 axios.post('/updateStatusBC',this.bonCommande)
                 .then(response => {
@@ -295,7 +319,7 @@ methods: {
                             console.log(response.data)
                                this.commandes = response.data.commandes;
                             
-                                
+                                this.loading= false;
                                 
                         })
                         .catch(() => {
@@ -314,9 +338,7 @@ methods: {
 
     mounted(){
 
-            this.getCommandes(this.$route.params.reference_bc);
-            this.showBonCommande(this.$route.params.reference_bc);
-            this.getStatus();
+           
          
 }
 }   
@@ -391,6 +413,74 @@ a.last::before {
 .fontsize{
 
     font-size: 1.30rem;
+}
+
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
+.top{
+        margin-left: 100px;
+    margin-bottom: 0rem;
+}
+
+.table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.trHead{
+
+    background-color: #d8e9f5;
+
+}
+.table td {
+    border: 0px solid #ddd;
+    padding: 8px;
+}
+
+.table tr:nth-child(even){background-color: rgb(236, 236, 236);}
+
+
+.heade {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    color: #898585;
+    background-color: #d8e9f6;
+}
+
+.refresh{
+background-color: #eaeacd 
 }
 </style>
 

@@ -1,6 +1,11 @@
 
 <template>
 <div>
+
+    <div class="loading" v-if="loading">
+          <div class="lds-hourglass"></div>
+    </div>
+     <div v-if="!loading" >
     <div class="row">
         <div class="col">
         <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
@@ -22,10 +27,12 @@
             <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
-                <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" @click="getCompte(compte.id_compte)" @change="getCompte(compte.id_compte)">
+         <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" @click="getCompte(compte.id_compte)" @change="getCompte(compte.id_compte)">
                     <option selected disabled>Choisir Client</option>
                     <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
-                </select>    
+                </select>  
+
+                
                 </div>
             </div> 
 
@@ -237,6 +244,7 @@
 
     </form>
 </div>
+     </div>
 </div>
 </template>
 
@@ -246,6 +254,7 @@
     export default{ 
         
           data: () => ({
+                loading: false,
                bonCommande : { 
             id_bc:0,
             reference_bc:"",
@@ -385,13 +394,55 @@
                 modePaiements:[],
              
       }),
+        created () {
+    // fetch the data when the view is created and the data is
+    // already being observed
+    this.fetchData()
+  },
       
 
 methods: { 
+
+     fetchData () { 
+          this.loading = true
+ if(this.$route.params.id_devis != null){
+         this.countBonCommandes();
+        this.id_devis = this.$route.params.id_devis;
+        this.getDevisD(this.$route.params.id_devis);
+       
+       
+        this.getarticles();
+        this.getClients();
+        this.getTvas();
+         this.getCommandes(this.$route.params.id_devis);
+    }
+    else{
+              console.log('----------------')
+            console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_bc+
+            " / "+ this.$route.params.currentDate )
+
+
+            this.bonCommande.reference_bc = this.$route.params.reference_bc
+            this.bonCommande.date_bc = this.$route.params.currentDate
+            this.commande.fk_document=this.$route.params.reference_bc
+            this.modePaiement.fk_document=this.$route.params.reference_bc
+            this.getCompte(this.$route.params.id_compte);
+            this.getContacts(this.$route.params.id_compte);
+            this.getCondtionFacture(this.$route.params.id_compte); 
+            this.getStatus();
+            this.getTvas();
+            this.getarticles();
+            this.getRemise(this.$route.params.id_compte);
+            this.getClients();
+    }  
+    },
+
+
     precisionRound(number, precision) {
   var factor = Math.pow(10, precision);
   return Math.round(number * factor) / factor;
 },
+
 
 
 
@@ -575,7 +626,7 @@ methods: {
         axios.get('/getClients')
             .then((response) => {
                     this.comptes = response.data.comptes;
-                  
+                  this.loading= false;
             })
             .catch(() => {
                     console.log('handle server error from here');
@@ -650,7 +701,7 @@ methods: {
             this.commandes[index].fk_document=this.fk_document_cmd;
                       }
                     // this.commande.fk_article= response.data.articles;
-
+                this.loading= false;
                   });     
         },
         countBonCommandes(){
@@ -735,35 +786,6 @@ commandes: {
 },
 
     mounted(){
-    if(this.$route.params.id_devis != null){
-         this.countBonCommandes();
-        this.id_devis = this.$route.params.id_devis;
-        this.getDevisD(this.$route.params.id_devis);
-        this.getCommandes(this.$route.params.id_devis);
-       
-        this.getarticles();
-        this.getClients();
-        this.getTvas();
-    }
-    else{
-              console.log('----------------')
-            console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_bc+
-            " / "+ this.$route.params.currentDate )
-
-
-            this.bonCommande.reference_bc = this.$route.params.reference_bc
-            this.bonCommande.date_bc = this.$route.params.currentDate
-            this.commande.fk_document=this.$route.params.reference_bc
-            this.modePaiement.fk_document=this.$route.params.reference_bc
-            this.getCompte(this.$route.params.id_compte);
-            this.getContacts(this.$route.params.id_compte);
-            this.getCondtionFacture(this.$route.params.id_compte); 
-            this.getStatus();
-            this.getTvas();
-            this.getarticles();
-            this.getClients();
-            this.getRemise(this.$route.params.id_compte);
-    }        
 }
 }   
 </script>
@@ -837,6 +859,39 @@ a.last::before {
 .fontsize{
 
     font-size: 1.30rem;
+}
+
+
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
 }
 </style>
 

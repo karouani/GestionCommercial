@@ -25,7 +25,7 @@
         </router-link>
         </div>
     </div>
-<div class=" container colBackround">
+<div class="container colBackround">
           
 <div class="row">
     <div class="col">
