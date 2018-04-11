@@ -277,7 +277,7 @@ class BonCommandeController extends Controller
         $bonCommande= Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
         ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
         ->leftJoin('mode_paiements', 'bonCommandes.reference_bc', '=', 'mode_paiements.fk_document')
-        ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.nom_societe','macompagnies.logo_comp','mode_paiements.*')
+        ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.*','mode_paiements.*')
         ->where('reference_bc', $reference_bc)->get();
 
         $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
@@ -300,18 +300,48 @@ class BonCommandeController extends Controller
          $view = \View::make('pdf', array('bonCommande' => $bonCommande[0],'commandes' => $commandes ,'logo' => $logo ));
          $html_content = $view->render();
          
-    
+         //$pdf = new PDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+       
+         
 
          //PDF::SetHeaderData('PDF_HEADER_LOGO', 'PDF_HEADER_LOGO_WIDTH', 'PDF_HEADER_TITLE'.' 001', 'PDF_HEADER_STRING', array(0,64,255), array(0,64,128));
-         PDF::SetY(0, true, true);
+         //PDF::SetY(0, true, true);
+        // 
+       
+        $infoComp = '<div style="">'.$bonCommande[0]->nom_societe.' <span>      Adresse: </span>'.$bonCommande[0]->adresse_comp.'<span>       Fix: </span>'.$bonCommande[0]->fix_comp.'<span>        Tel: </span>'.$bonCommande[0]->tel_comp.'<span>        Ville: </span>'.$bonCommande[0]->ville_comp.'<span>        web-site: </span>'.$bonCommande[0]->webSite_comp.'</div>';
          PDF::SetMargins(5, 0, 5);
-         PDF::SetHeaderMargin(0);
-  
+         PDF::SetY(-15);
+         
+         PDF::SetFont('helvetica', 'I', 10);
+        
+         // Page number
+         //PDF::setCellPaddings(0,0,0,0);
+                 // Position at 15 mm from bottom
+       
+        
          //PDF::SetTitle('Sample PDF');
+
+ 
+   
+
+         
+ 
+        PDF::SetAutoPageBreak(TRUE, 0);
+         // Set font
          PDF::AddPage();
+         PDF::SetFooterMargin(0);
          PDF::writeHTML($html_content, true, false, true, false, '');
-  
+         //PDF::Cell(0, 100, 'azertyu yuiop fghjklm dfghjkl ', 0, false, 'C', 0, '', 0, false, 'T', 'M');       
+         //writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+        // PDF::writeHTMLCell(80, '', '', '290', 'oooook', '', '', '', '', '', '')
+         PDF::writeHTMLCell(0, '', '', 290,$infoComp, 0, 0, 0, false, '', true);
+         //PDF::SetY(0);
+         
+
          PDF::Output($reference_bc.'.pdf');
       }
+   
 
+
+  
 }

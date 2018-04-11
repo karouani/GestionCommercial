@@ -5,7 +5,7 @@
                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <button @click="testAffich.testfamille = true;testAffich.testTVA = false;testAffich.testStatus = false" class="btn btn-primary mb-3 shadawButton">Famille Article </button>
                 <button @click="testAffich.testTVA = true;testAffich.testfamille = false;testAffich.testStatus = false" class="btn btn-primary mb-3 shadawButton">TVA </button>
-                <button @click="testAffich.testStatus = true;testAffich.testfamille = false;testAffich.testTVA=false" class="btn btn-primary mb-3 shadawButton ">Status </button>
+                <button @click="testAffich.testStatus = true;testAffich.testfamille = false;testAffich.testTVA=false" class="btn btn-primary mb-3 shadawButton ">Statut </button>
                 </div>
                </div>
                 <div class="col">
@@ -54,7 +54,7 @@
                      <div v-if="testAffich.testStatus"> 
                     <div class="row">
                         <div class="col">
-                    <input v-model="statu.type_status"  type="text"  placeholder="Entrez Status">
+                    <input v-model="statu.type_status"  type="text"  placeholder="Entrez Statut">
                     </div>
                     <div class="col">
                     <input type="color" id="html5colorpicker" style="height: 37px;width:150px" v-model="statu.colorStatu">
@@ -260,12 +260,12 @@
                         if (result.value) {
                             axios.delete('/deleteStatu/'+statu.id_status).then(
                                         response => {
-                                            console.log('statu bien supprimer');
+                                            console.log('statut bien supprimer');
                                             this.getStatus();
                                         });
                         this.$swal(
                         'Supprimé!',
-                        'Votre statu a été supprimé',
+                        'Votre statut a été supprimé',
                         'success'
                         )
                         }

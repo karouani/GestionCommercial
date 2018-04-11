@@ -13,6 +13,8 @@ window.Vue = require('vue');
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue);
 
+import vSelect from 'vue-select'
+Vue.component('v-select', vSelect)
 
 import swal from 'sweetalert2'
 Vue.prototype.$swal=swal;
