@@ -20,6 +20,7 @@ class CreateCommandeTable extends Migration
             $table->double('majoration_cmd')->nullable();
             $table->double('prix_ht')->nullable();
             $table->double('total_ht_cmd')->nullable();
+            $table->string('description_article')->nullable();
             $table->integer('fk_article')->nullable();
             $table->string('fk_document')->nullable();
             $table->integer('fk_tva_cmd')->nullable();

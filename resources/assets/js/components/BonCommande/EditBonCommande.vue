@@ -77,7 +77,7 @@
                                     <th>Article</th>
                                     <th>Quantite</th>
                                     <th>Remise</th>
-                                    <th>majoration</th>
+                                    <th>Maj</th>
                                     <th>Prix HT</th>
                                     <th>TVA</th>
                                     <th>Total HT</th>
@@ -85,22 +85,31 @@
                                     </thead>
                                     <tbody>
                              <tr v-for="(commande,index) in commandes" :key="index" >
-                            <th>  <input class="form-control"  type="text" v-model="commande.fk_article" disabled hidden>
-                           <input class="form-control"  type="text" v-model="commande.designation" disabled >
+                                 <input class="form-control"  type="text" v-model="commande.fk_article" disabled hidden>
+                            <th>  
+                             <div class="row">  
+                                <div class="col">
+                                    <input  class="mb-2" type="text" v-model="commande.designation" disabled >
+                                </div>
+                                <div class="col">
+                                    <textarea placeholder="Description article"  name="" id="description" cols="22" rows="4"  v-model="commande.description_article"></textarea> 
+                                   
+                                 </div>
+                           </div>  
                            
                             </th>
-                            <th><input class="form-control"  type="text" v-model="commande.quantite_cmd" ></th>
-                            <th>  <input class="form-control"  type="text" v-model="commande.remise_cmd" ></th> 
-                            <th>  <input class="form-control"  type="text" v-model="commande.majoration_cmd" ></th> 
-                            <th>  <input class="form-control"  type="text" v-model="commande.prix_ht" ></th> 
+                            <th><input class="form-control ThWidth"  type="text" v-model="commande.quantite_cmd" ></th>
+                            <th>  <input class="form-control ThWidth"  type="text" v-model="commande.remise_cmd" ></th> 
+                            <th>  <input class="form-control ThWidth"  type="text" v-model="commande.majoration_cmd" ></th> 
+                            <th>  <input class="form-control ThWidth"  type="text" v-model="commande.prix_ht" ></th> 
                                                         <th>  <input class="mr-4"  type="text" v-model="commande.fk_tva_cmd" disabled hidden>
-                             <select class="form-control custom-select " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" >
+                             <select class="form-control custom-select ThWidth " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" >
                             <option selected>Choisir Tva</option>
                             <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
                             </select>
                             
                             </th> 
-                            <th>  <input class="form-control"  type="text" v-model="commande.totalHT" disabled>
+                            <th>  <input class="form-control ThWidth"  type="text" v-model="commande.totalHT" disabled>
                            
                             </th>
                                             <th><a @click="spliceBonCommande(index,commande)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
@@ -375,6 +384,7 @@
                designation:"",
                // montant total de chaque commande
                 totalHT:0,
+                description_article:"",
               },
              
               commandes:[],
@@ -511,7 +521,7 @@ methods: {
     addRow (commande) {
        
         this.commandes.push( {
-            
+
                quantite_cmd:commande.quantite_cmd,
                remise_cmd:commande.remise_cmd,
                majoration_cmd: commande.majoration_cmd,
@@ -524,6 +534,7 @@ methods: {
                total_ht:commande.total_ht,
                tva_montant:commande.tva_montant,
                taux_tva:commande.taux_tva,
+               description_article:commande.description_article,
         });
 
             this.commande = {
@@ -545,6 +556,7 @@ methods: {
                designation:"",
                // montant total de chaque commande
                 totalHT:0,
+                description_article:"",
               };
 
     },
@@ -644,6 +656,7 @@ methods: {
                     this.commande.fk_tva_cmd=response.data.article[0].fk_tva_applicable;
                         // designation d'article
                     this.commande.designation=response.data.article[0].designation;
+                    this.commande.description_article = response.data.article[0].description;
                     this.tauxTva();
                   
             })
@@ -902,6 +915,12 @@ a.last::before {
   100% {
     transform: rotate(1800deg);
   }
+}
+
+.ThWidth{
+
+    min-width: 59px;
+
 }
 </style>
 

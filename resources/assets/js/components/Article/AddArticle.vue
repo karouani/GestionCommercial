@@ -14,7 +14,7 @@
          
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="reference_art"> reference</label>
+                    <label for="reference_art"> Code Article</label>
                     <input type="text" class="form-control" id="reference_art"  v-model="article.reference_art">
                 </div>
                 <div class="form-group">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description"> description </label>
-                    <input type="text" class="form-control" id="description" v-model="article.description" >
+                <textarea placeholder="Description article" class="AdressClient form-control" name="" id="description" cols="50" rows="4" v-model="article.description"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="prix_ht_achat"> prix ht achat </label>

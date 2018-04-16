@@ -15,6 +15,9 @@ use PDF;
 
 class BonCommandeController extends Controller
 {
+
+    public $template;
+
     public function updateStatusBC(Request $request){
         //dd($request->id_devis);
               $boncommande = Boncommande::find($request->id_bc);
@@ -113,6 +116,7 @@ class BonCommandeController extends Controller
                     $commande->fk_document=$request->commandes[$i]['fk_document'];
                     $commande->fk_tva_cmd=$request->commandes[$i]['fk_tva_cmd'];
                     $commande->total_ht_cmd=$request->commandes[$i]['totalHT'];
+                    $commande->description_article=$request->commandes[$i]['description_article'];
                     $commande->save();
                 }    
             }
@@ -125,7 +129,9 @@ class BonCommandeController extends Controller
             "prix_ht" => $request->commandes[$i]['prix_ht'],
             "fk_article" => $request->commandes[$i]['fk_article'],
             "fk_tva_cmd" => $request->commandes[$i]['fk_tva_cmd'],
-            "total_ht_cmd" => $request->commandes[$i]['totalHT']]);
+            "total_ht_cmd" => $request->commandes[$i]['totalHT'],
+            "description_article" => $request->commandes[$i]['description_article'],
+            ]);
                 }
             }
 
@@ -171,7 +177,7 @@ class BonCommandeController extends Controller
         $commande->fk_document=$request->commandes[$i]['fk_document'];
         $commande->fk_tva_cmd=$request->commandes[$i]['fk_tva_cmd'];
         $commande->total_ht_cmd=$request->commandes[$i]['totalHT'];
-
+        $commande->description_article=$request->commandes[$i]['description_article'];
         
                 $commande->save();
            }
@@ -287,58 +293,346 @@ class BonCommandeController extends Controller
         //dd($bonCommande);
   
         $logo = public_path().'/storage/images/'.$bonCommande[0]->logo_comp;
-        //dd($filename);
-        //return view('pdf', ['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
-       /*  $options = new PDF\Options();
-        $options->setDpi(150);
-        $pdf= new PDF($options);*/
-       // $pdf = PDF::loadView('pdf',['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
+      
+        $headerHtml =  '<div>
+        <img src="'.$logo.'" alt="test alt attribute" width="180" height="70" border="0" />
+   
+    </div>
+        <br>
+       <table style="padding: 0px;padding-right:10px">
+       <tr>
+           <td>
+           <span></span><br>
+           <b>Bon Commande'.$bonCommande[0]->reference_bc.'</b> <br>
+           date: '.$bonCommande[0]->date_bc.'<br>
+           Validité: '.$bonCommande[0]->date_limit_bc.'<br>
+          
+           </td>
+           <td>
+           
+           <b>'.$bonCommande[0]->nom_compte.'</b>
+              <p>'.$bonCommande[0]->adresse_bc.'</p>
+           
+           </td>
+       </tr>
+       </table>';
 
-        //return  $pdf->stream($reference_bc.'.pdf',array('Attachment'=>0));
-       // $pdf = PDF::loadView('pdf', ['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
-         // return $pdf->download('invoice.pdf');
-         $view = \View::make('pdf', array('bonCommande' => $bonCommande[0],'commandes' => $commandes ,'logo' => $logo ));
-         $html_content = $view->render();
-         
-         //$pdf = new PDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-       
-         
 
-         //PDF::SetHeaderData('PDF_HEADER_LOGO', 'PDF_HEADER_LOGO_WIDTH', 'PDF_HEADER_TITLE'.' 001', 'PDF_HEADER_STRING', array(0,64,255), array(0,64,128));
-         //PDF::SetY(0, true, true);
-        // 
-       
-        $infoComp = '<div style="">'.$bonCommande[0]->nom_societe.' <span>      Adresse: </span>'.$bonCommande[0]->adresse_comp.'<span>       Fix: </span>'.$bonCommande[0]->fix_comp.'<span>        Tel: </span>'.$bonCommande[0]->tel_comp.'<span>        Ville: </span>'.$bonCommande[0]->ville_comp.'<span>        web-site: </span>'.$bonCommande[0]->webSite_comp.'</div>';
-         PDF::SetMargins(5, 0, 5);
-         PDF::SetY(-15);
+
+       $objethtml = '<p style="margin-top: 50px;">Objet:'. $bonCommande[0]->objet_bc.'</p>';
+        $commandesHtml ='<table border="1" style="padding: 3px 0px;">
+        <thead>
+                <tr style="color:white; font-size: 10pt;background-color: black;">
+                
+                    <th width="80">Code article</th>
+                    <th  width="214">Description</th>
+                    <th width="35">QTÉ</th>
+                    <th width="30">UT</th>
+                    <th width="80">PU HT</th>
+                    <th width="100">TOTAL HT</th>
+                    <th width="25">TVA</th>
          
-         PDF::SetFont('helvetica', 'I', 10);
+                </tr>
+                </thead>';
+         $commandesHtml.='<tbody style="">';
+        foreach ( $commandes as $commande ){
+            $commandesHtml.='
+            <tr style="border-bottom: 1px solid;font-size: 10pt; ">                   
+                    <th align="center" width="80">'.$commande->id_cmd.'</th>
+                    <th  align="center"  width="214">'.$commande->description_article.'</th>
+                    <th align="center" width="35">'.$commande->quantite_cmd.'</th>
+                    <th align="center" width="30">'.$commande->unite.'</th>
+                    <th align="center" width="80">'.$commande->prix_ht.'</th>
+                    <th align="center" width="100">'.$commande->total_ht_cmd.'</th>
+                    <th align="center" width="25">'.$commande->taux_tva.'</th>
+                </tr> ';
+            };
+            $commandesHtml.='</tbody> </table>';
+           //dd($commandesHtml);
+
         
-         // Page number
-         //PDF::setCellPaddings(0,0,0,0);
-                 // Position at 15 mm from bottom
+
+
+
+
+
+
+
+         $infoComp = ''.$bonCommande[0]->nom_societe.' <span>      Adresse: </span>'.$bonCommande[0]->adresse_comp.'<span>       Fix: </span>'.$bonCommande[0]->fix_comp.'<span>        Tel: </span>'.$bonCommande[0]->tel_comp.'<span>        Ville: </span>'.$bonCommande[0]->ville_comp.'<span>        web-site: </span>'.$bonCommande[0]->webSite_comp.'';
+
+        $calculeHtml =  '<div class="calcule">
+        <table style="padding: 3px;padding-right:5pt;">
+        <tr>
+        <td style="width:286px;"></td>
+        <td style="width:140px;" align="left">Total</td> <td style="width:140px;" align="right">'.$bonCommande[0]->total_ht_bc.'</td>
+        </tr>
+        <tr>
+        <td style="width:286px;"></td>
+        <td style="width:140px;" align="left">Remise</td> <td style="width:140px;" align="right">'.$bonCommande[0]->remise_ht_bc.'</td>
+        </tr>
+        <tr>
+        <td style="width:286px;"></td>
+        <td style="width:140px;" class="tdC" align="left">Total HT</td> <td style="width:140px;" align="right">'.$bonCommande[0]->montant_net_bc.'</td>
+        </tr>
+        <tr>
+        <td style="width:286px;"></td>
+        <td style="width:140px;" class="tdC" align="left">TVA</td> <td  style="width:140px;" align="right">'.$bonCommande[0]->tva_montant_bc.'</td>
+        </tr>
+        <tr>
+        <td style="width:286px;"></td>
+        <td style="width:140px;" align="left">Acompte</td> <td style="width:140px;" align="right"></td>
+        </tr>
+        <tr>
+        <td style="width:286px;"></td>
+        <td style="width:140px;" align="left">Montant NET TTC (MAD)</td> <td style="width:140px;" align="right">'.$bonCommande[0]->montant_ttc_bc.'</td>
+        </tr>
+        
+        </table>
+        <table>
+            <tr>
+                <td></td>
+                <td><hr></td>
+            </tr>
+        </table>
+        
+        </div>
+        </div>
+        <div>
+        CONDITIONS :'.$bonCommande[0]->conditions_reglements_bc.'<br>
+        
+        NOTES : '.$bonCommande[0]->notes_bc.'<br><hr>';
+        
+      
+
+
+
+
+
+
+        PDF::setHeaderCallback(function($pdf) {
+
+            // Set font
+            PDF::SetFont('helvetica', 'B', 20);
+            // Title
+            PDF::Cell(0, 15, '', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    
+    });
+    /*PDF::setData(function($infoComp) {
+        $this->template = $infoComp;
+    });*/
+
+    
+        $this->template = $infoComp;
        
         
-         //PDF::SetTitle('Sample PDF');
+    
+   
+    PDF::setFooterCallback(function($pdf) {
+       //dd($infoComp);
+      // dd($this->template);
+        // Position at 15 mm from bottom
+        $pdf->SetY(-15);
+        // Set font
+        $pdf->SetFont('helvetica', 'I', 10);
+        // Page number
+        PDF::writeHTMLCell(0, 0, '',280,$this->template, 0, 1, 0, true, '', true);
+        PDF::writeHTMLCell(0, 0, '',290,'<span style="color:blue;text-align:right"> Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages().'</span>', 0, 1, 0, true, '', true);
+
+       // $pdf->Cell(0, 10, $this->template.'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+
+    });
+
+
+        PDF::SetMargins(5, 10, 5);
+        PDF::SetHeaderMargin(10);
+        PDF::SetFooterMargin(10);
+
+        PDF::SetFont('helvetica', 'I', 10);
+        PDF::SetAutoPageBreak(TRUE, 20);
+
+        PDF::AddPage();
+
+        // MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
+
+      /*  $y = PDF::getY();    
+        PDF::MultiCell(40, 0, $left_column, 1, 'R', 0, 1, '', $y, true, 0);
+
+        $y = PDF::getY() + 10;
+        PDF::MultiCell(40, 0, $right_column, 1, 'R', 0, 1, '', $y, true, 0);*/
+
+
+        //---------------
+      //  $y = PDF::getY();    
+       // PDF::MultiCell(40, 0, $headerHtml, 1, 'R', 0, 1, '', $y, true, 0);
+       // $y = PDF::getY() + 10;
+ //---------------
+ //PDF::writeHTMLCell(0, 0, '',0,$page2 ,0, 1, 0, true, 'top', true);
+
+ $y = PDF::getY();    
+ 
+ PDF::writeHTMLCell(0, 0, '',$y,$headerHtml ,0, 1, 0, true, '', true);
+ $y = PDF::getY();
+
+
+
+ PDF::writeHTMLCell(0, 10, '',$y,$objethtml, 0, 1, 0, true, '', true);
+ $y = PDF::getY();
+ 
+ //PDF::SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)));
+
+ //$style2 = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 0));
+
+ //PDF::Line(5, 40, 5, 30, $style2);
+ //$this->Line($p1x, $p1y, $p2x, $p2y, $style);
+ /*$border = array(
+    'L' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 0)),
+    'R' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)),
+    'T' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 255, 0)),
+    'B' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255)));*/
+
+
+  /*  $border = array(
+        'T' => array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)),
+     );*/
+
+
+
+//$y=78 minimum
+//chaque ligne = y=6.5 ou 12
+// 17 lign 
+ PDF::writeHTMLCell(0, 0,'', $y,$commandesHtml,0, 1, 0, true, '', true);
+ $y = PDF::getY();
+ 
+ $height2 = ($y-78.72); // size nb tableau 
+ $resul = $height2/6.5;
+//dd($resul);
+ $height3 =  ((18-$resul)*18);
+ 
+ //dd($height3);
+  //dd($height3);
+
+ //dd($height2/6.5);
+//dd($height2/6.5);
+ //
+
+
+
+ //dd($y);
+//dd($y);
+
+ //$height = 400-$y-12;
+//dd($y);
+//if($y<130)
+
+/*else if($y<180)
+$height = 380-$y*1.5;
+else
+$height = 300-$y*1.5;*/
+ 
+ $commandesHtml2 = '<table style="padding: 3px 0px;"> 
+ 
+ <thead>
+           
+ <tr style="color:white;font-size: 10pt; line-height:'.$height3.' px;">
+      
+ <th width="80" style="
+ border-right:1px solid black;
+ border-left:1px solid black;
+ "> </th>
+ <th  width="214" style="
+ border-right:1px solid black;
+ border-left:1px solid black;
+ "> </th>
+ <th width="35" style="
+ border-right:1px solid black;
+ border-left:1px solid black;
+ "> </th>
+ <th width="30" style="
+ border-right:1px solid black;
+ border-left:1px solid black;
+ "> </th>
+ <th width="80" style="
+ border-right:1px solid black;
+ border-left:1px solid black;
+ "> </th>
+ <th width="100" style="
+ border-right:1px solid black;
+ border-left:1px solid black;
+ "> </th>
+ <th width="25" style="
+ border-right:1px solid black;
+ border-left:1px solid black;
+ "> </th>
+
+</tr>
+ 
+ </thead> 
+
+ </table>';
+ PDF::writeHTMLCell(0, 0,'', $y,$commandesHtml2,0, 1, 0, true, '', true);
+ $y = PDF::getY();
+ if($y>198)
+ $y = $y+80;
+
 
  
+ //PDF::writeHTMLCell(0, 140,'', $y,$commandesHtml,1, 1, 0, true, '', true);
+
+ 
+ //if($y>205){
+   // PDF::writeHTMLCell(0, 0, '',$y,$page2 ,0, 1, 0, true, '', true);}
+
+
+  
+ PDF::writeHTMLCell(0, 0, '',$y,$calculeHtml , 0, 1, 0, true, '', true);
+
+
+
+
+
+
+
+
+        //$view = \View::make('pdf', array('bonCommande' => $bonCommande[0],'commandes' => $commandes ,'logo' => $logo ));
+        //$html_content = $view->render();
    
 
-         
- 
-        PDF::SetAutoPageBreak(TRUE, 0);
+        
+        
+        //PDF::SetAutoPageBreak(TRUE, 0);
          // Set font
-         PDF::AddPage();
-         PDF::SetFooterMargin(0);
-         PDF::writeHTML($html_content, true, false, true, false, '');
+        
+     
+        // PDF::SetFooterMargin(0);
+         
+         //PDF::writeHTML($html_content, true, false, true, false, '');
          //PDF::Cell(0, 100, 'azertyu yuiop fghjklm dfghjkl ', 0, false, 'C', 0, '', 0, false, 'T', 'M');       
          //writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
-        // PDF::writeHTMLCell(80, '', '', '290', 'oooook', '', '', '', '', '', '')
-         PDF::writeHTMLCell(0, '', '', 290,$infoComp, 0, 0, 0, false, '', true);
+        //PDF::writeHTMLCell(80, '', '', '290', 'oooook', '', '', '', '', '', '');
+       // PDF::writeHTMLCell(0, 0, '',3,$headerHtml , 0, 0, 0, false, '', true);
+       
+        
+       // PDF::writeHTMLCell(0, 0, '',37,$objethtml, 0, 0, 0, false, '', true);
+       // PDF::writeHTMLCell(0, 135,'', 70,$commandesHtml, 1, 0, 0, false, '', true);
+       // PDF::writeHTMLCell(0, 0, '',130,$calculeHtml.'<br>'.$infoComp , 0, 0, 0, false, '', true);
+     
+     //  PDF::writeHTMLCell(0,0,'',0,$test1, 1, 0, 0, false, '', true);
+       
+      // PDF::writeHTMLCell(0,0,'',120,$test2,1, 0, 0, false, '', true);
+
+
+        //PDF::writeHTMLCell(203, 100, '', 70,$infoComp, 1, 0, 0, false, '', true);
+
+
+
+
+
+       //  PDF::writeHTMLCell(0, '', '', 290,$infoComp, 0, 0, 0, false, '', true);
          //PDF::SetY(0);
          
-
+         
          PDF::Output($reference_bc.'.pdf');
+         
       }
    
 
