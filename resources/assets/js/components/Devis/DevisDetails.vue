@@ -301,14 +301,19 @@ updateStatusDevis(){
       this.loading = true
       console.log("loading+++++++++++++++++++++")
       // replace `getPost` with your data fetching util / API wrapper
-   this.getDevisD(this.$route.params.id_devis);
+             this.devi.id_devis = this.$route.params.id_devis;
+              this.getDevisD(this.devi.id_devis);
+              
+              this.getStatus();
+              this.getCommandes(this.devi.id_devis);
+   //this.getDevisD(this.$route.params.id_devis);
 
     },
        getDevisD:function(id_devis){
                   axios.get('/getDevisD/'+id_devis).then(
                   response => {
                          //console.log(response.data.devi.fk_compte_d);
-                    this.loading = false;
+                    //this.loading = false;
 
                     this.devi= response.data.devi[0];
                     this.devi.colorStatu=response.data.devi[0].colorStatu;
@@ -323,6 +328,7 @@ console.log(this.devi);
                          console.log(response.data.commandes);
 
                     this.commandes= response.data.commandes;
+                    this.loading = false;
                     // this.commande.fk_article= response.data.articles;
 
                   });     
@@ -364,10 +370,7 @@ console.log(this.devi);
  
           mounted(){
                           
-              this.devi.id_devis = this.$route.params.id_devis;
-              this.getDevisD(this.devi.id_devis);
-              this.getCommandes(this.devi.id_devis);
-              this.getStatus();
+       
             },
               updated(){
         if( this.$route.params.success == "editS"){

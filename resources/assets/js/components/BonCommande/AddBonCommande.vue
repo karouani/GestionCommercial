@@ -79,35 +79,44 @@
                                     <thead>
                                     <tr>
                                     <th>Article</th>
-                                    <th>Quantite</th>
+                                    <th>Qté</th>
                                     <th>Remise</th>
-                                    <th>majoration</th>
+                                    <th>Maj</th>
                                     <th>Prix HT</th>
                                     <th>TVA</th>
                                     <th>Total HT</th>
                                     </tr>  
                                     </thead>
                                     <tbody>
+                                       
                              <tr v-for="(commande,index) in commandes" :key="index" >
+                                <input class="form-control"  type="text" v-model="commande.fk_article" disabled hidden>
                             <th>
-                                 <input class="form-control"  type="text" v-model="commande.fk_article" disabled hidden>
-                           <input class="form-control"  type="text" v-model="commande.designation" disabled >
-                           
-                            </th>
-                            <th><input class="form-control"  type="text" v-model="commande.quantite_cmd" ></th>
-                            <th>  <input class="form-control"  type="text" v-model="commande.remise_cmd" ></th> 
-                            <th>  <input class="form-control"  type="text" v-model="commande.majoration_cmd" ></th> 
-                            <th>  <input class="form-control"  type="text" v-model="commande.prix_ht" ></th> 
-                                                        <th>  <input class="mr-4"  type="text" v-model="commande.fk_tva_cmd" disabled hidden>
-                             <select class="form-control custom-select " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" >
+                            <div class="row">  
+                                <div class="col">
+                                    <input  class="mb-2" type="text" v-model="commande.designation" disabled >
+                                </div>
+                                <div class="col">
+                                    <textarea placeholder="Description article"  name="" id="description" cols="22" rows="4"  v-model="commande.description_article"></textarea> 
+                                   
+                                 </div>
+                           </div>  
+                            </th> 
+                            <th><input class="form-control ThWidth"  type="text" v-model="commande.quantite_cmd" ></th>
+                            <th>  <input class="form-control ThWidth"  type="text" v-model="commande.remise_cmd" ></th> 
+                            <th>  <input class="form-control ThWidth"  type="text" v-model="commande.majoration_cmd" ></th> 
+                            <th>  <input class="form-control ThWidth "  type="text" v-model="commande.prix_ht" ></th> 
+                              <th>  <input  type="text" v-model="commande.fk_tva_cmd" disabled hidden>
+                             <select class="form-control ThWidth custom-select " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" >
                             <option selected>Choisir Tva</option>
                             <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
                             </select>
                             
                             </th> 
-                            <th>  <input class="form-control"  type="text" v-model="commande.totalHT" disabled>
+                            <th>  <input class="form-control ThWidth"  type="text" v-model="commande.totalHT" disabled>
                            
                             </th>
+
                                             <th><a @click="removeRow(index)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                                         </tr>
                                     
@@ -121,7 +130,7 @@
                                             <div class="col-sm-4"> 
                                                 <select class="custom-select " id="fk_article" v-model="commande.fk_article" @change=" getPrixArticle()">
                                                  <option selected disabled>Choisir Article</option>
-                                                <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
+                                                <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.reference_art}}--{{article.designation}}</option>
                                                 </select>                                                                     
                                             </div>
                                             <div class="col-sm-6">
@@ -279,7 +288,7 @@
             montant_net_bc: 0,
             tva_montant_bc: 0,
             montant_ttc_bc: 0,
-      
+            
               },
 
                compte: { 
@@ -378,6 +387,7 @@
                designation:"",
                // montant total de chaque commande
                 totalHT:0,
+                description_article:"",
               },
              
               commandes:[],
@@ -415,16 +425,17 @@ methods: {
         this.getClients();
         this.getTvas();
          this.getCommandes(this.$route.params.id_devis);
+         console.log()
     }
     else{
               console.log('----------------')
             console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_bc+
             " / "+ this.$route.params.currentDate )
 
-
+            this.fk_document_cmd = this.$route.params.reference_bc
             this.bonCommande.reference_bc = this.$route.params.reference_bc
             this.bonCommande.date_bc = this.$route.params.currentDate
-            this.commande.fk_document=this.$route.params.reference_bc
+            //this.commande.fk_document=this.$route.params.reference_bc
             this.modePaiement.fk_document=this.$route.params.reference_bc
             this.getCompte(this.$route.params.id_compte);
             this.getContacts(this.$route.params.id_compte);
@@ -456,12 +467,13 @@ methods: {
             this.bonCommande.fk_compte_bc = this.compte.id_compte;
             this.bonCommande.fk_status_bc = "Brouillon"
 
-            
+             console.log('-------------BonCommandes---------------')
             console.log(this.bonCommande)
-            console.log('-------------BonCommandes---------------')
-            console.log(this.commandes)
             console.log('-------------Commandes---------------')
-                  axios.post('/addBonCommande',{commandes:this.commandes,bonCommande:this.bonCommande,modePaiements:this.modePaiement})
+            console.log(this.commandes)
+            console.log(this.compte.id_compte)
+           
+                axios.post('/addBonCommande',{commandes:this.commandes,bonCommande:this.bonCommande,modePaiements:this.modePaiement})
         .then(response => {         
                   console.log("bonCommande Bien ajouter ")
                // this.$router.push('/');
@@ -475,6 +487,8 @@ methods: {
 
     addRow (commande) {
         console.log("addrowwwwww")
+        console.log(this.fk_document_cmd)
+        console.log('--------')
         this.commandes.push( {
              
                quantite_cmd:commande.quantite_cmd,
@@ -484,7 +498,7 @@ methods: {
                fk_article:commande.fk_article,
                fk_document: this.fk_document_cmd,
                fk_tva_cmd:commande.fk_tva_cmd,
-
+                description_article:commande.description_article,
               
                designation:commande.designation,
                totalHT:commande.totalHT,
@@ -511,6 +525,7 @@ methods: {
                taux_tva:0,
                // designation d'article pr chaque commande
                designation:"",
+               description_article:"",
                // montant total de chaque commande
                 totalHT:0,
               };
@@ -587,8 +602,22 @@ methods: {
     },
         // recuperer des infos sur un article
     getPrixArticle(){
-           
-        axios.get('/getPrixArticle_bc/'+this.commande.fk_article)
+       // console.log('-------- articles ');
+         //  console.log();
+         let this1=this;
+           this.articles.data.forEach(function(article) {
+               if(article.id_article == this1.commande.fk_article){
+                   this1.commande.prix_ht = article.prix_ht_vente;
+                   this1.commande.fk_tva_cmd = article.fk_tva_applicable
+                   this1.commande.designation = article.designation;
+                   this1.commande.description_article = article.description;
+                   console.log('truuuuue');
+               }
+                
+                 console.log('-------- articles ');
+  console.log(article);
+});
+       /* axios.get('/getPrixArticle_bc/'+this.commande.fk_article)
             .then((response) => {
                         // prix de vente d'article
                     this.commande.prix_ht=response.data.article[0].prix_ht_vente;
@@ -596,12 +625,15 @@ methods: {
                     this.commande.fk_tva_cmd=response.data.article[0].fk_tva_applicable;
                         // designation d'article
                     this.commande.designation=response.data.article[0].designation;
+                    this.commande.description_article = response.data.article[0].description;
+                    console.log('------------ desc')
+                    console.log(this.commande.description_article)
                     this.tauxTva();
                   
             })
             .catch(() => {
                     console.log('handle server error from here');
-            });
+            });*/
     },
         // recuperer remise associe a un compte
     getRemise(id_compte){
@@ -676,7 +708,7 @@ methods: {
                     this.bonCommande.notes_bc= response.data.devi[0].notes_d;
                     this.bonCommande.fk_devis= response.data.devi[0].reference_d;
 
-                    this.compte.adresse_compte= response.data.devi[0].adresse_d;
+                    this.bonCommande.adresse_bc= response.data.devi[0].adresse_d;
                     this.compte.nom_compte= response.data.devi[0].nom_compte;
                     this.compte.id_compte= response.data.devi[0].fk_compte_d;
 
@@ -892,6 +924,11 @@ a.last::before {
   100% {
     transform: rotate(1800deg);
   }
+}
+.ThWidth{
+
+    min-width: 59px;
+
 }
 </style>
 

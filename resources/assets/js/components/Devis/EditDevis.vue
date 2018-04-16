@@ -9,7 +9,6 @@
     <div v-if="error" class="error">
       {{ error }}
     </div>
-
 <div v-if="!loading">
      <div class="row">
         <div class="col">
@@ -434,9 +433,24 @@ this.commande = {
                          fetchData () {
       //this.error = this.post = null
       this.loading = true
-     // console.log("loading+++++++++++++++++++++")
+       console.log('----------------')
+  
+            this.devi.id_devis = this.$route.params.id_devis;
+ this.getDevisD(this.devi.id_devis);
+            this.getStatus();
+            //this.countDevis();
+            this.getTvas();
+            this.getarticles();
+       // console.log("++++++++++++++++"+this.devi.fk_compte_d);
+          // this.getClient(this.devi.fk_compte_d)
+            this.getClients();
+            console.log(this.devi.id_devis);
+             
+              
+              this.getPaiement(this.devi.id_devis);
+              this.getCommandes(this.devi.id_devis);
       // replace `getPost` with your data fetching util / API wrapper
-   this.getDevisD(this.$route.params.id_devis);
+   //this.getDevisD(this.$route.params.id_devis);
 
     },
         spliceCommande(index,commande){
@@ -574,7 +588,7 @@ this.commande = {
                   axios.get('/getDevisD/'+id_devis).then(
                   response => {
                          //console.log(response.data.devi.fk_compte_d);
-                    this.loading = false;
+                   
 
                     this.devi= response.data.devi[0];
                     this.devi.date_limit_d=response.data.devi[0].date_limit_d;
@@ -588,7 +602,7 @@ this.commande = {
                          //console.log(response.data.commandes);
 
                     this.commandes= response.data.commandes;
-
+                     this.loading = false
                     // this.commande.fk_article= response.data.articles;
 
                   });     
@@ -751,21 +765,6 @@ watch:{
     '$route': 'fetchData', 
 },
 
-    mounted(){
- console.log('----------------')
-  
-            this.devi.id_devis = this.$route.params.id_devis;
-            this.getDevisD(this.devi.id_devis);
-            this.getStatus();
-            this.getTvas();
-            this.getarticles();
-            this.getClients();
-            this.getCommandes(this.devi.id_devis);
-            this.getPaiement(this.devi.id_devis);
-            //console.log("mounted diff date..."+this.devi.date_diff)
-            this.diffDate();
-            console.log("mounted")
-}
 }   
 </script>
 <style scoped>
