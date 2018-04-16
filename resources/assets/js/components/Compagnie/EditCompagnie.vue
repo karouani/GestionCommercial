@@ -1,84 +1,177 @@
  <template>
-    <div>
-        <div class="row">
-        <div class="col">
+ <div>
+       <div class="loading" v-if="loading">
+          <div class="lds-hourglass"></div>
+    </div>
+    <div v-if="error" class="error">
+      {{ error }}
+    </div>
+
+<div v-if="!loading">
+ <div>
+   
+     <div class="row">
+         <div class="text-center col-md-10">
+    <h2>Modifier Compagnie</h2>
+</div>
+        <div class="col-md-2">
         <router-link class="btn btn-primary mb-3  float-right " :to="'/getCompagnies'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
-    </div> 
+      
+
+    </div>      
+<hr>
+<div class="text-center">
+    <h4>Informations Compagnie</h4>
+</div>
+<hr>
+  <!-- formulaire pour Ajouter un user -->
+  <form @submit.prevent="updateCompagnie">
+         <div class="row" > 
+         
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="reference_art" class="col-sm-4">Raison Sociale</label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="reference_art"  v-model="compagnie.raison_sociale">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4" for="type_art"> Nom Societe </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="type_art" v-model="compagnie.nom_societe" >
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4" for="designation"> RC </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="designation" v-model="compagnie.RC" >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4" for="IF"> I.F </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="IF" v-model="compagnie.IF" >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4" for="prix_ht_achat"> Patente </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="prix_ht_achat" v-model="compagnie.patente" >
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                    <label class="col-sm-4" for="cnss"> C.N.S.S</label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="cnss" v-model="compagnie.cnss" >
+                    </div>
+                </div> 
+                <div class="form-group row">
+                    <label class="col-sm-4" for="ICE"> I.C.E </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="ICE" v-model="compagnie.ICE">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4" for="capitale"> Capitale </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="capitale" v-model="compagnie.capitale">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4" for="taille_comp"> Taille Compagnie </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="taille_comp" v-model="compagnie.taille_comp">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4" for="secteur_activite"> Secteur D'activite </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="secteur_activite" v-model="compagnie.secteur_activite">
+                    </div>
+                </div>
+           
+    </div>
+    </div>
     <hr>
-        <div class="text-center">
-    <h2>Modifier Compagnie</h2>
-    </div>
-<div class="row" >
-        
-            <div class="form-group col-md-6">
-      <label for="inputEmail4">Raison Sociale</label>
-      <input type="text" class="form-control" id="inputEmail4" v-model="compagnie.raison_sociale" placeholder="">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Taille Compagnie</label>
-      <input type="text" class="form-control" id="inputPassword4" v-model="compagnie.taille_comp" placeholder="">
-    </div>
+ <div class="text-center ">
+                  
+                    <h4>Details bancaires </h4>
+                    
+                </div>
+                <hr>
+     <div class="row" > 
+         
+            <div class="col-md-6">
+                 <div class="form-group row">
+                    <label class="col-sm-4" for="nom_bank"> Nom de Banque </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="nom_bank" v-model="compagnie.nom_bank">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
 
-  </div>
+                <div class="form-group row">
+                    <label class="col-sm-4" for="RIB"> R.I.B </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="RIB" v-model="compagnie.RIB">
+                    </div>
+                </div>
+            </div>
+     </div>
+<hr>
+      <div class="text-center ">
+                  
+                    <h4>Contact </h4>
+                    
+                </div>
+                <hr>
+     <div class="row" > 
+         
+            <div class="col-md-6">
+                 <div class="form-group row">
+                    <label class="col-sm-4" for="email"> E-mail </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="email" v-model="compagnie.email">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4" for="fix_comp">Fix </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="fix_comp" v-model="compagnie.fix_comp">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4" for="fax_comp">Fax </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="fax_comp" v-model="compagnie.fax_comp">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4" for="GSM_comp">GSM </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="GSM_comp" v-model="compagnie.GSM_comp">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
 
+                <div class="form-group row">
+                    <label class="col-sm-4" for="webSite_comp">Site Web </label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="webSite_comp" v-model="compagnie.webSite_comp">
+                    </div>
+                </div>
+             
 
-  <div class="row">
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Nom Societe</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.nom_societe" placeholder="">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Secteur d'Activité</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.secteur_activite" placeholder="">
-    </div>
-
-  </div>
-   
-<div class="row">
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Code Postale</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.cp_comp" placeholder="">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Ville</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.ville_comp" placeholder="">
-    </div>
-
-  </div>
-  
-<div class="row">
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Pays</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.pays_comp" placeholder="">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Téléphone</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.tel_comp" placeholder="">
-    </div>
-
-  </div>
-
-<div class="row">
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Fix</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.fix_comp" placeholder="">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Site Web</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.webSite_comp" placeholder="">
-    </div>
-
-  </div>
-    <div class="row">
-     <div class="form-group col-md-6">
-      <label for="inputEmail4">Adresse</label>
-      <input type="text" class="form-control" id="inputname4" v-model="compagnie.adresse_comp" placeholder="">
-    </div>
-  <div class="form-group col-md-6">
-  <div class="form-group">
-      <label for="inputPassword4">Logo</label>
- <div class="input-group mb-3">
+   <div class="form-group row">
+ 
+      <label for="inputPassword4" class="col-sm-4">Logo</label>
+ <div class="input-group mb-3 col-sm-8">
   <div class="input-group-prepend">
     <span class="input-group-text">Upload</span>
   </div>
@@ -88,11 +181,25 @@
   </div>
 </div>
  </div>
-  </div>
-    </div>
+ 
+                 <div class="form-group row">
+                    <label class="col-sm-4" for="adresse_comp">Adresse</label>
+                    <div class="col-sm-8">
+                      <textarea name="" id="" cols="49" rows="3" v-model="compagnie.adresse_comp"></textarea>
+                   
+                    </div>
+                </div>
+            </div>
+     </div>
+     <button  class="btn btn-primary mr-20 btn-success">Enregister</button>
+     
+     </form>
 
-     <button  @click="updateCompagnie()" class="btn btn-primary mr-20 btn-success">Modifier</button>
-    </div>
+ </div>
+</div>
+ </div>
+  <!-- fin formulaire -->
+
 </template>
 
 <script>
@@ -100,6 +207,8 @@
     export default{ 
         
           data: () => ({
+              loading: false,
+            error: null,
               nameFile : "Choose file",
               // objet test sur affichage , ajout , recherche
               Testopen:{
@@ -109,17 +218,29 @@
               },
         
              compagnie: {
-      id_compagnie:0,
+       id_compagnie:0,
       nom_societe:"",
       raison_sociale:"",
+      RC:"",
+      IF:"",
+      patente:"",
+      cnss:"",
+      ICE:"",
+      capitale:"",
       taille_comp:"",
       secteur_activite:"",
+
+
+      nom_bank:"",
+      RIB:"",
+      //cp_comp:"",
+      //ville_comp:"",
+      //pays_comp:"",
       adresse_comp:"",
-      cp_comp:"",
-      ville_comp:"",
-      pays_comp:"",
-      tel_comp:"",
+      email:"",
+      GSM_comp:"",
       fix_comp:"",
+      fax_comp:"",
       webSite_comp:"",
       logo_comp:"",
       
@@ -143,6 +264,8 @@
                     this.compagnie= response.data.compagnie;
 
                     this.nameFile = response.data.compagnie.logo_comp;
+                                      this.loading = false;
+
 
                                   });         
         },
@@ -177,12 +300,23 @@
                 };
                 reader.readAsDataURL(file);
             },
-    
+     fetchData () {
+      //this.error = this.post = null
+      this.loading = true
+          this.getCompagnie(this.$route.params.id_compagnie);
+          }
 
       },
-      mounted(){
-          this.getCompagnie(this.$route.params.id_compagnie);
-      }
+      created () {
+    // fetch the data when the view is created and the data is
+    // already being observed
+    this.fetchData()
+  },
+watch:{
+  // call again the method if the route changes
+    '$route': 'fetchData', 
+}
+   
       
 
       
@@ -245,6 +379,43 @@ a.last::before {
 
     font-size: 1.30rem;
 }
+
+
+
+
+    /*loading*/
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
 </style>
 
 

@@ -14,14 +14,25 @@ class maCompagnieController extends Controller
              $compagnie = new Macompagnie();
              $compagnie->nom_societe = $request->nom_societe;
              $compagnie->raison_sociale = $request->raison_sociale;
+             $compagnie->RC = $request->RC;
+             $compagnie->IF = $request->IF;
+             $compagnie->patente = $request->patente;
+             $compagnie->cnss = $request->cnss;
+             $compagnie->ICE = $request->ICE;
+             $compagnie->capitale = $request->capitale;
              $compagnie->taille_comp=$request->taille_comp;
              $compagnie->secteur_activite=$request->secteur_activite;
+             // details bancaires
+             $compagnie->nom_bank=$request->nom_bank;
+             $compagnie->RIB=$request->RIB;
+             //$compagnie->cp_comp=$request->cp_comp;
+             //$compagnie->ville_comp=$request->ville_comp;
+             //$compagnie->pays_comp=$request->pays_comp;
              $compagnie->adresse_comp=$request->adresse_comp;
-             $compagnie->cp_comp=$request->cp_comp;
-             $compagnie->ville_comp=$request->ville_comp;
-             $compagnie->pays_comp=$request->pays_comp;
-             $compagnie->tel_comp=$request->tel_comp;
+             $compagnie->email=$request->email;
+             $compagnie->GSM_comp=$request->GSM_comp;
              $compagnie->fix_comp=$request->fix_comp;
+             $compagnie->fax_comp=$request->fax_comp;
              $compagnie->webSite_comp=$request->webSite_comp;
 
 
@@ -89,19 +100,25 @@ class maCompagnieController extends Controller
             $compagnie->logo_comp = "";
         }
                 
-
-        
         $compagnie->nom_societe = $request->nom_societe;
         $compagnie->raison_sociale = $request->raison_sociale;
+        $compagnie->RC = $request->RC;
+        $compagnie->IF = $request->IF;
+        $compagnie->patente = $request->patente;
+        $compagnie->cnss = $request->cnss;
+        $compagnie->ICE = $request->ICE;
+        $compagnie->capitale = $request->capitale; 
         $compagnie->taille_comp=$request->taille_comp;
         $compagnie->secteur_activite=$request->secteur_activite;
-        $compagnie->adresse_comp=$request->adresse_comp;
-        $compagnie->cp_comp=$request->cp_comp;
-        $compagnie->ville_comp=$request->ville_comp;
-        $compagnie->pays_comp=$request->pays_comp;
-        $compagnie->tel_comp=$request->tel_comp;
+        $compagnie->nom_bank=$request->nom_bank;
+        $compagnie->RIB=$request->RIB;
+         $compagnie->adresse_comp=$request->adresse_comp;
+        $compagnie->email=$request->email;
+        $compagnie->GSM_comp=$request->GSM_comp;
         $compagnie->fix_comp=$request->fix_comp;
+        $compagnie->fax_comp=$request->fax_comp;
         $compagnie->webSite_comp=$request->webSite_comp;
+
 
                 $compagnie->save();
                  return Response()->json(['etat' => true]);

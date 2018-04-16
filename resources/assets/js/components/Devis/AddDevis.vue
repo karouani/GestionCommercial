@@ -1,5 +1,14 @@
 <template>
 <div>
+          
+    <div class="loading" v-if="loading">
+          <div class="lds-hourglass"></div>
+    </div>
+    <div v-if="error" class="error">
+      {{ error }}
+    </div>
+
+<div v-if="!loading">
      <div class="row">
         <div class="col">
         <router-link class="btn btn-primary mb-3  float-right " :to="'/getDevis'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
@@ -117,8 +126,36 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
                 <div class="col-sm-8">
-                <input type="date" class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d">
+<label for="inputPassword" class="col-sm-4 col-form-label">Échéance </label>
+                <div class="col-sm-8">
+                    <select class="form-control custom-select " id="echeance" v-model="devi.echeance" >
+                    <option selected disabled>nombre de jour</option>
+                    <option value="7">une semaine</option>
+                    <option value="14">deux semaine</option>
+                    <option value="30">30 jours</option>
+                    <option value="60">60 jours</option>
+                    <option value="90">90 jours</option>
+                    <option value="cal">choisir une date</option>
+
+                </select>
+                <div v-if="devi.echeance != undefined">
+                    <br>
+                    <div v-if="devi.echeance != 'cal'">
+                                 {{devi.date_limit_d}} - ({{devi.date_diff}})
+                    </div>
+                <div v-if="devi.echeance === 'cal'">
+                  <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d" required>
                 </div>
+                </div>
+                
+                 
+                    <!--
+                <input type="number" class="form-control" id="inputPassword" placeholder="" v-model="devi.echeance">
+                {{devi.date_limit_d}}
+
+                <input type="date" class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d">
+               -->
+                </div>                </div>
             </div>
             <div class="form-group row">
                     <label for="type_paiement" class="col-sm-4 col-form-label" > Type Paiement </label>
@@ -188,7 +225,6 @@
          </div>
    
  </div>
-
         
 </div>
 <br>
@@ -222,6 +258,7 @@
           </form>
 </div>
 </div>
+</div>
 </template>
 
 <script>
@@ -229,7 +266,8 @@
     export default{ 
         
           data: () => ({
-           
+            loading: false,
+            error: null,
               // objet test sur affichage , ajout , recherche
               Testopen:{
                 testAjout : false,
@@ -263,6 +301,8 @@
             tva_montant_d:0,
             montant_ttc_d:0,
       
+            echeance:0,
+            date_diff:"",
               },
               compte:{
                   id_compte:0,
@@ -404,6 +444,7 @@ this.commande = {
         .then((response) => {
                 this.status= response.data.status;
                  this.devi.fk_status_d="Brouillon"; 
+                  this.loading = false;
         })
         .catch(() => {
                 console.log('handle server error from here');
@@ -498,6 +539,71 @@ this.commande = {
   var factor = Math.pow(10, precision);
   return Math.round(number * factor) / factor;
 },
+
+ echeanceDate(){
+Date.prototype.addDays = function(days) {
+  var dat = new Date(this.valueOf());
+  dat.setDate(dat.getDate() + days);
+  return dat;
+}
+
+var date_d=this.devi.date_d
+var dat = new Date(date_d);
+
+var echeance= +this.devi.echeance;
+   //console.log("echeance-------- "+echeance)
+        if(typeof(echeance) === 'number'){
+    console.log("echeance is number            "+typeof(echeance) )
+}
+  var today =dat.addDays(echeance);
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; 
+  var yyyy = today.getFullYear();
+  if(dd<10) 
+                {
+                    dd='0'+dd;
+                } 
+
+                if(mm<10) 
+                {
+                    mm='0'+mm;
+                } 
+   console.log(dd+'-'+mm+'-'+yyyy)
+
+            this.devi.date_limit_d=yyyy+'-'+mm+'-'+dd;
+           // return dd+'-'+mm+'-'+yyyy;
+   
+},
+diffDate() {
+//console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
+
+    var startDate = Date.parse(this.devi.date_d);
+            var endDate = Date.parse(this.devi.date_limit_d);
+            var timeDiff = endDate - startDate;
+            var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            this.devi.date_diff=daysDiff;
+//alert(daysDiff)
+},
+       fetchData () {
+      //this.error = this.post = null
+      this.loading = true
+      // replace `getPost` with your data fetching util / API wrapper
+   this.devi.date_d=this.$route.params.currentDate;
+            this.devi.reference_d=this.$route.params.reference_d;
+            this.commande.fk_document=this.$route.params.reference_d;
+            this.modePaiement.fk_document=this.$route.params.reference_d;
+            this.devi.fk_compte_d=this.$route.params.id_compte;
+
+          
+            //this.countDevis();
+            this.getTvas();
+            this.getarticles();
+            this.getClients();
+            this.getClient(this.$route.params.id_compte);
+            this.getRemise(this.$route.params.id_compte);
+            this.getStatus();
+
+    },
 },
     
     
@@ -538,9 +644,21 @@ computed:{
             this.total_ttc= this.precisionRound(  +this.net_HT + +this.tva_total,2);
             this.devi.montant_ttc_d=this.total_ttc;
     },
-          
-},
+    echeance(){
+            this.echeanceDate();
 
+   },
+   diff(){
+            this.diffDate();
+            console.log("computed")
+
+   }      
+},
+     created () {
+    // fetch the data when the view is created and the data is
+    // already being observed
+    this.fetchData()
+  },
 watch:{
     'devi.remise_total_d':{
             handler: function(){
@@ -564,26 +682,38 @@ watch:{
             },
             deep : true
     },
-            
+    'devi.echeance':{
+            handler: function(){
+                    this.echeance;
+                    this.diff;
+
+            }
+    },
+
+            'devi.date_d':{
+            handler: function(){
+                this.echeance;
+                    this.diff;
+
+            }
+    },
+    'devi.date_limit_d':{
+        handler: function(){
+                this.echeance;
+                    this.diff;
+            console.log("watch")
+
+            }
+    },
+       // call again the method if the route changes
+    '$route': 'fetchData',     
 },
 
     mounted(){
  console.log('----------------')
             console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_d+
             " / " + this.$route.params.currentDate)
-            this.devi.date_d=this.$route.params.currentDate;
-            this.devi.reference_d=this.$route.params.reference_d;
-            this.commande.fk_document=this.$route.params.reference_d;
-            this.modePaiement.fk_document=this.$route.params.reference_d;
-            this.devi.fk_compte_d=this.$route.params.id_compte;
-
-            this.getStatus();
-            //this.countDevis();
-            this.getTvas();
-            this.getarticles();
-            this.getClients();
-            this.getClient(this.$route.params.id_compte);
-            this.getRemise(this.$route.params.id_compte);
+            
 }
 }   
 </script>
@@ -653,5 +783,39 @@ a.last::before {
 }
 .calculePadding{
     padding-left: 50%;
+}
+
+
+    /*loading*/
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
 }
 </style>

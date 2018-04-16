@@ -15,13 +15,13 @@
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
-  <strong>Compagnie Bien Ajouter !</strong>
+  <strong>Devis Bien Ajouter !</strong>
 </div>
   <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEdit">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
-  <strong>Compagnie Bien Modifier !</strong>
+  <strong>Devis Bien Modifier !</strong>
 </div>
 
         <div class="row">
@@ -74,7 +74,7 @@
                                         <td>{{devi.reference_d}}</td>
                                         <td>{{devi.nom_compte}} </td>
                                         <td>{{ devi.date_d}}</td>
-                                        <td>{{devi.date_limit_d}}</td>
+                                        <td>{{devi.date_limit_d}} ({{devi.date_diff}})</td>
                                         <td v-if="devi.fk_status_d == 'Brouillon'">
                                             
                                            <span class="badge badge-pill" style="background-color:rgb(170, 170, 170);color:white;font-size:14px"> {{devi.fk_status_d}}</span> </td>
@@ -163,12 +163,13 @@ import  Pagination from '../Pagination.vue';
                     size: "14px"
               },
                      loading: false,
+                     error: null,
                      test1 : {
                   searchQuery: 0,
                    calculee: 0,
                   },
       post: null,
-      error: null,
+      
              modalShow: false,
               //search
               search : '',
@@ -181,8 +182,9 @@ import  Pagination from '../Pagination.vue';
                 testAjout : false,
                 testAffiche : false,
                 testmodelArticle : false,
+                testEdit : false,
+
               },
-              testEdit : false,
               // tester l ajout si bien fais 
               
               // tester  si affiche articles  ou afficher ajouter article 
@@ -220,21 +222,22 @@ import  Pagination from '../Pagination.vue';
             fk_user_d:"",
 
             nom_compte:"",
+            date_diff:"",
+            startDate:"",
+            endDate :"",
+            timeDiff:"",
               },
             
              comptes:[],
              
       }),
       mounted(){
-          if(this.$route.params.success == "add")
-            this.Testopen.testAjout =true;
-   if(this.$route.params.success == "edit")
-            this.Testopen.testEdit =true; 
-
+         
          var today = new Date();
             var dd = today.getDate();
-            var mm = today.getMonth(); 
+            var mm = today.getMonth()+1; 
             var yyyy = today.getFullYear();
+            console.log("month"+today)
              if(dd<10) 
                 {
                     dd='0'+dd;
@@ -250,6 +253,11 @@ import  Pagination from '../Pagination.vue';
         this.getDevis();
         this.getClients();
           this.countDevis();
+            this.diffDate()
+           if(this.$route.params.success == "add"){
+            this.Testopen.testAjout =true;}
+   if(this.$route.params.success == "edit"){
+            this.Testopen.testEdit =true; }
     
       },
            created () {
@@ -319,6 +327,8 @@ countDevis(){
                 .then((response) => {
                     this.loading = false;
                     this.devis = response.data.devis;
+                    this.diffDate()
+                    console.log(response.data.devis);
                })
                 .catch(() => {
                     console.log('handle server error from here');
@@ -328,7 +338,7 @@ countDevis(){
                 axios.get('/getClients')
                 .then((response) => {
                     this.comptes = response.data.comptes;
-                    console.log(response.data.comptes);
+                    //console.log(response.data.comptes);
                   
                 })
                 .catch(() => {
@@ -382,10 +392,56 @@ countDevis(){
 })
 
         },  
-        
-   },
+              diffDate() {
+                  /*
+console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
+for (let index = 0; index < this.devis.length; index++) {
+            this.devis[index].startDate = Date.parse(this.devis[index].date_d);
+            console.log("<<<<<<<>>>>>>>>>>>>>>>>>>>"+this.devis[index].date_d)
+            this.devis[index].endDate = Date.parse(this.devis[index].date_limit_d);
+            this.devis[index].timeDiff = this.devis[index].endDate  - this.devis[index].startDate;
+            this.devis[index].date_diff = Math.floor(this.devis[index].timeDiff / (1000 * 60 * 60 * 24));
+         */
+ 
+//alert(daysDiff)
+        }
+},
+      
 
+computed:{
+    diff(){
+       console.log("xaaaaaaaaaaaaaaaaa"+this.devis.length)
+        for (let index = 0; index < this.devis.length; index++) {
+        console.log("test")
+    //console.log(this.devis[index].date_d)
+        //this.devis[index].startDate = Date.parse(this.devis[index].date_d);
 
+        }
+    }
+},
+
+watch:{
+         'devi.date_d':{
+            handler: function(){
+                    this.diff;
+
+            }
+    },
+    'devi.date_limit_d':{
+        handler: function(){
+                    this.diff;
+            console.log("watch")
+
+            }
+    },
+    devis:{
+        handler: function(){
+                    this.diff;
+            
+
+            }
+    },
+}
       
 
     }

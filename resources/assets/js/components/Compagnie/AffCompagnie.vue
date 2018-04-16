@@ -1,7 +1,7 @@
 <template>
   <div>
         <div class="loading" v-if="loading">
-      Loading...
+          <div class="lds-hourglass"></div>
     </div>
     <div v-if="error" class="error">
       {{ error }}
@@ -25,7 +25,8 @@
     <span aria-hidden="true">&times;</span>
   </button>
   <strong>Compagnie Bien Modifier !</strong>
-   </div>
+</div>
+
 
     <!-- afficher les utilisateurs sous formes des cards  -->
     <div class="row">
@@ -63,16 +64,18 @@
                 :title="'Raison Sociale : '+compagnie.raison_sociale"
                 :body-bg-variant="+' '+modalShow+''+compagnie.secteur_activite+''+compagnie.taille_comp+''+compagnie.adresse_comp+''+compagnie.cp_comp+''+compagnie.ville_comp+''+compagnie.pays_comp+''+compagnie.tel_comp+''+compagnie.fix_comp+''+compagnie.webSite_comp+''+compagnie.logo_comp">
                  <div class="row" v-if="modalShow">
-                     <div class="col">                     
+                     <div class="col">
+                         <br>
+                         <span>Nom de Banque : </span>{{compagnie.nom_bank}}
+                        <hr>
+                   <span>R.I.B : </span>{{compagnie.RIB}}
+                   <hr>  
+                                    
                    <span>Adresse : </span>{{compagnie.adresse_comp}}
                         <hr>
-                   <span>Code Postale : </span>{{compagnie.cp_comp}} 
+                   <span>GSM : </span>{{compagnie.GSM_comp}}
                    <hr>
-                   <span>Ville : </span>{{compagnie.ville_comp}}
-                   <hr>
-                   <span>Pays :  </span>{{compagnie.pays_comp}}
-                   <hr>
-                   <span>Téléphone : </span>{{compagnie.tel_comp}}
+                   <span>fax :  </span>{{compagnie.fax_comp}}
                    <hr>
                    <span>Fix :  </span>{{compagnie.fix_comp}}
                    <hr>
@@ -84,6 +87,18 @@
                       <img v-if="compagnie.logo_comp != ''" class="card-img-top" :src="'storage/images/'+compagnie.logo_comp" width="150px" height="150px">
                     <img v-if="compagnie.logo_comp === ''" class="card-img-top" :src="'storage/images/compagnie0.jpg'"  width="150px" height="200px">
                      </div>
+                     <hr>
+                   <span>R.C :  </span>{{compagnie.RC}}
+                    <hr>
+                   <span>I.F :  </span>{{compagnie.IF}}
+                    <hr>
+                   <span>patente :  </span>{{compagnie.patente}}
+                    <hr>
+                   <span>C.N.S.S :  </span>{{compagnie.cnss}}
+                    <hr>
+                   <span>I.C.E :  </span>{{compagnie.ICE}}
+               
+               
                      </div>
                      </div>
                     <div slot="modal-footer" class="w-100">
@@ -127,6 +142,7 @@ import  Pagination from '../Pagination.vue';
            // objet test sur affichage , ajout , recherche
               Testopen:{
                 testAjout : false,
+                testEdit : false,
                 testAffiche : false,
                 testmodelArticle : false,
               },
@@ -162,7 +178,7 @@ import  Pagination from '../Pagination.vue';
    if(this.$route.params.success == "edit")
             this.Testopen.testEdit =true; 
 
-          this.getCompagnies();
+          
     },
 updated(){
     if( this.$route.params.success == "add"){
@@ -173,6 +189,10 @@ updated(){
          let that=this;
               setTimeout(function(){that.Testopen.testEdit = false;}, 2000);}
 },
+watch:{
+    // call again the method if the route changes
+    '$route': 'fetchData', 
+},
     methods: {
           
               // methode pour afficher tous les compagnies                  
@@ -182,6 +202,8 @@ console.log("testttt");
                         .then(response => {
                             // recuperé ensemble des compagnies sous format json
                             this.compagnies = response.data.compagnies;
+                            this.loading = false
+
                          
                         })
                         .catch(function (error) {
@@ -211,7 +233,7 @@ console.log("testttt");
                 reader.readAsDataURL(file);
             },
 
-        getCompagnie:function(compagnie){
+        getCompagnie(compagnie){
               
                   axios.get('/getCompagnie/'+compagnie.id_compagnie).then(
                   response => {
@@ -251,15 +273,19 @@ console.log("testttt");
                         })
                        
         },
+          fetchData () {
+      //this.error = this.post = null
+      this.loading = true
+      this.getCompagnies();
+          }
         
     },
+   created () {
+    // fetch the data when the view is created and the data is
+    // already being observed
+    this.fetchData()
+  },
 
-
-
-    computed:{
-        
-            
-    }
 
 }
     
@@ -299,10 +325,44 @@ a.last::before {
 }
 .show{
      opacity:0.9;
-    width: 233px;
+    width: 265px;
     z-index: 100;
     top: 61px;
     right: 0;
     position:  absolute;
     position :fixed;}
+
+
+        /*loading*/
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
 </style>

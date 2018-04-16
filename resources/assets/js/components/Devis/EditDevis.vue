@@ -132,9 +132,35 @@
 <div class="row">
     <div class="col-md-6 col-sm-12">
             <div class="form-group row">
-                <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
+                <label for="inputPassword" class="col-sm-4 col-form-label">Échéance </label>
                 <div class="col-sm-8">
+                    <select class="form-control custom-select " id="echeance" v-model="devi.echeance" >
+                    <option selected disabled>nombre de jour</option>
+                    <option value="7">une semaine</option>
+                    <option value="14">deux semaine</option>
+                    <option value="30">30 jours</option>
+                    <option value="60">60 jours</option>
+                    <option value="90">90 jours</option>
+                    <option value="cal">choisir une date</option>
+
+                </select>
+                <div v-if="devi.echeance != undefined">
+                    <br>
+                    <div v-if="devi.echeance != 'cal'">
+                                 {{devi.date_limit_d}} - ({{devi.date_diff}})
+                    </div>
+                <div v-if="devi.echeance === 'cal'">
+                  <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d" required>
+                </div>
+                </div>
+                
+                 
+                    <!--
+                <input type="number" class="form-control" id="inputPassword" placeholder="" v-model="devi.echeance">
+                {{devi.date_limit_d}}
+
                 <input type="date" class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d">
+               -->
                 </div>
             </div>
             <div class="form-group row">
@@ -283,6 +309,10 @@ error: null,
             montant_ttc_d:0,
       
       nom_compte:"",
+
+      echeance:0,
+      date_diff:"",
+      date_echeance_choix:"",
               },
               compte:{
                   id_compte:0,
@@ -404,7 +434,7 @@ this.commande = {
                          fetchData () {
       //this.error = this.post = null
       this.loading = true
-      console.log("loading+++++++++++++++++++++")
+     // console.log("loading+++++++++++++++++++++")
       // replace `getPost` with your data fetching util / API wrapper
    this.getDevisD(this.$route.params.id_devis);
 
@@ -412,17 +442,16 @@ this.commande = {
         spliceCommande(index,commande){
             this.commandes.splice(index, 1);
                         this.suppCommandes.push(commande);
-                        console.log('supp ----------');
-                        console.log(this.suppCommandes)
+                       // console.log('supp ----------');
+                        //console.log(this.suppCommandes)
         },  
 
     getPaiement(id_devis){
-        console.log("referennnce")
-        console.log();
+        //console.log("referennnce")
         
      axios.get('/getPaiement/'+'D'+id_devis).then(
                   response => {
-                         console.log(response.data.modePaiement);
+                         //console.log(response.data.modePaiement);
 
                     this.modePaiement= response.data.modePaiement[0];
 
@@ -496,7 +525,7 @@ this.commande = {
                     this.compte = response.data.compte;
 
                     this.getRemise(fk_compte_d)
-                                                        console.log("adresse ----------- "+this.devi.adresse_d)
+                                                        //console.log("adresse ----------- "+this.devi.adresse_d)
 
                   this.devi.adresse_d=response.data.compte.adresse_compte;
                   this.devi.nom_compte =response.data.compte.nom_compte;
@@ -548,16 +577,18 @@ this.commande = {
                     this.loading = false;
 
                     this.devi= response.data.devi[0];
-
+                    this.devi.date_limit_d=response.data.devi[0].date_limit_d;
+                    //console.log("devi date..."+this.devi.date_d)
                   });     
         },
         getCommandes:function(id_devis){
                   axios.get('/getCommandes/'+'D'+id_devis).then(
                   response => {
-                      console.log("commandes:  ");
-                         console.log(response.data.commandes);
+                      //console.log("commandes:  ");
+                         //console.log(response.data.commandes);
 
                     this.commandes= response.data.commandes;
+
                     // this.commande.fk_article= response.data.articles;
 
                   });     
@@ -567,6 +598,50 @@ this.commande = {
   return Math.round(number * factor) / factor;
 },
 
+ echeanceDate(){
+Date.prototype.addDays = function(days) {
+  var dat = new Date(this.valueOf());
+  dat.setDate(dat.getDate() + days);
+  return dat;
+}
+
+var date_d=this.devi.date_d
+var dat = new Date(date_d);
+
+var echeance= +this.devi.echeance;
+   //console.log("echeance-------- "+echeance)
+       /* if(typeof(echeance) === 'number'){
+    console.log("echeance is number            "+typeof(date_d) )
+}*/
+  var today =dat.addDays(echeance);
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; 
+  var yyyy = today.getFullYear();
+  if(dd<10) 
+                {
+                    dd='0'+dd;
+                } 
+
+                if(mm<10) 
+                {
+                    mm='0'+mm;
+                } 
+   console.log(dd+'-'+mm+'-'+yyyy)
+
+            this.devi.date_limit_d=yyyy+'-'+mm+'-'+dd;
+           // return dd+'-'+mm+'-'+yyyy;
+   
+},
+diffDate() {
+console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
+
+    var startDate = Date.parse(this.devi.date_d);
+            var endDate = Date.parse(this.devi.date_limit_d);
+            var timeDiff = endDate - startDate;
+            var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            this.devi.date_diff=daysDiff;
+//alert(daysDiff)
+}
 },
     
     
@@ -607,8 +682,18 @@ computed:{
             this.total_ttc= this.precisionRound(  +this.net_HT + +this.tva_total,2);
             this.devi.montant_ttc_d=this.total_ttc;
     },
+   echeance(){
+            this.echeanceDate();
+
+   },
+   diff(){
+            this.diffDate();
+            console.log("computed")
+
+   }
           
 },
+
             created () {
     // fetch the data when the view is created and the data is
     // already being observed
@@ -638,6 +723,29 @@ watch:{
             },
             deep : true
     },
+    'devi.echeance':{
+            handler: function(){
+                    this.echeance;
+                    this.diff;
+
+            }
+    },
+
+            'devi.date_d':{
+            handler: function(){
+                this.echeance;
+                    this.diff;
+
+            }
+    },
+    'devi.date_limit_d':{
+        handler: function(){
+                this.echeance;
+                    this.diff;
+            console.log("watch")
+
+            }
+    },
     
     // call again the method if the route changes
     '$route': 'fetchData', 
@@ -647,18 +755,16 @@ watch:{
  console.log('----------------')
   
             this.devi.id_devis = this.$route.params.id_devis;
- this.getDevisD(this.devi.id_devis);
+            this.getDevisD(this.devi.id_devis);
             this.getStatus();
-            //this.countDevis();
             this.getTvas();
             this.getarticles();
-       // console.log("++++++++++++++++"+this.devi.fk_compte_d);
-          // this.getClient(this.devi.fk_compte_d)
             this.getClients();
-            console.log(this.devi.id_devis);
-             
-              this.getCommandes(this.devi.id_devis);
-              this.getPaiement(this.devi.id_devis);
+            this.getCommandes(this.devi.id_devis);
+            this.getPaiement(this.devi.id_devis);
+            //console.log("mounted diff date..."+this.devi.date_diff)
+            this.diffDate();
+            console.log("mounted")
 }
 }   
 </script>
