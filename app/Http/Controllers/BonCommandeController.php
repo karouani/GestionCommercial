@@ -249,6 +249,16 @@ class BonCommandeController extends Controller
            
          return Response()->json(['bonCommandes' => $boncommandes ]);
       }
+      public function  getBonCommandesCompte($idCompte){
+           
+        $boncommandes = Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
+            ->leftJoin('status', 'bonCommandes.fk_status_bc', '=', 'status.id_status')
+            ->select('bonCommandes.*', 'comptes.nom_compte','status.*')
+            ->where('bonCommandes.fk_compte_bc','=', $idCompte)
+            ->paginate(10);
+         return Response()->json(['bonCommandes' => $boncommandes , 'idCompte' => $idCompte ]);
+      }
+     
 
 
       public function searchBonCommande($search_BC){

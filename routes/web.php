@@ -133,6 +133,9 @@ Route::get('/tauxTva_bc/{id_tva}','BonCommandeController@tauxTva_bc');
 Route::get('/getBonCommandes','BonCommandeController@getBonCommandes');
 Route::get('/getBonCommande/{id_bc}','BonCommandeController@getBonCommande');
 Route::get('/searchBonCommande/{search_BC}','BonCommandeController@searchBonCommande');
+Route::get('/getBonCommandesCompte/{idCompte}','BonCommandeController@getBonCommandesCompte');
+
+
 
 Route::delete('/deleteBonCommande/{id_bc}','BonCommandeController@deleteBonCommande');
 Route::get('/showBonCommande/{reference_bc}','BonCommandeController@showBonCommande');
