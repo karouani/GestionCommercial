@@ -185,7 +185,7 @@
                  <div class="form-group row">
                     <label class="col-sm-4" for="adresse_comp">Adresse</label>
                     <div class="col-sm-8">
-                      <textarea name="" id="" cols="49" rows="3" v-model="compagnie.adresse_comp"></textarea>
+                      <textarea name="" id="" cols="39" rows="3" v-model="compagnie.adresse_comp"></textarea>
                    
                     </div>
                 </div>

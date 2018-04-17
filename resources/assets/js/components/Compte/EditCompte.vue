@@ -69,7 +69,7 @@
                 <div class="form-group row ">
                     <label for="fixe" class="col-sm-4" >Adresse</label>
                     <div class="col-sm-8">
-                      <textarea name="" id="" cols="40" rows="3" v-model="compte.adresse_compte"></textarea>
+                      <textarea name="" id="" class="form-control" rows="3" v-model="compte.adresse_compte"></textarea>
                     </div>
                 </div>
             

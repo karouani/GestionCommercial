@@ -124,6 +124,12 @@
     <div class="col-md-6 col-sm-12">
         
             <div class="form-group row">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Total en lettre</label>
+                <div class="col-sm-8 col-form-label ">
+                <label>{{bonCommande.total_lettre}}</label>
+                </div>
+            </div>
+            <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
                 <div class="col-sm-8 col-form-label ">
                 <label>{{bonCommande.date_limit_bc}}</label>

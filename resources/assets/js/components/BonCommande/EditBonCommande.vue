@@ -28,7 +28,7 @@
                     <div class="col-sm-10">
                 <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" @click="getCompte(compte.id_compte)"  @change="getCompte(compte.id_compte)">
                     <option selected >Choisir Client</option>
-                    <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
+                    <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}}</option>
                 </select>                    
                 </div>
             </div> 
@@ -124,7 +124,7 @@
     
       <div class="row">
                                             <div class="col-sm-4"> 
-                                                <select class="custom-select " id="fk_article" v-model="commande.fk_article" @change=" getPrixArticle()">
+                                                <select class="custom-select " id="fk_article" v-model="commande.fk_article" >
                                                  <option selected>Choisir Article</option>
                                                 <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
                                                 </select>                                                                     
@@ -140,20 +140,27 @@
 <div class="row">
     <div class="col-md-6 col-sm-12">
             <div class="form-group row">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Total en lettre</label>
+                <div class="col-sm-8">
+                <label  class="form-control" for="">{{bonCommande.total_lettre}}</label>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
                 <div class="col-sm-8">
                 <input type="date" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.date_limit_bc">
                 </div>
             </div>
+            {{typePaiement.type_paiement}} {{typePaiement.type_paiement}} {{modePaiement.fk_type_paiement}}
             <div class="form-group row">
                     <label for="type_paiement" class="col-sm-4 col-form-label" > Type Paiement </label>
                 <div class="col-sm-8">
-                <select class="form-control custom-select " id="type_paiement" v-model="modePaiement.type_paiement" >
-                    <option selected disabled>Choisir Type de Paiement</option>
-                    <option>Cheque</option>
-                    <option>Versement</option>
-                    <option>Espece</option>
-                </select>
+                  <select class="custom-select " id="fk_" v-model="modePaiement.fk_type_paiement" >
+                 <option selected disabled>Choisir type paiement</option>
+                <option v-for="typePaiement in typePaiements" :key="typePaiement.id_type_paiement" :value="typePaiement.id_type_paiement">{{typePaiement.type_paiement}}</option>
+                 </select>         
                 </div>
             </div>
                 <div class="form-group row">
@@ -285,7 +292,7 @@
             montant_net_bc: 0,
             tva_montant_bc: 0,
             montant_ttc_bc: 0,
-      
+             total_lettre : ""
               },
 
                compte: { 
@@ -391,14 +398,20 @@
               
                 //mode paiement
                 modePaiement:{
-                        id_modeP:0,
-                        type_paiement:"",
+                        id_modeP:0,                      
                         reference_paiement:"",
                         date_paiement:"",
                         fk_document:"",
-
+                        fk_type_paiement:0,
                 },
                 modePaiements:[],
+
+        typePaiement:{
+            id_type_paiement: 0,
+            type_paiement: "",
+          },
+                typePaiements:[],
+                
              
       }),
                created () {
@@ -419,13 +432,6 @@ methods: {
             this.getCompte(this.$route.params.fk_compte_bc);
             this.showBonCommande(this.$route.params.reference_bc);
             this.getCommandes(this.$route.params.reference_bc);
-           /* this.bonCommande.reference_bc = this.$route.params.reference_bc
-            this.bonCommande.date_bc = this.$route.params.currentDate
-            this.commande.fk_document=this.$route.params.reference_bc
-            this.modePaiement.fk_document=this.$route.params.reference_bc
-            this.getCompte(this.$route.params.id_compte);
-            this.getContacts(this.$route.params.id_compte);
-            this.getCondtionFacture(this.$route.params.id_compte); */
             this.getStatus();
            
             this.getarticles();
@@ -435,7 +441,7 @@ methods: {
             
            
             this.getRemise(this.$route.params.id_compte)
-
+            this.getTypePaiement();
 
     },
 
@@ -460,13 +466,22 @@ methods: {
 
             axios.get('/showBonCommande/'+reference_bc)
                                 .then((response) => {
-                                   
+                                  
                                     this.bonCommande = response.data.bonCommande[0];
                                     this.compte.id_compte = this.bonCommande.id_compte;
                                     this.compte.nom_compte = this.bonCommande.nom_compte;
                                    // this.compte.adresse_compte = this.bonCommande.adresse_bc;
                                     this.modePaiement.id_modeP =this.bonCommande.id_modeP
-                                      this.modePaiement.type_paiement =this.bonCommande.type_paiement
+                                     // this.modePaiement.type_paiement =this.bonCommande.type_paiement
+                                    
+                                     
+                                    this.typePaiement.type_paiement =this.bonCommande.type_paiement
+                                    this.typePaiement.id_type_paiement =  this.bonCommande.id_type_paiement 
+                                    this.modePaiement.fk_type_paiement = this.bonCommande.id_type_paiement                       
+                                     console.log('--------- id type ')
+                                    console.log(this.bonCommande.id_type_paiement);
+                                    console.log('--------------- ')
+
                                     this.modePaiement.reference_paiement    = this.bonCommande.reference_paiement
                                      this.modePaiement.date_paiement   =this.bonCommande.date_paiement
                                      this.modePaiement.fk_document =this.bonCommande.fk_document
@@ -518,9 +533,10 @@ methods: {
     },
 
 
-    addRow (commande) {
+    async addRow (commande) {
        
-        this.commandes.push( {
+       var result = await this.getPrixArticle();
+       var result2 = await this.commandes.push( {
 
                quantite_cmd:commande.quantite_cmd,
                remise_cmd:commande.remise_cmd,
@@ -646,23 +662,21 @@ methods: {
             });
     },
         // recuperer des infos sur un article
-    getPrixArticle(){
-           
-        axios.get('/getPrixArticle_bc/'+this.commande.fk_article)
-            .then((response) => {
-                        // prix de vente d'article
-                    this.commande.prix_ht=response.data.article[0].prix_ht_vente;
-                        // fk de tva d'article
-                    this.commande.fk_tva_cmd=response.data.article[0].fk_tva_applicable;
-                        // designation d'article
-                    this.commande.designation=response.data.article[0].designation;
-                    this.commande.description_article = response.data.article[0].description;
-                    this.tauxTva();
-                  
-            })
-            .catch(() => {
-                    console.log('handle server error from here');
-            });
+ getPrixArticle(){
+       // console.log('-------- articles ');
+         //  console.log();
+         let this1=this;
+           this.articles.data.forEach(function(article) {
+               if(article.id_article == this1.commande.fk_article){
+                   this1.commande.prix_ht = article.prix_ht_vente;
+                   this1.commande.fk_tva_cmd = article.fk_tva_applicable
+                   this1.commande.designation = article.designation;
+                   this1.commande.description_article = article.description;
+                   return
+                 
+               }
+
+});
     },
         // recuperer remise associe a un compte
     getRemise(id_compte){
@@ -718,6 +732,15 @@ methods: {
                   
                   });     
         }, 
+                 getTypePaiement(){
+                            axios.get('/getTypePaiement')
+                            .then((response) => {                        
+                                this.typePaiements= response.data.listeTypePaiments;
+                            })
+                            .catch(() => {
+                                console.log('handle server error from here');
+                            });
+          }
 
 
     
@@ -775,7 +798,21 @@ computed:{
             this.net_HT=this.precisionRound( this.total_prix - this.remise_T,2);
                // montant total final
             this.total_ttc=  this.precisionRound( +this.net_HT + +this.tva_total,2);
+
+            var res = this.total_ttc.toString().split(".");
+           this.bonCommande.total_lettre = this.$WrittenNumber(res[0], { lang: 'fr'})
+             
+
+            if (typeof res[1] !== 'undefined') {
+                if(res[1].toString().split("")[0] == "0"){
+                    this.bonCommande.total_lettre += ' et zéro '+this.$WrittenNumber(res[1], { lang: 'fr'})
+                }
+                else 
+                this.bonCommande.total_lettre += ' et '+this.$WrittenNumber(res[1], { lang: 'fr'})
+            }
     },
+
+
           
 },
 

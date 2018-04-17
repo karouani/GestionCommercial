@@ -72,6 +72,10 @@ Route::post('/addStatu','ParametresController@addStatu');
 Route::get('/getStatus','ParametresController@getStatus');
 Route::get('/getStatu/{id_status}','ParametresController@getStatu');
 Route::delete('/deleteStatu/{id_status}','ParametresController@deleteStatu');
+        //type paiement
+Route::post('/addTypePaiement','ParametresController@addTypePaiement');
+Route::get('/getTypePaiement','ParametresController@getTypePaiement');
+Route::delete('/deleteTypePaiement/{id_type_paiement}','ParametresController@deleteTypePaiement');
  //---------------------------------------------------------------------       
 
                 //Devis
