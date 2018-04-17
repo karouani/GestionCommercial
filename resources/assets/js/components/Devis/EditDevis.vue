@@ -81,10 +81,19 @@
                                     </thead>
                                     <tbody>
                              <tr v-for="(commande,index) in commandes" :key="index" >
-                            <th>  <input class="mr-4"  type="text" v-model="commande.fk_article" disabled hidden>
-                           <input class="form-control"  type="text" v-model="commande.designation" disabled >
+                              <input class="mr-4"  type="text" v-model="commande.fk_article" disabled hidden>
+                           <th>
+                            <div class="row">  
+                                <div class="col">
+                                    <input  class="mb-2" type="text" v-model="commande.designation" disabled >
+                                </div>
+                                <div class="col">
+                                    <textarea placeholder="Description article"  name="" id="description" cols="22" rows="4"  v-model="commande.description_article"></textarea> 
+                                   
+                                 </div>
+                           </div>  
+                            </th> 
                            
-                            </th>
                             <th><input class="mr-4"  type="text" v-model="commande.quantite_cmd" ></th>
                             <th>  <input class="form-control"  type="text" v-model="commande.remise_cmd" ></th> 
                             <th>  <input class="form-control"  type="text" v-model="commande.majoration_cmd" ></th> 
@@ -140,15 +149,18 @@
                     <option value="30">30 jours</option>
                     <option value="60">60 jours</option>
                     <option value="90">90 jours</option>
-                    <option value="cal">choisir une date</option>
+                    <option value="choix">choisir une date</option>
 
                 </select>
+                <div v-if="devi.echeance === undefined">
+                    {{devi.date_l}}
+                </div>
                 <div v-if="devi.echeance != undefined">
                     <br>
-                    <div v-if="devi.echeance != 'cal'">
+                    <div v-if="devi.echeance != 'choix'">
                                  {{devi.date_limit_d}} - ({{devi.date_diff}})
                     </div>
-                <div v-if="devi.echeance === 'cal'">
+                <div v-if="devi.echeance === 'choix'">
                   <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d" required>
                 </div>
                 </div>
@@ -356,6 +368,11 @@ error: null,
                designation:"",
                // montant total de chaque commande
                 total_ht_cmd:0,
+                description_article:"",
+                echeance:0,
+      date_diff:"",
+      date_echeance_choix:"",
+      date_l:"",
               },
              
               commandes:[],
@@ -388,7 +405,7 @@ methods: {
                fk_document: commande.fk_document,
                fk_tva_cmd:commande.fk_tva_cmd,
 
-              
+               description_article:commande.description_article,
                designation:commande.designation,
                total_ht_cmd:commande.total_ht_cmd,
                total_ht:commande.total_ht,
@@ -411,6 +428,7 @@ this.commande = {
                taux_tva:0,
                // designationnation d'article pr chaque commande
                designation:"",
+               description_article:"",
                // montant total de chaque commande
                 total_ht_cmd:0,
                 };
@@ -422,6 +440,10 @@ this.commande = {
     },
 
  updateDevis: function(){
+      if(this.devi.echeance === undefined){
+     this.devi.date_limit_d=this.devi.date_l;
+     console.log(this.devi.date_limit_d)
+     }
         axios.post('/updateDevis',{devis:this.devi,commandes:this.commandes,modePaiements:this.modePaiement,suppCommandes: this.suppCommandes}).then( response => {             
                     this.$router.push('/getDevis/edit');  
                     
@@ -436,6 +458,7 @@ this.commande = {
        console.log('----------------')
   
             this.devi.id_devis = this.$route.params.id_devis;
+            this.devi.reference_d = this.$route.params.reference_d;
  this.getDevisD(this.devi.id_devis);
             this.getStatus();
             //this.countDevis();
@@ -447,8 +470,8 @@ this.commande = {
             console.log(this.devi.id_devis);
              
               
-              this.getPaiement(this.devi.id_devis);
-              this.getCommandes(this.devi.id_devis);
+              this.getPaiement(this.devi.reference_d);
+              this.getCommandes(this.devi.reference_d);
       // replace `getPost` with your data fetching util / API wrapper
    //this.getDevisD(this.$route.params.id_devis);
 
@@ -460,10 +483,10 @@ this.commande = {
                         //console.log(this.suppCommandes)
         },  
 
-    getPaiement(id_devis){
+    getPaiement(reference_d){
         //console.log("referennnce")
         
-     axios.get('/getPaiement/'+'D'+id_devis).then(
+     axios.get('/getPaiement/'+reference_d).then(
                   response => {
                          //console.log(response.data.modePaiement);
 
@@ -552,20 +575,20 @@ this.commande = {
         // recuperer des infos sur un article
     getPrixArticle(){
            
-        axios.get('/getPrixArticle/'+this.commande.fk_article)
-            .then((response) => {
-                        // prix de vente d'article
-                    this.commande.prix_ht=response.data.article[0].prix_ht_vente;
-                        // fk de tva d'article
-                    this.commande.fk_tva_cmd=response.data.article[0].fk_tva_applicable;
-                        // designationnation d'article
-                    this.commande.designation=response.data.article[0].designation;
-                    this.tauxTva();
-                  
-            })
-            .catch(() => {
-                    console.log('handle server error from here');
-            });
+           let this1=this;
+           this.articles.data.forEach(function(article) {
+               if(article.id_article == this1.commande.fk_article){
+                   this1.commande.prix_ht = article.prix_ht_vente;
+                   this1.commande.fk_tva_cmd = article.fk_tva_applicable
+                   this1.commande.designation = article.designation;
+                   this1.commande.description_article = article.description;
+                   this1.tauxTva();
+                  // console.log('truuuuue');
+               }
+                
+                // console.log('-------- articles ');
+ // console.log(article);
+});
     },
         // recuperer remise associe a un compte
     getRemise(id_compte){
@@ -591,12 +614,12 @@ this.commande = {
                    
 
                     this.devi= response.data.devi[0];
-                    this.devi.date_limit_d=response.data.devi[0].date_limit_d;
+                    this.devi.date_l=response.data.devi[0].date_limit_d;
                     //console.log("devi date..."+this.devi.date_d)
                   });     
         },
-        getCommandes:function(id_devis){
-                  axios.get('/getCommandes/'+'D'+id_devis).then(
+        getCommandes:function(reference_d){
+                  axios.get('/getCommandes/'+reference_d).then(
                   response => {
                       //console.log("commandes:  ");
                          //console.log(response.data.commandes);
@@ -607,7 +630,7 @@ this.commande = {
 
                   });     
         },
-                precisionRound(number, precision) {
+                 precisionRound(number, precision) {
   var factor = Math.pow(10, precision);
   return Math.round(number * factor) / factor;
 },
@@ -619,15 +642,8 @@ Date.prototype.addDays = function(days) {
   return dat;
 }
 
-var date_d=this.devi.date_d
-var dat = new Date(date_d);
-
-var echeance= +this.devi.echeance;
-   //console.log("echeance-------- "+echeance)
-       /* if(typeof(echeance) === 'number'){
-    console.log("echeance is number            "+typeof(date_d) )
-}*/
-  var today =dat.addDays(echeance);
+  var dat = new Date(this.devi.date_d);
+  var today =dat.addDays(+this.devi.echeance);
   var dd = today.getDate();
   var mm = today.getMonth()+1; 
   var yyyy = today.getFullYear();

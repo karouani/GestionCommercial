@@ -116,6 +116,7 @@ class DevisController extends Controller
         $commande->fk_article=$request->commandes[$i]['fk_article'];
         $commande->fk_document=$request->commandes[$i]['fk_document'];
         $commande->fk_tva_cmd=$request->commandes[$i]['fk_tva_cmd'];
+        $commande->description_article=$request->commandes[$i]['description_article'];
 
                 $commande->save();
            }
@@ -141,6 +142,8 @@ class DevisController extends Controller
                 $commande->fk_article=$request->commandes[$i]['fk_article'];
                 $commande->fk_document=$reference_d;
                 $commande->fk_tva_cmd=$request->commandes[$i]['fk_tva_cmd'];
+                $commande->description_article=$request->commandes[$i]['description_article'];
+
                 
                 $commande->save();
              }    
@@ -156,6 +159,7 @@ class DevisController extends Controller
             "fk_article" => $request->commandes[$i]['fk_article'],
             "fk_document" => $request->commandes[$i]['fk_document'],
             "fk_tva_cmd" => $request->commandes[$i]['fk_tva_cmd'],
+            "description_article" => $request->commandes[$i]['description_article'],
             ]);
              }
          }

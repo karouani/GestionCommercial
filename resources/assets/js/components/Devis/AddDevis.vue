@@ -81,10 +81,18 @@
                                     </thead>
                                     <tbody>
                              <tr v-for="(commande,index) in commandes" :key="index" >
-                            <th>  <input class="mr-4"  type="text" v-model="commande.fk_article" disabled hidden>
-                           <input class="form-control"  type="text" v-model="commande.desig" disabled >
-                           
-                            </th>
+                              <input class="mr-4"  type="text" v-model="commande.fk_article" disabled hidden>
+                          <th>
+                            <div class="row">  
+                                <div class="col">
+                                    <input  class="mb-2" type="text" v-model="commande.designation" disabled >
+                                </div>
+                                <div class="col">
+                                    <textarea placeholder="Description article"  name="" id="description" cols="22" rows="4"  v-model="commande.description_article"></textarea> 
+                                   
+                                 </div>
+                           </div>  
+                            </th> 
                             <th><input class="mr-4"  type="text" v-model="commande.quantite_cmd" ></th>
                             <th>  <input class="form-control"  type="text" v-model="commande.remise_cmd" ></th> 
                             <th>  <input class="form-control"  type="text" v-model="commande.majoration_cmd" ></th> 
@@ -124,8 +132,7 @@
 <div class="row">
     <div class="col-md-6 col-sm-12">
             <div class="form-group row">
-                <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
-                <div class="col-sm-8">
+               
 <label for="inputPassword" class="col-sm-4 col-form-label">Échéance </label>
                 <div class="col-sm-8">
                     <select class="form-control custom-select " id="echeance" v-model="devi.echeance" >
@@ -135,15 +142,16 @@
                     <option value="30">30 jours</option>
                     <option value="60">60 jours</option>
                     <option value="90">90 jours</option>
-                    <option value="cal">choisir une date</option>
+                    <option value="choix">choisir une date</option>
 
                 </select>
+                 
                 <div v-if="devi.echeance != undefined">
                     <br>
-                    <div v-if="devi.echeance != 'cal'">
+                    <div v-if="devi.echeance != 'choix'">
                                  {{devi.date_limit_d}} - ({{devi.date_diff}})
                     </div>
-                <div v-if="devi.echeance === 'cal'">
+                <div v-if="devi.echeance === 'choix'">
                   <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d" required>
                 </div>
                 </div>
@@ -155,7 +163,7 @@
 
                 <input type="date" class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d">
                -->
-                </div>                </div>
+                </div>           
             </div>
             <div class="form-group row">
                     <label for="type_paiement" class="col-sm-4 col-form-label" > Type Paiement </label>
@@ -337,14 +345,14 @@
                 fk_article:"",
                 fk_document:"",
                 fk_tva_cmd:"",
-               
+               description_article:"",
                //montant tva de chaque commande
                tva_montant:0,
                //affichage
                // % de tva
                taux_tva:0,
                // designation d'article pr chaque commande
-               desig:"",
+               designation:"",
                // montant total de chaque commande
                 total_ht_cmd:0,
               },
@@ -379,8 +387,8 @@ methods: {
                fk_document: commande.fk_document,
                fk_tva_cmd:commande.fk_tva_cmd,
 
-              
-               desig:commande.desig,
+               description_article:commande.description_article,
+               designation:commande.designation,
                total_ht_cmd:commande.total_ht_cmd,
                total_ht:commande.total_ht,
                tva_montant:commande.tva_montant,
@@ -400,8 +408,9 @@ this.commande = {
                //affichage
                // % de tva
                taux_tva:0,
+               description_article:"",
                // designation d'article pr chaque commande
-               desig:"",
+               designation:"",
                // montant total de chaque commande
                 total_ht_cmd:0,
                 };
@@ -478,7 +487,21 @@ this.commande = {
     },
         // recuperer des infos sur un article
     getPrixArticle(){
-           
+
+           let this1=this;
+           this.articles.data.forEach(function(article) {
+               if(article.id_article == this1.commande.fk_article){
+                   this1.commande.prix_ht = article.prix_ht_vente;
+                   this1.commande.fk_tva_cmd = article.fk_tva_applicable
+                   this1.commande.designation = article.designation;
+                   this1.commande.description_article = article.description;
+                   console.log('truuuuue');
+               }
+                
+                 console.log('-------- articles ');
+  console.log(article);
+});
+       /*    
         axios.get('/getPrixArticle/'+this.commande.fk_article)
             .then((response) => {
                         // prix de vente d'article
@@ -486,13 +509,13 @@ this.commande = {
                         // fk de tva d'article
                     this.commande.fk_tva_cmd=response.data.article[0].fk_tva_applicable;
                         // designation d'article
-                    this.commande.desig=response.data.article[0].designation;
+                    this.commande.designation=response.data.article[0].designation;
                     this.tauxTva();
                   
             })
             .catch(() => {
                     console.log('handle server error from here');
-            });
+            });*/
     },
         // recuperer remise associe a un compte
     getRemise(id_compte){
@@ -713,7 +736,9 @@ watch:{
  console.log('----------------')
             console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_d+
             " / " + this.$route.params.currentDate)
-            
+            if(this.devi.echeance === undefined){
+                console.log("++++++date limit not empty")
+            }
 }
 }   
 </script>
