@@ -23,15 +23,15 @@
                         <div class="card-header">
                            
  
-                                <div class="col"  >
+                               
                                 <!-- button pour afficher formulaire de l'ajout d un article -->         
                                             <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
                                         </div>
-                                        <input type="text" @keyup.enter="searchBonCommande"  class="form-control" v-model="search" placeholder="recherche par nom du Compte ou responsable " aria-label="Username" aria-describedby="basic-addon1" >
+                                        <input type="text" @keyup.enter="searchBonCommande"  class="form-control widthSeach" v-model="search" placeholder="recherche par nom du Compte ou responsable " aria-label="Username" aria-describedby="basic-addon1" >
                                         </div>
-                                </div> 
+                                
                                     
                            
                        </div>
@@ -99,8 +99,10 @@ import  Pagination from '../Pagination.vue';
             'vue-pagination':Pagination,
             
          },
+         props: ['idCompte'],
 
           data: () => ({
+              
               fontStatu : {
                     white : "white",
                     size: "14px"
@@ -202,6 +204,9 @@ import  Pagination from '../Pagination.vue';
  
    
         mounted(){
+
+              console.log('----- verifie ---- ');
+              console.log(this.idCompte);
             var today = new Date();
             var dd = today.getDate();
             var mm = today.getMonth() +1; 
@@ -326,13 +331,16 @@ import  Pagination from '../Pagination.vue';
 
     },
           getBonCommandes(){
-               axios.get('/getBonCommandes?page='+this.bonCommandes.current_page+'')
-                .then((response) => {
+            
+               axios.get('/getBonCommandesCompte/'+this.idCompte+'?page='+this.bonCommandes.current_page+'')
+                .then((response) => { 
+                 
                   this.loading = false;
                     this.bonCommandes = response.data.bonCommandes;
+                    console.log("-------bon COmmandes compte-----------")
+                  console.log(this.bonCommandes.data.length);
+                 this.$emit('CountBC',this.bonCommandes.data.length)
                   
-                  console.log(response.data.bonCommandes)
-                  console.log("getBC oook ")
                 })
                 .catch(() => {
                     console.log('handle server error from here');
@@ -470,6 +478,9 @@ table{
   }
 }
 
+.widthSeach{
+    width: 310px
+}
 </style>
 
 

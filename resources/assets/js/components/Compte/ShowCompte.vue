@@ -79,13 +79,12 @@
                             <a class="nav-link" data-toggle="tab" href="#profile3" role="tab" aria-controls="profile" aria-expanded="false"><i class="far fa-file"></i> Conditions Facture</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#messages3" role="tab" aria-controls="messages"><i class="icon-pie-chart"></i> Vente</a>
+                            <a class="nav-link" data-toggle="tab" href="#messages3" role="tab" aria-controls="messages"><i class="fas fa-shopping-cart"></i> Vente</a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
      <div class="tab-pane active" id="home3" role="tabpanel" aria-expanded="true">
-
                                 <div class="row">
                                     <div class="col-auto" v-for="(contact,index) in contacts" :key="index" >
                                     <div class="card" style="width: 18rem;">
@@ -130,17 +129,17 @@
                         </div>
 
     <div class="tab-pane" id="messages3" role="tabpanel">
-     <div class="colBackround2">
+     <div class="colBackround3">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#devis" role="tab" aria-controls="home" aria-expanded="true"><i class="icon-calculator"></i> Devis</a>
+                            <a class="nav-link active" data-toggle="tab" href="#devis" role="tab" aria-controls="home" aria-expanded="true"><i class="far fa-file"></i> Devis</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#bonCommande" role="tab" aria-controls="profile" aria-expanded="false"><i class="far fa-file"></i> Bon Commande</a>
+                            <a class="nav-link" data-toggle="tab" href="#bonCommande" role="tab" aria-controls="profile" aria-expanded="false"><i class="far fa-file"></i> Bon Commande <span class="badge badge-light"><span class="badgeSize">{{CountBc}}</span></span></a>
                         </li>
                     </ul>
     </div>
-    <div class="tab-content">
+    <div class="tab-content">  
                   <div class="tab-pane" id="devis" role="tabpanel" aria-expanded="false">
                         <div class="row">
                             <table border="1">
@@ -150,21 +149,15 @@
 
                     </div>
                     <div class="tab-pane" id="bonCommande" role="tabpanel" aria-expanded="false">
-                        <div class="row">
-                           <app-BCcompte></app-BCcompte>
-                        </div>
+                          
+                           <app-BCcompte :idCompte="compte.id_compte" @CountBC="getCountBc($event)"></app-BCcompte>
+                       
 
                     </div>
     </div>
-
-
-
-
-
-
      </div>
-                    </div>
-                </div>
+     </div>
+    </div>
    </div>
   
 </template>
@@ -178,8 +171,10 @@ import  BCcompte from './BonCommandesCompte.vue';
             'app-BCcompte':BCcompte,
          },
           data: () => ({
+              CountBc : 0,
 
               compte: { 
+
                     id_compte : 0,
                     nom_compte : "",
                     responsable : "",
@@ -235,13 +230,23 @@ import  BCcompte from './BonCommandesCompte.vue';
                    console.log(this.condition_facture)
                   });     
         },
+        getCountBc(CountBc){
+            this.CountBc = CountBc;
+            console.log('-------- count bc ------- ok ')
+            console.log(CountBc)
+        },
           },
           mounted(){
-              this.compte.id_compte = this.$route.params.id_compte;
+              
               this.getCompte(this.compte.id_compte);
               this.getContacts(this.compte.id_compte);
               this.getCondtionFacture(this.compte.id_compte);
-          }
+              console.log('--------- id compte ');
+              console.log(this.compte.id_compte);
+          },
+          created(){
+              this.compte.id_compte = this.$route.params.id_compte;
+          },
 
       }
 </script>
@@ -277,5 +282,14 @@ a {
     padding-left:  0px;
     margin-left:  0px;
     padding-right: 0px;
+}
+.colBackround3{
+    background-color: #d8edff;
+    padding-left:  0px;
+    margin-left:  0px;
+    padding-right: 0px;
+}
+.badgeSize{
+    font-size: 14px;
 }
 </style>
