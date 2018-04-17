@@ -109656,7 +109656,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.total_ttc = this.precisionRound(+this.net_HT + +this.tva_total, 2);
             this.devi.montant_ttc_d = this.total_ttc;
 
-            var res = this.total_ttc.toString().split(".");
+            var res = this.total_ttc_d.toString().split(".");
             this.devi.total_lettre_d = this.$WrittenNumber(res[0], { lang: 'fr' });
 
             if (typeof res[1] !== 'undefined') {
