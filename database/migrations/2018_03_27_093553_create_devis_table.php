@@ -34,6 +34,7 @@ class CreateDevisTable extends Migration
             $table->double('montant_net_d')->nullable();
             $table->double('tva_montant_d')->nullable();
             $table->double('montant_ttc_d')->nullable();
+            $table->string('total_lettre_d')->nullable();
 
             $table->string('fk_status_d')->nullable();
             $table->integer('fk_compte_d')->nullable();

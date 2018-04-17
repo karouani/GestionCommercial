@@ -110,6 +110,12 @@
 <hr>
 <div class="row">
     <div class="col-md-6 col-sm-12">
+        <div class="form-group row">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Total en lettre</label>
+                <div class="col-sm-8 col-form-label ">
+                <label>{{devi.total_lettre_d}}</label>
+                </div>
+            </div>
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
                 <div class="col-sm-8 cam">
@@ -233,6 +239,7 @@
             montant_net_d:0,
             tva_montant_d:0,
             montant_ttc_d:0,
+            total_lettre_d:"",
       
             nom_societe:"",
               },

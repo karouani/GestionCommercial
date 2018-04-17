@@ -108952,8 +108952,18 @@ exports.push([module.i, "\n.btnMarge[data-v-2e15ce1c]{\n     padding-bottom: 10p
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
 //
 //
 //
@@ -109267,7 +109277,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 montant_ttc_d: 0,
 
                 echeance: 0,
-                date_diff: ""
+                date_diff: "",
+                total_lettre_d: ""
             },
             compte: {
                 id_compte: 0,
@@ -109280,6 +109291,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             tvas: [],
             articles: [],
             comptes: [],
+            typePaiements: [],
 
             index: 0,
             // total de prix de tt les commandes
@@ -109319,10 +109331,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             //mode paiement
             modePaiement: {
                 id_modeP: 0,
-                type_paiement: "",
                 reference_paiement: "",
                 date_paiement: "",
-                fk_document: ""
+                fk_document: "",
+                fk_type_paiement: 0
 
             },
             modePaiements: []
@@ -109331,45 +109343,75 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     },
 
     methods: {
-        addRow: function addRow(commande) {
-            this.commandes.push({
+        addRow: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(commande) {
+                var result, result2;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return this.getPrixArticle();
 
-                quantite_cmd: commande.quantite_cmd,
-                remise_cmd: commande.remise_cmd,
-                majoration_cmd: commande.majoration_cmd,
-                prix_ht: commande.prix_ht,
-                fk_article: commande.fk_article,
-                fk_document: commande.fk_document,
-                fk_tva_cmd: commande.fk_tva_cmd,
+                            case 2:
+                                result = _context.sent;
+                                _context.next = 5;
+                                return this.commandes.push({
 
-                description_article: commande.description_article,
-                designation: commande.designation,
-                total_ht_cmd: commande.total_ht_cmd,
-                total_ht: commande.total_ht,
-                tva_montant: commande.tva_montant,
-                taux_tva: commande.taux_tva
-            });
-            this.commande = {
-                id_cmd: 0,
-                quantite_cmd: 1,
-                remise_cmd: 0,
-                majoration_cmd: 0,
-                prix_ht: 0,
-                fk_article: "",
-                fk_tva_cmd: "",
-                fk_document: commande.fk_document,
-                //montant tva de chaque commande
-                tva_montant: 0,
-                //affichage
-                // % de tva
-                taux_tva: 0,
-                description_article: "",
-                // designation d'article pr chaque commande
-                designation: "",
-                // montant total de chaque commande
-                total_ht_cmd: 0
-            };
-        },
+                                    quantite_cmd: commande.quantite_cmd,
+                                    remise_cmd: commande.remise_cmd,
+                                    majoration_cmd: commande.majoration_cmd,
+                                    prix_ht: commande.prix_ht,
+                                    fk_article: commande.fk_article,
+                                    fk_document: commande.fk_document,
+                                    fk_tva_cmd: commande.fk_tva_cmd,
+
+                                    description_article: commande.description_article,
+                                    designation: commande.designation,
+                                    total_ht_cmd: commande.total_ht_cmd,
+                                    total_ht: commande.total_ht,
+                                    tva_montant: commande.tva_montant,
+                                    taux_tva: commande.taux_tva
+                                });
+
+                            case 5:
+                                result2 = _context.sent;
+
+                                this.commande = {
+                                    id_cmd: 0,
+                                    quantite_cmd: 1,
+                                    remise_cmd: 0,
+                                    majoration_cmd: 0,
+                                    prix_ht: 0,
+                                    fk_article: "",
+                                    fk_tva_cmd: "",
+                                    fk_document: commande.fk_document,
+                                    //montant tva de chaque commande
+                                    tva_montant: 0,
+                                    //affichage
+                                    // % de tva
+                                    taux_tva: 0,
+                                    description_article: "",
+                                    // designation d'article pr chaque commande
+                                    designation: "",
+                                    // montant total de chaque commande
+                                    total_ht_cmd: 0
+                                };
+
+                            case 7:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function addRow(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return addRow;
+        }(),
         removeRow: function removeRow(index) {
             this.commandes.splice(index, 1);
         },
@@ -109502,6 +109544,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 console.log('handle server error from here');
             });
         },
+        getTypePaiement: function getTypePaiement() {
+            var _this9 = this;
+
+            axios.get('/getTypePaiement').then(function (response) {
+                _this9.typePaiements = response.data.listeTypePaiments;
+            }).catch(function () {
+                console.log('handle server error from here');
+            });
+        },
         precisionRound: function precisionRound(number, precision) {
             var factor = Math.pow(10, precision);
             return Math.round(number * factor) / factor;
@@ -109564,6 +109615,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             this.getClient(this.$route.params.id_compte);
             this.getRemise(this.$route.params.id_compte);
             this.getStatus();
+            this.getTypePaiement();
         }
     },
 
@@ -109603,6 +109655,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             // montant total final
             this.total_ttc = this.precisionRound(+this.net_HT + +this.tva_total, 2);
             this.devi.montant_ttc_d = this.total_ttc;
+
+            var res = this.total_ttc.toString().split(".");
+            this.devi.total_lettre_d = this.$WrittenNumber(res[0], { lang: 'fr' });
+
+            if (typeof res[1] !== 'undefined') {
+                if (res[1].toString().split("")[0] == "0") {
+                    this.devi.total_lettre_d += ' et zéro ' + this.$WrittenNumber(res[1], { lang: 'fr' });
+                } else this.devi.total_lettre_d += ' et ' + this.$WrittenNumber(res[1], { lang: 'fr' });
+            }
         },
         echeance: function echeance() {
             this.echeanceDate();
@@ -109665,9 +109726,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     mounted: function mounted() {
         console.log('----------------');
         console.log(this.$route.params.id_compte + " / " + this.$route.params.reference_d + " / " + this.$route.params.currentDate);
-        if (this.devi.echeance === undefined) {
-            console.log("++++++date limit not empty");
-        }
     }
 });
 
@@ -110390,6 +110448,25 @@ var render = function() {
                           staticClass: "col-sm-4 col-form-label",
                           attrs: { for: "inputPassword" }
                         },
+                        [_vm._v("Total en lettre")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-8" }, [
+                        _c(
+                          "label",
+                          { staticClass: "form-control", attrs: { for: "" } },
+                          [_vm._v(_vm._s(_vm.devi.total_lettre_d))]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-4 col-form-label",
+                          attrs: { for: "inputPassword" }
+                        },
                         [_vm._v("Échéance ")]
                       ),
                       _vm._v(" "),
@@ -110535,12 +110612,12 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.modePaiement.type_paiement,
-                                expression: "modePaiement.type_paiement"
+                                value: _vm.modePaiement.fk_type_paiement,
+                                expression: "modePaiement.fk_type_paiement"
                               }
                             ],
-                            staticClass: "form-control custom-select ",
-                            attrs: { id: "type_paiement" },
+                            staticClass: "custom-select ",
+                            attrs: { id: "fk_" },
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -110553,7 +110630,7 @@ var render = function() {
                                   })
                                 _vm.$set(
                                   _vm.modePaiement,
-                                  "type_paiement",
+                                  "fk_type_paiement",
                                   $event.target.multiple
                                     ? $$selectedVal
                                     : $$selectedVal[0]
@@ -110565,15 +110642,23 @@ var render = function() {
                             _c(
                               "option",
                               { attrs: { selected: "", disabled: "" } },
-                              [_vm._v("Choisir Type de Paiement")]
+                              [_vm._v("Choisir type paiement")]
                             ),
                             _vm._v(" "),
-                            _c("option", [_vm._v("Cheque")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Versement")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Espece")])
-                          ]
+                            _vm._l(_vm.typePaiements, function(typePaiement) {
+                              return _c(
+                                "option",
+                                {
+                                  key: typePaiement.id_type_paiement,
+                                  domProps: {
+                                    value: typePaiement.id_type_paiement
+                                  }
+                                },
+                                [_vm._v(_vm._s(typePaiement.type_paiement))]
+                              )
+                            })
+                          ],
+                          2
                         )
                       ])
                     ]),
@@ -112371,6 +112456,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -112415,6 +112506,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         montant_net_d: 0,
         tva_montant_d: 0,
         montant_ttc_d: 0,
+        total_lettre_d: "",
 
         nom_societe: ""
       },
@@ -112883,6 +112975,21 @@ var render = function() {
                       staticClass: "col-sm-4 col-form-label",
                       attrs: { for: "inputPassword" }
                     },
+                    [_vm._v("Total en lettre")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-8 col-form-label " }, [
+                    _c("label", [_vm._v(_vm._s(_vm.devi.total_lettre_d))])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-4 col-form-label",
+                      attrs: { for: "inputPassword" }
+                    },
                     [_vm._v("Date Limit")]
                   ),
                   _vm._v(" "),
@@ -113170,6 +113277,16 @@ exports.push([module.i, "\n.btnMarge[data-v-457cb631]{\n     padding-bottom: 10p
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
 //
 //
 //
@@ -113496,7 +113613,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 echeance: 0,
                 date_diff: "",
-                date_echeance_choix: ""
+                date_echeance_choix: "",
+                total_lettre_d: ""
             },
             compte: {
                 id_compte: 0,
@@ -113553,57 +113671,92 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //mode paiement
             modePaiement: {
                 id_modeP: 0,
-                type_paiement: "",
                 reference_paiement: "",
                 date_paiement: "",
-                fk_document: ""
+                fk_document: "",
+                fk_type_paiement: 0
 
             },
-            modePaiements: []
+            modePaiements: [],
+            typePaiement: {
+                id_type_paiement: 0,
+                type_paiement: ""
+            },
+            typePaiements: []
 
         };
     },
 
     methods: {
-        addRow: function addRow(commande) {
-            this.commandes.push({
+        addRow: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(commande) {
+                var result, result2;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return this.getPrixArticle();
 
-                quantite_cmd: commande.quantite_cmd,
-                remise_cmd: commande.remise_cmd,
-                majoration_cmd: commande.majoration_cmd,
-                prix_ht: commande.prix_ht,
-                fk_article: commande.fk_article,
-                fk_document: commande.fk_document,
-                fk_tva_cmd: commande.fk_tva_cmd,
+                            case 2:
+                                result = _context.sent;
+                                _context.next = 5;
+                                return this.commandes.push({
 
-                description_article: commande.description_article,
-                designation: commande.designation,
-                total_ht_cmd: commande.total_ht_cmd,
-                total_ht: commande.total_ht,
-                tva_montant: commande.tva_montant,
-                taux_tva: commande.taux_tva
-            });
-            this.commande = {
-                id_cmd: 0,
-                quantite_cmd: 1,
-                remise_cmd: 0,
-                majoration_cmd: 0,
-                prix_ht: 0,
-                fk_article: "",
-                fk_tva_cmd: "",
-                fk_document: commande.fk_document,
-                //montant tva de chaque commande
-                tva_montant: 0,
-                //affichage
-                // % de tva
-                taux_tva: 0,
-                // designationnation d'article pr chaque commande
-                designation: "",
-                description_article: "",
-                // montant total de chaque commande
-                total_ht_cmd: 0
-            };
-        },
+                                    quantite_cmd: commande.quantite_cmd,
+                                    remise_cmd: commande.remise_cmd,
+                                    majoration_cmd: commande.majoration_cmd,
+                                    prix_ht: commande.prix_ht,
+                                    fk_article: commande.fk_article,
+                                    fk_document: commande.fk_document,
+                                    fk_tva_cmd: commande.fk_tva_cmd,
+
+                                    description_article: commande.description_article,
+                                    designation: commande.designation,
+                                    total_ht_cmd: commande.total_ht_cmd,
+                                    total_ht: commande.total_ht,
+                                    tva_montant: commande.tva_montant,
+                                    taux_tva: commande.taux_tva
+                                });
+
+                            case 5:
+                                result2 = _context.sent;
+
+                                this.commande = {
+                                    id_cmd: 0,
+                                    quantite_cmd: 1,
+                                    remise_cmd: 0,
+                                    majoration_cmd: 0,
+                                    prix_ht: 0,
+                                    fk_article: "",
+                                    fk_tva_cmd: "",
+                                    fk_document: commande.fk_document,
+                                    //montant tva de chaque commande
+                                    tva_montant: 0,
+                                    //affichage
+                                    // % de tva
+                                    taux_tva: 0,
+                                    // designationnation d'article pr chaque commande
+                                    designation: "",
+                                    description_article: "",
+                                    // montant total de chaque commande
+                                    total_ht_cmd: 0
+                                };
+
+                            case 7:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function addRow(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return addRow;
+        }(),
         removeRow: function removeRow(index) {
             this.commandes.splice(index, 1);
         },
@@ -113639,6 +113792,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.getPaiement(this.devi.reference_d);
             this.getCommandes(this.devi.reference_d);
+            this.getTypePaiement();
             // replace `getPost` with your data fetching util / API wrapper
             //this.getDevisD(this.$route.params.id_devis);
         },
@@ -113791,6 +113945,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 // this.commande.fk_article= response.data.articles;
             });
         },
+        getTypePaiement: function getTypePaiement() {
+            var _this12 = this;
+
+            axios.get('/getTypePaiement').then(function (response) {
+                _this12.typePaiements = response.data.listeTypePaiments;
+            }).catch(function () {
+                console.log('handle server error from here');
+            });
+        },
         precisionRound: function precisionRound(number, precision) {
             var factor = Math.pow(10, precision);
             return Math.round(number * factor) / factor;
@@ -113867,6 +114030,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // montant total final
             this.total_ttc = this.precisionRound(+this.net_HT + +this.tva_total, 2);
             this.devi.montant_ttc_d = this.total_ttc;
+
+            var res = this.total_ttc.toString().split(".");
+            this.devi.total_lettre_d = this.$WrittenNumber(res[0], { lang: 'fr' });
+
+            if (typeof res[1] !== 'undefined') {
+                if (res[1].toString().split("")[0] == "0") {
+                    this.devi.total_lettre_d += ' et zéro ' + this.$WrittenNumber(res[1], { lang: 'fr' });
+                } else this.devi.total_lettre_d += ' et ' + this.$WrittenNumber(res[1], { lang: 'fr' });
+            }
         },
         echeance: function echeance() {
             this.echeanceDate();
@@ -114644,6 +114816,25 @@ var render = function() {
                           staticClass: "col-sm-4 col-form-label",
                           attrs: { for: "inputPassword" }
                         },
+                        [_vm._v("Total en lettre")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-8" }, [
+                        _c(
+                          "label",
+                          { staticClass: "form-control", attrs: { for: "" } },
+                          [_vm._v(_vm._s(_vm.devi.total_lettre_d))]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-4 col-form-label",
+                          attrs: { for: "inputPassword" }
+                        },
                         [_vm._v("Échéance ")]
                       ),
                       _vm._v(" "),
@@ -114799,12 +114990,12 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.modePaiement.type_paiement,
-                                expression: "modePaiement.type_paiement"
+                                value: _vm.modePaiement.fk_type_paiement,
+                                expression: "modePaiement.fk_type_paiement"
                               }
                             ],
-                            staticClass: "form-control custom-select ",
-                            attrs: { id: "type_paiement" },
+                            staticClass: "custom-select ",
+                            attrs: { id: "fk_" },
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -114817,7 +115008,7 @@ var render = function() {
                                   })
                                 _vm.$set(
                                   _vm.modePaiement,
-                                  "type_paiement",
+                                  "fk_type_paiement",
                                   $event.target.multiple
                                     ? $$selectedVal
                                     : $$selectedVal[0]
@@ -114829,15 +115020,23 @@ var render = function() {
                             _c(
                               "option",
                               { attrs: { selected: "", disabled: "" } },
-                              [_vm._v("Choisir Type de Paiement")]
+                              [_vm._v("Choisir type paiement")]
                             ),
                             _vm._v(" "),
-                            _c("option", [_vm._v("Cheque")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Versement")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Espece")])
-                          ]
+                            _vm._l(_vm.typePaiements, function(typePaiement) {
+                              return _c(
+                                "option",
+                                {
+                                  key: typePaiement.id_type_paiement,
+                                  domProps: {
+                                    value: typePaiement.id_type_paiement
+                                  }
+                                },
+                                [_vm._v(_vm._s(typePaiement.type_paiement))]
+                              )
+                            })
+                          ],
+                          2
                         )
                       ])
                     ]),

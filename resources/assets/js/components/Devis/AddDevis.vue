@@ -131,6 +131,12 @@
 <hr>
 <div class="row">
     <div class="col-md-6 col-sm-12">
+         <div class="form-group row">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Total en lettre</label>
+                <div class="col-sm-8">
+                <label  class="form-control" for="">{{devi.total_lettre_d}}</label>
+                </div>
+            </div>
             <div class="form-group row">
                
 <label for="inputPassword" class="col-sm-4 col-form-label">Échéance </label>
@@ -168,12 +174,10 @@
             <div class="form-group row">
                     <label for="type_paiement" class="col-sm-4 col-form-label" > Type Paiement </label>
                 <div class="col-sm-8">
-                <select class="form-control custom-select " id="type_paiement" v-model="modePaiement.type_paiement" >
-                    <option selected disabled>Choisir Type de Paiement</option>
-                    <option>Cheque</option>
-                    <option>Versement</option>
-                    <option>Espece</option>
-                </select>
+                  <select class="custom-select " id="fk_" v-model="modePaiement.fk_type_paiement" >
+                 <option selected disabled>Choisir type paiement</option>
+                <option v-for="typePaiement in typePaiements" :key="typePaiement.id_type_paiement" :value="typePaiement.id_type_paiement">{{typePaiement.type_paiement}}</option>
+                 </select>         
                 </div>
             </div>
                 <div class="form-group row">
@@ -311,6 +315,7 @@
       
             echeance:0,
             date_diff:"",
+            total_lettre_d : "",
               },
               compte:{
                   id_compte:0,
@@ -323,6 +328,7 @@
               tvas:[],
               articles:[],
               comptes:[],
+              typePaiements:[],
             
             index:0,
             // total de prix de tt les commandes
@@ -362,10 +368,10 @@
                 //mode paiement
                 modePaiement:{
                         id_modeP:0,
-                        type_paiement:"",
                         reference_paiement:"",
                         date_paiement:"",
                         fk_document:"",
+                        fk_type_paiement:0,
 
                 },
                 modePaiements:[],
@@ -376,8 +382,9 @@
 methods: { 
 
 
-    addRow (commande) {
-        this.commandes.push( {
+async  addRow (commande) {
+      var result = await this.getPrixArticle();
+      var result2 = await this.commandes.push( {
              
                quantite_cmd:commande.quantite_cmd,
                remise_cmd:commande.remise_cmd,
@@ -558,6 +565,15 @@ this.commande = {
                     console.log('handle server error from here');
         });
     },
+    getTypePaiement(){
+                            axios.get('/getTypePaiement')
+                            .then((response) => {                        
+                                this.typePaiements= response.data.listeTypePaiments;
+                            })
+                            .catch(() => {
+                                console.log('handle server error from here');
+                            });
+          },
                    precisionRound(number, precision) {
   var factor = Math.pow(10, precision);
   return Math.round(number * factor) / factor;
@@ -625,6 +641,7 @@ diffDate() {
             this.getClient(this.$route.params.id_compte);
             this.getRemise(this.$route.params.id_compte);
             this.getStatus();
+            this.getTypePaiement();
 
     },
 },
@@ -666,6 +683,18 @@ computed:{
                // montant total final
             this.total_ttc= this.precisionRound(  +this.net_HT + +this.tva_total,2);
             this.devi.montant_ttc_d=this.total_ttc;
+
+            var res = this.total_ttc.toString().split(".");
+           this.devi.total_lettre_d = this.$WrittenNumber(res[0], { lang: 'fr'})
+             
+
+            if (typeof res[1] !== 'undefined') {
+                if(res[1].toString().split("")[0] == "0"){
+                    this.devi.total_lettre_d += ' et zéro '+this.$WrittenNumber(res[1], { lang: 'fr'})
+                }
+                else 
+                this.devi.total_lettre_d += ' et '+this.$WrittenNumber(res[1], { lang: 'fr'})
+            }
     },
     echeance(){
             this.echeanceDate();
@@ -736,9 +765,7 @@ watch:{
  console.log('----------------')
             console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_d+
             " / " + this.$route.params.currentDate)
-            if(this.devi.echeance === undefined){
-                console.log("++++++date limit not empty")
-            }
+           
 }
 }   
 </script>

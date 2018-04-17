@@ -37,8 +37,10 @@ class DevisController extends Controller
                 $devi->accompte_d = $request->devis['accompte_d'];
                 $devi->fk_status_d = $request->devis['fk_status_d'];
                 $devi->fk_compte_d = $request->devis['fk_compte_d'];
+                
                 $devi->fk_user_d = Auth::user()->id;
                 
+                $devi->total_lettre_d = $request->devi['total_lettre_d'];
                 $devi->total_ht_d = $request->devis['total_ht_d'];
                 $devi->remise_ht_d = $request->devis['remise_ht_d'];
                 $devi->montant_net_d = $request->devis['montant_net_d'];
@@ -73,6 +75,7 @@ class DevisController extends Controller
                 $devi->fk_compte_d = $request->devis['fk_compte_d'];
                 $devi->fk_user_d = Auth::user()->id;
                 
+                $devi->total_lettre_d = $request->devi['total_lettre_d'];
                 $devi->total_ht_d = $request->devis['total_ht_d'];
                 $devi->remise_ht_d = $request->devis['remise_ht_d'];
                 $devi->montant_net_d = $request->devis['montant_net_d'];
@@ -173,7 +176,8 @@ class DevisController extends Controller
             ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
             ->leftJoin('mode_paiements', 'devis.reference_d', '=', 'mode_paiements.fk_document')
             ->leftJoin('status', 'devis.fk_status_d', '=', 'status.id_status')
-            ->select('devis.*', 'comptes.nom_compte','status.*', 'macompagnies.nom_societe','mode_paiements.reference_paiement','mode_paiements.date_paiement','mode_paiements.type_paiement')
+            ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
+            ->select('devis.*', 'comptes.nom_compte','status.*', 'macompagnies.nom_societe','mode_paiements.*','type_paiements.*')
             ->where('id_devis', $id_devis)->get();
       return Response()->json(['devi' => $devi ]);
    }
@@ -203,7 +207,7 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
    
                   $modeP->reference_paiement = $request->modePaiements['reference_paiement'];
                   $modeP->date_paiement = $request->modePaiements['date_paiement'];
-                  $modeP->type_paiement = $request->modePaiements['type_paiement'];
+                  $modeP->fk_type_paiement = $request->modePaiements['fk_type_paiement'];
                   $modeP->fk_document = $request->modePaiements['fk_document'];
                   $modeP->save();
                
@@ -215,7 +219,7 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
         $modeP = Mode_paiement::find($request->modePaiements['id_modeP']);
         $modeP->reference_paiement = $request->modePaiements['reference_paiement'];
         $modeP->date_paiement = $request->modePaiements['date_paiement'];
-        $modeP->type_paiement = $request->modePaiements['type_paiement'];
+        $modeP->fk_type_paiement = $request->modePaiements['fk_type_paiement'];
         $modeP->fk_document = $reference_d;
         $modeP->save();
 
