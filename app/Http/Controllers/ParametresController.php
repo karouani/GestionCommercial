@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Famille_article;
 use App\Tva;
 use App\Statu;
-
+use App\Type_paiement;
 class ParametresController extends Controller
 {
 
@@ -84,6 +84,28 @@ $statu->delete();
 return Response()->json(['delete' => true]);
 }
 
+// type paiement 
 
+function addTypePaiement (Request $request){
+    $typePaiment  = new  Type_paiement();
+    $typePaiment->type_paiement = $request->type_paiement;
+    $typePaiment->save();
+    return Response()->json(['etat' => true]);
+}
+
+
+function  getTypePaiement(){
+    $listeTypePaiments = Type_paiement::all();
+    
+    //dd($listeArticles);
+    return Response()->json(['listeTypePaiments' => $listeTypePaiments ]);
+   }
+
+   public function deleteTypePaiement($id_type_paiement){
+    // dd($id_article);
+     $typePaiment = Type_paiement::find($id_type_paiement);
+     $typePaiment->delete();
+     return Response()->json(['delete' => true]);
+ }
 
 }

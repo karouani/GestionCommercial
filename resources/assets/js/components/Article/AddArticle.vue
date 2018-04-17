@@ -22,33 +22,33 @@
                     <input type="text" class="form-control" id="type_art" v-model="article.type_art" >
                 </div>
                 <div class="form-group">
-                    <label for="designation"> designation </label>
+                    <label for="designation"> Designation </label>
                     <input type="text" class="form-control" id="designation" v-model="article.designation" >
                 </div>
                 <div class="form-group">
-                    <label for="description"> description </label>
-                <textarea placeholder="Description article" class="AdressClient form-control" name="" id="description" cols="50" rows="4" v-model="article.description"></textarea>
+                    <label for="description"> Description </label>
+                <textarea placeholder="Description article"  name="" id="description" class="form-control" rows="4" v-model="article.description"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="prix_ht_achat"> prix ht achat </label>
+                    <label for="prix_ht_achat"> Prix ht achat </label>
                     <input type="text" class="form-control" id="prix_ht_achat" v-model="article.prix_ht_achat" >
                 </div>
                 <div class="form-group">
-                    <label for="prix_ht_vente"> prix ht vente</label>
+                    <label for="prix_ht_vente"> Prix ht vente</label>
                     <input type="text" class="form-control" id="prix_ht_vente" v-model="article.prix_ht_vente" >
                 </div>
             </div>
             <div class="col-md-6"> 
                 <div class="form-group">
-                    <label for="unite"> unite </label>
+                    <label for="unite"> Unite </label>
                     <input type="text" class="form-control" id="unite" v-model="article.unite">
                 </div>
                 <div class="form-group">
-                    <label for="quantite"> quantite </label>
+                    <label for="quantite"> Quantite </label>
                     <input type="text" class="form-control" id="quantite" v-model="article.quantite">
                 </div>
                 <div class="form-group">
-                    <label for="quantite_min"> quantite minimun </label>
+                    <label for="quantite_min"> Quantite minimun </label>
                     <input type="text" class="form-control" id="quantite_min" v-model="article.quantite_min">
                 </div>
                     <div class="form-group">
@@ -73,7 +73,7 @@
                 </div>
                 <div class="form-group">
 
-                <label for="exampleFormControlSelect1">famille</label>
+                <label for="exampleFormControlSelect1">Famille</label>
                 <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="article.fk_famille" required>
                     <option selected>Choisir une categorie</option>
                     <option v-for="famille in famille_articles" :key="famille.id_famille" :value="famille.id_famille">{{famille.libelle_famille}}</option>

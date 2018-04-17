@@ -19,6 +19,8 @@ import swal from 'sweetalert2'
 Vue.prototype.$swal=swal;
 
 
+import WrittenNumber from 'written-number'
+Vue.prototype.$WrittenNumber=WrittenNumber;
 
 
 

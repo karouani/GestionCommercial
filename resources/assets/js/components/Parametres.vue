@@ -3,9 +3,10 @@
            <div class="row">
                <div class="col-3">
                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <button @click="testAffich.testfamille = true;testAffich.testTVA = false;testAffich.testStatus = false" class="btn btn-primary mb-3 shadawButton">Famille Article </button>
-                <button @click="testAffich.testTVA = true;testAffich.testfamille = false;testAffich.testStatus = false" class="btn btn-primary mb-3 shadawButton">TVA </button>
-                <button @click="testAffich.testStatus = true;testAffich.testfamille = false;testAffich.testTVA=false" class="btn btn-primary mb-3 shadawButton ">Statut </button>
+                <button @click="testAffich.testfamille = true;testAffich.testTVA = false;testAffich.testStatus = false;testAffich.testTypePaiement = false" class="btn btn-primary mb-3 shadawButton">Famille article </button>
+                <button @click="testAffich.testTVA = true;testAffich.testfamille = false;testAffich.testStatus = false;testAffich.testTypePaiement = false" class="btn btn-primary mb-3 shadawButton">TVA </button>
+                <button @click="testAffich.testStatus = true;testAffich.testfamille = false;testAffich.testTVA=false;testAffich.testTypePaiement = false" class="btn btn-primary mb-3 shadawButton ">Statut </button>
+                <button @click="testAffich.testTypePaiement = true;testAffich.testfamille = false;testAffich.testTVA=false;testAffich.testStatus = false" class="btn btn-primary mb-3 shadawButton ">Type paiement</button>
                 </div>
                </div>
                 <div class="col">
@@ -86,6 +87,33 @@
                        </table>
                      </div>  
                      </div>
+
+
+                      <div v-if="testAffich.testTypePaiement"> 
+                    <div class="row">
+                        <div class="col">
+                    <input v-model="typePaiement.type_paiement"  type="text"  placeholder="Entrez Type paiement">
+                    </div>
+                    <div class="col">
+                     <button @click="addTypePaiement" class="btn btn-success">Ajouter </button>
+                     </div>
+                   </div>             
+                    <div class="row">
+                       <table class="table table-bordered tableau">
+                        <thead>
+                            <tr>
+                            <th>Type de paiement</th>
+                            </tr>
+                        </thead>
+                        <tbody>                     
+                            <tr v-for="typePaiement in typePaiements" :key="typePaiement.id_type_paiement">
+                            <th>{{typePaiement.type_paiement}}</th>      
+                            <th><a @click="deleteTypePaiement(typePaiement)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                            </tr>
+                        </tbody>
+                       </table>
+                     </div>  
+                     </div>
                 </div>
             </div>        
 
@@ -104,7 +132,8 @@
         testAffich:{
             testfamille:true,
             testTVA:false,
-            testStatus:false
+            testStatus:false,
+            testTypePaiement:false,
         },
         famille_article:{
             id_famille : 0,
@@ -124,13 +153,19 @@
             colorStatu : "",
         },
         status:[],
-
+         typePaiement:{
+            id_type_paiement: 0,
+            type_paiement: "",
+          },
+          typePaiements: [],
           }),
+    
         
           mounted(){
                 this.getfamilles();
                 this.getTvas();
                 this.getStatus();
+                this.getTypePaiement();
           },
         methods:{
                 //-------------------------------------- famille
@@ -266,6 +301,49 @@
                         this.$swal(
                         'Supprimé!',
                         'Votre statut a été supprimé',
+                        'success'
+                        )
+                        }
+                        })
+                        },
+
+// type paiement
+                        addTypePaiement(){
+                                axios.post('/addTypePaiement',this.typePaiement).then(response => {     
+                            this.getTypePaiement();
+                            console.log('Type Paiement Bien ajouter !');
+                                });
+                        },
+                        getTypePaiement(){
+                            axios.get('/getTypePaiement')
+                            .then((response) => {                        
+                                this.typePaiements= response.data.listeTypePaiments;
+                            })
+                            .catch(() => {
+                                console.log('handle server error from here');
+                            });
+          },
+              deleteTypePaiement(typePaiement){
+
+
+                        this.$swal({
+                        title: 'Etes-vous sur?',
+                        text: "Vous ne serez pas capable de revenir a cela!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Oui, supprimez-le!'
+                                                }).then((result) => {
+                        if (result.value) {
+                            axios.delete('/deleteTypePaiement/'+typePaiement.id_type_paiement).then(
+                                        response => {
+                                
+                                           this.getTypePaiement();
+                                        });
+                        this.$swal(
+                        'Supprimé!',
+                        'Votre Type paiement a été supprimé',
                         'success'
                         )
                         }

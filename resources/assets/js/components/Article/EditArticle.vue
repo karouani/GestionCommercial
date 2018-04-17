@@ -24,6 +24,10 @@
                     <input type="text" class="form-control" id="designation" v-model="article.designation" >
                 </div>
                 <div class="form-group">
+                    <label for="description"> Description </label>
+                <textarea placeholder="Description article"  name="" id="description" class="form-control" rows="4" v-model="article.description"></textarea>
+                </div>
+                <div class="form-group">
                     <label for="description"> description </label>
                     <input type="text" class="form-control" id="description" v-model="article.description" >
                 </div>

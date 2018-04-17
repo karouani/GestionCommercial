@@ -56,6 +56,7 @@ class BonCommandeController extends Controller
                 $bonCommande->montant_net_bc = $request->bonCommande['montant_net_bc'];
                 $bonCommande->tva_montant_bc = $request->bonCommande['tva_montant_bc'];
                 $bonCommande->montant_ttc_bc = $request->bonCommande['montant_ttc_bc'];
+                $bonCommande->total_lettre = $request->bonCommande['total_lettre'];
                 
                 $bonCommande->fk_user_bc = Auth::user()->id;
                 $bonCommande->save();
@@ -87,6 +88,7 @@ class BonCommandeController extends Controller
         'montant_net_bc' => $request->bonCommande['montant_net_bc'],
         'tva_montant_bc' => $request->bonCommande['tva_montant_bc'],
         'montant_ttc_bc' => $request->bonCommande['montant_ttc_bc'],
+        'total_lettre' => $request->bonCommande['total_lettre'],
         'fk_user_bc' => Auth::user()->id
         ]);
             
@@ -142,7 +144,7 @@ class BonCommandeController extends Controller
         $bonCommande = Mode_paiement::where('id_modeP',$request->modePaiements['id_modeP'])->update([
         "reference_paiement" => $request->modePaiements['reference_paiement'],
         "date_paiement" => $request->modePaiements['date_paiement'],
-        "type_paiement" => $request->modePaiements['type_paiement'],   
+        "fk_type_paiement" => $request->modePaiements['fk_type_paiement'],   
          ]);
 
 
@@ -204,8 +206,9 @@ class BonCommandeController extends Controller
    
                   $modeP->reference_paiement = $request->modePaiements['reference_paiement'];
                   $modeP->date_paiement = $request->modePaiements['date_paiement'];
-                  $modeP->type_paiement = $request->modePaiements['type_paiement'];
+                  $modeP->fk_type_paiement = $request->modePaiements['fk_type_paiement'];
                   $modeP->fk_document = $request->modePaiements['fk_document'];
+                  
                   $modeP->save();
                
                  //  return Response()->json(['etat' => true]);
@@ -273,7 +276,8 @@ class BonCommandeController extends Controller
          $bonCommande= Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
                ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
                ->leftJoin('mode_paiements', 'bonCommandes.reference_bc', '=', 'mode_paiements.fk_document')
-               ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.nom_societe','mode_paiements.*')
+               ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
+               ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.nom_societe','mode_paiements.*','type_paiements.*')
                ->where('reference_bc', $reference_bc)->get();
          return Response()->json(['bonCommande' => $bonCommande ]);
       }
@@ -283,12 +287,13 @@ class BonCommandeController extends Controller
         $bonCommande= Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
         ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
         ->leftJoin('mode_paiements', 'bonCommandes.reference_bc', '=', 'mode_paiements.fk_document')
-        ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.*','mode_paiements.*')
+        ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
+        ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.*','mode_paiements.*','type_paiements.*')
         ->where('reference_bc', $reference_bc)->get();
 
         $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
         ->leftJoin('tvas', 'commandes.fk_tva_cmd', '=', 'tvas.id_tva')
-        ->select('commandes.*', 'articles.designation','articles.unite','tvas.taux_tva')
+        ->select('commandes.*', 'articles.designation','articles.unite','tvas.taux_tva','articles.reference_art')
         ->where('fk_document', $reference_bc)->get();
         //dd($bonCommande);
   
@@ -303,15 +308,19 @@ class BonCommandeController extends Controller
        <tr>
            <td>
            <span></span><br>
-           <b>Bon Commande'.$bonCommande[0]->reference_bc.'</b> <br>
-           date: '.$bonCommande[0]->date_bc.'<br>
+           <b>Bon Commande: '.$bonCommande[0]->reference_bc.'</b> <br>
+           Date: '.$bonCommande[0]->date_bc.'<br>
+           Réglement: '.$bonCommande[0]->type_paiement.'<br>
            Validité: '.$bonCommande[0]->date_limit_bc.'<br>
           
            </td>
-           <td>
-           
+           <td style=" border-right:1px solid black;
+           border-left:1px solid black;
+           border-bottom:1px solid black;
+           border-top:1px solid black;">
+           <br>
            <b>'.$bonCommande[0]->nom_compte.'</b>
-              <p>'.$bonCommande[0]->adresse_bc.'</p>
+           <p> '.$bonCommande[0]->adresse_bc.'</p>
            
            </td>
        </tr>
@@ -338,7 +347,7 @@ class BonCommandeController extends Controller
         foreach ( $commandes as $commande ){
             $commandesHtml.='
             <tr style="border-bottom: 1px solid;font-size: 10pt; ">                   
-                    <th align="center" width="80">'.$commande->id_cmd.'</th>
+                    <th align="center" width="80">'.$commande->reference_art.'</th>
                     <th  align="center"  width="214">'.$commande->description_article.'</th>
                     <th align="center" width="35">'.$commande->quantite_cmd.'</th>
                     <th align="center" width="30">'.$commande->unite.'</th>
@@ -358,12 +367,27 @@ class BonCommandeController extends Controller
 
 
 
-         $infoComp = ''.$bonCommande[0]->nom_societe.' <span>      Adresse: </span>'.$bonCommande[0]->adresse_comp.'<span>       Fix: </span>'.$bonCommande[0]->fix_comp.'<span>        Tel: </span>'.$bonCommande[0]->tel_comp.'<span>        Ville: </span>'.$bonCommande[0]->ville_comp.'<span>        web-site: </span>'.$bonCommande[0]->webSite_comp.'';
+         $infoComp = ''.$bonCommande[0]->nom_societe.' <span>
+        </span>'.$bonCommande[0]->raison_sociale.'<span> 
+        ICE: </span>'.$bonCommande[0]->ICE.'<span>
+        RC N°: </span>'.$bonCommande[0]->RC.'<span>
+        IF: </span>'.$bonCommande[0]->IF.'<span>
+        patente: </span>'.$bonCommande[0]->patente.'<span>
+        cnss: </span>'.$bonCommande[0]->cnss.'<span>
+        compte : </span>'.$bonCommande[0]->nom_bank.'<span>
+        RIB: </span>'.$bonCommande[0]->RIB.'<span>
+        E-mail: </span>'.$bonCommande[0]->email.'<span>
+        Site: </span>'.$bonCommande[0]->webSite_comp.'<span>
+        fax: </span>'.$bonCommande[0]->fax_comp.'<span>
+        fix: </span>'.$bonCommande[0]->fix_comp.'<span>
+        GSM: </span>'.$bonCommande[0]->GSM_comp.'<span>';
 
-        $calculeHtml =  '<div class="calcule">
+        $calculeHtml =  '<div>
+        
         <table style="padding: 3px;padding-right:5pt;">
+        
         <tr>
-        <td style="width:286px;"></td>
+        <td style="width:286px;">Total en lettre : '.$bonCommande[0]->total_lettre.'</td>
         <td style="width:140px;" align="left">Total</td> <td style="width:140px;" align="right">'.$bonCommande[0]->total_ht_bc.'</td>
         </tr>
         <tr>
@@ -396,15 +420,13 @@ class BonCommandeController extends Controller
         </table>
         
         </div>
-        </div>
-        <div>
-        CONDITIONS :'.$bonCommande[0]->conditions_reglements_bc.'<br>
-        
-        NOTES : '.$bonCommande[0]->notes_bc.'<br><hr>';
+     
+        CONDITIONS :'.$bonCommande[0]->conditions_reglements_bc.'<br>  
+         NOTES : '.$bonCommande[0]->notes_bc.'';
         
       
 
-
+        $testleft = '<div> <h1> lettre </h1></div>';
 
 
 
@@ -431,11 +453,12 @@ class BonCommandeController extends Controller
        //dd($infoComp);
       // dd($this->template);
         // Position at 15 mm from bottom
-        $pdf->SetY(-15);
+       // $pdf->SetY(-15);
         // Set font
         $pdf->SetFont('helvetica', 'I', 10);
         // Page number
-        PDF::writeHTMLCell(0, 0, '',280,$this->template, 0, 1, 0, true, '', true);
+        PDF::writeHTMLCell(0, 0, '',274,'<hr>', 0, 1, 0, true, '', true);
+        PDF::writeHTMLCell(0, 0, '',275,$this->template, 0, 1, 0, true, '', true);
         PDF::writeHTMLCell(0, 0, '',290,'<span style="color:blue;text-align:right"> Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages().'</span>', 0, 1, 0, true, '', true);
 
        // $pdf->Cell(0, 10, $this->template.'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
@@ -443,12 +466,12 @@ class BonCommandeController extends Controller
     });
 
 
-        PDF::SetMargins(5, 10, 5);
-        PDF::SetHeaderMargin(10);
+        PDF::SetMargins(5, 5, 5);
+       // PDF::SetHeaderMargin(100);
         PDF::SetFooterMargin(10);
 
         PDF::SetFont('helvetica', 'I', 10);
-        PDF::SetAutoPageBreak(TRUE, 20);
+        PDF::SetAutoPageBreak(TRUE, 25);
 
         PDF::AddPage();
 
@@ -500,13 +523,16 @@ class BonCommandeController extends Controller
 //$y=78 minimum
 //chaque ligne = y=6.5 ou 12
 // 17 lign 
+
  PDF::writeHTMLCell(0, 0,'', $y,$commandesHtml,0, 1, 0, true, '', true);
+
  $y = PDF::getY();
  
- $height2 = ($y-78.72); // size nb tableau 
- $resul = $height2/6.5;
+ //$height2 = ($y-78.72); // size nb tableau 
+ $height2 = ($y-78.72);// $y pointe 78.72 quand commandes vide 
+ $resul = $height2/6.5; // le nombre commandes ajouté 
 //dd($resul);
- $height3 =  ((18-$resul)*18);
+ $height3 =  ((18-$resul)*18); // premier 18 nb max commandes page 1
  
  //dd($height3);
   //dd($height3);
@@ -571,9 +597,14 @@ $height = 300-$y*1.5;*/
  </table>';
  PDF::writeHTMLCell(0, 0,'', $y,$commandesHtml2,0, 1, 0, true, '', true);
  $y = PDF::getY();
- if($y>198)
+
+
+
+ if($y>216){ // si page 1 complet les calcule saute vers page 2
  $y = $y+80;
 
+ }
+ 
 
  
  //PDF::writeHTMLCell(0, 140,'', $y,$commandesHtml,1, 1, 0, true, '', true);

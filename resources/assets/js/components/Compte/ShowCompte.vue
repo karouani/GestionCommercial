@@ -130,9 +130,39 @@
                         </div>
 
     <div class="tab-pane" id="messages3" role="tabpanel">
-                            3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+     <div class="colBackround2">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#devis" role="tab" aria-controls="home" aria-expanded="true"><i class="icon-calculator"></i> Devis</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#bonCommande" role="tab" aria-controls="profile" aria-expanded="false"><i class="far fa-file"></i> Bon Commande</a>
+                        </li>
+                    </ul>
+    </div>
+    <div class="tab-content">
+                  <div class="tab-pane" id="devis" role="tabpanel" aria-expanded="false">
+                        <div class="row">
+                            <table border="1">
+                                <tr><td>devis</td></tr>
+                            </table>
                         </div>
+
+                    </div>
+                    <div class="tab-pane" id="bonCommande" role="tabpanel" aria-expanded="false">
+                        <div class="row">
+                           <app-BCcompte></app-BCcompte>
+                        </div>
+
+                    </div>
+    </div>
+
+
+
+
+
+
+     </div>
                     </div>
                 </div>
    </div>
@@ -140,10 +170,13 @@
 </template>
 <script>
     
+import  BCcompte from './BonCommandesCompte.vue';
 
 
       export default{ 
-        
+         components:{
+            'app-BCcompte':BCcompte,
+         },
           data: () => ({
 
               compte: { 
