@@ -172,8 +172,9 @@ const  router = new VueRouter({
         component: DevisDetails
         },
         {    
-            path:"/EditDevis/:id_devis",
-            component: EditDevis
+            path:"/EditDevis",
+            component: EditDevis,
+            name: "EditDevis",
         },
 
 

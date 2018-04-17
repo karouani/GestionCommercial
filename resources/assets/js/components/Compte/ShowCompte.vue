@@ -139,7 +139,7 @@
                         </li>
                     </ul>
     </div>
-    <div class="tab-content">
+    <div class="tab-content">  
                   <div class="tab-pane" id="devis" role="tabpanel" aria-expanded="false">
                         <div class="row">
                             <table border="1">

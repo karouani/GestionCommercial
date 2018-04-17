@@ -74,7 +74,14 @@
                                         <td>{{devi.reference_d}}</td>
                                         <td>{{devi.nom_compte}} </td>
                                         <td>{{ devi.date_d}}</td>
-                                        <td>{{devi.date_limit_d}} ({{devi.date_diff}})</td>
+                                       <td>{{devi.date_limit_d}} 
+                                            <span v-if="devi.date_diff > 0" style="color:#83ea0cf7">
+                                            (+{{devi.date_diff}})
+                                            </span>
+                                            <span v-if="devi.date_diff <= 0" style="color:red">
+                                            ({{devi.date_diff}})
+                                            </span>
+                                        </td>
                                         <td v-if="devi.fk_status_d == 'Brouillon'">
                                             
                                            <span class="badge badge-pill" style="background-color:rgb(170, 170, 170);color:white;font-size:14px"> {{devi.fk_status_d}}</span> </td>
@@ -85,8 +92,12 @@
                                        <td  class="optionsWidth"> 
                                             <router-link class="btn btn-primary " :to="'/DevisDetails/'+devi.id_devis "><i class="fas fa-eye d-inline-block"></i></router-link>
                                             <a href="#"    @click="PdfDevis(devi.reference_d)"  class="btn btn-secondary" ><i class="far fa-file-pdf"></i></a>
+<!--
+                                         <router-link class="btn btn-success " :to="'/EditDevis/'+devi.id_devis ">
+                                         -->
+                               <a href="#"    @click="redirect_To_EditDevis(devi)"  class="btn btn-success" >
 
-                                         <router-link class="btn btn-success " :to="'/EditDevis/'+devi.id_devis "><i class="fas fa-edit d-inline-block"></i></router-link>
+                                         <i class="fas fa-edit d-inline-block"></i></a>
                                              <a @click="deleteDevis(devi)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
                                     </tr>
                                    
@@ -253,7 +264,7 @@ import  Pagination from '../Pagination.vue';
         this.getDevis();
         this.getClients();
           this.countDevis();
-            this.diffDate()
+          
            if(this.$route.params.success == "add"){
             this.Testopen.testAjout =true;}
    if(this.$route.params.success == "edit"){
@@ -304,6 +315,11 @@ import  Pagination from '../Pagination.vue';
             handleSubmit(){
 
             },
+            redirect_To_EditDevis(devi){
+                   //  this.$router.push('/ShowBonCommande/'+reference_bc);
+                     this.$router.push({ name: 'EditDevis', params: {id_devis: devi.id_devis, reference_d: devi.reference_d, fk_compte_d: devi.fk_compte_d}});
+
+            },
                    fetchData () {
       //this.error = this.post = null
       this.loading = true
@@ -316,7 +332,10 @@ countDevis(){
                 axios.get('/countDevis')
                 .then((response) => {
 
-                    this.devi.reference_d='D'+response.data.count;
+                   var today = new Date();
+                    var yyyy = today.getFullYear();             
+                    var year  = yyyy;
+                    this.devi.reference_d='D-'+year+'-'+response.data.count;
                 })
                 .catch(() => {
                     console.log('handle server error from here');
@@ -327,8 +346,36 @@ countDevis(){
                 .then((response) => {
                     this.loading = false;
                     this.devis = response.data.devis;
-                    this.diffDate()
-                    console.log(response.data.devis);
+                     let that=this
+                    this.devis.data.forEach(function(devi) {
+                         var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; 
+            var yyyy = today.getFullYear();
+            console.log("month"+today)
+             if(dd<10) 
+                {
+                    dd='0'+dd;
+                } 
+
+                if(mm<10) 
+                {
+                    mm='0'+mm;
+                } 
+            devi.currentDateDevi  = yyyy+'-'+mm+'-'+dd;
+            
+                         //console.log("devi date-------------------------")
+                           // console.log(devi.currentDateDevi)
+
+                           // console.log(devi.reference_d)
+                           
+                        var startDate = Date.parse(devi.currentDateDevi);
+                        var endDate = Date.parse(devi.date_limit_d);
+                        var timeDiff = endDate - startDate;
+                        var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                        devi.date_diff=daysDiff;
+                    })
+                    //console.log(response.data.devis);
                })
                 .catch(() => {
                     console.log('handle server error from here');
@@ -392,56 +439,8 @@ countDevis(){
 })
 
         },  
-              diffDate() {
-                  /*
-console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
-for (let index = 0; index < this.devis.length; index++) {
-            this.devis[index].startDate = Date.parse(this.devis[index].date_d);
-            console.log("<<<<<<<>>>>>>>>>>>>>>>>>>>"+this.devis[index].date_d)
-            this.devis[index].endDate = Date.parse(this.devis[index].date_limit_d);
-            this.devis[index].timeDiff = this.devis[index].endDate  - this.devis[index].startDate;
-            this.devis[index].date_diff = Math.floor(this.devis[index].timeDiff / (1000 * 60 * 60 * 24));
-         */
  
-//alert(daysDiff)
-        }
 },
-      
-
-computed:{
-    diff(){
-       console.log("xaaaaaaaaaaaaaaaaa"+this.devis.length)
-        for (let index = 0; index < this.devis.length; index++) {
-        console.log("test")
-    //console.log(this.devis[index].date_d)
-        //this.devis[index].startDate = Date.parse(this.devis[index].date_d);
-
-        }
-    }
-},
-
-watch:{
-         'devi.date_d':{
-            handler: function(){
-                    this.diff;
-
-            }
-    },
-    'devi.date_limit_d':{
-        handler: function(){
-                    this.diff;
-            console.log("watch")
-
-            }
-    },
-    devis:{
-        handler: function(){
-                    this.diff;
-            
-
-            }
-    },
-}
       
 
     }
