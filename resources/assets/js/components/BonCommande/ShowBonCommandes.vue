@@ -123,7 +123,14 @@
                                     <tr  v-for="bonCommande of bonCommandes.data" :key="bonCommande.id_bc" >
                                         <td>{{bonCommande.reference_bc}}</td>
                                         <td>{{bonCommande.date_bc}}</td>
-                                        <td>{{bonCommande.date_limit_bc}}</td>
+                                        <td>{{bonCommande.date_limit_bc}}
+                                             <span v-if="bonCommande.date_diff > 0" style="color:#83ea0cf7">
+                                            (+{{bonCommande.date_diff}})
+                                            </span>
+                                            <span v-if="bonCommande.date_diff <= 0" style="color:red">
+                                            ({{bonCommande.date_diff}})
+                                            </span>
+                                        </td>
                                         <td>{{bonCommande.montant_ttc_bc}} </td>  
                                               <td v-if="bonCommande.fk_status_bc == 'Brouillon'">
                                             
@@ -266,6 +273,7 @@ import  Pagination from '../Pagination.vue';
             montant_net_bc: 0,
             tva_montant_bc: 0,
             montant_ttc_bc: 0,
+            date_diff: "",
       
               },
             
@@ -354,8 +362,12 @@ import  Pagination from '../Pagination.vue';
 
                 axios.get('/countBonCommandes')
                 .then((response) => {
+                     var today = new Date();
+                    var yyyy = today.getFullYear();             
+                    var year  = yyyy;
+                    this.reference_bc='BC-'+year+'-'+response.data.count;
 
-                    this.reference_bc='BC'+response.data.count;
+                    
                     /*this.commande.fk_document='D'+response.data.count;
                     this.modePaiement.fk_document='D'+response.data.count;*/
 
@@ -403,7 +415,16 @@ import  Pagination from '../Pagination.vue';
                 .then((response) => {
                   this.loading = false;
                     this.bonCommandes = response.data.bonCommandes;
-                  
+                    let that=this
+                    this.bonCommandes.data.forEach(function(bonCommande) {
+              
+                          // bonCommande.currentDateDevi = that.currentDate;
+                        var startDate = Date.parse(that.currentDate);
+                        var endDate = Date.parse(bonCommande.date_limit_bc);
+                        var timeDiff = endDate - startDate;
+                        var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                        bonCommande.date_diff=daysDiff;
+                    })
                   console.log(response.data.bonCommandes)
                   console.log("getBC oook ")
                 })

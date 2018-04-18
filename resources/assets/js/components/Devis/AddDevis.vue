@@ -582,6 +582,8 @@ this.commande = {
  echeanceDate(){
 Date.prototype.addDays = function(days) {
   var dat = new Date(this.valueOf());
+  console.log('--------- date value of ----------')
+  console.log(dat);
   dat.setDate(dat.getDate() + days);
   return dat;
 }
@@ -684,7 +686,7 @@ computed:{
             this.total_ttc= this.precisionRound(  +this.net_HT + +this.tva_total,2);
             this.devi.montant_ttc_d=this.total_ttc;
 
-            var res = this.total_ttc_d.toString().split(".");
+            var res = this.total_ttc.toString().split(".");
            this.devi.total_lettre_d = this.$WrittenNumber(res[0], { lang: 'fr'})
              
 
