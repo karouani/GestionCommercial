@@ -40,6 +40,8 @@ class CreateBonCommandesTable extends Migration
             $table->integer('fk_compte_bc')->nullable();
             $table->integer('fk_user_bc')->nullable();
             $table->string('total_lettre')->nullable();
+            $table->double('montant_reste_bc')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });
