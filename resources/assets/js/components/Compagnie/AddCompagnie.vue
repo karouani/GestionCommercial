@@ -34,31 +34,31 @@
                 <div class="form-group row">
                     <label for="reference_art" class="col-sm-4">Raison Sociale</label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="reference_art"  v-model="compagnie.raison_sociale">
+                    <input type="text" class="form-control" id="reference_art"  v-model="compagnie.raison_sociale_comp">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4" for="type_art"> Nom Societe </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="type_art" v-model="compagnie.nom_societe" >
+                    <input type="text" class="form-control" id="type_art" v-model="compagnie.nom_societe_comp" >
                 </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4" for="designation"> RC </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="designation" v-model="compagnie.RC" >
+                    <input type="text" class="form-control" id="designation" v-model="compagnie.RC_comp" >
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4" for="IF"> I.F </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="IF" v-model="compagnie.IF" >
+                    <input type="text" class="form-control" id="IF" v-model="compagnie.IF_comp" >
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4" for="prix_ht_achat"> Patente </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="prix_ht_achat" v-model="compagnie.patente" >
+                    <input type="text" class="form-control" id="prix_ht_achat" v-model="compagnie.patente_comp" >
                     </div>
                 </div>
                 
@@ -67,19 +67,19 @@
               <div class="form-group row">
                     <label class="col-sm-4" for="cnss"> C.N.S.S</label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="cnss" v-model="compagnie.cnss" >
+                    <input type="text" class="form-control" id="cnss" v-model="compagnie.cnss_comp" >
                     </div>
                 </div> 
                 <div class="form-group row">
                     <label class="col-sm-4" for="ICE"> I.C.E </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="ICE" v-model="compagnie.ICE">
+                    <input type="text" class="form-control" id="ICE" v-model="compagnie.ICE_comp">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4" for="capitale"> Capitale </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="capitale" v-model="compagnie.capitale">
+                    <input type="text" class="form-control" id="capitale" v-model="compagnie.capitale_comp">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -91,7 +91,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4" for="secteur_activite"> Secteur D'activite </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="secteur_activite" v-model="compagnie.secteur_activite">
+                    <input type="text" class="form-control" id="secteur_activite" v-model="compagnie.secteur_activite_comp">
                     </div>
                 </div>
            
@@ -110,7 +110,7 @@
                  <div class="form-group row">
                     <label class="col-sm-4" for="nom_bank"> Nom de Banque </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="nom_bank" v-model="compagnie.nom_bank">
+                    <input type="text" class="form-control" id="nom_bank" v-model="compagnie.nom_bank_comp">
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4" for="RIB"> R.I.B </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="RIB" v-model="compagnie.RIB">
+                    <input type="text" class="form-control" id="RIB" v-model="compagnie.RIB_comp">
                     </div>
                 </div>
             </div>
@@ -137,7 +137,7 @@
                  <div class="form-group row">
                     <label class="col-sm-4" for="email"> E-mail </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="email" v-model="compagnie.email">
+                    <input type="text" class="form-control" id="email" v-model="compagnie.email_comp">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -207,25 +207,25 @@ export default {
     error: null,
     compagnie: {
       id_compagnie:0,
-      nom_societe:"",
-      raison_sociale:"",
-      RC:"",
-      IF:"",
-      patente:"",
-      cnss:"",
-      ICE:"",
-      capitale:"",
+      nom_societe_comp:"",
+      raison_sociale_comp:"",
+      RC_comp:"",
+      IF_comp:"",
+      patente_comp:"",
+      cnss_comp:"",
+      ICE_comp:"",
+      capitale_comp:"",
       taille_comp:"",
-      secteur_activite:"",
+      secteur_activite_comp:"",
 
 
-      nom_bank:"",
-      RIB:"",
+      nom_bank_comp:"",
+      RIB_comp:"",
       //cp_comp:"",
       //ville_comp:"",
       //pays_comp:"",
       adresse_comp:"",
-      email:"",
+      email_comp:"",
       GSM_comp:"",
       fix_comp:"",
       fax_comp:"",

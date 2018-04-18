@@ -416,7 +416,7 @@
            fk_status_d:"",
            fk_compte_d:"",
             fk_user_d:"",
-      
+      id_type_paiement:0,
               },
               // tableau des devis 
               devis :[],
