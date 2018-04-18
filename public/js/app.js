@@ -125572,6 +125572,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -125901,7 +125903,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 /* harmony default export */ __webpack_exports__["default"] = ({
 
     data: function data() {
-        return {
+        return _defineProperty({
 
             loading: false,
             bonCommande: {
@@ -126047,8 +126049,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             },
             modePaiements: [],
             typePaiements: []
-
-        };
+        }, "contacts", {});
     },
     created: function created() {
         // fetch the data when the view is created and the data is
@@ -126057,7 +126058,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     },
 
 
-    methods: {
+    methods: _defineProperty({
         fetchData: function fetchData() {
             this.loading = true;
             if (this.$route.params.id_devis != null) {
@@ -126068,6 +126069,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 this.getarticles();
                 this.getClients();
                 this.getTvas();
+
                 this.getCommandes(this.$route.params.id_devis);
 
                 console.log();
@@ -126090,6 +126092,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 this.getRemise(this.$route.params.id_compte);
                 this.getClients();
                 this.getTypePaiement();
+                this.getContacts(this.$route.params.id_compte);
             }
         },
         precisionRound: function precisionRound(number, precision) {
@@ -126123,7 +126126,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             });
         },
         addRow: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(commande) {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(commande) {
                 var result, result2;
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
                     while (1) {
@@ -126192,7 +126195,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }));
 
             function addRow(_x) {
-                return _ref.apply(this, arguments);
+                return _ref2.apply(this, arguments);
             }
 
             return addRow;
@@ -126444,7 +126447,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.bonCommande.date_diff = daysDiff;
             //alert(daysDiff)
         }
-    },
+    }, "getContacts", function getContacts(id_compte) {
+        var _this16 = this;
+
+        axios.get('/getContacts/' + id_compte).then(function (response) {
+
+            _this16.contacts = response.data.contacts;
+            _this16.loading = false;
+        });
+    }),
 
     computed: {
         TotalBonCommande: function TotalBonCommande() {

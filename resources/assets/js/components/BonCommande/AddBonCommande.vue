@@ -473,6 +473,7 @@
                 },
                 modePaiements:[],
                 typePaiements:[],
+                contacts :{},
              
       }),
         created () {
@@ -495,6 +496,8 @@ methods: {
         this.getarticles();
         this.getClients();
         this.getTvas();
+       
+        
          this.getCommandes(this.$route.params.id_devis);
          
          console.log()
@@ -521,7 +524,7 @@ methods: {
             this.getRemise(this.$route.params.id_compte);
             this.getClients();
             this.getTypePaiement();
-
+            this.getContacts(this.$route.params.id_compte);
 
          
           
@@ -879,6 +882,15 @@ methods: {
                                     this.bonCommande.date_diff=daysDiff;
                         //alert(daysDiff)
                         },
+                getContacts:function(id_compte){
+                  axios.get('/getContacts/'+id_compte).then(
+                  response => {
+                       
+                    this.contacts= response.data.contacts;
+                    this.loading = false;
+             
+                  });     
+        },
 },
     
     
