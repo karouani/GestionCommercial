@@ -164,12 +164,14 @@ const  router = new VueRouter({
             component: AffDevis
         },
         {    
-            path:"/DevisDetails/:id_devis",
-            component: DevisDetails
+            path:"/DevisDetails",
+            component: DevisDetails,
+            name: "DevisDetails"
         },
         {
-        path:"/DevisDetails/:success/:id_devis",
-        component: DevisDetails
+            path:"/DevisDetails/:success/:id_devis",
+            component: DevisDetails,
+
         },
         {    
             path:"/EditDevis",

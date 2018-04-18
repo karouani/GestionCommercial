@@ -19,7 +19,7 @@ class DevisController extends Controller
 {       // ajouter un devis
     public function addDevis(Request $request)
     { 
-        
+       // dd($request->devi['total_lettre_d']);
         $devi = new Devi();
  
                 $devi->reference_d = $request->devis['reference_d'];
@@ -40,12 +40,14 @@ class DevisController extends Controller
                 
                 $devi->fk_user_d = Auth::user()->id;
                 
-                $devi->total_lettre_d = $request->devi['total_lettre_d'];
+                $devi->total_lettre_d = $request->devis['total_lettre_d'];
                 $devi->total_ht_d = $request->devis['total_ht_d'];
                 $devi->remise_ht_d = $request->devis['remise_ht_d'];
                 $devi->montant_net_d = $request->devis['montant_net_d'];
                 $devi->tva_montant_d = $request->devis['tva_montant_d'];
                 $devi->montant_ttc_d = $request->devis['montant_ttc_d'];
+                $devi->montant_reste_d = $request->devis['montant_reste_d'];
+
                 $devi->save();
 
                 $this->addCommandes($request);
@@ -75,13 +77,13 @@ class DevisController extends Controller
                 $devi->fk_compte_d = $request->devis['fk_compte_d'];
                 $devi->fk_user_d = Auth::user()->id;
                 
-                $devi->total_lettre_d = $request->devi['total_lettre_d'];
+                $devi->total_lettre_d = $request->devis['total_lettre_d'];
                 $devi->total_ht_d = $request->devis['total_ht_d'];
                 $devi->remise_ht_d = $request->devis['remise_ht_d'];
                 $devi->montant_net_d = $request->devis['montant_net_d'];
                 $devi->tva_montant_d = $request->devis['tva_montant_d'];
                 $devi->montant_ttc_d = $request->devis['montant_ttc_d'];
-        
+                $devi->montant_reste_d = $request->devis['montant_reste_d'];
 
         $devi->save();
         $reference_d = $devi->reference_d;
@@ -259,7 +261,7 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
 
      }
 
-     public function pdf_d($reference_d){
+   /*  public function pdf_d($reference_d){
         $devi= Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
         ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
         ->leftJoin('mode_paiements', 'devis.reference_d', '=', 'mode_paiements.fk_document')
@@ -270,20 +272,20 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
         ->leftJoin('tvas', 'commandes.fk_tva_cmd', '=', 'tvas.id_tva')
         ->select('commandes.*', 'articles.designation','articles.unite','tvas.taux_tva')
         ->where('fk_document', $reference_d)->get();
-        //dd($bonCommande);
+        //dd($devi);
   
         $logo = public_path().'/storage/images/'.$devi[0]->logo_comp;
         //dd($filename);
-        //return view('pdf', ['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
+        //return view('pdf', ['devi' => $devi[0],'commandes' => $commandes]);
        /*  $options = new PDF\Options();
         $options->setDpi(150);
         $pdf= new PDF($options);*/
-       // $pdf = PDF::loadView('pdf',['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
+       // $pdf = PDF::loadView('pdf',['devi' => $devi[0],'commandes' => $commandes]);
 
-        //return  $pdf->stream($reference_bc.'.pdf',array('Attachment'=>0));
-       // $pdf = PDF::loadView('pdf', ['bonCommande' => $bonCommande[0],'commandes' => $commandes]);
+        //return  $pdf->stream($reference_d.'.pdf',array('Attachment'=>0));
+       // $pdf = PDF::loadView('pdf', ['devi' => $devi[0],'commandes' => $commandes]);
          // return $pdf->download('invoice.pdf');
-         $view = \View::make('pdf_d', array('devi' => $devi[0],'commandes' => $commandes ,'logo' => $logo ));
+      /*   $view = \View::make('pdf_d', array('devi' => $devi[0],'commandes' => $commandes ,'logo' => $logo ));
          $html_content = $view->render();
          
     
@@ -298,7 +300,388 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
          PDF::writeHTML($html_content, true, false, true, false, '');
   
          PDF::Output($reference_d.'.pdf');
-      }
+}*/
+public function pdf_d($reference_d){
+    $devi= Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
+    ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
+    ->leftJoin('mode_paiements', 'devis.reference_d', '=', 'mode_paiements.fk_document')
+    ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
+    ->select('devis.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.*','mode_paiements.*','type_paiements.*')
+    ->where('reference_d', $reference_d)->get();
+
+    $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
+    ->leftJoin('tvas', 'commandes.fk_tva_cmd', '=', 'tvas.id_tva')
+    ->select('commandes.*', 'articles.designation','articles.unite','tvas.taux_tva','articles.reference_art')
+    ->where('fk_document', $reference_d)->get();
+    //dd($devi);
+
+    $logo = public_path().'/storage/images/'.$devi[0]->logo_comp;
+  
+    $headerHtml =  '<div>
+    <img src="'.$logo.'" alt="test alt attribute" width="180" height="70" border="0" />
+
+</div>
+    <br>
+   <table style="padding: 0px;padding-right:10px">
+   <tr>
+       <td>
+       <span></span><br>
+       <b>Bon Commande: '.$devi[0]->reference_d.'</b> <br>
+       Date: '.$devi[0]->date_d.'<br>
+       Réglement: '.$devi[0]->type_paiement.'<br>
+       Validité: '.$devi[0]->date_limit_d.'<br>
+      
+       </td>
+       <td style=" border-right:1px solid black;
+       border-left:1px solid black;
+       border-bottom:1px solid black;
+       border-top:1px solid black;">
+       <br>
+       <b>'.$devi[0]->nom_compte.'</b>
+       <p> '.$devi[0]->adresse_d.'</p>
+       
+       </td>
+   </tr>
+   </table>';
+
+
+
+   $objethtml = '<p style="margin-top: 50px;">Objet:'. $devi[0]->objet_d.'</p>';
+    $commandesHtml ='<table border="1" style="padding: 3px 0px;">
+    <thead>
+            <tr style="color:white; font-size: 10pt;background-color: black;">
+            
+                <th width="80">Code article</th>
+                <th  width="214">Description</th>
+                <th width="35">QTÉ</th>
+                <th width="30">UT</th>
+                <th width="80">PU HT</th>
+                <th width="100">TOTAL HT</th>
+                <th width="25">TVA</th>
      
+            </tr>
+            </thead>';
+     $commandesHtml.='<tbody style="">';
+    foreach ( $commandes as $commande ){
+        $commandesHtml.='
+        <tr style="border-bottom: 1px solid;font-size: 10pt; ">                   
+                <th align="center" width="80">'.$commande->reference_art.'</th>
+                <th  align="center"  width="214">'.$commande->description_article.'</th>
+                <th align="center" width="35">'.$commande->quantite_cmd.'</th>
+                <th align="center" width="30">'.$commande->unite.'</th>
+                <th align="center" width="80">'.$commande->prix_ht.'</th>
+                <th align="center" width="100">'.$commande->total_ht_cmd.'</th>
+                <th align="center" width="25">'.$commande->taux_tva.'</th>
+            </tr> ';
+        };
+        $commandesHtml.='</tbody> </table>';
+       //dd($commandesHtml);
+
+    
+
+
+
+
+
+
+
+     $infoComp = ''.$devi[0]->nom_societe.' <span>
+    </span>'.$devi[0]->raison_sociale.'<span> 
+    ICE: </span>'.$devi[0]->ICE.'<span>
+    RC N°: </span>'.$devi[0]->RC.'<span>
+    IF: </span>'.$devi[0]->IF.'<span>
+    patente: </span>'.$devi[0]->patente.'<span>
+    cnss: </span>'.$devi[0]->cnss.'<span>
+    compte : </span>'.$devi[0]->nom_bank.'<span>
+    RIB: </span>'.$devi[0]->RIB.'<span>
+    E-mail: </span>'.$devi[0]->email.'<span>
+    Site: </span>'.$devi[0]->webSite_comp.'<span>
+    fax: </span>'.$devi[0]->fax_comp.'<span>
+    fix: </span>'.$devi[0]->fix_comp.'<span>
+    GSM: </span>'.$devi[0]->GSM_comp.'<span>';
+
+    $calculeHtml =  '<div>
+    
+    <table style="padding: 3px;padding-right:5pt;">
+    
+    <tr>
+    <td style="width:286px;">Total en lettre : '.$devi[0]->total_lettre_d.'</td>
+    <td style="width:140px;" align="left">Total</td> <td style="width:140px;" align="right">'.$devi[0]->total_ht_d.'</td>
+    </tr>
+    <tr>
+    <td style="width:286px;"></td>
+    <td style="width:140px;" align="left">Remise</td> <td style="width:140px;" align="right">'.$devi[0]->remise_ht_d.'</td>
+    </tr>
+    <tr>
+    <td style="width:286px;"></td>
+    <td style="width:140px;" class="tdC" align="left">Total HT</td> <td style="width:140px;" align="right">'.$devi[0]->montant_net_d.'</td>
+    </tr>
+    <tr>
+    <td style="width:286px;"></td>
+    <td style="width:140px;" class="tdC" align="left">TVA</td> <td  style="width:140px;" align="right">'.$devi[0]->tva_montant_d.'</td>
+    </tr>
+    <tr>
+    <td style="width:286px;"></td>
+    <td style="width:140px;" align="left">Acompte</td> <td style="width:140px;" align="right"></td>
+    </tr>
+    <tr>
+    <td style="width:286px;"></td>
+    <td style="width:140px;" align="left">Montant NET TTC (MAD)</td> <td style="width:140px;" align="right">'.$devi[0]->montant_ttc_d.'</td>
+    </tr>
+    
+    </table>
+    <table>
+        <tr>
+            <td></td>
+            <td><hr></td>
+        </tr>
+    </table>
+    
+    </div>
+ 
+    CONDITIONS :'.$devi[0]->conditions_reglements_d.'<br>  
+     NOTES : '.$devi[0]->notes_d.'';
+    
+  
+
+    $testleft = '<div> <h1> lettre </h1></div>';
+
+
+
+
+    PDF::setHeaderCallback(function($pdf) {
+
+        // Set font
+        PDF::SetFont('helvetica', 'B', 20);
+        // Title
+        PDF::Cell(0, 15, '', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+
+});
+/*PDF::setData(function($infoComp) {
+    $this->template = $infoComp;
+});*/
+
+
+    $this->template = $infoComp;
+   
+    
+
+
+PDF::setFooterCallback(function($pdf) {
+   //dd($infoComp);
+  // dd($this->template);
+    // Position at 15 mm from bottom
+   // $pdf->SetY(-15);
+    // Set font
+    $pdf->SetFont('helvetica', 'I', 10);
+    // Page number
+    PDF::writeHTMLCell(0, 0, '',274,'<hr>', 0, 1, 0, true, '', true);
+    PDF::writeHTMLCell(0, 0, '',275,$this->template, 0, 1, 0, true, '', true);
+    PDF::writeHTMLCell(0, 0, '',290,'<span style="color:blue;text-align:right"> Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages().'</span>', 0, 1, 0, true, '', true);
+
+   // $pdf->Cell(0, 10, $this->template.'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+
+});
+
+
+    PDF::SetMargins(5, 5, 5);
+   // PDF::SetHeaderMargin(100);
+    PDF::SetFooterMargin(10);
+
+    PDF::SetFont('helvetica', 'I', 10);
+    PDF::SetAutoPageBreak(TRUE, 25);
+
+    PDF::AddPage();
+
+    // MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
+
+  /*  $y = PDF::getY();    
+    PDF::MultiCell(40, 0, $left_column, 1, 'R', 0, 1, '', $y, true, 0);
+
+    $y = PDF::getY() + 10;
+    PDF::MultiCell(40, 0, $right_column, 1, 'R', 0, 1, '', $y, true, 0);*/
+
+
+    //---------------
+  //  $y = PDF::getY();    
+   // PDF::MultiCell(40, 0, $headerHtml, 1, 'R', 0, 1, '', $y, true, 0);
+   // $y = PDF::getY() + 10;
+//---------------
+//PDF::writeHTMLCell(0, 0, '',0,$page2 ,0, 1, 0, true, 'top', true);
+
+$y = PDF::getY();    
+
+PDF::writeHTMLCell(0, 0, '',$y,$headerHtml ,0, 1, 0, true, '', true);
+$y = PDF::getY();
+
+
+
+PDF::writeHTMLCell(0, 10, '',$y,$objethtml, 0, 1, 0, true, '', true);
+$y = PDF::getY();
+
+//PDF::SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)));
+
+//$style2 = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 0));
+
+//PDF::Line(5, 40, 5, 30, $style2);
+//$this->Line($p1x, $p1y, $p2x, $p2y, $style);
+/*$border = array(
+'L' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 0)),
+'R' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)),
+'T' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 255, 0)),
+'B' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255)));*/
+
+
+/*  $border = array(
+    'T' => array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)),
+ );*/
+
+
+
+//$y=78 minimum
+//chaque ligne = y=6.5 ou 12
+// 17 lign 
+
+PDF::writeHTMLCell(0, 0,'', $y,$commandesHtml,0, 1, 0, true, '', true);
+
+$y = PDF::getY();
+
+//$height2 = ($y-78.72); // size nb tableau 
+$height2 = ($y-78.72);// $y pointe 78.72 quand commandes vide 
+$resul = $height2/6.5; // le nombre commandes ajouté 
+//dd($resul);
+$height3 =  ((18-$resul)*18); // premier 18 nb max commandes page 1
+
+//dd($height3);
+//dd($height3);
+
+//dd($height2/6.5);
+//dd($height2/6.5);
+//
+
+
+
+//dd($y);
+//dd($y);
+
+//$height = 400-$y-12;
+//dd($y);
+//if($y<130)
+
+/*else if($y<180)
+$height = 380-$y*1.5;
+else
+$height = 300-$y*1.5;*/
+
+$commandesHtml2 = '<table style="padding: 3px 0px;"> 
+
+<thead>
+       
+<tr style="color:white;font-size: 10pt; line-height:'.$height3.' px;">
+  
+<th width="80" style="
+border-right:1px solid black;
+border-left:1px solid black;
+"> </th>
+<th  width="214" style="
+border-right:1px solid black;
+border-left:1px solid black;
+"> </th>
+<th width="35" style="
+border-right:1px solid black;
+border-left:1px solid black;
+"> </th>
+<th width="30" style="
+border-right:1px solid black;
+border-left:1px solid black;
+"> </th>
+<th width="80" style="
+border-right:1px solid black;
+border-left:1px solid black;
+"> </th>
+<th width="100" style="
+border-right:1px solid black;
+border-left:1px solid black;
+"> </th>
+<th width="25" style="
+border-right:1px solid black;
+border-left:1px solid black;
+"> </th>
+
+</tr>
+
+</thead> 
+
+</table>';
+PDF::writeHTMLCell(0, 0,'', $y,$commandesHtml2,0, 1, 0, true, '', true);
+$y = PDF::getY();
+
+
+
+if($y>216){ // si page 1 complet les calcule saute vers page 2
+$y = $y+80;
+
+}
+
+
+
+//PDF::writeHTMLCell(0, 140,'', $y,$commandesHtml,1, 1, 0, true, '', true);
+
+
+//if($y>205){
+// PDF::writeHTMLCell(0, 0, '',$y,$page2 ,0, 1, 0, true, '', true);}
+
+
+
+PDF::writeHTMLCell(0, 0, '',$y,$calculeHtml , 0, 1, 0, true, '', true);
+
+
+
+
+
+
+
+
+    //$view = \View::make('pdf', array('devi' => $devi[0],'commandes' => $commandes ,'logo' => $logo ));
+    //$html_content = $view->render();
+
+
+    
+    
+    //PDF::SetAutoPageBreak(TRUE, 0);
+     // Set font
+    
+ 
+    // PDF::SetFooterMargin(0);
+     
+     //PDF::writeHTML($html_content, true, false, true, false, '');
+     //PDF::Cell(0, 100, 'azertyu yuiop fghjklm dfghjkl ', 0, false, 'C', 0, '', 0, false, 'T', 'M');       
+     //writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+    //PDF::writeHTMLCell(80, '', '', '290', 'oooook', '', '', '', '', '', '');
+   // PDF::writeHTMLCell(0, 0, '',3,$headerHtml , 0, 0, 0, false, '', true);
+   
+    
+   // PDF::writeHTMLCell(0, 0, '',37,$objethtml, 0, 0, 0, false, '', true);
+   // PDF::writeHTMLCell(0, 135,'', 70,$commandesHtml, 1, 0, 0, false, '', true);
+   // PDF::writeHTMLCell(0, 0, '',130,$calculeHtml.'<br>'.$infoComp , 0, 0, 0, false, '', true);
+ 
+ //  PDF::writeHTMLCell(0,0,'',0,$test1, 1, 0, 0, false, '', true);
+   
+  // PDF::writeHTMLCell(0,0,'',120,$test2,1, 0, 0, false, '', true);
+
+
+    //PDF::writeHTMLCell(203, 100, '', 70,$infoComp, 1, 0, 0, false, '', true);
+
+
+
+
+
+   //  PDF::writeHTMLCell(0, '', '', 290,$infoComp, 0, 0, 0, false, '', true);
+     //PDF::SetY(0);
+     
+     
+     PDF::Output($reference_d.'.pdf');
+     
+  }
 
 }

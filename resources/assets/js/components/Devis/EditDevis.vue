@@ -159,6 +159,7 @@
 
                 </select>
                 <div v-if="devi.echeance === undefined">
+                    <br>
                     {{devi.date_l}}
                 </div>
                 <div v-if="devi.echeance != undefined">
@@ -244,6 +245,18 @@
             <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="devi.montant_ttc_d">
             </div>
          </div>
+         <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Acompte </label>
+            <div class="col-sm-8">
+            <input type="text" class="form-control " style="width:100px;margin-left: 150px" id="staticEmail" v-model="devi.accompte_d">
+            </div>
+         </div>
+         <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Montant Reste (Montant) </label>
+            <div class="col-sm-8">
+            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="devi.montant_reste_d">
+            </div>
+         </div>
    
  </div>
 
@@ -312,7 +325,7 @@ error: null,
             introduction_d:"",  
             conditions_reglements_d:"",
             notes_d:"",
-            accompte_d:"",
+            accompte_d:0,
            fk_status_d:"",
            fk_compte_d:"",
             fk_user_d:"",
@@ -322,6 +335,7 @@ error: null,
             montant_net_d:0,
             tva_montant_d:0,
             montant_ttc_d:0,
+            montant_reste_d:0,
 
             
       nom_compte:"",
@@ -642,8 +656,9 @@ this.commande = {
                     // this.commande.fk_article= response.data.articles;
 
                   });     
-        },
-          getTypePaiement(){
+    },
+    
+    getTypePaiement(){
                             axios.get('/getTypePaiement')
                             .then((response) => {                        
                                 this.typePaiements= response.data.listeTypePaiments;
@@ -651,48 +666,48 @@ this.commande = {
                             .catch(() => {
                                 console.log('handle server error from here');
                             });
-          },
-                 precisionRound(number, precision) {
-  var factor = Math.pow(10, precision);
-  return Math.round(number * factor) / factor;
-},
+    },
+    
+    precisionRound(number, precision) {
+            var factor = Math.pow(10, precision);
+            return Math.round(number * factor) / factor;
+    },
 
- echeanceDate(){
-Date.prototype.addDays = function(days) {
-  var dat = new Date(this.valueOf());
-  dat.setDate(dat.getDate() + days);
-  return dat;
-}
+    echeanceDate(){
+        Date.prototype.addDays = function(days) {
+            var dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        }
 
-  var dat = new Date(this.devi.date_d);
-  var today =dat.addDays(+this.devi.echeance);
-  var dd = today.getDate();
-  var mm = today.getMonth()+1; 
-  var yyyy = today.getFullYear();
-  if(dd<10) 
+        var dat = new Date(this.devi.date_d);
+        var today =dat.addDays(+this.devi.echeance);
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; 
+        var yyyy = today.getFullYear();
+        if(dd<10) 
                 {
                     dd='0'+dd;
                 } 
 
-                if(mm<10) 
+        if(mm<10) 
                 {
                     mm='0'+mm;
                 } 
-   console.log(dd+'-'+mm+'-'+yyyy)
+            // console.log(dd+'-'+mm+'-'+yyyy)
 
             this.devi.date_limit_d=yyyy+'-'+mm+'-'+dd;
-           // return dd+'-'+mm+'-'+yyyy;
    
-},
+    },
 diffDate() {
-console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
+//console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
 
-    var startDate = Date.parse(this.devi.date_d);
+            var startDate = Date.parse(this.devi.date_d);
             var endDate = Date.parse(this.devi.date_limit_d);
             var timeDiff = endDate - startDate;
             var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
             this.devi.date_diff=daysDiff;
-//alert(daysDiff)
+
 }
 },
     
@@ -734,6 +749,8 @@ computed:{
             this.total_ttc= this.precisionRound(  +this.net_HT + +this.tva_total,2);
             this.devi.montant_ttc_d=this.total_ttc;
 
+            this.devi.montant_reste_d=this.precisionRound(  +this.total_ttc - +this.devi.accompte_d,2);
+
             var res = this.total_ttc.toString().split(".");
            this.devi.total_lettre_d = this.$WrittenNumber(res[0], { lang: 'fr'})
              
@@ -770,7 +787,12 @@ watch:{
 
             },
     },
+  'devi.accompte_d':{
+            handler: function(){
+                    this.TotalDevis;
 
+            },
+    },
     'commande': {
             handler: function(){
                     this.TotalDevis;

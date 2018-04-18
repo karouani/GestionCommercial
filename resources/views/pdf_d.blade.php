@@ -10,7 +10,7 @@
 
 </head>
 <body>
-
+    /*
  <div>
      <img src="{{$logo}}" alt="test alt attribute" width="180" height="70" border="0" />
 
@@ -158,4 +158,6 @@
  
 
     </style>
+    */
+</body>
 </html>

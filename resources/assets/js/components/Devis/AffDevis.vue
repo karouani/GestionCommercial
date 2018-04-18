@@ -66,6 +66,7 @@
                                         <th>date limit</th>
                                         <th>Status</th>                                        
                                         <th>Montant TTC</th>
+                                        <th>Montant Reste</th>
                                         <th>options</th>
                                     </tr>
                                     </thead>
@@ -88,9 +89,9 @@
                                          <td v-else>   
                                              <span class="badge badge-pill" :style="{'background-color': devi.colorStatu ,'color':fontStatu.white , 'font-size':fontStatu.size}"> {{devi.type_status}} </span></td>
                                         <td>{{devi.montant_ttc_d}} </td> 
-                                        
+                                        <td>{{devi.montant_reste_d}} </td> 
                                        <td  class="optionsWidth"> 
-                                            <router-link class="btn btn-primary " :to="'/DevisDetails/'+devi.id_devis "><i class="fas fa-eye d-inline-block"></i></router-link>
+                                            <a href="#"    @click="redirect_To_DevisDetails(devi)"  class="btn btn-primary" ><i class="fas fa-eye d-inline-block"></i></a>
                                             <a href="#"    @click="PdfDevis(devi.reference_d)"  class="btn btn-secondary" ><i class="far fa-file-pdf"></i></a>
 <!--
                                          <router-link class="btn btn-success " :to="'/EditDevis/'+devi.id_devis ">
@@ -228,6 +229,7 @@ import  Pagination from '../Pagination.vue';
             conditions_reglements_d:"",
             notes_d:"",
             accompte_d:"",
+            montant_reste_d:"",
            fk_status_d:"",
            fk_compte_d:"",
             fk_user_d:"",
@@ -319,6 +321,11 @@ import  Pagination from '../Pagination.vue';
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
                      this.$router.push({ name: 'EditDevis', params: {id_devis: devi.id_devis, reference_d: devi.reference_d, fk_compte_d: devi.fk_compte_d}});
 
+            },
+               redirect_To_DevisDetails(devi){
+                    this.$router.push({ name: 'DevisDetails', params: {id_devis: devi.id_devis, reference_d: devi.reference_d}});
+
+                    // this.$router.push('/DevisDetails/'+reference_d);
             },
                    fetchData () {
       //this.error = this.post = null

@@ -185,11 +185,46 @@
             {{devi.montant_ttc_d}}
             </div>
          </div>
+         <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Acompte </label>
+            <div class="col-sm-8 cal">
+            {{devi.accompte_d}}
+            </div>
+         </div>
+         <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label" style="padding-right: 0px;">Montant Reste (Montant) </label>
+            <div class="col-sm-8 cal" >
+            {{devi.montant_reste_d}}
+            </div>
+         </div>
    
  </div>
 
         
 </div>
+<br>
+<div class="row">
+  <div class="col">
+                <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label">Notes </label>
+            <div class="col-sm-10 col-form-label">
+            <label>{{devi.notes_d}}</label>
+            </div>
+         </div>
+  </div>
+</div>
+<br>
+<div class="row">
+   <div class="col">
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label">Conditions </label>
+            <div class="col-sm-10 col-form-label">
+            <label>{{devi.conditions_reglements_d}}</label>
+            </div>
+         </div>
+   </div>
+</div>
+<hr>
 </div>
 </div>
 </div>
@@ -211,7 +246,7 @@
                 testEditS : false,
               },
    // devi
-              devi: { 
+        devi: { 
             id_devis:0,
             reference_d:"",
             date_d:"", 
@@ -240,13 +275,16 @@
             tva_montant_d:0,
             montant_ttc_d:0,
             total_lettre_d:"",
-      
+            montant_reste_d:0,
+            
             nom_societe:"",
-              },
-              statu :{
-type_status:"",
-colorStatu:"",
-              },
+            },
+
+            statu :{
+              type_status:"",
+              colorStatu:"",
+            },
+
               // tableau des devis 
               devis :[],
               //tables foreign key 
@@ -254,13 +292,14 @@ colorStatu:"",
               tvas:[],
               articles:[],
               comptes:[],
-            index:0,
-            total_prix:0,
-            remise_T:0,
+              index:0,
+              total_prix:0,
+              remise_T:0,
+              
+              
               //commandes
-      
-              commande:{
-                  id_cmd:0,
+            commande:{
+                id_cmd:0,
                 quantite_cmd:1,
                 remise_cmd:0,
                 majoration_cmd:0,
@@ -271,16 +310,13 @@ colorStatu:"",
                
                //affichage
                
-               desig:"",
+                desig:"",
                 total_ht_cmd:0,
                 taux_tva:0,
-
-                
-              },
-              commandes:[],
+            },
             
-
-          }),
+            commandes:[],
+    }),
           methods:{
 updateStatusDevis(){
                 axios.post('/updateStatusDevis',this.devi)
@@ -309,10 +345,11 @@ updateStatusDevis(){
       console.log("loading+++++++++++++++++++++")
       // replace `getPost` with your data fetching util / API wrapper
              this.devi.id_devis = this.$route.params.id_devis;
+             this.devi.reference_d=this.$route.params.reference_d;
               this.getDevisD(this.devi.id_devis);
               
               this.getStatus();
-              this.getCommandes(this.devi.id_devis);
+              this.getCommandes(this.devi.reference_d);
    //this.getDevisD(this.$route.params.id_devis);
 
     },
@@ -328,8 +365,8 @@ updateStatusDevis(){
 console.log(this.devi);
                   });     
         },
-        getCommandes:function(id_devis){
-                  axios.get('/getCommandes/'+'D'+id_devis).then(
+        getCommandes:function(reference_d){
+                  axios.get('/getCommandes/'+reference_d).then(
                   response => {
                       console.log("commandes:  ");
                          console.log(response.data.commandes);
@@ -497,6 +534,7 @@ a.last::before {
 }
 .cal{
 padding-right: 0px;
+padding-left: 120px;
 }
 
 .retour {

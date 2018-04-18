@@ -134,7 +134,7 @@
          <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Total en lettre</label>
                 <div class="col-sm-8">
-                <label  class="form-control" for="">{{devi.total_lettre_d}}</label>
+                <label  class="form-control" for="total_lettre_d">{{devi.total_lettre_d}}</label>
                 </div>
             </div>
             <div class="form-group row">
@@ -235,6 +235,18 @@
             <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="devi.montant_ttc_d">
             </div>
          </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Acompte </label>
+            <div class="col-sm-8">
+            <input type="text" class="form-control " style="width:100px;margin-left: 150px" id="staticEmail" v-model="devi.accompte_d">
+            </div>
+         </div>
+         <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Montant Reste (Montant) </label>
+            <div class="col-sm-8">
+            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="devi.montant_reste_d">
+            </div>
+         </div>
    
  </div>
         
@@ -312,10 +324,11 @@
             montant_net_d:0,
             tva_montant_d:0,
             montant_ttc_d:0,
-      
+            montant_reste_d:0,
+
             echeance:0,
             date_diff:"",
-            total_lettre_d : "",
+            total_lettre_d:"",
               },
               compte:{
                   id_compte:0,
@@ -341,6 +354,8 @@
             tva_total:0,
             // montant final
             total_ttc:0,
+            //montant final en lettre
+            total_lettre:"",
               //commandes
               commande:{
                   id_cmd:0,
@@ -430,10 +445,12 @@ this.commande = {
 
 
     addDevis(){ 
+                        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+
+console.log(this.devi.total_lettre_d)    
 
         axios.post('/addDevis',{commandes:this.commandes,devis:this.devi,modePaiements:this.modePaiement})
         .then(response => {         
-                  
                 this.$router.push('/getDevis/add');
         })
         .catch(() => {
@@ -508,21 +525,7 @@ this.commande = {
                  console.log('-------- articles ');
   console.log(article);
 });
-       /*    
-        axios.get('/getPrixArticle/'+this.commande.fk_article)
-            .then((response) => {
-                        // prix de vente d'article
-                    this.commande.prix_ht=response.data.article[0].prix_ht_vente;
-                        // fk de tva d'article
-                    this.commande.fk_tva_cmd=response.data.article[0].fk_tva_applicable;
-                        // designation d'article
-                    this.commande.designation=response.data.article[0].designation;
-                    this.tauxTva();
-                  
-            })
-            .catch(() => {
-                    console.log('handle server error from here');
-            });*/
+     
     },
         // recuperer remise associe a un compte
     getRemise(id_compte){
@@ -627,7 +630,7 @@ diffDate() {
       //this.error = this.post = null
       this.loading = true
       // replace `getPost` with your data fetching util / API wrapper
-   this.devi.date_d=this.$route.params.currentDate;
+            this.devi.date_d=this.$route.params.currentDate;
             this.devi.reference_d=this.$route.params.reference_d;
             this.commande.fk_document=this.$route.params.reference_d;
             this.modePaiement.fk_document=this.$route.params.reference_d;
@@ -684,17 +687,20 @@ computed:{
             this.total_ttc= this.precisionRound(  +this.net_HT + +this.tva_total,2);
             this.devi.montant_ttc_d=this.total_ttc;
 
-            var res = this.total_ttc_d.toString().split(".");
-           this.devi.total_lettre_d = this.$WrittenNumber(res[0], { lang: 'fr'})
-             
+            this.devi.montant_reste_d=this.precisionRound(  +this.total_ttc - +this.devi.accompte_d,2);
+
+            var res = this.total_ttc.toString().split(".");
+           this.total_lettre = this.$WrittenNumber(res[0], { lang: 'fr'})
+            
 
             if (typeof res[1] !== 'undefined') {
                 if(res[1].toString().split("")[0] == "0"){
-                    this.devi.total_lettre_d += ' et zéro '+this.$WrittenNumber(res[1], { lang: 'fr'})
+                    this.total_lettre += ' et zéro '+this.$WrittenNumber(res[1], { lang: 'fr'})
                 }
                 else 
-                this.devi.total_lettre_d += ' et '+this.$WrittenNumber(res[1], { lang: 'fr'})
+                this.total_lettre += ' et '+this.$WrittenNumber(res[1], { lang: 'fr'})
             }
+             this.devi.total_lettre_d=this.total_lettre;
     },
     echeance(){
             this.echeanceDate();
@@ -718,7 +724,13 @@ watch:{
 
             },
     },
+    
+    'devi.accompte_d':{
+            handler: function(){
+                    this.TotalDevis;
 
+            },
+    },
     'commande': {
             handler: function(){
                     this.TotalDevis;
