@@ -196,7 +196,18 @@
                 <label>{{bonCommande.montant_ttc_bc}}</label>
             </div>
          </div>
-   
+         <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Acompte </label>
+            <div class="col-sm-8 col-form-label">
+                <label>{{bonCommande.accompte_bc}}</label>
+            </div>
+         </div>
+         <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Montant Reste (Montant) </label>
+            <div class="col-sm-8 col-form-label">
+                <label>{{bonCommande.montant_reste_bc}}</label>
+            </div>
+         </div>
  </div>
 
         

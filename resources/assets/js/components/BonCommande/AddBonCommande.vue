@@ -49,12 +49,23 @@
                     <input  type="date" v-model="bonCommande.date_bc" class="form-control" id="date" />
                     </div>
                 </div> 
-                <div class="form-group row">
+            <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Objet  </label>
                 <div class="col-sm-10">
                 <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.objet_bc" >
                 </div>
             </div>
+            <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Contact: </label>
+                    <div class="col-sm-10">
+         <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" @click="getCompte(compte.id_compte)" @change="getCompte(compte.id_compte)">
+                    <option selected disabled>Choisir un contact</option>
+                    <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
+                </select>  
+
+                
+                </div>
+            </div> 
           
     </div>
     <div class="col-md-6 col-sm-12">
@@ -63,10 +74,19 @@
             <label for="">{{compte.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
+             <span>Adresse de livraison</span>
             <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_bc"></textarea>
             </div>
          </div>
         </div>
+        <div class="container infoClient">
+            <label for="">Adresse de facturation </label>
+            <div class="form-group row">
+            <div class="col-sm-10">
+            <textarea placeholder="" class="AdressClient" name="" id="" cols="50" rows="4"></textarea>
+            </div>
+         </div>
+        </div>      
     </div>
 </div>
 <hr>
@@ -210,7 +230,7 @@
                 <div class="form-group row">
                     <label for="reference_paiement"  class="col-sm-4 col-form-label" >Remise Total </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="reference_paiement" v-model="bonCommande.remise_total_bc">
+                    <input type="number" class="form-control" id="reference_paiement" v-model="bonCommande.remise_total_bc">
                     </div>
                 </div>                  
                       
@@ -248,6 +268,18 @@
             <label for="staticEmail" class="col-sm-4 col-form-label">Montant TTC (Montant) </label>
             <div class="col-sm-8">
             <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="total_ttc">
+            </div>
+         </div>
+         <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Acompte </label>
+            <div class="col-sm-8">
+            <input type="number" class="form-control " style="width:100px;margin-left: 150px" id="staticEmail" v-model="bonCommande.accompte_bc">
+            </div>
+         </div>
+         <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Montant Reste (Montant) </label>
+            <div class="col-sm-8">
+            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="bonCommande.montant_reste_bc">
             </div>
          </div>
    
@@ -312,7 +344,7 @@
             introduction_bc:"",  
             conditions_reglements_bc:"",
             notes_bc:"",
-            accompte_bc:"",
+            
             adresse_bc:"",
             fk_status_bc:"",
             fk_compte_bc:"",
@@ -322,9 +354,11 @@
             montant_net_bc: 0,
             tva_montant_bc: 0,
             montant_ttc_bc: 0,
-            total_lettre : "",
+            total_lettre : "zéro",
             echeance:0,
             date_diff:"",
+            accompte_bc: 0,
+            montant_reste_bc: 0,
               },
 
                compte: { 
@@ -516,13 +550,14 @@ methods: {
            // this.bonCommande.adresse_bc=  this.compte.adresse_compte
             this.bonCommande.fk_compte_bc = this.compte.id_compte;
             this.bonCommande.fk_status_bc = "Brouillon"
-
+            
+            
              console.log('-------------BonCommandes---------------')
             console.log(this.bonCommande)
             console.log('-------------Commandes---------------')
             console.log(this.commandes)
             console.log(this.compte.id_compte)
-           
+            
                 axios.post('/addBonCommande',{commandes:this.commandes,bonCommande:this.bonCommande,modePaiements:this.modePaiement})
         .then(response => {         
                   console.log("bonCommande Bien ajouter ")
@@ -881,8 +916,12 @@ computed:{
                // montant total final
             this.total_ttc=  this.precisionRound( +this.net_HT + +this.tva_total,2);
            
-            
+            this.bonCommande.montant_reste_bc=this.precisionRound(  +this.total_ttc - +this.bonCommande.accompte_bc,2);
+
             var res = this.total_ttc.toString().split(".");
+
+
+
            this.bonCommande.total_lettre = this.$WrittenNumber(res[0], { lang: 'fr'})
              
 
@@ -950,6 +989,12 @@ commandes: {
             console.log("watch")
 
             }
+    },
+        'bonCommande.accompte_bc':{
+            handler: function(){
+                    this.TotalBonCommande;
+
+            },
     },
             
 },

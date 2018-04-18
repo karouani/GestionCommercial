@@ -240,6 +240,18 @@
             <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="total_ttc">
             </div>
          </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Acompte </label>
+            <div class="col-sm-8">
+            <input type="text" class="form-control " style="width:100px;margin-left: 150px" id="staticEmail" v-model="bonCommande.accompte_bc">
+            </div>
+         </div>
+         <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label">Montant Reste (Montant) </label>
+            <div class="col-sm-8">
+            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="bonCommande.montant_reste_bc">
+            </div>
+         </div>
    
  </div>
 
@@ -304,7 +316,6 @@
             introduction_bc:"",  
             conditions_reglements_bc:"",
             notes_bc:"",
-            accompte_bc:"",
             adresse_bc:"",
             fk_status_bc:"",
             fk_compte_bc:"",
@@ -318,6 +329,8 @@
             
             date_diff:"",
             date_l:"",
+            accompte_bc: 0,
+            montant_reste_bc: 0,
               },
                 echeance:0,
                compte: { 
@@ -878,6 +891,7 @@ computed:{
             this.net_HT=this.precisionRound( this.total_prix - this.remise_T,2);
                // montant total final
             this.total_ttc=  this.precisionRound( +this.net_HT + +this.tva_total,2);
+            this.bonCommande.montant_reste_bc=this.precisionRound(  +this.total_ttc - +this.bonCommande.accompte_bc,2);
 
             var res = this.total_ttc.toString().split(".");
            this.bonCommande.total_lettre = this.$WrittenNumber(res[0], { lang: 'fr'})
@@ -948,6 +962,12 @@ watch:{
             console.log("watch")
 
             }
+    },
+            'bonCommande.accompte_bc':{
+            handler: function(){
+                    this.TotalBonCommande;
+
+            },
     },
             
 },

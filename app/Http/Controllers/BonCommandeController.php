@@ -57,6 +57,9 @@ class BonCommandeController extends Controller
                 $bonCommande->tva_montant_bc = $request->bonCommande['tva_montant_bc'];
                 $bonCommande->montant_ttc_bc = $request->bonCommande['montant_ttc_bc'];
                 $bonCommande->total_lettre = $request->bonCommande['total_lettre'];
+                $bonCommande->montant_reste_bc = $request->bonCommande['montant_reste_bc'];
+
+                
                 
                 $bonCommande->fk_user_bc = Auth::user()->id;
                 $bonCommande->save();
@@ -89,9 +92,10 @@ class BonCommandeController extends Controller
         'tva_montant_bc' => $request->bonCommande['tva_montant_bc'],
         'montant_ttc_bc' => $request->bonCommande['montant_ttc_bc'],
         'total_lettre' => $request->bonCommande['total_lettre'],
+        'montant_reste_bc' => $request->bonCommande['montant_reste_bc'],
         'fk_user_bc' => Auth::user()->id
         ]);
-            
+        
 
                 $this->updateCommandes_bc($request);
                 $this->updateModePaiement_bc($request);
@@ -287,7 +291,7 @@ class BonCommandeController extends Controller
                ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
                ->leftJoin('mode_paiements', 'bonCommandes.reference_bc', '=', 'mode_paiements.fk_document')
                ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
-               ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.nom_societe','mode_paiements.*','type_paiements.*')
+               ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.*','mode_paiements.*','type_paiements.*')
                ->where('reference_bc', $reference_bc)->get();
          return Response()->json(['bonCommande' => $bonCommande ]);
       }
@@ -414,13 +418,18 @@ class BonCommandeController extends Controller
         </tr>
         <tr>
         <td style="width:286px;"></td>
-        <td style="width:140px;" align="left">Acompte</td> <td style="width:140px;" align="right"></td>
+        <td style="width:140px;" align="left">Montant NET TTC (MAD)</td> <td style="width:140px;" align="right">'.$bonCommande[0]->montant_ttc_bc.'</td>
         </tr>
         <tr>
         <td style="width:286px;"></td>
-        <td style="width:140px;" align="left">Montant NET TTC (MAD)</td> <td style="width:140px;" align="right">'.$bonCommande[0]->montant_ttc_bc.'</td>
+        <td style="width:140px;" align="left">Acompte</td> <td style="width:140px;" align="right">'.$bonCommande[0]->accompte_bc.'</td>
         </tr>
-        
+        <tr>
+        <td style="width:286px;"></td>
+        <td style="width:140px;" align="left">Net a payer</td> <td style="width:140px;" align="right">'.$bonCommande[0]->montant_reste_bc.'</td>
+        </tr>
+
+
         </table>
         <table>
             <tr>
@@ -574,30 +583,38 @@ $height = 300-$y*1.5;*/
  <th width="80" style="
  border-right:1px solid black;
  border-left:1px solid black;
+ border-bottom: 1px solid black;
  "> </th>
  <th  width="214" style="
  border-right:1px solid black;
  border-left:1px solid black;
+ border-bottom: 1px solid black;
  "> </th>
  <th width="35" style="
  border-right:1px solid black;
  border-left:1px solid black;
+ border-bottom: 1px solid black;
  "> </th>
  <th width="30" style="
  border-right:1px solid black;
  border-left:1px solid black;
+ border-bottom: 1px solid black;
  "> </th>
  <th width="80" style="
  border-right:1px solid black;
  border-left:1px solid black;
+ border-bottom: 1px solid black;
  "> </th>
  <th width="100" style="
  border-right:1px solid black;
  border-left:1px solid black;
+ border-bottom: 1px solid black;
  "> </th>
  <th width="25" style="
  border-right:1px solid black;
  border-left:1px solid black;
+ border-bottom: 1px solid black;
+ 
  "> </th>
 
 </tr>
