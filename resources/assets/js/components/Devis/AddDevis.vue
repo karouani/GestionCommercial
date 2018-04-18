@@ -242,7 +242,7 @@
             </div>
          </div>
          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-4 col-form-label">Montant Reste (Montant) </label>
+            <label for="staticEmail" class="col-sm-4 col-form-label">Net à payer (Montant) </label>
             <div class="col-sm-8">
             <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="devi.montant_reste_d">
             </div>
@@ -448,7 +448,8 @@ this.commande = {
                         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
 console.log(this.devi.total_lettre_d)    
-
+        this.devi.type_operation="Vente";
+        
         axios.post('/addDevis',{commandes:this.commandes,devis:this.devi,modePaiements:this.modePaiement})
         .then(response => {         
                 this.$router.push('/getDevis/add');
@@ -691,7 +692,7 @@ computed:{
 
             this.devi.montant_reste_d=this.precisionRound(  +this.total_ttc - +this.devi.accompte_d,2);
 
-            var res = this.total_ttc.toString().split(".");
+            var res = this.devi.montant_reste_d.toString().split(".");
            this.total_lettre = this.$WrittenNumber(res[0], { lang: 'fr'})
             
 

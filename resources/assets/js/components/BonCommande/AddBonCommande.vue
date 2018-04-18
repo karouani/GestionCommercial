@@ -437,6 +437,10 @@
                         fk_type_paiement:0,
 
                 },
+                typePaiement:{
+                    id_type_paiement: 0,
+                    type_paiement:"",
+                },
                 modePaiements:[],
                 typePaiements:[],
              
@@ -455,13 +459,14 @@ methods: {
  if(this.$route.params.id_devis != null){
          this.countBonCommandes();
         this.id_devis = this.$route.params.id_devis;
+        this.reference_d=this.$route.params.reference_d;
         this.getDevisD(this.$route.params.id_devis);
        
        
         this.getarticles();
         this.getClients();
         this.getTvas();
-         this.getCommandes(this.$route.params.id_devis);
+        this.getCommandes(this.$route.params.reference_d);
          
          console.log()
     }
@@ -747,15 +752,17 @@ methods: {
 
                     this.modePaiement.reference_paiement=response.data.devi[0].reference_paiement;
                     this.modePaiement.date_paiement=response.data.devi[0].date_paiement;
-                    this.modePaiement.type_paiement=response.data.devi[0].type_paiement;
-                    
+                    this.typePaiement.type_paiement=response.data.devi[0].type_paiement;
+                    this.typePaiement.id_type_paiement =  this.devi[0].id_type_paiement 
+                    this.modePaiement.fk_type_paiement = this.devi[0].id_type_paiement                       
+                                     
 
                          console.log(this.fk_document_cmd);
 
                   });     
         },
-         getCommandes:function(id_devis){
-                  axios.get('/getCommandes/'+'D'+id_devis).then(
+         getCommandes:function(reference_d){
+                  axios.get('/getCommandes/'+reference_d).then(
                   response => {
                       console.log("commandes:  ");
                          console.log(response.data.commandes);

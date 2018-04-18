@@ -29,7 +29,7 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Compte  </label>
                 <div class="col-sm-10">
-    <select class="form-control custom-select " id="id_compte" v-model="devi.fk_compte_d" @change="getClient(devi.fk_compte_d)">
+    <select class="form-control custom-select " id="id_compte" v-model="devi.fk_compte_d" @click="getClient(devi.fk_compte_d)" @change="getClient(devi.fk_compte_d)">
                     <option selected disabled>Choisir Compte</option>
                     <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">{{compte.nom_compte}}</option>
                 </select>
@@ -148,7 +148,7 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Échéance </label>
                 <div class="col-sm-8">
-                    <select class="form-control custom-select " id="echeance" v-model="devi.echeance" >
+                    <select class="form-control custom-select " id="echeance" v-model="echeance" >
                     <option selected disabled>nombre de jour</option>
                     <option value="7">une semaine</option>
                     <option value="14">deux semaine</option>
@@ -158,23 +158,23 @@
                     <option value="choix">choisir une date</option>
 
                 </select>
-                <div v-if="devi.echeance === undefined">
+                <div v-if="echeance === undefined">
                     <br>
                     {{devi.date_l}}
                 </div>
-                <div v-if="devi.echeance != undefined">
+                <div v-if="echeance != undefined">
                     <br>
-                    <div v-if="devi.echeance != 'choix'">
+                    <div v-if="echeance != 'choix'">
                                  {{devi.date_limit_d}} - ({{devi.date_diff}})
                     </div>
-                <div v-if="devi.echeance === 'choix'">
+                <div v-if="echeance === 'choix'">
                   <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d" required>
                 </div>
                 </div>
                 
                  
                     <!--
-                <input type="number" class="form-control" id="inputPassword" placeholder="" v-model="devi.echeance">
+                <input type="number" class="form-control" id="inputPassword" placeholder="" v-model="echeance">
                 {{devi.date_limit_d}}
 
                 <input type="date" class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d">
@@ -205,8 +205,12 @@
                 <div class="form-group row">
                     <label for="remise_total_d"  class="col-sm-4 col-form-label" >Remise Total </label>
                     <div class="col-sm-8">
+                        <div class="form-group row">
                     <input type="text" class="form-control" id="remise_total_d" v-model="devi.remise_total_d">
+                    <input type="text" class="form-control" disabled placeholder="%">
+                        </div>
                     </div>
+
                 </div>                  
                       
 
@@ -252,7 +256,7 @@
             </div>
          </div>
          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-4 col-form-label">Montant Reste (Montant) </label>
+            <label for="staticEmail" class="col-sm-4 col-form-label">Net à payer (Montant) </label>
             <div class="col-sm-8">
             <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="devi.montant_reste_d">
             </div>
@@ -340,7 +344,7 @@ error: null,
             
       nom_compte:"",
 
-      echeance:0,
+      
       date_diff:"",
       date_echeance_choix:"",
       total_lettre_d : ""
@@ -358,6 +362,7 @@ error: null,
               comptes:[],
             suppCommandes :[],
             index:0,
+            echeance:0,
             // total de prix de tt les commandes
             total_prix:0,
             // montant de remise total
@@ -466,10 +471,11 @@ this.commande = {
     },
 
  updateDevis: function(){
-      if(this.devi.echeance === undefined){
+      if(this.echeance === undefined){
      this.devi.date_limit_d=this.devi.date_l;
      console.log(this.devi.date_limit_d)
      }
+
         axios.post('/updateDevis',{devis:this.devi,commandes:this.commandes,modePaiements:this.modePaiement,suppCommandes: this.suppCommandes}).then( response => {             
                     this.$router.push('/getDevis/edit');  
                     
@@ -639,7 +645,7 @@ this.commande = {
                   response => {
                          //console.log(response.data.devi.fk_compte_d);
                    
-
+                    this.echeance = 'choix';
                     this.devi= response.data.devi[0];
                     this.devi.date_l=response.data.devi[0].date_limit_d;
                     //console.log("devi date..."+this.devi.date_d)
@@ -679,9 +685,9 @@ this.commande = {
             dat.setDate(dat.getDate() + days);
             return dat;
         }
-
+        if(this.echeance != "choix"){
         var dat = new Date(this.devi.date_d);
-        var today =dat.addDays(+this.devi.echeance);
+        var today =dat.addDays(+this.echeance);
         var dd = today.getDate();
         var mm = today.getMonth()+1; 
         var yyyy = today.getFullYear();
@@ -696,7 +702,7 @@ this.commande = {
                 } 
             // console.log(dd+'-'+mm+'-'+yyyy)
 
-            this.devi.date_limit_d=yyyy+'-'+mm+'-'+dd;
+            this.devi.date_limit_d=yyyy+'-'+mm+'-'+dd;}
    
     },
 diffDate() {
@@ -751,7 +757,7 @@ computed:{
 
             this.devi.montant_reste_d=this.precisionRound(  +this.total_ttc - +this.devi.accompte_d,2);
 
-            var res = this.total_ttc.toString().split(".");
+            var res = this.devi.montant_reste_d.toString().split(".");
            this.devi.total_lettre_d = this.$WrittenNumber(res[0], { lang: 'fr'})
              
 
@@ -763,7 +769,7 @@ computed:{
                 this.devi.total_lettre_d += ' et '+this.$WrittenNumber(res[1], { lang: 'fr'})
             }
     },
-   echeance(){
+   echeancee(){
             this.echeanceDate();
 
    },
@@ -809,9 +815,9 @@ watch:{
             },
             deep : true
     },
-    'devi.echeance':{
+    'echeance':{
             handler: function(){
-                    this.echeance;
+                    this.echeancee;
                     this.diff;
 
             }
@@ -819,14 +825,14 @@ watch:{
 
             'devi.date_d':{
             handler: function(){
-                this.echeance;
+                this.echeancee;
                     this.diff;
 
             }
     },
     'devi.date_limit_d':{
         handler: function(){
-                this.echeance;
+                this.echeancee;
                     this.diff;
             console.log("watch")
 

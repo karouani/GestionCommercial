@@ -109438,6 +109438,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
             console.log(this.devi.total_lettre_d);
+            this.devi.type_operation = "Vente";
 
             axios.post('/addDevis', { commandes: this.commandes, devis: this.devi, modePaiements: this.modePaiement }).then(function (response) {
                 _this.$router.push('/getDevis/add');
@@ -109665,7 +109666,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             this.devi.montant_reste_d = this.precisionRound(+this.total_ttc - +this.devi.accompte_d, 2);
 
-            var res = this.total_ttc.toString().split(".");
+            var res = this.devi.montant_reste_d.toString().split(".");
             this.total_lettre = this.$WrittenNumber(res[0], { lang: 'fr' });
 
             if (typeof res[1] !== 'undefined') {
@@ -111841,7 +111842,7 @@ var render = function() {
                           staticClass: "col-sm-4 col-form-label",
                           attrs: { for: "staticEmail" }
                         },
-                        [_vm._v("Montant Reste (Montant) ")]
+                        [_vm._v("Net à payer (Montant) ")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-8" }, [
@@ -113064,21 +113065,21 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("reference")]),
+        _c("th", [_vm._v("Reference")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nom Societe ")]),
         _vm._v(" "),
-        _c("th", [_vm._v("date devis")]),
+        _c("th", [_vm._v("Date devis")]),
         _vm._v(" "),
-        _c("th", [_vm._v("date limit")]),
+        _c("th", [_vm._v("Date limit")]),
         _vm._v(" "),
         _c("th", [_vm._v("Status")]),
         _vm._v(" "),
         _c("th", [_vm._v("Montant TTC")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Montant Reste")]),
+        _c("th", [_vm._v("Net à payer")]),
         _vm._v(" "),
-        _c("th", [_vm._v("options")])
+        _c("th", [_vm._v("Options")])
       ])
     ])
   }
@@ -113541,6 +113542,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function () {
                 console.log('handle server error from here');
             });
+        },
+        redirect_To_AddBonCommande: function redirect_To_AddBonCommande(devi) {
+            //  this.$router.push('/ShowBonCommande/'+reference_bc);
+            this.$router.push({ name: 'addBonCommande', params: { id_devis: devi.id_devis, reference_d: devi.reference_d } });
         }
     },
     created: function created() {
@@ -113611,10 +113616,15 @@ var render = function() {
               { staticClass: "col" },
               [
                 _c(
-                  "router-link",
+                  "a",
                   {
-                    staticClass: "btn  mb-3  float-right convert ",
-                    attrs: { to: "/addBonCommande/" + _vm.devi.id_devis }
+                    staticClass: "btn btn-secondary mb-3  float-right",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        _vm.redirect_To_AddBonCommande(_vm.devi)
+                      }
+                    }
                   },
                   [
                     _c("i", { staticClass: "fas fa-exchange-alt" }),
@@ -114112,7 +114122,7 @@ var render = function() {
                       staticStyle: { "padding-right": "0px" },
                       attrs: { for: "staticEmail" }
                     },
-                    [_vm._v("Montant Reste (Montant) ")]
+                    [_vm._v("Net à payer (Montant) ")]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-sm-8 cal" }, [
@@ -114576,6 +114586,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -114620,7 +114634,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                 nom_compte: "",
 
-                echeance: 0,
                 date_diff: "",
                 date_echeance_choix: "",
                 total_lettre_d: ""
@@ -114638,6 +114651,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             comptes: [],
             suppCommandes: [],
             index: 0,
+            echeance: 0,
             // total de prix de tt les commandes
             total_prix: 0,
             // montant de remise total
@@ -114774,10 +114788,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         updateDevis: function updateDevis() {
             var _this = this;
 
-            if (this.devi.echeance === undefined) {
+            if (this.echeance === undefined) {
                 this.devi.date_limit_d = this.devi.date_l;
                 console.log(this.devi.date_limit_d);
             }
+
             axios.post('/updateDevis', { devis: this.devi, commandes: this.commandes, modePaiements: this.modePaiement, suppCommandes: this.suppCommandes }).then(function (response) {
                 _this.$router.push('/getDevis/edit');
             });
@@ -114936,7 +114951,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             axios.get('/getDevisD/' + id_devis).then(function (response) {
                 //console.log(response.data.devi.fk_compte_d);
 
-
+                _this10.echeance = 'choix';
                 _this10.devi = response.data.devi[0];
                 _this10.devi.date_l = response.data.devi[0].date_limit_d;
                 //console.log("devi date..."+this.devi.date_d)
@@ -114974,22 +114989,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 dat.setDate(dat.getDate() + days);
                 return dat;
             };
+            if (this.echeance != "choix") {
+                var dat = new Date(this.devi.date_d);
+                var today = dat.addDays(+this.echeance);
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
 
-            var dat = new Date(this.devi.date_d);
-            var today = dat.addDays(+this.devi.echeance);
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1;
-            var yyyy = today.getFullYear();
-            if (dd < 10) {
-                dd = '0' + dd;
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                // console.log(dd+'-'+mm+'-'+yyyy)
+
+                this.devi.date_limit_d = yyyy + '-' + mm + '-' + dd;
             }
-
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            // console.log(dd+'-'+mm+'-'+yyyy)
-
-            this.devi.date_limit_d = yyyy + '-' + mm + '-' + dd;
         },
         diffDate: function diffDate() {
             //console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
@@ -115041,7 +115057,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             this.devi.montant_reste_d = this.precisionRound(+this.total_ttc - +this.devi.accompte_d, 2);
 
-            var res = this.total_ttc.toString().split(".");
+            var res = this.devi.montant_reste_d.toString().split(".");
             this.devi.total_lettre_d = this.$WrittenNumber(res[0], { lang: 'fr' });
 
             if (typeof res[1] !== 'undefined') {
@@ -115050,7 +115066,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 } else this.devi.total_lettre_d += ' et ' + this.$WrittenNumber(res[1], { lang: 'fr' });
             }
         },
-        echeance: function echeance() {
+        echeancee: function echeancee() {
             this.echeanceDate();
         },
         diff: function diff() {
@@ -115089,22 +115105,22 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             },
             deep: true
         },
-        'devi.echeance': {
+        'echeance': {
             handler: function handler() {
-                this.echeance;
+                this.echeancee;
                 this.diff;
             }
         },
 
         'devi.date_d': {
             handler: function handler() {
-                this.echeance;
+                this.echeancee;
                 this.diff;
             }
         },
         'devi.date_limit_d': {
             handler: function handler() {
-                this.echeance;
+                this.echeancee;
                 this.diff;
                 console.log("watch");
             }
@@ -115214,6 +115230,9 @@ var render = function() {
                             staticClass: "form-control custom-select ",
                             attrs: { id: "id_compte" },
                             on: {
+                              click: function($event) {
+                                _vm.getClient(_vm.devi.fk_compte_d)
+                              },
                               change: [
                                 function($event) {
                                   var $$selectedVal = Array.prototype.filter
@@ -115860,8 +115879,8 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.devi.echeance,
-                                expression: "devi.echeance"
+                                value: _vm.echeance,
+                                expression: "echeance"
                               }
                             ],
                             staticClass: "form-control custom-select ",
@@ -115876,13 +115895,9 @@ var render = function() {
                                     var val = "_value" in o ? o._value : o.value
                                     return val
                                   })
-                                _vm.$set(
-                                  _vm.devi,
-                                  "echeance",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
+                                _vm.echeance = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
                               }
                             }
                           },
@@ -115919,7 +115934,7 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _vm.devi.echeance === undefined
+                        _vm.echeance === undefined
                           ? _c("div", [
                               _c("br"),
                               _vm._v(
@@ -115930,11 +115945,11 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm.devi.echeance != undefined
+                        _vm.echeance != undefined
                           ? _c("div", [
                               _c("br"),
                               _vm._v(" "),
-                              _vm.devi.echeance != "choix"
+                              _vm.echeance != "choix"
                                 ? _c("div", [
                                     _vm._v(
                                       "\r\n                                 " +
@@ -115946,7 +115961,7 @@ var render = function() {
                                   ])
                                 : _vm._e(),
                               _vm._v(" "),
-                              _vm.devi.echeance === "choix"
+                              _vm.echeance === "choix"
                                 ? _c("div", [
                                     _c("input", {
                                       directives: [
@@ -116147,31 +116162,42 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-8" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.devi.remise_total_d,
-                              expression: "devi.remise_total_d"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text", id: "remise_total_d" },
-                          domProps: { value: _vm.devi.remise_total_d },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                        _c("div", { staticClass: "form-group row" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.devi.remise_total_d,
+                                expression: "devi.remise_total_d"
                               }
-                              _vm.$set(
-                                _vm.devi,
-                                "remise_total_d",
-                                $event.target.value
-                              )
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text", id: "remise_total_d" },
+                            domProps: { value: _vm.devi.remise_total_d },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.devi,
+                                  "remise_total_d",
+                                  $event.target.value
+                                )
+                              }
                             }
-                          }
-                        })
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              disabled: "",
+                              placeholder: "%"
+                            }
+                          })
+                        ])
                       ])
                     ])
                   ]),
@@ -116442,7 +116468,7 @@ var render = function() {
                           staticClass: "col-sm-4 col-form-label",
                           attrs: { for: "staticEmail" }
                         },
-                        [_vm._v("Montant Reste (Montant) ")]
+                        [_vm._v("Net à payer (Montant) ")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-8" }, [
@@ -126011,6 +126037,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 fk_type_paiement: 0
 
             },
+            typePaiement: {
+                id_type_paiement: 0,
+                type_paiement: ""
+            },
             modePaiements: [],
             typePaiements: []
 
@@ -126029,12 +126059,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             if (this.$route.params.id_devis != null) {
                 this.countBonCommandes();
                 this.id_devis = this.$route.params.id_devis;
+                this.reference_d = this.$route.params.reference_d;
                 this.getDevisD(this.$route.params.id_devis);
 
                 this.getarticles();
                 this.getClients();
                 this.getTvas();
-                this.getCommandes(this.$route.params.id_devis);
+                this.getCommandes(this.$route.params.reference_d);
 
                 console.log();
             } else {
@@ -126319,16 +126350,18 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                 _this12.modePaiement.reference_paiement = response.data.devi[0].reference_paiement;
                 _this12.modePaiement.date_paiement = response.data.devi[0].date_paiement;
-                _this12.modePaiement.type_paiement = response.data.devi[0].type_paiement;
+                _this12.typePaiement.type_paiement = response.data.devi[0].type_paiement;
+                _this12.typePaiement.id_type_paiement = _this12.devi[0].id_type_paiement;
+                _this12.modePaiement.fk_type_paiement = _this12.devi[0].id_type_paiement;
 
                 console.log(_this12.fk_document_cmd);
             });
         },
 
-        getCommandes: function getCommandes(id_devis) {
+        getCommandes: function getCommandes(reference_d) {
             var _this13 = this;
 
-            axios.get('/getCommandes/' + 'D' + id_devis).then(function (response) {
+            axios.get('/getCommandes/' + reference_d).then(function (response) {
                 console.log("commandes:  ");
                 console.log(response.data.commandes);
 
