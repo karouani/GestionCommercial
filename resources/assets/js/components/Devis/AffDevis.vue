@@ -261,7 +261,7 @@ import  Pagination from '../Pagination.vue';
                     mm='0'+mm;
                 } 
             this.currentDate  = yyyy+'-'+mm+'-'+dd;
-                        console.log(this.currentDate);
+                        console.log(this.currentDate); 
 
         this.getDevis();
         this.getClients();
@@ -355,27 +355,8 @@ countDevis(){
                     this.devis = response.data.devis;
                      let that=this
                     this.devis.data.forEach(function(devi) {
-                         var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; 
-            var yyyy = today.getFullYear();
-            console.log("month"+today)
-             if(dd<10) 
-                {
-                    dd='0'+dd;
-                } 
-
-                if(mm<10) 
-                {
-                    mm='0'+mm;
-                } 
-            devi.currentDateDevi  = yyyy+'-'+mm+'-'+dd;
-            
-                         //console.log("devi date-------------------------")
-                           // console.log(devi.currentDateDevi)
-
-                           // console.log(devi.reference_d)
-                           
+              
+                           devi.currentDateDevi = that.currentDate;
                         var startDate = Date.parse(devi.currentDateDevi);
                         var endDate = Date.parse(devi.date_limit_d);
                         var timeDiff = endDate - startDate;

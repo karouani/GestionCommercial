@@ -109565,6 +109565,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         echeanceDate: function echeanceDate() {
             Date.prototype.addDays = function (days) {
                 var dat = new Date(this.valueOf());
+                console.log('--------- date value of ----------');
+                console.log(dat);
                 dat.setDate(dat.getDate() + days);
                 return dat;
             };
@@ -112423,25 +112425,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.devis = response.data.devis;
                 var that = _this2;
                 _this2.devis.data.forEach(function (devi) {
-                    var today = new Date();
-                    var dd = today.getDate();
-                    var mm = today.getMonth() + 1;
-                    var yyyy = today.getFullYear();
-                    console.log("month" + today);
-                    if (dd < 10) {
-                        dd = '0' + dd;
-                    }
 
-                    if (mm < 10) {
-                        mm = '0' + mm;
-                    }
-                    devi.currentDateDevi = yyyy + '-' + mm + '-' + dd;
-
-                    //console.log("devi date-------------------------")
-                    // console.log(devi.currentDateDevi)
-
-                    // console.log(devi.reference_d)
-
+                    devi.currentDateDevi = that.currentDate;
                     var startDate = Date.parse(devi.currentDateDevi);
                     var endDate = Date.parse(devi.date_limit_d);
                     var timeDiff = endDate - startDate;
@@ -120163,94 +120148,110 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        'app-BCcompte': __WEBPACK_IMPORTED_MODULE_0__BonCommandesCompte_vue___default.a
-    },
-    data: function data() {
-        return {
-            CountBc: 0,
+          components: {
+                    'app-BCcompte': __WEBPACK_IMPORTED_MODULE_0__BonCommandesCompte_vue___default.a
+          },
+          data: function data() {
+                    return {
+                              loading: false,
+                              CountBc: 0,
 
-            compte: {
+                              compte: {
 
-                id_compte: 0,
-                nom_compte: "",
-                responsable: "",
-                type_compte: "",
-                categorie: "",
-                raison_social: "",
-                reference: "",
-                fixe: "",
-                portable: "",
-                fax: "",
-                email: "",
-                site_web: "",
-                secteur_activite: "",
-                taille: "",
-                RC: "",
-                fk_compagnie: ""
-            },
-            condition_facture: {
-                id_condition: 0,
-                devise: "",
-                remise: "",
-                delai_paiement: "",
-                remarques: "",
-                fk_compte: 0
+                                        id_compte: 0,
+                                        nom_compte: "",
+                                        responsable: "",
+                                        type_compte: "",
+                                        categorie: "",
+                                        raison_social: "",
+                                        reference: "",
+                                        fixe: "",
+                                        portable: "",
+                                        fax: "",
+                                        email: "",
+                                        site_web: "",
+                                        secteur_activite: "",
+                                        taille: "",
+                                        RC: "",
+                                        fk_compagnie: ""
+                              },
+                              condition_facture: {
+                                        id_condition: 0,
+                                        devise: "",
+                                        remise: "",
+                                        delai_paiement: "",
+                                        remarques: "",
+                                        fk_compte: 0
 
-            },
-            contacts: []
+                              },
+                              contacts: []
 
-        };
-    },
-    methods: {
+                    };
+          },
 
-        getCompte: function getCompte(id_compte) {
-            var _this = this;
+          methods: {
+                    fetchData: function fetchData() {
+                              this.compte.id_compte = this.$route.params.id_compte;
 
-            axios.get('/getCompte/' + id_compte).then(function (response) {
+                              this.getCompte(this.compte.id_compte);
+                              this.getCondtionFacture(this.compte.id_compte);
+                              this.getContacts(this.compte.id_compte);
+                              console.log('--------- id compte ');
+                              console.log(this.compte.id_compte);
+                    },
 
-                _this.compte = response.data.compte;
-            });
-        },
-        getContacts: function getContacts(id_compte) {
-            var _this2 = this;
+                    getCompte: function getCompte(id_compte) {
+                              var _this = this;
 
-            axios.get('/getContacts/' + id_compte).then(function (response) {
+                              axios.get('/getCompte/' + id_compte).then(function (response) {
 
-                _this2.contacts = response.data.contacts;
-            });
-        },
-        getCondtionFacture: function getCondtionFacture(id_compte) {
-            var _this3 = this;
+                                        _this.compte = response.data.compte;
+                              });
+                    },
+                    getContacts: function getContacts(id_compte) {
+                              var _this2 = this;
 
-            axios.get('/getCFacture/' + id_compte).then(function (response) {
-                console.log("Cfacture");
-                _this3.condition_facture = response.data.condition_facture[0];
-                console.log(_this3.condition_facture);
-            });
-        },
-        getCountBc: function getCountBc(CountBc) {
-            this.CountBc = CountBc;
-            console.log('-------- count bc ------- ok ');
-            console.log(CountBc);
-        }
-    },
-    mounted: function mounted() {
+                              axios.get('/getContacts/' + id_compte).then(function (response) {
 
-        this.getCompte(this.compte.id_compte);
-        this.getContacts(this.compte.id_compte);
-        this.getCondtionFacture(this.compte.id_compte);
-        console.log('--------- id compte ');
-        console.log(this.compte.id_compte);
-    },
-    created: function created() {
-        this.compte.id_compte = this.$route.params.id_compte;
-    }
+                                        _this2.contacts = response.data.contacts;
+                                        _this2.loading = false;
+                              });
+                    },
+                    getCondtionFacture: function getCondtionFacture(id_compte) {
+                              var _this3 = this;
+
+                              axios.get('/getCFacture/' + id_compte).then(function (response) {
+                                        console.log("Cfacture");
+                                        _this3.condition_facture = response.data.condition_facture[0];
+
+                                        console.log('---- condition facture ---- ');
+                                        console.log(id_compte);
+                                        console.log(response);
+                              });
+                    },
+                    getCountBc: function getCountBc(CountBc) {
+                              this.CountBc = CountBc;
+                              console.log('-------- count bc ------- ok ----');
+                              console.log(CountBc);
+                    }
+          },
+
+          created: function created() {
+                    this.fetchData();
+          }
 });
 
 /***/ }),
@@ -120352,6 +120353,13 @@ exports.push([module.i, "\na[data-v-02a876ad] {\n  color: #999;\n  color: black;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pagination_vue__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -120547,7 +120555,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         remise_ht_bc: 0,
         montant_net_bc: 0,
         tva_montant_bc: 0,
-        montant_ttc_bc: 0
+        montant_ttc_bc: 0,
+        date_diff: ""
 
       }
 
@@ -120685,6 +120694,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log("-------bon COmmandes compte-----------");
         console.log(_this5.bonCommandes.data.length);
         _this5.$emit('CountBC', _this5.bonCommandes.data.length);
+        var that = _this5;
+        _this5.bonCommandes.data.forEach(function (bonCommande) {
+
+          // bonCommande.currentDateDevi = that.currentDate;
+          var startDate = Date.parse(that.currentDate);
+          var endDate = Date.parse(bonCommande.date_limit_bc);
+          var timeDiff = endDate - startDate;
+          var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+          bonCommande.date_diff = daysDiff;
+        });
       }).catch(function () {
         console.log('handle server error from here');
       });
@@ -120789,7 +120808,37 @@ var render = function() {
                             _c("td", [_vm._v(_vm._s(bonCommande.date_bc))]),
                             _vm._v(" "),
                             _c("td", [
-                              _vm._v(_vm._s(bonCommande.date_limit_bc))
+                              _vm._v(
+                                _vm._s(bonCommande.date_limit_bc) +
+                                  "\n                                           "
+                              ),
+                              bonCommande.date_diff > 0
+                                ? _c(
+                                    "span",
+                                    { staticStyle: { color: "#83ea0cf7" } },
+                                    [
+                                      _vm._v(
+                                        "\n                                            (+" +
+                                          _vm._s(bonCommande.date_diff) +
+                                          ")\n                                            "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              bonCommande.date_diff <= 0
+                                ? _c(
+                                    "span",
+                                    { staticStyle: { color: "red" } },
+                                    [
+                                      _vm._v(
+                                        "\n                                            (" +
+                                          _vm._s(bonCommande.date_diff) +
+                                          ")\n                                            "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _c("td", [
@@ -120966,316 +121015,371 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        { staticClass: "col" },
-        [
-          _c(
-            "router-link",
-            {
-              staticClass: "btn btn-primary mb-3  float-right ",
-              attrs: { to: "/ShowComptes" }
-            },
-            [_c("i", { staticClass: "fas fa-long-arrow-alt-left fontsize" })]
-          )
-        ],
-        1
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: " container colBackround" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col" }, [
-          _c("br"),
-          _vm._v(" "),
-          _c("h5", [
-            _c("i", { staticClass: "fas fa-address-book" }),
-            _vm._v(" Compte de " + _vm._s(_vm.compte.nom_compte) + " ")
-          ])
+    _vm.loading
+      ? _c("div", { staticClass: "loading" }, [
+          _c("div", { staticClass: "lds-hourglass" })
         ])
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-sm-6" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("p", { staticClass: "card-text" }, [
-                _c("span", [_vm._v("Nom compte : ")]),
-                _vm._v(_vm._s(_vm.compte.nom_compte) + "\n                    ")
-              ]),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("Responsable : ")]),
-              _vm._v(_vm._s(_vm.compte.responsable) + "\n                    "),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("Type compte : ")]),
-              _vm._v(" "),
-              _c(
-                "span",
-                {
-                  staticClass: "badge badge-pill",
-                  staticStyle: {
-                    "background-color": "#42d202",
-                    color: "white",
-                    "font-size": "14px"
-                  }
-                },
-                [_c("b", [_vm._v(_vm._s(_vm.compte.type_compte) + "  ")])]
-              ),
-              _vm._v(" "),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("Categorie : ")]),
-              _vm._v(_vm._s(_vm.compte.categorie) + "\n                   "),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("Raison social :  ")]),
-              _vm._v(
-                _vm._s(_vm.compte.raison_social) + "\n                   "
-              ),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("Reference : ")]),
-              _vm._v(_vm._s(_vm.compte.reference) + "\n                   "),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("Fixe :  ")]),
-              _vm._v(_vm._s(_vm.compte.fixe) + "\n                   "),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("Portable : ")]),
-              _vm._v(_vm._s(_vm.compte.portable) + "\n                "),
-              _c("p")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-6" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("p", { staticClass: "card-text" }, [
-                _c("span", [_vm._v("Fax : ")]),
-                _vm._v(_vm._s(_vm.compte.fax) + "\n                   ")
-              ]),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("Email: ")]),
-              _vm._v(_vm._s(_vm.compte.email) + "\n                   "),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("Site_web: ")]),
-              _vm._v(_vm._s(_vm.compte.site_web) + "  \n                   "),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("Secteur_activite: ")]),
-              _vm._v(
-                _vm._s(_vm.compte.secteur_activite) + "  \n                   "
-              ),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("Taille: ")]),
-              _vm._v(_vm._s(_vm.compte.taille) + "  \n                   "),
-              _c("hr"),
-              _vm._v(" "),
-              _c("span", [_vm._v("RC: ")]),
-              _vm._v(_vm._s(_vm.compte.RC) + "  \n\n                "),
-              _c("p")
-            ])
-          ])
-        ])
-      ])
-    ]),
+      : _vm._e(),
     _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c("div", { staticClass: "col colBackround2" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "tab-content" }, [
-        _c(
-          "div",
-          {
-            staticClass: "tab-pane active",
-            attrs: { id: "home3", role: "tabpanel", "aria-expanded": "true" }
-          },
-          [
+    !_vm.loading
+      ? _c("div", [
+          _c("div", { staticClass: "row" }, [
             _c(
               "div",
-              { staticClass: "row" },
-              _vm._l(_vm.contacts, function(contact, index) {
-                return _c("div", { key: index, staticClass: "col-auto" }, [
-                  _c(
-                    "div",
-                    { staticClass: "card", staticStyle: { width: "18rem" } },
-                    [
-                      _c("div", { staticClass: "card-header" }, [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(contact.prenom) +
-                            " " +
-                            _vm._s(contact.nom) +
-                            "\n                    "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("ul", { staticClass: "list-group list-group-flush" }, [
-                        _c("li", { staticClass: "list-group-item" }, [
-                          _vm._v("Civilite : " + _vm._s(contact.civilite))
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "list-group-item" }, [
-                          _vm._v("fonction : " + _vm._s(contact.fonction))
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "list-group-item" }, [
-                          _vm._v("email: " + _vm._s(contact.email) + " ")
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "list-group-item" }, [
-                          _vm._v("fixe: " + _vm._s(contact.fixe) + " ")
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "list-group-item" }, [
-                          _vm._v("mobile: " + _vm._s(contact.mobile) + " ")
-                        ])
-                      ])
-                    ]
-                  )
-                ])
-              })
+              { staticClass: "col" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-primary mb-3  float-right ",
+                    attrs: { to: "/ShowComptes" }
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "fas fa-long-arrow-alt-left fontsize"
+                    })
+                  ]
+                )
+              ],
+              1
             )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "tab-pane",
-            attrs: {
-              id: "profile3",
-              role: "tabpanel",
-              "aria-expanded": "false"
-            }
-          },
-          [
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: " container colBackround" }, [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-6 col-sm-12" }, [
+              _c("div", { staticClass: "col" }, [
+                _c("br"),
+                _vm._v(" "),
+                _c("h5", [
+                  _c("i", { staticClass: "fas fa-address-book" }),
+                  _vm._v(" Compte de " + _vm._s(_vm.compte.nom_compte) + " ")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-sm-6" }, [
                 _c("div", { staticClass: "card" }, [
                   _c("div", { staticClass: "card-body" }, [
                     _c("p", { staticClass: "card-text" }, [
-                      _c("span", [_vm._v("devise : ")]),
+                      _c("span", [_vm._v("Nom compte : ")]),
                       _vm._v(
-                        _vm._s(_vm.condition_facture.devise) +
-                          "\n                                            "
+                        _vm._s(_vm.compte.nom_compte) + "\n                    "
                       )
                     ]),
                     _c("hr"),
                     _vm._v(" "),
-                    _c("span", [_vm._v("remise : ")]),
+                    _c("span", [_vm._v("Responsable : ")]),
                     _vm._v(
-                      _vm._s(_vm.condition_facture.remise) +
-                        "\n                                            "
+                      _vm._s(_vm.compte.responsable) + "\n                    "
                     ),
                     _c("hr"),
                     _vm._v(" "),
-                    _c("span", [_vm._v("delai_paiement : ")]),
+                    _c("span", [_vm._v("Type compte : ")]),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "badge badge-pill",
+                        staticStyle: {
+                          "background-color": "#42d202",
+                          color: "white",
+                          "font-size": "14px"
+                        }
+                      },
+                      [_c("b", [_vm._v(_vm._s(_vm.compte.type_compte) + "  ")])]
+                    ),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("Categorie : ")]),
                     _vm._v(
-                      _vm._s(_vm.condition_facture.delai_paiement) +
-                        " \n                                        "
+                      _vm._s(_vm.compte.categorie) + "\n                   "
                     ),
                     _c("hr"),
                     _vm._v(" "),
-                    _c("span", [_vm._v("remarques : ")]),
+                    _c("span", [_vm._v("Raison social :  ")]),
                     _vm._v(
-                      _vm._s(_vm.condition_facture.remarques) +
-                        "\n                                        "
+                      _vm._s(_vm.compte.raison_social) + "\n                   "
                     ),
                     _c("hr"),
                     _vm._v(" "),
+                    _c("span", [_vm._v("Reference : ")]),
+                    _vm._v(
+                      _vm._s(_vm.compte.reference) + "\n                   "
+                    ),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("Fixe :  ")]),
+                    _vm._v(_vm._s(_vm.compte.fixe) + "\n                   "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("Portable : ")]),
+                    _vm._v(_vm._s(_vm.compte.portable) + "\n                "),
+                    _c("p")
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-6" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("p", { staticClass: "card-text" }, [
+                      _c("span", [_vm._v("Fax : ")]),
+                      _vm._v(_vm._s(_vm.compte.fax) + "\n                   ")
+                    ]),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("Email: ")]),
+                    _vm._v(_vm._s(_vm.compte.email) + "\n                   "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("Site_web: ")]),
+                    _vm._v(
+                      _vm._s(_vm.compte.site_web) + "  \n                   "
+                    ),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("Secteur_activite: ")]),
+                    _vm._v(
+                      _vm._s(_vm.compte.secteur_activite) +
+                        "  \n                   "
+                    ),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("Taille: ")]),
+                    _vm._v(
+                      _vm._s(_vm.compte.taille) + "  \n                   "
+                    ),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("RC: ")]),
+                    _vm._v(_vm._s(_vm.compte.RC) + "  \n\n                "),
                     _c("p")
                   ])
                 ])
               ])
             ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "tab-pane",
-            attrs: { id: "messages3", role: "tabpanel" }
-          },
-          [
-            _c("div", { staticClass: "colBackround3" }, [
-              _c(
-                "ul",
-                { staticClass: "nav nav-tabs", attrs: { role: "tablist" } },
-                [
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _c("li", { staticClass: "nav-item" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "nav-link",
-                        attrs: {
-                          "data-toggle": "tab",
-                          href: "#bonCommande",
-                          role: "tab",
-                          "aria-controls": "profile",
-                          "aria-expanded": "false"
-                        }
-                      },
-                      [
-                        _c("i", { staticClass: "far fa-file" }),
-                        _vm._v(" Bon Commande "),
-                        _c("span", { staticClass: "badge badge-light" }, [
-                          _c("span", { staticClass: "badgeSize" }, [
-                            _vm._v(_vm._s(_vm.CountBc))
-                          ])
-                        ])
-                      ]
-                    )
-                  ])
-                ]
-              )
-            ]),
+          ]),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("div", { staticClass: "col colBackround2" }, [
+            _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "tab-content" }, [
-              _vm._m(2),
+              _c(
+                "div",
+                {
+                  staticClass: "tab-pane active",
+                  attrs: {
+                    id: "home3",
+                    role: "tabpanel",
+                    "aria-expanded": "true"
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "row" },
+                    _vm._l(_vm.contacts, function(contact, index) {
+                      return _c(
+                        "div",
+                        { key: index, staticClass: "col-auto" },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "card",
+                              staticStyle: { width: "18rem" }
+                            },
+                            [
+                              _c("div", { staticClass: "card-header" }, [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(contact.prenom) +
+                                    " " +
+                                    _vm._s(contact.nom) +
+                                    "\n                    "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "ul",
+                                { staticClass: "list-group list-group-flush" },
+                                [
+                                  _c("li", { staticClass: "list-group-item" }, [
+                                    _vm._v(
+                                      "Civilite : " + _vm._s(contact.civilite)
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("li", { staticClass: "list-group-item" }, [
+                                    _vm._v(
+                                      "fonction : " + _vm._s(contact.fonction)
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("li", { staticClass: "list-group-item" }, [
+                                    _vm._v(
+                                      "email: " + _vm._s(contact.email) + " "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("li", { staticClass: "list-group-item" }, [
+                                    _vm._v(
+                                      "fixe: " + _vm._s(contact.fixe) + " "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("li", { staticClass: "list-group-item" }, [
+                                    _vm._v(
+                                      "mobile: " + _vm._s(contact.mobile) + " "
+                                    )
+                                  ])
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    })
+                  )
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "div",
                 {
                   staticClass: "tab-pane",
                   attrs: {
-                    id: "bonCommande",
+                    id: "profile3",
                     role: "tabpanel",
                     "aria-expanded": "false"
                   }
                 },
                 [
-                  _c("app-BCcompte", {
-                    attrs: { idCompte: _vm.compte.id_compte },
-                    on: {
-                      CountBC: function($event) {
-                        _vm.getCountBc($event)
-                      }
-                    }
-                  })
-                ],
-                1
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6 col-sm-12" }, [
+                      _c("div", { staticClass: "card" }, [
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("p", { staticClass: "card-text" }, [
+                            _c("span", [_vm._v("devise : ")]),
+                            _vm._v(
+                              _vm._s(_vm.condition_facture.devise) +
+                                "\n                                            "
+                            )
+                          ]),
+                          _c("hr"),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("remise : ")]),
+                          _vm._v(
+                            _vm._s(_vm.condition_facture.remise) +
+                              "\n                                            "
+                          ),
+                          _c("hr"),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("delai_paiement : ")]),
+                          _vm._v(
+                            _vm._s(_vm.condition_facture.delai_paiement) +
+                              " \n                                        "
+                          ),
+                          _c("hr"),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("remarques : ")]),
+                          _vm._v(
+                            _vm._s(_vm.condition_facture.remarques) +
+                              "\n                                        "
+                          ),
+                          _c("hr"),
+                          _vm._v(" "),
+                          _c("p")
+                        ])
+                      ])
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "tab-pane",
+                  attrs: { id: "messages3", role: "tabpanel" }
+                },
+                [
+                  _c("div", { staticClass: "colBackround3" }, [
+                    _c(
+                      "ul",
+                      {
+                        staticClass: "nav nav-tabs",
+                        attrs: { role: "tablist" }
+                      },
+                      [
+                        _vm._m(1),
+                        _vm._v(" "),
+                        _c("li", { staticClass: "nav-item" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "nav-link",
+                              attrs: {
+                                "data-toggle": "tab",
+                                href: "#bonCommande",
+                                role: "tab",
+                                "aria-controls": "profile",
+                                "aria-expanded": "false"
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "far fa-file" }),
+                              _vm._v(" Bon Commande "),
+                              _c("span", { staticClass: "badge badge-light" }, [
+                                _c("span", { staticClass: "badgeSize" }, [
+                                  _vm._v(_vm._s(_vm.CountBc))
+                                ])
+                              ])
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "tab-content" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "tab-pane",
+                        attrs: {
+                          id: "bonCommande",
+                          role: "tabpanel",
+                          "aria-expanded": "false"
+                        }
+                      },
+                      [
+                        _c("app-BCcompte", {
+                          attrs: { idCompte: _vm.compte.id_compte },
+                          on: {
+                            CountBC: function($event) {
+                              _vm.getCountBc($event)
+                            }
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ]
               )
             ])
-          ]
-        )
-      ])
-    ])
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -125464,8 +125568,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -125770,7 +125896,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 montant_net_bc: 0,
                 tva_montant_bc: 0,
                 montant_ttc_bc: 0,
-                total_lettre: ""
+                total_lettre: "",
+                echeance: 0,
+                date_diff: ""
             },
 
             compte: {
@@ -126236,6 +126364,51 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }).catch(function () {
                 console.log('handle server error from here');
             });
+        },
+        //// -------- date echeance 
+
+        echeanceDate: function echeanceDate() {
+            Date.prototype.addDays = function (days) {
+                var dat = new Date(this.valueOf());
+                console.log('--------- date value of ----------');
+                console.log(dat);
+                dat.setDate(dat.getDate() + days);
+                return dat;
+            };
+
+            var date_bc = this.bonCommande.date_bc;
+            var dat = new Date(date_bc);
+
+            var echeance = +this.bonCommande.echeance;
+            //console.log("echeance-------- "+echeance)
+            if (typeof echeance === 'number') {
+                console.log("echeance is number            " + (typeof echeance === "undefined" ? "undefined" : _typeof(echeance)));
+            }
+            var today = dat.addDays(echeance);
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            console.log(dd + '-' + mm + '-' + yyyy);
+
+            this.bonCommande.date_limit_bc = yyyy + '-' + mm + '-' + dd;
+            // return dd+'-'+mm+'-'+yyyy;
+        },
+        diffDate: function diffDate() {
+            //console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
+
+            var startDate = Date.parse(this.bonCommande.date_bc);
+            var endDate = Date.parse(this.bonCommande.date_limit_bc);
+            var timeDiff = endDate - startDate;
+            var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            this.bonCommande.date_diff = daysDiff;
+            //alert(daysDiff)
         }
     },
 
@@ -126284,6 +126457,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             console.log('------ calucul virgule ');
             console.log(res[0].toString().split(""));
+        },
+        echeance: function echeance() {
+            this.echeanceDate();
+        },
+        diff: function diff() {
+            this.diffDate();
+            console.log("computed");
         }
     },
 
@@ -126293,6 +126473,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                 this.TotalBonCommande;
             }
+
         },
         commandes: {
             handler: function handler() {
@@ -126300,6 +126481,26 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 this.TotalBonCommande;
             },
             deep: true
+        },
+        'bonCommande.echeance': {
+            handler: function handler() {
+                this.echeance;
+                this.diff;
+            }
+        },
+
+        'bonCommande.date_bc': {
+            handler: function handler() {
+                this.echeance;
+                this.diff;
+            }
+        },
+        'bonCommande.date_limit_bc': {
+            handler: function handler() {
+                this.echeance;
+                this.diff;
+                console.log("watch");
+            }
         }
 
     },
@@ -127104,39 +127305,131 @@ var render = function() {
                           staticClass: "col-sm-4 col-form-label",
                           attrs: { for: "inputPassword" }
                         },
-                        [_vm._v("Date Limit")]
+                        [_vm._v("Échéance ")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-8" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.bonCommande.date_limit_bc,
-                              expression: "bonCommande.date_limit_bc"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "date",
-                            id: "inputPassword",
-                            placeholder: ""
-                          },
-                          domProps: { value: _vm.bonCommande.date_limit_bc },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.bonCommande.echeance,
+                                expression: "bonCommande.echeance"
                               }
-                              _vm.$set(
-                                _vm.bonCommande,
-                                "date_limit_bc",
-                                $event.target.value
-                              )
+                            ],
+                            staticClass: "form-control custom-select ",
+                            attrs: { id: "echeance" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.bonCommande,
+                                  "echeance",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
                             }
-                          }
-                        })
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { selected: "", disabled: "" } },
+                              [_vm._v("nombre de jour")]
+                            ),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "7" } }, [
+                              _vm._v("une semaine")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "14" } }, [
+                              _vm._v("deux semaine")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "30" } }, [
+                              _vm._v("30 jours")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "60" } }, [
+                              _vm._v("60 jours")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "90" } }, [
+                              _vm._v("90 jours")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "choix" } }, [
+                              _vm._v("choisir une date")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm.bonCommande.echeance != undefined
+                          ? _c("div", [
+                              _c("br"),
+                              _vm._v(" "),
+                              _vm.bonCommande.echeance != "choix"
+                                ? _c("div", [
+                                    _vm._v(
+                                      "\r\n                                 " +
+                                        _vm._s(_vm.bonCommande.date_limit_bc) +
+                                        " - (" +
+                                        _vm._s(_vm.bonCommande.date_diff) +
+                                        ")\r\n                    "
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.bonCommande.echeance === "choix"
+                                ? _c("div", [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.bonCommande.date_limit_bc,
+                                          expression:
+                                            "bonCommande.date_limit_bc"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "date",
+                                        id: "inputPassword",
+                                        placeholder: "",
+                                        required: ""
+                                      },
+                                      domProps: {
+                                        value: _vm.bonCommande.date_limit_bc
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.bonCommande,
+                                            "date_limit_bc",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                : _vm._e()
+                            ])
+                          : _vm._e()
                       ])
                     ]),
                     _vm._v(" "),
@@ -127955,6 +128248,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -128058,7 +128358,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 remise_ht_bc: 0,
                 montant_net_bc: 0,
                 tva_montant_bc: 0,
-                montant_ttc_bc: 0
+                montant_ttc_bc: 0,
+                date_diff: ""
 
             }
 
@@ -128143,8 +128444,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             axios.get('/countBonCommandes').then(function (response) {
+                var today = new Date();
+                var yyyy = today.getFullYear();
+                var year = yyyy;
+                _this3.reference_bc = 'BC-' + year + '-' + response.data.count;
 
-                _this3.reference_bc = 'BC' + response.data.count;
                 /*this.commande.fk_document='D'+response.data.count;
                 this.modePaiement.fk_document='D'+response.data.count;*/
             }).catch(function () {
@@ -128189,7 +128493,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get('/getBonCommandes?page=' + this.bonCommandes.current_page + '').then(function (response) {
                 _this5.loading = false;
                 _this5.bonCommandes = response.data.bonCommandes;
+                var that = _this5;
+                _this5.bonCommandes.data.forEach(function (bonCommande) {
 
+                    // bonCommande.currentDateDevi = that.currentDate;
+                    var startDate = Date.parse(that.currentDate);
+                    var endDate = Date.parse(bonCommande.date_limit_bc);
+                    var timeDiff = endDate - startDate;
+                    var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                    bonCommande.date_diff = daysDiff;
+                });
                 console.log(response.data.bonCommandes);
                 console.log("getBC oook ");
             }).catch(function () {
@@ -128659,7 +128972,37 @@ var render = function() {
                               _c("td", [_vm._v(_vm._s(bonCommande.date_bc))]),
                               _vm._v(" "),
                               _c("td", [
-                                _vm._v(_vm._s(bonCommande.date_limit_bc))
+                                _vm._v(
+                                  _vm._s(bonCommande.date_limit_bc) +
+                                    "\n                                             "
+                                ),
+                                bonCommande.date_diff > 0
+                                  ? _c(
+                                      "span",
+                                      { staticStyle: { color: "#83ea0cf7" } },
+                                      [
+                                        _vm._v(
+                                          "\n                                            (+" +
+                                            _vm._s(bonCommande.date_diff) +
+                                            ")\n                                            "
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                bonCommande.date_diff <= 0
+                                  ? _c(
+                                      "span",
+                                      { staticStyle: { color: "red" } },
+                                      [
+                                        _vm._v(
+                                          "\n                                            (" +
+                                            _vm._s(bonCommande.date_diff) +
+                                            ")\n                                            "
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
                               ]),
                               _vm._v(" "),
                               _c("td", [
@@ -129990,8 +130333,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -130284,9 +130651,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 montant_net_bc: 0,
                 tva_montant_bc: 0,
                 montant_ttc_bc: 0,
-                total_lettre: ""
-            },
+                total_lettre: "",
 
+                date_diff: "",
+                date_l: ""
+            },
+            echeance: 0,
             compte: {
                 id_compte: 0,
                 nom_compte: "",
@@ -130448,13 +130818,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             axios.get('/showBonCommande/' + reference_bc).then(function (response) {
 
+                _this.echeance = 'choix';
+                console.log('------- date limit ------------');
+                console.log(_this.bonCommande);
                 _this.bonCommande = response.data.bonCommande[0];
                 _this.compte.id_compte = _this.bonCommande.id_compte;
                 _this.compte.nom_compte = _this.bonCommande.nom_compte;
                 // this.compte.adresse_compte = this.bonCommande.adresse_bc;
                 _this.modePaiement.id_modeP = _this.bonCommande.id_modeP;
                 // this.modePaiement.type_paiement =this.bonCommande.type_paiement
-
 
                 _this.typePaiement.type_paiement = _this.bonCommande.type_paiement;
                 _this.typePaiement.id_type_paiement = _this.bonCommande.id_type_paiement;
@@ -130466,6 +130838,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 _this.modePaiement.reference_paiement = _this.bonCommande.reference_paiement;
                 _this.modePaiement.date_paiement = _this.bonCommande.date_paiement;
                 _this.modePaiement.fk_document = _this.bonCommande.fk_document;
+                _this.bonCommande.date_l = response.data.bonCommande[0].date_limit_bc;
             }).catch(function () {
                 console.log('handle server error from here');
             });
@@ -130485,6 +130858,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         EditBonCommande: function EditBonCommande() {
             var _this3 = this;
 
+            if (this.echeance === undefined) {
+                this.bonCommande.date_limit_bc = this.bonCommande.date_l;
+                console.log(this.devi.date_limit_d);
+            }
             this.bonCommande.total_ht_bc = this.total_prix, this.bonCommande.remise_ht_bc = this.remise_T, this.bonCommande.montant_net_bc = this.net_HT, this.bonCommande.tva_montant_bc = this.tva_total, this.bonCommande.montant_ttc_bc = this.total_ttc,
             //this.bonCommande.adresse_bc=  this.compte.adresse_compte
             this.bonCommande.fk_compte_bc = this.compte.id_compte;
@@ -130720,6 +131097,52 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }).catch(function () {
                 console.log('handle server error from here');
             });
+        },
+        echeanceDate: function echeanceDate() {
+            Date.prototype.addDays = function (days) {
+                var dat = new Date(this.valueOf());
+                console.log('--------- date value of ----------');
+                console.log(dat);
+                dat.setDate(dat.getDate() + days);
+                return dat;
+            };
+            if (this.echeance != "choix") {
+                var date_bc = this.bonCommande.date_bc;
+                var dat = new Date(date_bc);
+                console.log('------ date limit bon commande - --- --');
+                console.log(this.echeance);
+                var echeance = +this.echeance;
+                //console.log("echeance-------- "+echeance)
+                if (typeof echeance === 'number') {
+                    console.log("echeance is number            " + (typeof echeance === "undefined" ? "undefined" : _typeof(echeance)));
+                }
+                var today = dat.addDays(echeance);
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                console.log(dd + '-' + mm + '-' + yyyy);
+
+                this.bonCommande.date_limit_bc = yyyy + '-' + mm + '-' + dd;
+            }
+            // return dd+'-'+mm+'-'+yyyy;
+
+        },
+        diffDate: function diffDate() {
+            //console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
+
+            var startDate = Date.parse(this.bonCommande.date_bc);
+            var endDate = Date.parse(this.bonCommande.date_limit_bc);
+            var timeDiff = endDate - startDate;
+            var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            this.bonCommande.date_diff = daysDiff;
+            //alert(daysDiff)
         }
     },
 
@@ -130780,6 +131203,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                     this.bonCommande.total_lettre += ' et zéro ' + this.$WrittenNumber(res[1], { lang: 'fr' });
                 } else this.bonCommande.total_lettre += ' et ' + this.$WrittenNumber(res[1], { lang: 'fr' });
             }
+        },
+        echeancee: function echeancee() {
+            this.echeanceDate();
+        },
+        diff: function diff() {
+            this.diffDate();
+            console.log("computed");
         }
     },
 
@@ -130799,6 +131229,26 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 this.TotalBonCommande;
             },
             deep: true
+        },
+        'echeance': {
+            handler: function handler() {
+                this.echeancee;
+                this.diff;
+            }
+        },
+
+        'bonCommande.date_bc': {
+            handler: function handler() {
+                this.echeancee;
+                this.diff;
+            }
+        },
+        'bonCommande.date_limit_bc': {
+            handler: function handler() {
+                this.echeancee;
+                this.diff;
+                console.log("watch");
+            }
         }
 
     },
@@ -131597,50 +132047,140 @@ var render = function() {
                           staticClass: "col-sm-4 col-form-label",
                           attrs: { for: "inputPassword" }
                         },
-                        [_vm._v("Date Limit")]
+                        [_vm._v("Échéance ")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-8" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.bonCommande.date_limit_bc,
-                              expression: "bonCommande.date_limit_bc"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "date",
-                            id: "inputPassword",
-                            placeholder: ""
-                          },
-                          domProps: { value: _vm.bonCommande.date_limit_bc },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.echeance,
+                                expression: "echeance"
                               }
-                              _vm.$set(
-                                _vm.bonCommande,
-                                "date_limit_bc",
-                                $event.target.value
-                              )
+                            ],
+                            staticClass: "form-control custom-select ",
+                            attrs: { id: "echeance" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.echeance = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
                             }
-                          }
-                        })
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { selected: "", disabled: "" } },
+                              [_vm._v("nombre de jour")]
+                            ),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "7" } }, [
+                              _vm._v("une semaine")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "14" } }, [
+                              _vm._v("deux semaine")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "30" } }, [
+                              _vm._v("30 jours")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "60" } }, [
+                              _vm._v("60 jours")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "90" } }, [
+                              _vm._v("90 jours")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "choix" } }, [
+                              _vm._v("choisir une date")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm.echeance === undefined
+                          ? _c("div", [
+                              _vm._v(
+                                "\r\n                    " +
+                                  _vm._s(_vm.bonCommande.date_l) +
+                                  "\r\n                "
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.echeance != undefined
+                          ? _c("div", [
+                              _c("br"),
+                              _vm._v(" "),
+                              _vm.echeance != "choix"
+                                ? _c("div", [
+                                    _vm._v(
+                                      "\r\n                                 " +
+                                        _vm._s(_vm.bonCommande.date_limit_bc) +
+                                        " - (" +
+                                        _vm._s(_vm.bonCommande.date_diff) +
+                                        ")\r\n                    "
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.echeance === "choix"
+                                ? _c("div", [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.bonCommande.date_limit_bc,
+                                          expression:
+                                            "bonCommande.date_limit_bc"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "date",
+                                        id: "inputPassword",
+                                        placeholder: "",
+                                        required: ""
+                                      },
+                                      domProps: {
+                                        value: _vm.bonCommande.date_limit_bc
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.bonCommande,
+                                            "date_limit_bc",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                : _vm._e()
+                            ])
+                          : _vm._e()
                       ])
                     ]),
-                    _vm._v(
-                      "\r\n            " +
-                        _vm._s(_vm.typePaiement.type_paiement) +
-                        " " +
-                        _vm._s(_vm.typePaiement.type_paiement) +
-                        " " +
-                        _vm._s(_vm.modePaiement.fk_type_paiement) +
-                        "\r\n            "
-                    ),
+                    _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
                       _c(
                         "label",

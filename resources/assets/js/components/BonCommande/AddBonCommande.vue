@@ -153,12 +153,32 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
+             <div class="form-group row">
+               
+<label for="inputPassword" class="col-sm-4 col-form-label">Échéance </label>
                 <div class="col-sm-8">
+                    <select class="form-control custom-select " id="echeance" v-model="bonCommande.echeance" >
+                    <option selected disabled>nombre de jour</option>
+                    <option value="7">une semaine</option>
+                    <option value="14">deux semaine</option>
+                    <option value="30">30 jours</option>
+                    <option value="60">60 jours</option>
+                    <option value="90">90 jours</option>
+                    <option value="choix">choisir une date</option>
 
-                <input type="date" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.date_limit_bc">
+                </select>
+                 
+                <div v-if="bonCommande.echeance != undefined">
+                    <br>
+                    <div v-if="bonCommande.echeance != 'choix'">
+                                 {{bonCommande.date_limit_bc}} - ({{bonCommande.date_diff}})
+                    </div>
+                <div v-if="bonCommande.echeance === 'choix'">
+                  <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.date_limit_bc" required>
                 </div>
+                </div>
+                
+                </div>           
             </div>
             <div class="form-group row">
                     <label for="type_paiement" class="col-sm-4 col-form-label" > Type Paiement </label>
@@ -303,6 +323,8 @@
             tva_montant_bc: 0,
             montant_ttc_bc: 0,
             total_lettre : "",
+            echeance:0,
+            date_diff:"",
               },
 
                compte: { 
@@ -774,7 +796,54 @@ methods: {
                             .catch(() => {
                                 console.log('handle server error from here');
                             });
-          },
+          },//// -------- date echeance 
+
+             echeanceDate(){
+                        Date.prototype.addDays = function(days) {
+                        var dat = new Date(this.valueOf());
+                        console.log('--------- date value of ----------')
+                        console.log(dat);
+                        dat.setDate(dat.getDate() + days);
+                        return dat;
+                        }
+                            
+                        var date_bc=this.bonCommande.date_bc
+                        var dat = new Date(date_bc);
+
+                        var echeance= +this.bonCommande.echeance;
+                        //console.log("echeance-------- "+echeance)
+                                if(typeof(echeance) === 'number'){
+                            console.log("echeance is number            "+typeof(echeance) )
+                        }
+                        var today =dat.addDays(echeance);
+                        var dd = today.getDate();
+                        var mm = today.getMonth()+1; 
+                        var yyyy = today.getFullYear();
+                        if(dd<10) 
+                                        {
+                                            dd='0'+dd;
+                                        } 
+
+                                        if(mm<10) 
+                                        {
+                                            mm='0'+mm;
+                                        } 
+                        console.log(dd+'-'+mm+'-'+yyyy)
+
+                                    this.bonCommande.date_limit_bc=yyyy+'-'+mm+'-'+dd;
+                                // return dd+'-'+mm+'-'+yyyy;
+                        
+                        },
+                        diffDate() {
+                        //console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
+
+                            var startDate = Date.parse(this.bonCommande.date_bc);
+                                    var endDate = Date.parse(this.bonCommande.date_limit_bc);
+                                    var timeDiff = endDate - startDate;
+                                    var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                                    this.bonCommande.date_diff=daysDiff;
+                        //alert(daysDiff)
+                        },
 },
     
     
@@ -830,6 +899,15 @@ computed:{
 
             
     },
+       echeance(){
+            this.echeanceDate();
+
+   },
+   diff(){
+            this.diffDate();
+            console.log("computed")
+
+   },  
           
 },
 
@@ -840,6 +918,8 @@ watch:{
                     this.TotalBonCommande;
 
             },
+
+    
     },
 commandes: {
             handler: function(){
@@ -847,6 +927,29 @@ commandes: {
                     this.TotalBonCommande;
             },
             deep : true
+    },
+      'bonCommande.echeance':{
+            handler: function(){
+                    this.echeance;
+                    this.diff;
+
+            }
+    },
+
+            'bonCommande.date_bc':{
+            handler: function(){
+                this.echeance;
+                    this.diff;
+
+            }
+    },
+    'bonCommande.date_limit_bc':{
+        handler: function(){
+                this.echeance;
+                    this.diff;
+            console.log("watch")
+
+            }
     },
             
 },

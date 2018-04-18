@@ -585,6 +585,8 @@ console.log(this.devi.total_lettre_d)
  echeanceDate(){
 Date.prototype.addDays = function(days) {
   var dat = new Date(this.valueOf());
+  console.log('--------- date value of ----------')
+  console.log(dat);
   dat.setDate(dat.getDate() + days);
   return dat;
 }

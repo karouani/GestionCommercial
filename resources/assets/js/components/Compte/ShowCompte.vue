@@ -1,5 +1,13 @@
 <template>
   <div>
+
+
+    <div class="loading" v-if="loading">
+     <div class="lds-hourglass"></div>
+    </div>
+    
+
+<div v-if="!loading">
     <div class="row">
         <div class="col">
         <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowComptes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
@@ -159,7 +167,7 @@
      </div>
     </div>
    </div>
-  
+  </div>
 </template>
 <script>
     
@@ -171,6 +179,7 @@ import  BCcompte from './BonCommandesCompte.vue';
             'app-BCcompte':BCcompte,
          },
           data: () => ({
+               loading: false,
               CountBc : 0,
 
               compte: { 
@@ -204,8 +213,17 @@ import  BCcompte from './BonCommandesCompte.vue';
               contacts : [],
 
           }),
+  
           methods:{
+ fetchData () {
+                             this.compte.id_compte = this.$route.params.id_compte;
 
+               this.getCompte(this.compte.id_compte);
+              this.getCondtionFacture(this.compte.id_compte);
+               this.getContacts(this.compte.id_compte);
+              console.log('--------- id compte ');
+              console.log(this.compte.id_compte);
+ },
        getCompte:function(id_compte){
                   axios.get('/getCompte/'+id_compte).then(
                   response => {
@@ -219,6 +237,7 @@ import  BCcompte from './BonCommandesCompte.vue';
                   response => {
                        
                     this.contacts= response.data.contacts;
+                    this.loading = false;
              
                   });     
         },
@@ -227,25 +246,21 @@ import  BCcompte from './BonCommandesCompte.vue';
                   response => {
                        console.log("Cfacture")
                     this.condition_facture= response.data.condition_facture[0];
-                   console.log(this.condition_facture)
+                    
+                    console.log('---- condition facture ---- ')
+                    console.log(id_compte);
+                   console.log(response)
                   });     
         },
         getCountBc(CountBc){
             this.CountBc = CountBc;
-            console.log('-------- count bc ------- ok ')
+            console.log('-------- count bc ------- ok ----')
             console.log(CountBc)
         },
           },
-          mounted(){
-              
-              this.getCompte(this.compte.id_compte);
-              this.getContacts(this.compte.id_compte);
-              this.getCondtionFacture(this.compte.id_compte);
-              console.log('--------- id compte ');
-              console.log(this.compte.id_compte);
-          },
+
           created(){
-              this.compte.id_compte = this.$route.params.id_compte;
+              this.fetchData()
           },
 
       }

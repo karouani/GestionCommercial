@@ -147,13 +147,35 @@
             </div>
 
 
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
+  <div class="form-group row">
+               
+<label for="inputPassword" class="col-sm-4 col-form-label">Échéance </label>
                 <div class="col-sm-8">
-                <input type="date" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.date_limit_bc">
+                    <select class="form-control custom-select " id="echeance" v-model="echeance" >
+                    <option selected disabled>nombre de jour</option>
+                    <option value="7">une semaine</option>
+                    <option value="14">deux semaine</option>
+                    <option value="30">30 jours</option>
+                    <option value="60">60 jours</option>
+                    <option value="90">90 jours</option>
+                    <option value="choix">choisir une date</option>
+
+                </select>
+                <div v-if="echeance === undefined">
+                    {{bonCommande.date_l}}
                 </div>
+                <div v-if="echeance != undefined">
+                    <br>
+                    <div v-if="echeance != 'choix'">
+                                 {{bonCommande.date_limit_bc}} - ({{bonCommande.date_diff}})
+                    </div>
+                <div v-if="echeance === 'choix'">
+                  <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.date_limit_bc" required>
+                </div>
+                </div>
+                
+                </div>           
             </div>
-            {{typePaiement.type_paiement}} {{typePaiement.type_paiement}} {{modePaiement.fk_type_paiement}}
             <div class="form-group row">
                     <label for="type_paiement" class="col-sm-4 col-form-label" > Type Paiement </label>
                 <div class="col-sm-8">
@@ -292,9 +314,12 @@
             montant_net_bc: 0,
             tva_montant_bc: 0,
             montant_ttc_bc: 0,
-             total_lettre : ""
+            total_lettre : "",
+            
+            date_diff:"",
+            date_l:"",
               },
-
+                echeance:0,
                compte: { 
                     id_compte : 0,
                     nom_compte : "",
@@ -467,13 +492,15 @@ methods: {
             axios.get('/showBonCommande/'+reference_bc)
                                 .then((response) => {
                                   
+                                  this.echeance = 'choix';
+                                   console.log('------- date limit ------------')
+                                     console.log(this.bonCommande);
                                     this.bonCommande = response.data.bonCommande[0];
                                     this.compte.id_compte = this.bonCommande.id_compte;
                                     this.compte.nom_compte = this.bonCommande.nom_compte;
                                    // this.compte.adresse_compte = this.bonCommande.adresse_bc;
                                     this.modePaiement.id_modeP =this.bonCommande.id_modeP
                                      // this.modePaiement.type_paiement =this.bonCommande.type_paiement
-                                    
                                      
                                     this.typePaiement.type_paiement =this.bonCommande.type_paiement
                                     this.typePaiement.id_type_paiement =  this.bonCommande.id_type_paiement 
@@ -485,6 +512,7 @@ methods: {
                                     this.modePaiement.reference_paiement    = this.bonCommande.reference_paiement
                                      this.modePaiement.date_paiement   =this.bonCommande.date_paiement
                                      this.modePaiement.fk_document =this.bonCommande.fk_document
+                                     this.bonCommande.date_l=response.data.bonCommande[0].date_limit_bc;
                                     
                                 })
                                 .catch(() => {
@@ -509,6 +537,10 @@ methods: {
 
 
     EditBonCommande(){
+             if(this.echeance === undefined){
+     this.bonCommande.date_limit_bc=this.bonCommande.date_l;
+     console.log(this.devi.date_limit_d)
+     }
             this.bonCommande.total_ht_bc =  this.total_prix,
             this.bonCommande.remise_ht_bc = this.remise_T, 
             this.bonCommande.montant_net_bc = this.net_HT ,
@@ -740,7 +772,55 @@ methods: {
                             .catch(() => {
                                 console.log('handle server error from here');
                             });
-          }
+          },
+          echeanceDate(){
+                        Date.prototype.addDays = function(days) {
+                        var dat = new Date(this.valueOf());
+                        console.log('--------- date value of ----------')
+                        console.log(dat);
+                        dat.setDate(dat.getDate() + days);
+                        return dat;
+                        }
+                        if(this.echeance != "choix"){
+                        var date_bc=this.bonCommande.date_bc
+                        var dat = new Date(date_bc);
+                     console.log('------ date limit bon commande - --- --')
+                                console.log(this.echeance)
+                        var echeance= +this.echeance;
+                        //console.log("echeance-------- "+echeance)
+                                if(typeof(echeance) === 'number'){
+                            console.log("echeance is number            "+typeof(echeance) )
+                        }
+                        var today =dat.addDays(echeance);
+                        var dd = today.getDate();
+                        var mm = today.getMonth()+1; 
+                        var yyyy = today.getFullYear();
+                        if(dd<10) 
+                                        {
+                                            dd='0'+dd;
+                                        } 
+
+                                        if(mm<10) 
+                                        {
+                                            mm='0'+mm;
+                                        } 
+                        console.log(dd+'-'+mm+'-'+yyyy)
+
+                                    this.bonCommande.date_limit_bc=yyyy+'-'+mm+'-'+dd;}
+                                // return dd+'-'+mm+'-'+yyyy;
+
+                        
+                        },
+                        diffDate() {
+                        //console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
+
+                            var startDate = Date.parse(this.bonCommande.date_bc);
+                                    var endDate = Date.parse(this.bonCommande.date_limit_bc);
+                                    var timeDiff = endDate - startDate;
+                                    var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                                    this.bonCommande.date_diff=daysDiff;
+                        //alert(daysDiff)
+                        },
 
 
     
@@ -811,6 +891,15 @@ computed:{
                 this.bonCommande.total_lettre += ' et '+this.$WrittenNumber(res[1], { lang: 'fr'})
             }
     },
+         echeancee(){
+            this.echeanceDate();
+
+   },
+   diff(){
+            this.diffDate();
+            console.log("computed")
+
+   }, 
 
 
           
@@ -836,6 +925,29 @@ watch:{
 
             },
             deep : true
+    },
+          'echeance':{
+            handler: function(){
+                    this.echeancee;
+                    this.diff;
+
+            }
+    },
+
+            'bonCommande.date_bc':{
+            handler: function(){
+                this.echeancee;
+                    this.diff;
+
+            }
+    },
+    'bonCommande.date_limit_bc':{
+        handler: function(){
+                this.echeancee;
+                    this.diff;
+            console.log("watch")
+
+            }
     },
             
 },
