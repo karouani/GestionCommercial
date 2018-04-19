@@ -60,14 +60,14 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>reference</th>
+                                        <th>Reference</th>
                                         <th>Nom Societe </th>
-                                        <th>date devis</th>
-                                        <th>date limit</th>
+                                        <th>Date devis</th>
+                                        <th>Date limit</th>
                                         <th>Status</th>                                        
                                         <th>Montant TTC</th>
-                                        <th>Montant Reste</th>
-                                        <th>options</th>
+                                        <th>Net à payer</th>
+                                        <th>Options</th>
                                     </tr>
                                     </thead>
                                     <tbody>

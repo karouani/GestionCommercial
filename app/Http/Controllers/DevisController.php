@@ -326,7 +326,7 @@ public function pdf_d($reference_d){
    <tr>
        <td>
        <span></span><br>
-       <b>Bon Commande: '.$devi[0]->reference_d.'</b> <br>
+       <b>Devis: '.$devi[0]->reference_d.'</b> <br>
        Date: '.$devi[0]->date_d.'<br>
        Réglement: '.$devi[0]->type_paiement.'<br>
        Validité: '.$devi[0]->date_limit_d.'<br>
@@ -422,11 +422,15 @@ public function pdf_d($reference_d){
     </tr>
     <tr>
     <td style="width:286px;"></td>
-    <td style="width:140px;" align="left">Acompte</td> <td style="width:140px;" align="right"></td>
+    <td style="width:140px;" align="left">Montant NET TTC (MAD)</td> <td style="width:140px;" align="right">'.$devi[0]->montant_ttc_d.'</td>
     </tr>
     <tr>
     <td style="width:286px;"></td>
-    <td style="width:140px;" align="left">Montant NET TTC (MAD)</td> <td style="width:140px;" align="right">'.$devi[0]->montant_ttc_d.'</td>
+    <td style="width:140px;" align="left">Acompte</td> <td style="width:140px;" align="right">'.$devi[0]->accompte_d.'</td>
+    </tr>
+    <tr>
+    <td style="width:286px;"></td>
+    <td style="width:140px;" align="left">NET à Payer (MAD)</td> <td style="width:140px;" align="right">'.$devi[0]->montant_reste_d.'</td>
     </tr>
     
     </table>

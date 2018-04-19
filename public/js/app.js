@@ -4667,7 +4667,7 @@ function vueUse(VuePlugin) {
 "use strict";
 
 
-module.exports = __webpack_require__(37);
+module.exports = __webpack_require__(36);
 module.exports.easing = __webpack_require__(446);
 module.exports.canvas = __webpack_require__(447);
 module.exports.options = __webpack_require__(448);
@@ -9688,13 +9688,6 @@ module.exports = {
 
 /***/ }),
 /* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(524);
-
-
-/***/ }),
-/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9711,7 +9704,7 @@ function prefixPropName(prefix, value) {
 }
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9752,7 +9745,7 @@ function copyProps(props) {
 }
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9778,7 +9771,7 @@ function copyProps(props) {
 });
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(96);
@@ -9790,7 +9783,7 @@ module.exports = nativeCreate;
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var eq = __webpack_require__(394);
@@ -9817,7 +9810,7 @@ module.exports = assocIndexOf;
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isKeyable = __webpack_require__(400);
@@ -9841,7 +9834,7 @@ module.exports = getMapData;
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10184,6 +10177,13 @@ helpers.getValueOrDefault = helpers.valueOrDefault;
  * @private
  */
 helpers.getValueAtIndexOrDefault = helpers.valueAtIndexOrDefault;
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(524);
 
 
 /***/ }),
@@ -34366,10 +34366,10 @@ function upperFirst(str) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return props; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_functional_data_merge__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_prefix_prop_name__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_copyProps__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_prefix_prop_name__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_copyProps__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_object__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_card_mixin__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_card_mixin__ = __webpack_require__(32);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -34446,10 +34446,10 @@ var props = Object(__WEBPACK_IMPORTED_MODULE_3__utils_object__["a" /* assign */]
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return props; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_functional_data_merge__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_prefix_prop_name__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_copyProps__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_prefix_prop_name__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_copyProps__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_object__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_card_mixin__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_card_mixin__ = __webpack_require__(32);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -34494,10 +34494,10 @@ var props = Object(__WEBPACK_IMPORTED_MODULE_3__utils_object__["a" /* assign */]
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return props; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_functional_data_merge__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_prefix_prop_name__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_copyProps__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_prefix_prop_name__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_copyProps__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_object__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_card_mixin__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_card_mixin__ = __webpack_require__(32);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -74425,12 +74425,12 @@ Object(__WEBPACK_IMPORTED_MODULE_6__utils_plugins__["c" /* vueUse */])(VuePlugin
 "use strict";
 /* unused harmony export props */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_functional_data_merge__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_prefix_prop_name__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_prefix_prop_name__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_unprefix_prop_name__ = __webpack_require__(288);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_copyProps__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_copyProps__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_pluck_props__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_object__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_card_mixin__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_card_mixin__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__card_body__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__card_header__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__card_footer__ = __webpack_require__(72);
@@ -82091,7 +82091,7 @@ module.exports = Hash;
 /* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(34);
+var nativeCreate = __webpack_require__(33);
 
 /**
  * Removes all key-value entries from the hash.
@@ -82320,7 +82320,7 @@ module.exports = hashDelete;
 /* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(34);
+var nativeCreate = __webpack_require__(33);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -82356,7 +82356,7 @@ module.exports = hashGet;
 /* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(34);
+var nativeCreate = __webpack_require__(33);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -82385,7 +82385,7 @@ module.exports = hashHas;
 /* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(34);
+var nativeCreate = __webpack_require__(33);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -82471,7 +82471,7 @@ module.exports = listCacheClear;
 /* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(35);
+var assocIndexOf = __webpack_require__(34);
 
 /** Used for built-in method references. */
 var arrayProto = Array.prototype;
@@ -82555,7 +82555,7 @@ module.exports = eq;
 /* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(35);
+var assocIndexOf = __webpack_require__(34);
 
 /**
  * Gets the list cache value for `key`.
@@ -82580,7 +82580,7 @@ module.exports = listCacheGet;
 /* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(35);
+var assocIndexOf = __webpack_require__(34);
 
 /**
  * Checks if a list cache value for `key` exists.
@@ -82602,7 +82602,7 @@ module.exports = listCacheHas;
 /* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(35);
+var assocIndexOf = __webpack_require__(34);
 
 /**
  * Sets the list cache `key` to `value`.
@@ -82647,7 +82647,7 @@ module.exports = Map;
 /* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(36);
+var getMapData = __webpack_require__(35);
 
 /**
  * Removes `key` and its value from the map.
@@ -82692,7 +82692,7 @@ module.exports = isKeyable;
 /* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(36);
+var getMapData = __webpack_require__(35);
 
 /**
  * Gets the map value for `key`.
@@ -82714,7 +82714,7 @@ module.exports = mapCacheGet;
 /* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(36);
+var getMapData = __webpack_require__(35);
 
 /**
  * Checks if a map value for `key` exists.
@@ -82736,7 +82736,7 @@ module.exports = mapCacheHas;
 /* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(36);
+var getMapData = __webpack_require__(35);
 
 /**
  * Sets the map `key` to `value`.
@@ -91409,7 +91409,7 @@ module.exports = function() {
 "use strict";
 
 
-var helpers = __webpack_require__(37);
+var helpers = __webpack_require__(36);
 
 /**
  * Easing functions adapted from Robert Penner's easing equations.
@@ -91666,7 +91666,7 @@ helpers.easingEffects = effects;
 "use strict";
 
 
-var helpers = __webpack_require__(37);
+var helpers = __webpack_require__(36);
 
 /**
  * @namespace Chart.helpers.canvas
@@ -91887,7 +91887,7 @@ helpers.drawRoundedRectangle = function(ctx) {
 "use strict";
 
 
-var helpers = __webpack_require__(37);
+var helpers = __webpack_require__(36);
 
 /**
  * @alias Chart.helpers.options
@@ -105961,24 +105961,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       error: null,
       compagnie: {
         id_compagnie: 0,
-        nom_societe: "",
-        raison_sociale: "",
-        RC: "",
-        IF: "",
-        patente: "",
-        cnss: "",
-        ICE: "",
-        capitale: "",
+        nom_societe_comp: "",
+        raison_sociale_comp: "",
+        RC_comp: "",
+        IF_comp: "",
+        patente_comp: "",
+        cnss_comp: "",
+        ICE_comp: "",
+        capitale_comp: "",
         taille_comp: "",
-        secteur_activite: "",
+        secteur_activite_comp: "",
 
-        nom_bank: "",
-        RIB: "",
+        nom_bank_comp: "",
+        RIB_comp: "",
         //cp_comp:"",
         //ville_comp:"",
         //pays_comp:"",
         adresse_comp: "",
-        email: "",
+        email_comp: "",
         GSM_comp: "",
         fix_comp: "",
         fax_comp: "",
@@ -106123,13 +106123,15 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.raison_sociale,
-                              expression: "compagnie.raison_sociale"
+                              value: _vm.compagnie.raison_sociale_comp,
+                              expression: "compagnie.raison_sociale_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "reference_art" },
-                          domProps: { value: _vm.compagnie.raison_sociale },
+                          domProps: {
+                            value: _vm.compagnie.raison_sociale_comp
+                          },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -106137,7 +106139,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "raison_sociale",
+                                "raison_sociale_comp",
                                 $event.target.value
                               )
                             }
@@ -106159,13 +106161,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.nom_societe,
-                              expression: "compagnie.nom_societe"
+                              value: _vm.compagnie.nom_societe_comp,
+                              expression: "compagnie.nom_societe_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "type_art" },
-                          domProps: { value: _vm.compagnie.nom_societe },
+                          domProps: { value: _vm.compagnie.nom_societe_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -106173,7 +106175,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "nom_societe",
+                                "nom_societe_comp",
                                 $event.target.value
                               )
                             }
@@ -106198,19 +106200,23 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.RC,
-                              expression: "compagnie.RC"
+                              value: _vm.compagnie.RC_comp,
+                              expression: "compagnie.RC_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "designation" },
-                          domProps: { value: _vm.compagnie.RC },
+                          domProps: { value: _vm.compagnie.RC_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.$set(_vm.compagnie, "RC", $event.target.value)
+                              _vm.$set(
+                                _vm.compagnie,
+                                "RC_comp",
+                                $event.target.value
+                              )
                             }
                           }
                         })
@@ -106230,19 +106236,23 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.IF,
-                              expression: "compagnie.IF"
+                              value: _vm.compagnie.IF_comp,
+                              expression: "compagnie.IF_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "IF" },
-                          domProps: { value: _vm.compagnie.IF },
+                          domProps: { value: _vm.compagnie.IF_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.$set(_vm.compagnie, "IF", $event.target.value)
+                              _vm.$set(
+                                _vm.compagnie,
+                                "IF_comp",
+                                $event.target.value
+                              )
                             }
                           }
                         })
@@ -106265,13 +106275,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.patente,
-                              expression: "compagnie.patente"
+                              value: _vm.compagnie.patente_comp,
+                              expression: "compagnie.patente_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "prix_ht_achat" },
-                          domProps: { value: _vm.compagnie.patente },
+                          domProps: { value: _vm.compagnie.patente_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -106279,7 +106289,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "patente",
+                                "patente_comp",
                                 $event.target.value
                               )
                             }
@@ -106303,13 +106313,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.cnss,
-                              expression: "compagnie.cnss"
+                              value: _vm.compagnie.cnss_comp,
+                              expression: "compagnie.cnss_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "cnss" },
-                          domProps: { value: _vm.compagnie.cnss },
+                          domProps: { value: _vm.compagnie.cnss_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -106317,7 +106327,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "cnss",
+                                "cnss_comp",
                                 $event.target.value
                               )
                             }
@@ -106339,13 +106349,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.ICE,
-                              expression: "compagnie.ICE"
+                              value: _vm.compagnie.ICE_comp,
+                              expression: "compagnie.ICE_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "ICE" },
-                          domProps: { value: _vm.compagnie.ICE },
+                          domProps: { value: _vm.compagnie.ICE_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -106353,7 +106363,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "ICE",
+                                "ICE_comp",
                                 $event.target.value
                               )
                             }
@@ -106375,13 +106385,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.capitale,
-                              expression: "compagnie.capitale"
+                              value: _vm.compagnie.capitale_comp,
+                              expression: "compagnie.capitale_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "capitale" },
-                          domProps: { value: _vm.compagnie.capitale },
+                          domProps: { value: _vm.compagnie.capitale_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -106389,7 +106399,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "capitale",
+                                "capitale_comp",
                                 $event.target.value
                               )
                             }
@@ -106453,13 +106463,15 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.secteur_activite,
-                              expression: "compagnie.secteur_activite"
+                              value: _vm.compagnie.secteur_activite_comp,
+                              expression: "compagnie.secteur_activite_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "secteur_activite" },
-                          domProps: { value: _vm.compagnie.secteur_activite },
+                          domProps: {
+                            value: _vm.compagnie.secteur_activite_comp
+                          },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -106467,7 +106479,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "secteur_activite",
+                                "secteur_activite_comp",
                                 $event.target.value
                               )
                             }
@@ -106499,13 +106511,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.nom_bank,
-                              expression: "compagnie.nom_bank"
+                              value: _vm.compagnie.nom_bank_comp,
+                              expression: "compagnie.nom_bank_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "nom_bank" },
-                          domProps: { value: _vm.compagnie.nom_bank },
+                          domProps: { value: _vm.compagnie.nom_bank_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -106513,7 +106525,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "nom_bank",
+                                "nom_bank_comp",
                                 $event.target.value
                               )
                             }
@@ -106537,13 +106549,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.RIB,
-                              expression: "compagnie.RIB"
+                              value: _vm.compagnie.RIB_comp,
+                              expression: "compagnie.RIB_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "RIB" },
-                          domProps: { value: _vm.compagnie.RIB },
+                          domProps: { value: _vm.compagnie.RIB_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -106551,7 +106563,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "RIB",
+                                "RIB_comp",
                                 $event.target.value
                               )
                             }
@@ -106583,13 +106595,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.email,
-                              expression: "compagnie.email"
+                              value: _vm.compagnie.email_comp,
+                              expression: "compagnie.email_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "email" },
-                          domProps: { value: _vm.compagnie.email },
+                          domProps: { value: _vm.compagnie.email_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -106597,7 +106609,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "email",
+                                "email_comp",
                                 $event.target.value
                               )
                             }
@@ -107090,9 +107102,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             compagnie: {
                 id_compagnie: 0,
-                raison_sociale: "",
+                raison_sociale_comp: "",
                 taille_comp: "",
-                secteur_activite: "",
+                secteur_activite_comp: "",
                 adresse_comp: "",
                 cp_comp: "",
                 ville_comp: "",
@@ -107328,7 +107340,7 @@ var render = function() {
                             _c("h5", { staticClass: "card-title" }, [
                               _vm._v(
                                 "Raison Sociale : " +
-                                  _vm._s(compagnie.raison_sociale)
+                                  _vm._s(compagnie.raison_sociale_comp)
                               )
                             ]),
                             _vm._v(" "),
@@ -107338,7 +107350,7 @@ var render = function() {
                             _c("div", { staticClass: "widthTextCard" }, [
                               _vm._v(
                                 "Secteur d'Activité : " +
-                                  _vm._s(compagnie.secteur_activite)
+                                  _vm._s(compagnie.secteur_activite_comp)
                               )
                             ]),
                             _vm._v(" "),
@@ -107346,7 +107358,8 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "widthTextCard" }, [
                               _vm._v(
-                                "Nom Societe : " + _vm._s(compagnie.nom_societe)
+                                "Nom Societe : " +
+                                  _vm._s(compagnie.nom_societe_comp)
                               )
                             ]),
                             _vm._v(" "),
@@ -107453,17 +107466,11 @@ var render = function() {
                               +" " +
                               _vm.modalShow +
                               "" +
-                              _vm.compagnie.secteur_activite +
+                              _vm.compagnie.secteur_activite_comp +
                               "" +
                               _vm.compagnie.taille_comp +
                               "" +
                               _vm.compagnie.adresse_comp +
-                              "" +
-                              _vm.compagnie.cp_comp +
-                              "" +
-                              _vm.compagnie.ville_comp +
-                              "" +
-                              _vm.compagnie.pays_comp +
                               "" +
                               _vm.compagnie.tel_comp +
                               "" +
@@ -107489,14 +107496,14 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("span", [_vm._v("Nom de Banque : ")]),
                                   _vm._v(
-                                    _vm._s(_vm.compagnie.nom_bank) +
+                                    _vm._s(_vm.compagnie.nom_bank_comp) +
                                       "\n                        "
                                   ),
                                   _c("hr"),
                                   _vm._v(" "),
                                   _c("span", [_vm._v("R.I.B : ")]),
                                   _vm._v(
-                                    _vm._s(_vm.compagnie.RIB) +
+                                    _vm._s(_vm.compagnie.RIB_comp) +
                                       "\n                   "
                                   ),
                                   _c("hr"),
@@ -107568,35 +107575,35 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("span", [_vm._v("R.C :  ")]),
                                   _vm._v(
-                                    _vm._s(_vm.compagnie.RC) +
+                                    _vm._s(_vm.compagnie.RC_comp) +
                                       "\n                    "
                                   ),
                                   _c("hr"),
                                   _vm._v(" "),
                                   _c("span", [_vm._v("I.F :  ")]),
                                   _vm._v(
-                                    _vm._s(_vm.compagnie.IF) +
+                                    _vm._s(_vm.compagnie.IF_comp) +
                                       "\n                    "
                                   ),
                                   _c("hr"),
                                   _vm._v(" "),
                                   _c("span", [_vm._v("patente :  ")]),
                                   _vm._v(
-                                    _vm._s(_vm.compagnie.patente) +
+                                    _vm._s(_vm.compagnie.patente_comp) +
                                       "\n                    "
                                   ),
                                   _c("hr"),
                                   _vm._v(" "),
                                   _c("span", [_vm._v("C.N.S.S :  ")]),
                                   _vm._v(
-                                    _vm._s(_vm.compagnie.cnss) +
+                                    _vm._s(_vm.compagnie.cnss_comp) +
                                       "\n                    "
                                   ),
                                   _c("hr"),
                                   _vm._v(" "),
                                   _c("span", [_vm._v("I.C.E :  ")]),
                                   _vm._v(
-                                    _vm._s(_vm.compagnie.ICE) +
+                                    _vm._s(_vm.compagnie.ICE_comp) +
                                       "\n               \n               \n                     "
                                   )
                                 ])
@@ -107970,24 +107977,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       compagnie: {
         id_compagnie: 0,
-        nom_societe: "",
-        raison_sociale: "",
-        RC: "",
-        IF: "",
-        patente: "",
-        cnss: "",
-        ICE: "",
-        capitale: "",
+        nom_societe_comp: "",
+        raison_sociale_comp: "",
+        RC_comp: "",
+        IF_comp: "",
+        patente_comp: "",
+        cnss_comp: "",
+        ICE_comp: "",
+        capitale_comp: "",
         taille_comp: "",
         secteur_activite: "",
 
-        nom_bank: "",
-        RIB: "",
+        nom_bank_comp: "",
+        RIB_comp: "",
         //cp_comp:"",
         //ville_comp:"",
         //pays_comp:"",
         adresse_comp: "",
-        email: "",
+        email_comp: "",
         GSM_comp: "",
         fix_comp: "",
         fax_comp: "",
@@ -108140,13 +108147,15 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.raison_sociale,
-                              expression: "compagnie.raison_sociale"
+                              value: _vm.compagnie.raison_sociale_comp,
+                              expression: "compagnie.raison_sociale_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "reference_art" },
-                          domProps: { value: _vm.compagnie.raison_sociale },
+                          domProps: {
+                            value: _vm.compagnie.raison_sociale_comp
+                          },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -108154,7 +108163,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "raison_sociale",
+                                "raison_sociale_comp",
                                 $event.target.value
                               )
                             }
@@ -108176,13 +108185,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.nom_societe,
-                              expression: "compagnie.nom_societe"
+                              value: _vm.compagnie.nom_societe_comp,
+                              expression: "compagnie.nom_societe_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "type_art" },
-                          domProps: { value: _vm.compagnie.nom_societe },
+                          domProps: { value: _vm.compagnie.nom_societe_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -108190,7 +108199,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "nom_societe",
+                                "nom_societe_comp",
                                 $event.target.value
                               )
                             }
@@ -108215,19 +108224,23 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.RC,
-                              expression: "compagnie.RC"
+                              value: _vm.compagnie.RC_comp,
+                              expression: "compagnie.RC_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "designation" },
-                          domProps: { value: _vm.compagnie.RC },
+                          domProps: { value: _vm.compagnie.RC_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.$set(_vm.compagnie, "RC", $event.target.value)
+                              _vm.$set(
+                                _vm.compagnie,
+                                "RC_comp",
+                                $event.target.value
+                              )
                             }
                           }
                         })
@@ -108247,19 +108260,23 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.IF,
-                              expression: "compagnie.IF"
+                              value: _vm.compagnie.IF_comp,
+                              expression: "compagnie.IF_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "IF" },
-                          domProps: { value: _vm.compagnie.IF },
+                          domProps: { value: _vm.compagnie.IF_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.$set(_vm.compagnie, "IF", $event.target.value)
+                              _vm.$set(
+                                _vm.compagnie,
+                                "IF_comp",
+                                $event.target.value
+                              )
                             }
                           }
                         })
@@ -108282,13 +108299,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.patente,
-                              expression: "compagnie.patente"
+                              value: _vm.compagnie.patente_comp,
+                              expression: "compagnie.patente_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "prix_ht_achat" },
-                          domProps: { value: _vm.compagnie.patente },
+                          domProps: { value: _vm.compagnie.patente_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -108296,7 +108313,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "patente",
+                                "patente_comp",
                                 $event.target.value
                               )
                             }
@@ -108320,13 +108337,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.cnss,
-                              expression: "compagnie.cnss"
+                              value: _vm.compagnie.cnss_comp,
+                              expression: "compagnie.cnss_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "cnss" },
-                          domProps: { value: _vm.compagnie.cnss },
+                          domProps: { value: _vm.compagnie.cnss_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -108334,7 +108351,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "cnss",
+                                "cnss_comp",
                                 $event.target.value
                               )
                             }
@@ -108356,13 +108373,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.ICE,
-                              expression: "compagnie.ICE"
+                              value: _vm.compagnie.ICE_comp,
+                              expression: "compagnie.ICE_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "ICE" },
-                          domProps: { value: _vm.compagnie.ICE },
+                          domProps: { value: _vm.compagnie.ICE_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -108370,7 +108387,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "ICE",
+                                "ICE_comp",
                                 $event.target.value
                               )
                             }
@@ -108392,13 +108409,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.capitale,
-                              expression: "compagnie.capitale"
+                              value: _vm.compagnie.capitale_comp,
+                              expression: "compagnie.capitale_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "capitale" },
-                          domProps: { value: _vm.compagnie.capitale },
+                          domProps: { value: _vm.compagnie.capitale_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -108406,7 +108423,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "capitale",
+                                "capitale_comp",
                                 $event.target.value
                               )
                             }
@@ -108470,13 +108487,15 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.secteur_activite,
-                              expression: "compagnie.secteur_activite"
+                              value: _vm.compagnie.secteur_activite_comp,
+                              expression: "compagnie.secteur_activite_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "secteur_activite" },
-                          domProps: { value: _vm.compagnie.secteur_activite },
+                          domProps: {
+                            value: _vm.compagnie.secteur_activite_comp
+                          },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -108484,7 +108503,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "secteur_activite",
+                                "secteur_activite_comp",
                                 $event.target.value
                               )
                             }
@@ -108506,7 +108525,10 @@ var render = function() {
                     _c("div", { staticClass: "form-group row" }, [
                       _c(
                         "label",
-                        { staticClass: "col-sm-4", attrs: { for: "nom_bank" } },
+                        {
+                          staticClass: "col-sm-4",
+                          attrs: { for: "nom_bank_comp" }
+                        },
                         [_vm._v(" Nom de Banque ")]
                       ),
                       _vm._v(" "),
@@ -108516,13 +108538,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.nom_bank,
-                              expression: "compagnie.nom_bank"
+                              value: _vm.compagnie.nom_bank_comp,
+                              expression: "compagnie.nom_bank_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "nom_bank" },
-                          domProps: { value: _vm.compagnie.nom_bank },
+                          domProps: { value: _vm.compagnie.nom_bank_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -108530,7 +108552,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "nom_bank",
+                                "nom_bank_comp",
                                 $event.target.value
                               )
                             }
@@ -108554,13 +108576,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.RIB,
-                              expression: "compagnie.RIB"
+                              value: _vm.compagnie.RIB_comp,
+                              expression: "compagnie.RIB_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "RIB" },
-                          domProps: { value: _vm.compagnie.RIB },
+                          domProps: { value: _vm.compagnie.RIB_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -108568,7 +108590,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "RIB",
+                                "RIB_comp",
                                 $event.target.value
                               )
                             }
@@ -108600,13 +108622,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.compagnie.email,
-                              expression: "compagnie.email"
+                              value: _vm.compagnie.email_comp,
+                              expression: "compagnie.email_comp"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", id: "email" },
-                          domProps: { value: _vm.compagnie.email },
+                          domProps: { value: _vm.compagnie.email_comp },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -108614,7 +108636,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.compagnie,
-                                "email",
+                                "email_comp",
                                 $event.target.value
                               )
                             }
@@ -108954,7 +108976,7 @@ exports.push([module.i, "\n.btnMarge[data-v-47703705]{\n     padding-bottom: 10p
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 
 
@@ -109438,6 +109460,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
             console.log(this.devi.total_lettre_d);
+            this.devi.type_operation = "Vente";
 
             axios.post('/addDevis', { commandes: this.commandes, devis: this.devi, modePaiements: this.modePaiement }).then(function (response) {
                 _this.$router.push('/getDevis/add');
@@ -109665,7 +109688,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             this.devi.montant_reste_d = this.precisionRound(+this.total_ttc - +this.devi.accompte_d, 2);
 
-            var res = this.total_ttc.toString().split(".");
+            var res = this.devi.montant_reste_d.toString().split(".");
             this.total_lettre = this.$WrittenNumber(res[0], { lang: 'fr' });
 
             if (typeof res[1] !== 'undefined') {
@@ -111841,7 +111864,7 @@ var render = function() {
                           staticClass: "col-sm-4 col-form-label",
                           attrs: { for: "staticEmail" }
                         },
-                        [_vm._v("Montant Reste (Montant) ")]
+                        [_vm._v("Net à payer (Montant) ")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-8" }, [
@@ -113064,21 +113087,21 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("reference")]),
+        _c("th", [_vm._v("Reference")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nom Societe ")]),
         _vm._v(" "),
-        _c("th", [_vm._v("date devis")]),
+        _c("th", [_vm._v("Date devis")]),
         _vm._v(" "),
-        _c("th", [_vm._v("date limit")]),
+        _c("th", [_vm._v("Date limit")]),
         _vm._v(" "),
         _c("th", [_vm._v("Status")]),
         _vm._v(" "),
         _c("th", [_vm._v("Montant TTC")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Montant Reste")]),
+        _c("th", [_vm._v("Net à payer")]),
         _vm._v(" "),
-        _c("th", [_vm._v("options")])
+        _c("th", [_vm._v("Options")])
       ])
     ])
   }
@@ -113541,6 +113564,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function () {
                 console.log('handle server error from here');
             });
+        },
+        redirect_To_AddBonCommande: function redirect_To_AddBonCommande(devi) {
+            //  this.$router.push('/ShowBonCommande/'+reference_bc);
+            this.$router.push({ name: 'addBonCommande', params: { id_devis: devi.id_devis, reference_d: devi.reference_d } });
         }
     },
     created: function created() {
@@ -113611,10 +113638,15 @@ var render = function() {
               { staticClass: "col" },
               [
                 _c(
-                  "router-link",
+                  "a",
                   {
-                    staticClass: "btn  mb-3  float-right convert ",
-                    attrs: { to: "/addBonCommande/" + _vm.devi.id_devis }
+                    staticClass: "btn btn-secondary mb-3  float-right",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        _vm.redirect_To_AddBonCommande(_vm.devi)
+                      }
+                    }
                   },
                   [
                     _c("i", { staticClass: "fas fa-exchange-alt" }),
@@ -114112,7 +114144,7 @@ var render = function() {
                       staticStyle: { "padding-right": "0px" },
                       attrs: { for: "staticEmail" }
                     },
-                    [_vm._v("Montant Reste (Montant) ")]
+                    [_vm._v("Net à payer (Montant) ")]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-sm-8 cal" }, [
@@ -114272,12 +114304,16 @@ exports.push([module.i, "\n.btnMarge[data-v-93354b04]{\n     padding-bottom: 10p
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -114620,7 +114656,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                 nom_compte: "",
 
-                echeance: 0,
                 date_diff: "",
                 date_echeance_choix: "",
                 total_lettre_d: ""
@@ -114638,6 +114673,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             comptes: [],
             suppCommandes: [],
             index: 0,
+            echeance: 0,
             // total de prix de tt les commandes
             total_prix: 0,
             // montant de remise total
@@ -114774,10 +114810,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         updateDevis: function updateDevis() {
             var _this = this;
 
-            if (this.devi.echeance === undefined) {
+            if (this.echeance === undefined) {
                 this.devi.date_limit_d = this.devi.date_l;
                 console.log(this.devi.date_limit_d);
             }
+
             axios.post('/updateDevis', { devis: this.devi, commandes: this.commandes, modePaiements: this.modePaiement, suppCommandes: this.suppCommandes }).then(function (response) {
                 _this.$router.push('/getDevis/edit');
             });
@@ -114936,7 +114973,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             axios.get('/getDevisD/' + id_devis).then(function (response) {
                 //console.log(response.data.devi.fk_compte_d);
 
-
+                _this10.echeance = 'choix';
                 _this10.devi = response.data.devi[0];
                 _this10.devi.date_l = response.data.devi[0].date_limit_d;
                 //console.log("devi date..."+this.devi.date_d)
@@ -114974,22 +115011,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 dat.setDate(dat.getDate() + days);
                 return dat;
             };
+            if (this.echeance != "choix") {
+                var dat = new Date(this.devi.date_d);
+                var today = dat.addDays(+this.echeance);
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
 
-            var dat = new Date(this.devi.date_d);
-            var today = dat.addDays(+this.devi.echeance);
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1;
-            var yyyy = today.getFullYear();
-            if (dd < 10) {
-                dd = '0' + dd;
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                // console.log(dd+'-'+mm+'-'+yyyy)
+
+                this.devi.date_limit_d = yyyy + '-' + mm + '-' + dd;
             }
-
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            // console.log(dd+'-'+mm+'-'+yyyy)
-
-            this.devi.date_limit_d = yyyy + '-' + mm + '-' + dd;
         },
         diffDate: function diffDate() {
             //console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
@@ -115041,7 +115079,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             this.devi.montant_reste_d = this.precisionRound(+this.total_ttc - +this.devi.accompte_d, 2);
 
-            var res = this.total_ttc.toString().split(".");
+            var res = this.devi.montant_reste_d.toString().split(".");
             this.devi.total_lettre_d = this.$WrittenNumber(res[0], { lang: 'fr' });
 
             if (typeof res[1] !== 'undefined') {
@@ -115050,7 +115088,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 } else this.devi.total_lettre_d += ' et ' + this.$WrittenNumber(res[1], { lang: 'fr' });
             }
         },
-        echeance: function echeance() {
+        echeancee: function echeancee() {
             this.echeanceDate();
         },
         diff: function diff() {
@@ -115089,22 +115127,22 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             },
             deep: true
         },
-        'devi.echeance': {
+        'echeance': {
             handler: function handler() {
-                this.echeance;
+                this.echeancee;
                 this.diff;
             }
         },
 
         'devi.date_d': {
             handler: function handler() {
-                this.echeance;
+                this.echeancee;
                 this.diff;
             }
         },
         'devi.date_limit_d': {
             handler: function handler() {
-                this.echeance;
+                this.echeancee;
                 this.diff;
                 console.log("watch");
             }
@@ -115214,6 +115252,9 @@ var render = function() {
                             staticClass: "form-control custom-select ",
                             attrs: { id: "id_compte" },
                             on: {
+                              click: function($event) {
+                                _vm.getClient(_vm.devi.fk_compte_d)
+                              },
                               change: [
                                 function($event) {
                                   var $$selectedVal = Array.prototype.filter
@@ -115860,8 +115901,8 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.devi.echeance,
-                                expression: "devi.echeance"
+                                value: _vm.echeance,
+                                expression: "echeance"
                               }
                             ],
                             staticClass: "form-control custom-select ",
@@ -115876,13 +115917,9 @@ var render = function() {
                                     var val = "_value" in o ? o._value : o.value
                                     return val
                                   })
-                                _vm.$set(
-                                  _vm.devi,
-                                  "echeance",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
+                                _vm.echeance = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
                               }
                             }
                           },
@@ -115919,7 +115956,7 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _vm.devi.echeance === undefined
+                        _vm.echeance === undefined
                           ? _c("div", [
                               _c("br"),
                               _vm._v(
@@ -115930,11 +115967,11 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm.devi.echeance != undefined
+                        _vm.echeance != undefined
                           ? _c("div", [
                               _c("br"),
                               _vm._v(" "),
-                              _vm.devi.echeance != "choix"
+                              _vm.echeance != "choix"
                                 ? _c("div", [
                                     _vm._v(
                                       "\n                                 " +
@@ -115946,7 +115983,7 @@ var render = function() {
                                   ])
                                 : _vm._e(),
                               _vm._v(" "),
-                              _vm.devi.echeance === "choix"
+                              _vm.echeance === "choix"
                                 ? _c("div", [
                                     _c("input", {
                                       directives: [
@@ -116147,31 +116184,42 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-8" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.devi.remise_total_d,
-                              expression: "devi.remise_total_d"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text", id: "remise_total_d" },
-                          domProps: { value: _vm.devi.remise_total_d },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                        _c("div", { staticClass: "form-group row" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.devi.remise_total_d,
+                                expression: "devi.remise_total_d"
                               }
-                              _vm.$set(
-                                _vm.devi,
-                                "remise_total_d",
-                                $event.target.value
-                              )
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text", id: "remise_total_d" },
+                            domProps: { value: _vm.devi.remise_total_d },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.devi,
+                                  "remise_total_d",
+                                  $event.target.value
+                                )
+                              }
                             }
-                          }
-                        })
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              disabled: "",
+                              placeholder: "%"
+                            }
+                          })
+                        ])
                       ])
                     ])
                   ]),
@@ -116442,7 +116490,7 @@ var render = function() {
                           staticClass: "col-sm-4 col-form-label",
                           attrs: { for: "staticEmail" }
                         },
-                        [_vm._v("Montant Reste (Montant) ")]
+                        [_vm._v("Net à payer (Montant) ")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-8" }, [
@@ -122672,7 +122720,7 @@ var render = function() {
                           key: compagnie.id_compagnie,
                           domProps: { value: compagnie.id_compagnie }
                         },
-                        [_vm._v(_vm._s(compagnie.nom_societe))]
+                        [_vm._v(_vm._s(compagnie.nom_societe_comp))]
                       )
                     })
                   ],
@@ -124053,6 +124101,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -124326,7 +124375,7 @@ var render = function() {
                           key: compagnie.id_compagnie,
                           domProps: { value: compagnie.id_compagnie }
                         },
-                        [_vm._v(_vm._s(compagnie.nom_societe))]
+                        [_vm._v(_vm._s(compagnie.nom_societe_comp))]
                       )
                     })
                   ],
@@ -125564,7 +125613,7 @@ exports.push([module.i, "\n.btnMarge[data-v-99b75476]{\n     padding-bottom: 10p
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 
 
@@ -125921,7 +125970,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 conditions_reglements_bc: "",
                 notes_bc: "",
 
-                adresse_bc: "",
                 fk_status_bc: "",
                 fk_compte_bc: "",
                 fk_user_bc: "",
@@ -125934,7 +125982,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 echeance: 0,
                 date_diff: "",
                 accompte_bc: 0,
-                montant_reste_bc: 0
+                montant_reste_bc: 0,
+                fk_contact: 0,
+                adresse_bc: "",
+                adresse_facture_bc: ""
+
             },
 
             compte: {
@@ -125991,8 +126043,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 accompte_d: "",
                 fk_status_d: "",
                 fk_compte_d: "",
-                fk_user_d: ""
-
+                fk_user_d: "",
+                id_type_paiement: 0
             },
             // tableau des devis 
             devis: [],
@@ -126047,6 +126099,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 fk_type_paiement: 0
 
             },
+            typePaiement: {
+                id_type_paiement: 0,
+                type_paiement: ""
+            },
             modePaiements: [],
             typePaiements: []
         }, "contacts", {});
@@ -126064,6 +126120,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             if (this.$route.params.id_devis != null) {
                 this.countBonCommandes();
                 this.id_devis = this.$route.params.id_devis;
+                this.reference_d = this.$route.params.reference_d;
                 this.getDevisD(this.$route.params.id_devis);
 
                 this.getarticles();
@@ -126071,6 +126128,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.getTvas();
 
                 this.getCommandes(this.$route.params.id_devis);
+                this.getCommandes(this.$route.params.reference_d);
 
                 console.log();
             } else {
@@ -126310,6 +126368,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _this9.compte = response.data.compte;
                 _this9.bonCommande.adresse_bc = _this9.compte.adresse_compte;
+                _this9.bonCommande.adresse_facture_bc = _this9.compte.adresse_compte;
                 console.log(_this9.compte);
             });
             this.getRemise(id_compte);
@@ -126356,16 +126415,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _this12.modePaiement.reference_paiement = response.data.devi[0].reference_paiement;
                 _this12.modePaiement.date_paiement = response.data.devi[0].date_paiement;
-                _this12.modePaiement.type_paiement = response.data.devi[0].type_paiement;
+                _this12.typePaiement.type_paiement = response.data.devi[0].type_paiement;
+                _this12.typePaiement.id_type_paiement = _this12.devi[0].id_type_paiement;
+                _this12.modePaiement.fk_type_paiement = _this12.devi[0].id_type_paiement;
 
                 console.log(_this12.fk_document_cmd);
             });
         },
 
-        getCommandes: function getCommandes(id_devis) {
+        getCommandes: function getCommandes(reference_d) {
             var _this13 = this;
 
-            axios.get('/getCommandes/' + 'D' + id_devis).then(function (response) {
+            axios.get('/getCommandes/' + reference_d).then(function (response) {
                 console.log("commandes:  ");
                 console.log(response.data.commandes);
 
@@ -126838,39 +126899,30 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.compte.id_compte,
-                                expression: "compte.id_compte"
+                                value: _vm.bonCommande.fk_contact,
+                                expression: "bonCommande.fk_contact"
                               }
                             ],
                             staticClass: "form-control custom-select ",
                             attrs: { id: "fk_compte" },
                             on: {
-                              click: function($event) {
-                                _vm.getCompte(_vm.compte.id_compte)
-                              },
-                              change: [
-                                function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.compte,
-                                    "id_compte",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                },
-                                function($event) {
-                                  _vm.getCompte(_vm.compte.id_compte)
-                                }
-                              ]
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.bonCommande,
+                                  "fk_contact",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
                             }
                           },
                           [
@@ -126880,14 +126932,21 @@ var render = function() {
                               [_vm._v("Choisir un contact")]
                             ),
                             _vm._v(" "),
-                            _vm._l(_vm.comptes, function(compte) {
+                            _vm._l(_vm.contacts, function(contact) {
                               return _c(
                                 "option",
                                 {
-                                  key: compte.id_compte,
-                                  domProps: { value: compte.id_compte }
+                                  key: contact.id_compte,
+                                  domProps: { value: contact.id_contact }
                                 },
-                                [_vm._v(" " + _vm._s(compte.nom_compte) + " ")]
+                                [
+                                  _vm._v(
+                                    " " +
+                                      _vm._s(contact.nom) +
+                                      "--" +
+                                      _vm._s(contact.prenom)
+                                  )
+                                ]
                               )
                             })
                           ],
@@ -126942,7 +127001,49 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(1)
+                    _c("div", { staticClass: "container infoClient" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Adresse de facturation ")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c("div", { staticClass: "col-sm-10" }, [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.bonCommande.adresse_facture_bc,
+                                expression: "bonCommande.adresse_facture_bc"
+                              }
+                            ],
+                            staticClass: "AdressClient",
+                            attrs: {
+                              placeholder: "",
+                              name: "",
+                              id: "",
+                              cols: "50",
+                              rows: "4"
+                            },
+                            domProps: {
+                              value: _vm.bonCommande.adresse_facture_bc
+                            },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.bonCommande,
+                                  "adresse_facture_bc",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ])
                   ])
                 ]),
                 _vm._v(" "),
@@ -126954,7 +127055,7 @@ var render = function() {
                       _c("div", { staticClass: "card-body" }, [
                         _c("div", { staticClass: "table-responsive" }, [
                           _c("table", { staticClass: "table table-bordered" }, [
-                            _vm._m(2),
+                            _vm._m(1),
                             _vm._v(" "),
                             _c(
                               "tbody",
@@ -128133,7 +128234,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("hr"),
                 _vm._v(" "),
-                _vm._m(3)
+                _vm._m(2)
               ]
             )
           ])
@@ -128153,23 +128254,6 @@ var staticRenderFns = [
         _c("h5", [
           _c("i", { staticClass: "far fa-file" }),
           _vm._v(" Ajouter un bon de commande")
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container infoClient" }, [
-      _c("label", { attrs: { for: "" } }, [_vm._v("Adresse de facturation ")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c("div", { staticClass: "col-sm-10" }, [
-          _c("textarea", {
-            staticClass: "AdressClient",
-            attrs: { placeholder: "", name: "", id: "", cols: "50", rows: "4" }
-          })
         ])
       ])
     ])
@@ -130608,7 +130692,7 @@ exports.push([module.i, "\n.btnMarge[data-v-46637f36]{\n     padding-bottom: 10p
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 
 
@@ -130616,6 +130700,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -130946,7 +131038,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 date_diff: "",
                 date_l: "",
                 accompte_bc: 0,
-                montant_reste_bc: 0
+                montant_reste_bc: 0,
+                adresse_facture_bc: ""
             },
             echeance: 0,
             compte: {
@@ -131362,6 +131455,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                 _this12.compte = response.data.compte;
                 _this12.bonCommande.adresse_bc = _this12.compte.adresse_compte;
+                _this12.bonCommande.adresse_facture_bc = _this12.compte.adresse_compte;
             });
             this.getRemise(id_compte);
         },
@@ -131846,6 +131940,50 @@ var render = function() {
                                 _vm.$set(
                                   _vm.bonCommande,
                                   "adresse_bc",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "container infoClient" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Adresse de facturation ")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c("div", { staticClass: "col-sm-10" }, [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.bonCommande.adresse_facture_bc,
+                                expression: "bonCommande.adresse_facture_bc"
+                              }
+                            ],
+                            staticClass: "AdressClient",
+                            attrs: {
+                              placeholder: "",
+                              name: "",
+                              id: "",
+                              cols: "50",
+                              rows: "4"
+                            },
+                            domProps: {
+                              value: _vm.bonCommande.adresse_facture_bc
+                            },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.bonCommande,
+                                  "adresse_facture_bc",
                                   $event.target.value
                                 )
                               }
@@ -133120,7 +133258,7 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 
 

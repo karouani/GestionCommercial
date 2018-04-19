@@ -36,12 +36,12 @@
             <img v-if="compagnie.logo_comp === ''" class="card-img-top" :src="'storage/images/compagnie0.jpg'" alt="Card image cap" width="100px" height="100px">
 
             <div class="card-body">
-                <h5 class="card-title">Raison Sociale : {{compagnie.raison_sociale}}</h5>
+                <h5 class="card-title">Raison Sociale : {{compagnie.raison_sociale_comp}}</h5>
                 <p class="card-text">
                     <hr>
-                    <div class="widthTextCard">Secteur d'Activité : {{ compagnie.secteur_activite}}</div>
+                    <div class="widthTextCard">Secteur d'Activité : {{ compagnie.secteur_activite_comp}}</div>
                     <hr>
-                    <div class="widthTextCard">Nom Societe : {{compagnie.nom_societe}}</div>
+                    <div class="widthTextCard">Nom Societe : {{compagnie.nom_societe_comp}}</div>
                     <hr>
                     <div class="widthTextCard">Taille de Compagnie : {{ compagnie.taille_comp}}</div>
                     <hr>
@@ -62,13 +62,13 @@
               
                 <b-modal ok-only  v-model="modalShow" no-fade
                 :title="'Raison Sociale : '+compagnie.raison_sociale"
-                :body-bg-variant="+' '+modalShow+''+compagnie.secteur_activite+''+compagnie.taille_comp+''+compagnie.adresse_comp+''+compagnie.cp_comp+''+compagnie.ville_comp+''+compagnie.pays_comp+''+compagnie.tel_comp+''+compagnie.fix_comp+''+compagnie.webSite_comp+''+compagnie.logo_comp">
+                :body-bg-variant="+' '+modalShow+''+compagnie.secteur_activite_comp+''+compagnie.taille_comp+''+compagnie.adresse_comp+''+compagnie.tel_comp+''+compagnie.fix_comp+''+compagnie.webSite_comp+''+compagnie.logo_comp">
                  <div class="row" v-if="modalShow">
                      <div class="col">
                          <br>
-                         <span>Nom de Banque : </span>{{compagnie.nom_bank}}
+                         <span>Nom de Banque : </span>{{compagnie.nom_bank_comp}}
                         <hr>
-                   <span>R.I.B : </span>{{compagnie.RIB}}
+                   <span>R.I.B : </span>{{compagnie.RIB_comp}}
                    <hr>  
                                     
                    <span>Adresse : </span>{{compagnie.adresse_comp}}
@@ -88,15 +88,15 @@
                     <img v-if="compagnie.logo_comp === ''" class="card-img-top" :src="'storage/images/compagnie0.jpg'"  width="150px" height="200px">
                      </div>
                      <hr>
-                   <span>R.C :  </span>{{compagnie.RC}}
+                   <span>R.C :  </span>{{compagnie.RC_comp}}
                     <hr>
-                   <span>I.F :  </span>{{compagnie.IF}}
+                   <span>I.F :  </span>{{compagnie.IF_comp}}
                     <hr>
-                   <span>patente :  </span>{{compagnie.patente}}
+                   <span>patente :  </span>{{compagnie.patente_comp}}
                     <hr>
-                   <span>C.N.S.S :  </span>{{compagnie.cnss}}
+                   <span>C.N.S.S :  </span>{{compagnie.cnss_comp}}
                     <hr>
-                   <span>I.C.E :  </span>{{compagnie.ICE}}
+                   <span>I.C.E :  </span>{{compagnie.ICE_comp}}
                
                
                      </div>
@@ -148,9 +148,9 @@ import  Pagination from '../Pagination.vue';
               },
     compagnie: {
       id_compagnie:0,
-      raison_sociale:"",
+      raison_sociale_comp:"",
       taille_comp:"",
-      secteur_activite:"",
+      secteur_activite_comp:"",
       adresse_comp:"",
       cp_comp:"",
       ville_comp:"",

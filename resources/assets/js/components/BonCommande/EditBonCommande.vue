@@ -63,6 +63,14 @@
             </div>
          </div>
         </div>
+        <div class="container infoClient">
+            <label for="">Adresse de facturation </label>
+            <div class="form-group row">
+            <div class="col-sm-10">
+            <textarea placeholder="" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_facture_bc" ></textarea>
+            </div>
+         </div>
+        </div> 
     </div>
 </div>
 <hr>
@@ -331,6 +339,7 @@
             date_l:"",
             accompte_bc: 0,
             montant_reste_bc: 0,
+            adresse_facture_bc:"",
               },
                 echeance:0,
                compte: { 
@@ -758,6 +767,8 @@ methods: {
                        
                     this.compte= response.data.compte;
                     this.bonCommande.adresse_bc = this.compte.adresse_compte;
+                    this.bonCommande.adresse_facture_bc = this.compte.adresse_compte;
+
                   });
                   this.getRemise(id_compte);     
         },

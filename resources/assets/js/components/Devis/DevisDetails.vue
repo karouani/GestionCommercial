@@ -17,7 +17,7 @@
 </div>
      <div class="row">
         <div class="col">
-        <router-link class="btn  mb-3  float-right convert " :to="'/addBonCommande/'+devi.id_devis "><i class="fas fa-exchange-alt"></i> Convertir </router-link>
+        <a href="#"    @click="redirect_To_AddBonCommande(devi)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
         <a href="#"    @click="PdfDevis(devi.reference_d)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i> Imprimer</a>
 
         <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getDevis'">
@@ -192,7 +192,7 @@
             </div>
          </div>
          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-4 col-form-label" style="padding-right: 0px;">Montant Reste (Montant) </label>
+            <label for="staticEmail" class="col-sm-4 col-form-label" style="padding-right: 0px;">Net à payer (Montant) </label>
             <div class="col-sm-8 cal" >
             {{devi.montant_reste_d}}
             </div>
@@ -404,7 +404,11 @@ console.log(this.devi);
                     console.log('handle server error from here');
         });
     },
-        
+       redirect_To_AddBonCommande(devi){
+                   //  this.$router.push('/ShowBonCommande/'+reference_bc);
+                     this.$router.push({ name: 'addBonCommande', params: {id_devis: devi.id_devis, reference_d: devi.reference_d}});
+
+            }, 
     },
                 created () {
     // fetch the data when the view is created and the data is

@@ -58,9 +58,9 @@
             <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">Contact: </label>
                     <div class="col-sm-10">
-         <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" @click="getCompte(compte.id_compte)" @change="getCompte(compte.id_compte)">
+         <select class="form-control custom-select " id="fk_compte" v-model="bonCommande.fk_contact">
                     <option selected disabled>Choisir un contact</option>
-                    <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
+                    <option v-for="contact of contacts" :key="contact.id_compte" :value="contact.id_contact"> {{contact.nom}}--{{contact.prenom}}</option>
                 </select>  
 
                 
@@ -83,7 +83,7 @@
             <label for="">Adresse de facturation </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="" class="AdressClient" name="" id="" cols="50" rows="4"></textarea>
+            <textarea placeholder="" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_facture_bc" ></textarea>
             </div>
          </div>
         </div>      
@@ -345,7 +345,7 @@
             conditions_reglements_bc:"",
             notes_bc:"",
             
-            adresse_bc:"",
+            
             fk_status_bc:"",
             fk_compte_bc:"",
             fk_user_bc:"",
@@ -359,6 +359,10 @@
             date_diff:"",
             accompte_bc: 0,
             montant_reste_bc: 0,
+            fk_contact:0,
+            adresse_bc:"",
+            adresse_facture_bc:"",
+
               },
 
                compte: { 
@@ -416,7 +420,7 @@
            fk_status_d:"",
            fk_compte_d:"",
             fk_user_d:"",
-      
+      id_type_paiement:0,
               },
               // tableau des devis 
               devis :[],
@@ -471,6 +475,10 @@
                         fk_type_paiement:0,
 
                 },
+                typePaiement:{
+                    id_type_paiement: 0,
+                    type_paiement:"",
+                },
                 modePaiements:[],
                 typePaiements:[],
                 contacts :{},
@@ -490,6 +498,7 @@ methods: {
  if(this.$route.params.id_devis != null){
          this.countBonCommandes();
         this.id_devis = this.$route.params.id_devis;
+        this.reference_d=this.$route.params.reference_d;
         this.getDevisD(this.$route.params.id_devis);
        
        
@@ -499,6 +508,7 @@ methods: {
        
         
          this.getCommandes(this.$route.params.id_devis);
+        this.getCommandes(this.$route.params.reference_d);
          
          console.log()
     }
@@ -741,6 +751,7 @@ methods: {
                        
                     this.compte= response.data.compte;
                     this.bonCommande.adresse_bc = this.compte.adresse_compte;
+                    this.bonCommande.adresse_facture_bc = this.compte.adresse_compte;
                     console.log(this.compte)
                   });
                   this.getRemise(id_compte);     
@@ -785,15 +796,17 @@ methods: {
 
                     this.modePaiement.reference_paiement=response.data.devi[0].reference_paiement;
                     this.modePaiement.date_paiement=response.data.devi[0].date_paiement;
-                    this.modePaiement.type_paiement=response.data.devi[0].type_paiement;
-                    
+                    this.typePaiement.type_paiement=response.data.devi[0].type_paiement;
+                    this.typePaiement.id_type_paiement =  this.devi[0].id_type_paiement 
+                    this.modePaiement.fk_type_paiement = this.devi[0].id_type_paiement                       
+                                     
 
                          console.log(this.fk_document_cmd);
 
                   });     
         },
-         getCommandes:function(id_devis){
-                  axios.get('/getCommandes/'+'D'+id_devis).then(
+         getCommandes:function(reference_d){
+                  axios.get('/getCommandes/'+reference_d).then(
                   response => {
                       console.log("commandes:  ");
                          console.log(response.data.commandes);

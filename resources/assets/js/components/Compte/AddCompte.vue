@@ -20,7 +20,7 @@
                 <div class="col-sm-8">
                 <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="compte.fk_compagnie" required>
                     <option selected>Choisir une Compagnie</option>
-                    <option v-for="compagnie in compagnies" :key="compagnie.id_compagnie" :value="compagnie.id_compagnie">{{compagnie.nom_societe}}</option>
+                    <option v-for="compagnie in compagnies" :key="compagnie.id_compagnie" :value="compagnie.id_compagnie">{{compagnie.nom_societe_comp}}</option>
                 </select>
                 </div>
                 </div>
