@@ -58,7 +58,9 @@ class BonCommandeController extends Controller
                 $bonCommande->montant_ttc_bc = $request->bonCommande['montant_ttc_bc'];
                 $bonCommande->total_lettre = $request->bonCommande['total_lettre'];
                 $bonCommande->montant_reste_bc = $request->bonCommande['montant_reste_bc'];
-
+                $bonCommande->adresse_facture_bc = $request->bonCommande['adresse_facture_bc'];
+               
+                
                 
                 
                 $bonCommande->fk_user_bc = Auth::user()->id;
@@ -93,6 +95,7 @@ class BonCommandeController extends Controller
         'montant_ttc_bc' => $request->bonCommande['montant_ttc_bc'],
         'total_lettre' => $request->bonCommande['total_lettre'],
         'montant_reste_bc' => $request->bonCommande['montant_reste_bc'],
+        'adresse_facture_bc' => $request->bonCommande['adresse_facture_bc'],
         'fk_user_bc' => Auth::user()->id
         ]);
         
@@ -326,7 +329,7 @@ class BonCommandeController extends Controller
            Date: '.$bonCommande[0]->date_bc.'<br>
            Réglement: '.$bonCommande[0]->type_paiement.'<br>
            Validité: '.$bonCommande[0]->date_limit_bc.'<br>
-          
+           
            </td>
            <td style=" border-right:1px solid black;
            border-left:1px solid black;
@@ -511,6 +514,18 @@ class BonCommandeController extends Controller
  //PDF::writeHTMLCell(0, 0, '',0,$page2 ,0, 1, 0, true, 'top', true);
 
  $y = PDF::getY();    
+
+ //PDF::writeHTMLCell(0, 0, '', $y,$headerHtml, 0, 1, 0, true, '', true);
+//PDF::writeHTMLCell(0, 0, '', $y,$headerHtml, 0, 1, 0, true, '', true);
+
+
+$left_column = '<b>LEFT COLUMN</b> left column left column left column left</b>';
+$right_column = '<b>RIGHT COLUMN</b> right column right column right column</b>';
+
+PDF::writeHTMLCell(80, '', '', $y, $left_column, 0, 0, 0, true, 'left', true);
+PDF::writeHTMLCell(80, '', 110, '', $right_column, 0, 1, 0, true, 'right', true);
+$y = PDF::getY();  
+
  
  PDF::writeHTMLCell(0, 0, '',$y,$headerHtml ,0, 1, 0, true, '', true);
  $y = PDF::getY();
@@ -519,6 +534,11 @@ class BonCommandeController extends Controller
 
  PDF::writeHTMLCell(0, 10, '',$y,$objethtml, 0, 1, 0, true, '', true);
  $y = PDF::getY();
+ 
+ 
+ 
+ 
+
  
  //PDF::SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)));
 
