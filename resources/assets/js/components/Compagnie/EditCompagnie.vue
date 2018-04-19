@@ -191,6 +191,51 @@
                 </div>
             </div>
      </div>
+       
+     <hr>
+     <h4>Ajouter Contacts</h4>
+     <hr>
+     <div class="row">
+           <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>civilite</th>
+                                        <th>prenom</th>
+                                        <th>nom</th>                                       
+                                        <th>fonction</th>
+                                        <th>email</th>
+                                        <th>fixe</th>
+                                        <th>mobile</th> 
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(contact,index) in contacts" :key="index">
+                                        <th><input type="text" class="form-control" id="civilite"  v-model="contact.civilite"></th>
+                                        <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
+                                        <th><input type="text" class="form-control" id="nom"  v-model="contact.nom"></th>
+
+                                        <th><input type="text" class="form-control" id="fonction" v-model="contact.fonction" ></th>
+                                        <th><input type="text" class="form-control" id="email" v-model="contact.email" ></th>
+                                        <th><input type="text" class="form-control" id="fixe" v-model="contact.fixe" ></th>
+                                        <th><input type="text" class="form-control" id="mobile" v-model="contact.mobile"></th> 
+                                            <th><a @click="spliceContact(index,contact)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                                        </tr>
+                                        <th><input type="text" class="form-control" id="civilite"  v-model="contact.civilite"></th>
+                                        <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
+                                        <th><input type="text" class="form-control" id="prenom"  v-model="contact.nom"></th>
+                                        <th><input type="text" class="form-control" id="fonction" v-model="contact.fonction" ></th>
+                                        <th><input type="text" class="form-control" id="email" v-model="contact.email" ></th>
+                                        <th><input type="text" class="form-control" id="fixe" v-model="contact.fixe" ></th>
+                                        <th><input type="text" class="form-control" id="mobile" v-model="contact.mobile"></th> 
+                                        <th><a    @click="pushContact()"  class="btn btn-success"  ><i class="fas fa-plus-circle"></i></a></th>
+                                    </tbody>
+                                </table>
+                            </div>
+             </div>
+     </div>
+        <hr>
      <button  class="btn btn-primary mr-20 btn-success">Enregister</button>
      
      </form>
@@ -216,7 +261,18 @@
                 testAffiche : false,
                 testEdit : false,
               },
-        
+        contact: { 
+                    id_contact : 0,
+                    prenom : "",
+                    nom : "",
+                    civilite : "",
+                    fonction : "",
+                    email : "",
+                    fixe : "",
+                    mobile : "",
+                    type_contact:"",
+                    fk_compte_comp : 0,
+              },
              compagnie: {
        id_compagnie:0,
       nom_societe_comp:"",
@@ -245,8 +301,9 @@
       logo_comp:"",
       
     },
-
+    contacts :[],
     macompagnies:[],
+    suppContacts :[],
               //etat 
              
              
@@ -256,7 +313,40 @@
 
       methods: { 
 
+   pushContact(){
+            console.log(this.contact);
+                  
+            this.contacts.push({prenom:this.contact.prenom,
+                                nom : this.contact.nom,
+                                civilite : this.contact.civilite,
+                                fonction : this.contact.fonction,
+                                email : this.contact.fonction,
+                                fixe : this.contact.email,
+                                mobile : this.contact.mobile,
+                                fk_compte_comp: this.contact.fk_compte_comp,
+            });
+            console.log('-----addContacts')
+            console.log(this.contacts)
 
+            this.contact =  { 
+                    id_contact : 0,
+                    prenom : "",
+                    nom : "",
+                    civilite : "",
+                    fonction : "",
+                    email : "",
+                    fixe : "",
+                    mobile : "",
+                    fk_compte_comp : 0,
+              };
+            
+        },
+        spliceContact(index,contact){
+            this.contacts.splice(index, 1);
+                        this.suppContacts.push(contact);
+                        console.log('supp ----------');
+                        console.log(this.suppContacts)
+        },
         getCompagnie(id_compagnie){
 
                   axios.get('/getCompagnie/'+id_compagnie).then(
@@ -274,7 +364,8 @@
         updateCompagnie: function(){
            
   
-                  axios.post('/updateCompagnie',this.compagnie).then( response => {             
+                  axios.post('/updateCompagnie',{compagnie:this.compagnie,contacts: this.contacts,suppContacts: this.suppContacts})
+                  .then( response => {             
                     this.$router.push('/getCompagnies/edit');  
                     
                   
@@ -300,10 +391,20 @@
                 };
                 reader.readAsDataURL(file);
             },
+            getContacts:function(id_compagnie){
+                  axios.get('/getContacts/'+id_compagnie).then(
+                  response => {
+                       
+                    this.contacts= response.data.contacts;
+                    console.log('-------------------');
+                    console.log(this.contacts);
+                  });     
+        },
      fetchData () {
       //this.error = this.post = null
       this.loading = true
           this.getCompagnie(this.$route.params.id_compagnie);
+          this.getContacts(this.$route.params.id_compagnie);
           }
 
       },

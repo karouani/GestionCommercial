@@ -416,7 +416,7 @@
            fk_status_d:"",
            fk_compte_d:"",
             fk_user_d:"",
-      id_type_paiement:0,
+            id_type_paiement:0,
               },
               // tableau des devis 
               devis :[],
@@ -788,8 +788,8 @@ methods: {
                     this.modePaiement.reference_paiement=response.data.devi[0].reference_paiement;
                     this.modePaiement.date_paiement=response.data.devi[0].date_paiement;
                     this.typePaiement.type_paiement=response.data.devi[0].type_paiement;
-                    this.typePaiement.id_type_paiement =  this.devi[0].id_type_paiement 
-                    this.modePaiement.fk_type_paiement = this.devi[0].id_type_paiement                       
+                    this.typePaiement.id_type_paiement = this.devi[0].id_type_paiement; 
+                    this.modePaiement.fk_type_paiement = this.devi[0].id_type_paiement;                       
                                      
 
                          console.log(this.fk_document_cmd);

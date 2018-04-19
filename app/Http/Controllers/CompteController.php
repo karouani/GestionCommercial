@@ -154,7 +154,7 @@ class CompteController extends Controller
  
      }
      public function getContacts($fk_compte){
-        $contacts= Contact::where('fk_compte', $fk_compte)->get();
+        $contacts= Contact::where('fk_compte_comp', $fk_compte)->get();
        // $libelle_famille = DB::table('maCompagnies')->select('libelle_famille')->where('id_famille','=',$article->fk_famille)->get();      
         return Response()->json(['contacts' => $contacts ]);
 

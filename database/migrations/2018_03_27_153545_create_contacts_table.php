@@ -22,7 +22,8 @@ class CreateContactsTable extends Migration
             $table->string('email')->nullable();
             $table->string('fixe')->nullable();
             $table->string('mobile')->nullable();
-            $table->integer('fk_compte')->nullable();
+            $table->string('type_contact')->nullable();
+            $table->integer('fk_compte_comp')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

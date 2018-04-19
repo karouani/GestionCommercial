@@ -188,6 +188,49 @@
                 </div>
             </div>
      </div>
+        <hr>
+     <h4>Ajouter Contacts</h4>
+     <hr>
+     <div class="row">
+           <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>civilite</th>
+                                        <th>prenom</th>
+                                        <th>nom</th>                                       
+                                        <th>fonction</th>
+                                        <th>email</th>
+                                        <th>fixe</th>
+                                        <th>mobile</th> 
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(contact,index) in contacts" :key="index">
+                                        <th><input type="text" class="form-control" id="civilite"  v-model="contact.civilite"></th>
+                                        <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
+                                        <th><input type="text" class="form-control" id="nom"  v-model="contact.nom"></th>
+
+                                        <th><input type="text" class="form-control" id="fonction" v-model="contact.fonction" ></th>
+                                        <th><input type="text" class="form-control" id="email" v-model="contact.email" ></th>
+                                        <th><input type="text" class="form-control" id="fixe" v-model="contact.fixe" ></th>
+                                        <th><input type="text" class="form-control" id="mobile" v-model="contact.mobile"></th> 
+                                            <th><a @click="spliceContact(index)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                                        </tr>
+                                        <th><input type="text" class="form-control" id="civilite"  v-model="contact.civilite"></th>
+                                        <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
+                                        <th><input type="text" class="form-control" id="prenom"  v-model="contact.nom"></th>
+                                        <th><input type="text" class="form-control" id="fonction" v-model="contact.fonction" ></th>
+                                        <th><input type="text" class="form-control" id="email" v-model="contact.email" ></th>
+                                        <th><input type="text" class="form-control" id="fixe" v-model="contact.fixe" ></th>
+                                        <th><input type="text" class="form-control" id="mobile" v-model="contact.mobile"></th> 
+                                        <th><a    @click="pushContact()"  class="btn btn-success"  ><i class="fas fa-plus-circle"></i></a></th>
+                                    </tbody>
+                                </table>
+                            </div>
+             </div>
+     </div>
      <button  class="btn btn-primary mr-20 btn-success">Enregister</button>
      
      </form>
@@ -233,7 +276,19 @@ export default {
       logo_comp:"",
       
     },
-
+contact: { 
+                    id_contact : 0,
+                    prenom : "",
+                    nom : "",
+                    civilite : "",
+                    fonction : "",
+                    email : "",
+                    fixe : "",
+                    mobile : "",
+                    type_contact:"",
+                    fk_compte_comp : 0,
+              },
+               contacts :[],
     macompagnies:[],
   }),
 
@@ -258,11 +313,11 @@ export default {
     },
      // ajouter un user
     store() {
-               console.log("test");
-                 
-                axios.post('/addCompagnie',this.compagnie)
+console.log(this.compagnie.nom_societe_comp)
+                axios.post('/addCompagnie',{compagnie: this.compagnie, contacts: this.contacts}) 
                 
                     .then(response => {
+                         // console.log("test");
                         this.$router.push('/getCompagnies/add');
                     })
                     .catch(function (resp) {
@@ -270,8 +325,35 @@ export default {
                     });
             
     },
-    mtd(){
-    },
+    pushContact(){
+            console.log(this.contact);
+                  
+            this.contacts.push({prenom:this.contact.prenom,
+                                nom : this.contact.nom,
+                                civilite : this.contact.civilite,
+                                fonction : this.contact.fonction,
+                                email : this.contact.fonction,
+                                fixe : this.contact.email,
+                                mobile : this.contact.mobile,
+                                fk_compte_comp: this.contact.fk_compte_comp,
+            });
+            this.contact =  { 
+                    id_contact : 0,
+                    prenom : "",
+                    nom : "",
+                    civilite : "",
+                    fonction : "",
+                    email : "",
+                    fixe : "",
+                    mobile : "",
+                    fk_compte_comp : 0,
+              };
+            
+        },
+        spliceContact(index){
+            this.contacts.splice(index, 1);
+        },
+   
        
   fetchData () {
       //this.error = this.post = null
