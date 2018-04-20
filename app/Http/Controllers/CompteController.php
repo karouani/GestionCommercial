@@ -159,6 +159,14 @@ class CompteController extends Controller
         return Response()->json(['contacts' => $contacts ]);
 
      }
+
+
+     public function getContactPaginate($fk_compte){
+        $contacts= Contact::where('fk_compte_comp', $fk_compte)->paginate(3);
+       // $libelle_famille = DB::table('maCompagnies')->select('libelle_famille')->where('id_famille','=',$article->fk_famille)->get();      
+        return Response()->json(['contacts' => $contacts ]);
+
+     }
      public function addCondtionFacture(Request $request, $id_compte){
         
         $CFacture = new Condition_facture();

@@ -11,6 +11,7 @@ import UserConnect from './components/User/UserConnect.vue'
 import AddCompagnie from './components/Compagnie/AddCompagnie.vue'
 import AffCompagnie from './components/Compagnie/AffCompagnie.vue'
 import EditCompagnie from './components/Compagnie/EditCompagnie.vue'
+import CompagnieDetails from './components/Compagnie/CompagnieDetails.vue'
   //Devis
 import AddDevis from './components/Devis/AddDevis.vue'
 import AffDevis from './components/Devis/AffDevis.vue'
@@ -117,7 +118,11 @@ const  router = new VueRouter({
             path:"/EditCompagnie/:id_compagnie",
             component: EditCompagnie
         },
-
+        {    
+            path:"/CompagnieDetails",
+            component: CompagnieDetails,
+            name: "CompagnieDetails",
+        },
                    
 
 

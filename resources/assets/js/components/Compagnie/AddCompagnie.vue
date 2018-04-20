@@ -179,6 +179,7 @@
   </div>
 </div>
  </div>
+ 
                  <div class="form-group row">
                     <label class="col-sm-4" for="adresse_comp">Adresse</label>
                     <div class="col-sm-8">
@@ -313,7 +314,7 @@ contact: {
     },
      // ajouter un user
     store() {
-console.log(this.compagnie.nom_societe_comp)
+console.log(this.compagnie.logo_comp)
                 axios.post('/addCompagnie',{compagnie: this.compagnie, contacts: this.contacts}) 
                 
                     .then(response => {

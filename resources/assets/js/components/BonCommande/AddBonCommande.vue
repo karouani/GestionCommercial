@@ -505,7 +505,7 @@ methods: {
         this.getarticles();
         this.getClients();
         this.getTvas();
-       
+        this.getTypePaiement();
         
          this.getCommandes(this.$route.params.id_devis);
         this.getCommandes(this.$route.params.reference_d);
@@ -777,8 +777,9 @@ methods: {
                   axios.get('/getDevisD/'+id_devis).then(
                   response => {
                          console.log("deviiiiiiiis");
-                         console.log(id_devis);
+                        // console.log(id_devis);
                          console.log(response.data.devi[0]);
+                         
 
             
                     this.bonCommande.objet_bc= response.data.devi[0].objet_d;
@@ -791,15 +792,16 @@ methods: {
                     this.bonCommande.fk_devis= response.data.devi[0].reference_d;
 
                     this.bonCommande.adresse_bc= response.data.devi[0].adresse_d;
+                    this.bonCommande.accompte_bc= response.data.devi[0].accompte_d;
                     this.compte.nom_compte= response.data.devi[0].nom_compte;
                     this.compte.id_compte= response.data.devi[0].fk_compte_d;
 
                     this.modePaiement.reference_paiement=response.data.devi[0].reference_paiement;
                     this.modePaiement.date_paiement=response.data.devi[0].date_paiement;
+                    this.typePaiement.id_type_paiement = response.data.devi[0].id_type_paiement; 
+                    this.modePaiement.fk_type_paiement = response.data.devi[0].id_type_paiement;                       
                     this.typePaiement.type_paiement=response.data.devi[0].type_paiement;
-                    this.typePaiement.id_type_paiement = this.devi[0].id_type_paiement; 
-                    this.modePaiement.fk_type_paiement = this.devi[0].id_type_paiement;                       
-                                     
+                    console.log(">>>>>>>>>>"+this.typePaiement.type_paiement)                                     
 
                          console.log(this.fk_document_cmd);
 

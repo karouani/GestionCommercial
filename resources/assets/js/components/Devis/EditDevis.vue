@@ -205,10 +205,10 @@
                 <div class="form-group row">
                     <label for="remise_total_d"  class="col-sm-4 col-form-label" >Remise Total </label>
                     <div class="col-sm-8">
-                        <div class="form-group row">
+                     
                     <input type="text" class="form-control" id="remise_total_d" v-model="devi.remise_total_d">
-                    <input type="text" class="form-control" disabled placeholder="%">
-                        </div>
+                    
+                        
                     </div>
 
                 </div>                  

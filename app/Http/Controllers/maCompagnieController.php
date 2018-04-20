@@ -38,11 +38,12 @@ class maCompagnieController extends Controller
 
 
              
-             if($request->get('logo_comp'))
+             if($request->compagnie['logo_comp'])
              {
-                  $logo_comp = $request->get('logo_comp');
+                // dd("logo");
+                  $logo_comp = $request->compagnie['logo_comp'];
                   $namePhoto = time().'.' . explode('/', explode(':', substr($logo_comp, 0, strpos($logo_comp, ';')))[1])[1];
-                  $image2 = \Image::make($request->get('logo_comp'));     
+                  $image2 = \Image::make($request->compagnie['logo_comp']);     
                   Storage::put('images/'.$namePhoto, (string) $image2->encode());
                   $compagnie->logo_comp = $namePhoto;
              }
@@ -81,19 +82,19 @@ class maCompagnieController extends Controller
     {
         $compagnie = Macompagnie::find($request->compagnie['id_compagnie']);
         //$compagnie = new Article();
-        if($request->get('logo_comp'))
+        if($request->compagnie['logo_comp'])
        {  
-           if(strlen($request->get('logo_comp')) < 40 ){
-            $compagnie->logo_comp = $request->get('logo_comp');
+           if(strlen($request->compagnie['logo_comp']) < 40 ){
+            $compagnie->logo_comp = $request->compagnie['logo_comp'];
            }
            else {
-          $logo_comp = $request->get('logo_comp');
+          $logo_comp = $request->compagnie['logo_comp'];
           $name = time().'.' . explode('/', explode(':', substr($logo_comp, 0, strpos($logo_comp, ';')))[1])[1];
           if( $compagnie->logo_comp !=""){
             Storage::disk('local')->delete('images/'.$compagnie->logo_comp);
             }
   
-            $image2 = \Image::make($request->get('logo_comp'));     
+            $image2 = \Image::make($request->compagnie['logo_comp']);     
             Storage::put('images/'.$name, (string) $image2->encode());         
           $compagnie->logo_comp = $name;
         }

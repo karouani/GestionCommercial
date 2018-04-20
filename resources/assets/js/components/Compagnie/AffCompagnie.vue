@@ -48,7 +48,7 @@
                 </p>
                 
                 <div> 
-                <a href="#"  class="btn btn-primary" @click="getCompagnie(compagnie)"  ><i class="fas fa-eye d-inline-block"></i></a>
+                <a href="#"  class="btn btn-primary" @click="redirect_to_CompagnieDetails(compagnie)"  ><i class="fas fa-eye d-inline-block"></i></a>
 
                  <router-link :to="'/EditCompagnie/'+compagnie.id_compagnie">
                     <a href="#" class="btn btn-success "><i class="fas fa-edit d-inline-block"></i></a>
@@ -60,54 +60,6 @@
         </div>
          <div>
               
-                <b-modal ok-only  v-model="modalShow" no-fade
-                :title="'Raison Sociale : '+compagnie.raison_sociale"
-                :body-bg-variant="+' '+modalShow+''+compagnie.secteur_activite_comp+''+compagnie.taille_comp+''+compagnie.adresse_comp+''+compagnie.tel_comp+''+compagnie.fix_comp+''+compagnie.webSite_comp+''+compagnie.logo_comp">
-                 <div class="row" v-if="modalShow">
-                     <div class="col">
-                         <br>
-                         <span>Nom de Banque : </span>{{compagnie.nom_bank_comp}}
-                        <hr>
-                   <span>R.I.B : </span>{{compagnie.RIB_comp}}
-                   <hr>  
-                                    
-                   <span>Adresse : </span>{{compagnie.adresse_comp}}
-                        <hr>
-                   <span>GSM : </span>{{compagnie.GSM_comp}}
-                   <hr>
-                   <span>fax :  </span>{{compagnie.fax_comp}}
-                   <hr>
-                   <span>Fix :  </span>{{compagnie.fix_comp}}
-                   <hr>
-                   <span>Site Web : </span>{{compagnie.webSite_comp}}
-                   </div>
-                   <div class="col">
-                       <div class="pull-right">
-                     
-                      <img v-if="compagnie.logo_comp != ''" class="card-img-top" :src="'storage/images/'+compagnie.logo_comp" width="150px" height="150px">
-                    <img v-if="compagnie.logo_comp === ''" class="card-img-top" :src="'storage/images/compagnie0.jpg'"  width="150px" height="200px">
-                     </div>
-                     <hr>
-                   <span>R.C :  </span>{{compagnie.RC_comp}}
-                    <hr>
-                   <span>I.F :  </span>{{compagnie.IF_comp}}
-                    <hr>
-                   <span>patente :  </span>{{compagnie.patente_comp}}
-                    <hr>
-                   <span>C.N.S.S :  </span>{{compagnie.cnss_comp}}
-                    <hr>
-                   <span>I.C.E :  </span>{{compagnie.ICE_comp}}
-               
-               
-                     </div>
-                     </div>
-                    <div slot="modal-footer" class="w-100">
-                    <p class="float-left"> </p>
-                    <b-btn size="sm" class="float-right" variant="primary" @click="modalShow=false">
-                    Fermer
-                    </b-btn>
-                </div>
-                </b-modal>
             </div>
     </div> 
          <vue-pagination  :pagination="compagnies"
@@ -203,7 +155,6 @@ console.log("testttt");
                             // recuperé ensemble des compagnies sous format json
                             this.compagnies = response.data.compagnies;
                             this.loading = false
-
                          
                         })
                         .catch(function (error) {
@@ -212,7 +163,10 @@ console.log("testttt");
                          
                                
             },
-        
+        redirect_to_CompagnieDetails(compagnie){
+                     this.$router.push({ name: 'CompagnieDetails', params: {id_compagnie: compagnie.id_compagnie}});
+
+        },
       
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;

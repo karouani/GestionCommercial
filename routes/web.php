@@ -112,7 +112,7 @@ Route::get('/getClient/{id_compte}','CompteController@getClient');
 Route::post('/addContact','CompteController@addContact');
 Route::get('/updateContact','CompteController@updateContact');
 Route::get('/getContacts/{fk_compte}','CompteController@getContacts');
-
+Route::get('/getContactPaginate/{fk_compte}','CompteController@getContactPaginate');
 // condition facture
 Route::post('/addCFacture','CompteController@addCondtionFacture');
 Route::post('/updateCFacture','CompteController@updateCondtionFacture');
