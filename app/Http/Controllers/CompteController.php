@@ -90,7 +90,7 @@ class CompteController extends Controller
 
         $compte = Compte::find($id_compte);
         $compte->delete();
-        $contact = Contact::where('fk_compte','=',$id_compte);  
+        $contact = Contact::where('fk_compte_comp','=',$id_compte)->where('type_contact','=','compte');  
         $contact->delete();   
         $Condition_facture = Condition_facture::where('fk_compte','=',$id_compte)->delete(); 
         return Response()->json(['delete' => 'true']);
@@ -112,7 +112,9 @@ class CompteController extends Controller
         $contact->email = $request->contacts[$i]['email'];
         $contact->fixe = $request->contacts[$i]['fixe'];
         $contact->mobile = $request->contacts[$i]['mobile'];
-        $contact->fk_compte = $id_compte;
+        $contact->fk_compte_comp = $id_compte;
+        $contact->type_contact = "compte";
+
 
         $contact->save();
         }
@@ -136,7 +138,8 @@ class CompteController extends Controller
                 $contact->email = $request->contacts[$i]['email'];
                 $contact->fixe = $request->contacts[$i]['fixe'];
                 $contact->mobile = $request->contacts[$i]['mobile'];
-                $contact->fk_compte = $id_compte;
+                $contact->fk_compte_comp = $id_compte;
+                $contact->type_contact = "compte";
                 $contact->save();
             }    
         }

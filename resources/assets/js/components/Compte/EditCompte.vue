@@ -268,7 +268,7 @@
                     email : "",
                     fixe : "",
                     mobile : "",
-                    fk_compte : 0,
+                    fk_compte_comp : 0,
               },
               condition_facture : { 
                     id_condition : 0,
@@ -329,7 +329,7 @@
                                 email : this.contact.fonction,
                                 fixe : this.contact.email,
                                 mobile : this.contact.mobile,
-                                fk_compte: this.contact.fk_compte,
+                                fk_compte_comp: this.contact.fk_compte_comp,
             });
             console.log('-----addContacts')
             console.log(this.contacts)
@@ -343,7 +343,7 @@
                     email : "",
                     fixe : "",
                     mobile : "",
-                    fk_compte : 0,
+                    fk_compte_comp : 0,
               };
             
         },
