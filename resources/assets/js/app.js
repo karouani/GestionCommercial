@@ -57,7 +57,11 @@ Vue.component('app-adddevis', require('./components/Devis/AddDevis.vue'));
 Vue.component('app-affdevis', require('./components/Devis/AffDevis.vue'));
 Vue.component('app-detailsdevis', require('./components/Devis/DevisDetails.vue'));
 Vue.component('app-editdevis', require('./components/Devis/EditDevis.vue'));
-
+/* Factures  */
+Vue.component('app-addfacture', require('./components/Facture/AddFacture.vue'));
+Vue.component('app-afffactures', require('./components/Facture/AffFactures.vue'));
+Vue.component('app-detailsfacture', require('./components/Facture/FactureDetails.vue'));
+Vue.component('app-Editfacture', require('./components/Facture/EditFacture.vue'));
 
 // afficher un nombre de phrase limité 
 /*Vue.filter('readMore', function (text, length, suffix) {

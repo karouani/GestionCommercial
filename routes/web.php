@@ -145,7 +145,21 @@ Route::post('/UpdateBonCommande','BonCommandeController@UpdateBonCommande');
 Route::get('/pdf/{reference_bc}','BonCommandeController@pdf');
 
 Route::post('/updateStatusBC','BonCommandeController@updateStatusBC');
+ //---------------------------------------------------------------------       
 
+                //Factures
+        // ajouter Factures,commande Factures, et mode paiement de Factures
+        Route::post('/addFacture','FactureController@addFacture')->name('addFacture');
+        Route::get('/countFactures','FactureController@countFactures');
+        Route::get('/getPrixArticle_f/{fk_article}','FactureController@getPrixArticle_f');
+        Route::get('/getFactures','FactureController@getFactures');
+        Route::get('/getFactureF/{id_facture}','FactureController@getFactureF');
+        Route::post('/updateFacture','FactureController@updateFacture');
+        Route::delete('/deleteFacture/{id_facture}','FactureController@deleteFacture');
+        Route::post('/updateStatusFacture','FactureController@updateStatusFacture');
+        
+        Route::get('/pdf_f/{reference_f}','FactureController@pdf_f');
+        
 Auth::routes();
 
 

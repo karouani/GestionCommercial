@@ -50,6 +50,11 @@
                                     <i class="far fa-file"></i> Bon  Commande
                                 </router-link>
                             </li>
+                             <li class="nav-item">
+                                <router-link :to="'/getFactures'" class="nav-link">
+                                    <i class="far fa-file"></i> Facture
+                                </router-link>
+                            </li>
 
                             
                         </ul>

@@ -197,7 +197,7 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
     public function getPrixArticle($fk_article){
        $commande=Commande::find($fk_article);
        $article=Article::leftJoin('tvas', 'articles.fk_tva_applicable', '=', 'tvas.id_tva')
-       ->select('articles.*', 'tvas.taux_tva')
+       ->select('articles.*', 'tvas.*')
        ->where('articles.id_article','=',$fk_article)->get();
         return Response()->json(['article' => $article ]);
      }

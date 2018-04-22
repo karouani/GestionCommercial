@@ -99,11 +99,11 @@
                             <th>  <input class="form-control"  type="text" v-model="commande.prix_ht" ></th> 
                             
                             <th> 
-                              <select class="form-control custom-select " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" >
+                              <select class="form-control custom-select " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" @change="tauxTva">
                     <option selected>Choisir Tva</option>
                     <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
                     </select>
-
+                        {{commande.taux_tva}}
                             </th> 
                             <th>  <input class="form-control"  type="text" v-model="commande.total_ht_cmd" disabled></th>
                             <th><a  class="btn btn-danger" @click="removeRow(index)"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
@@ -448,7 +448,7 @@ this.commande = {
                         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
 console.log(this.devi.total_lettre_d)    
-        this.devi.type_operation="Vente";
+        this.devi.type_operation="vente";
         
         axios.post('/addDevis',{commandes:this.commandes,devis:this.devi,modePaiements:this.modePaiement})
         .then(response => {         
@@ -520,9 +520,10 @@ console.log(this.devi.total_lettre_d)
                    this1.commande.fk_tva_cmd = article.fk_tva_applicable
                    this1.commande.designation = article.designation;
                    this1.commande.description_article = article.description;
+                    this1.tauxTva();
+
                    console.log('truuuuue');
                }
-                
                  console.log('-------- articles ');
   console.log(article);
 });

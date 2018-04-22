@@ -81,27 +81,6 @@
                      <hr>
                     <span>R.I.B : </span>{{compagnie.RIB_comp}}  
              </div>   
-      <!--          <p class="card-text">
-                   
-      <div class="text-center ">
-                  
-                    <h4>Contact </h4>
-                    
-                </div>
-                <hr>
-                    <span>Fax : </span>{{compagnie.fax_comp}}
-                     <hr>
-                    <span>Fix: </span>{{compagnie.fix_comp}} 
-                     <hr>
-                    <span>GSM: </span>{{compagnie.GSM_comp}}  
-                     <hr>
-                    <span>Email: </span>{{compagnie.email_comp}}
-                     <hr>
-                    <span>Site Web: </span>{{compagnie.webSite_comp}}  
-                     <hr>
-                    <span>Adresse: </span>{{compagnie.adresse_comp}}  
-                </p>
-               -->
             </div>
             </div>
         </div>
@@ -147,14 +126,17 @@
             </div>
         </div>
     </div>
+    <br>
     </div>
-  </div>
-     <hr>
-    <h3>Contacts</h3>
+    <br>
+ 
+  <div class="container colBackround2">
+    
+                         <h5> <i class="icon-calculator"></i> Contacts</h5>
     <hr>
     
      
-            <div class="row">
+            <div class="row colBackround3">
                 <div class="col-auto" v-for="(contact,index) in contacts.data" :key="index" >
                 <div class="card" style="width: 18rem;">
   <div class="card-header">
@@ -171,12 +153,16 @@
 </div>
 </div>
         </div>
+
+         <div class="colBackround3">
   <vue-pagination  :pagination="contacts"
-                     @paginate="getContactPaginate(id_compagnie)"
+                     @paginate="getContactPaginate()"
                      :offset="4">
     </vue-pagination> 
+         </div>
+  </div>
     </div>
-  
+   </div>
 </template>
 
 <script>
@@ -261,45 +247,30 @@ contact: {
     },
    
         getCompagnie(id_compagnie){
-console.log("getttt")
                   axios.get('/getCompagnie/'+id_compagnie).then(
                   response => {
                     this.compagnie= response.data.compagnie;
-                    console.log(this.compagnie)
                     this.nameFile = response.data.compagnie.logo_comp;
-                    this.getContactPaginate(this.compagnie.id_compagnie);
                                      
 
 
                                   });         
         },
-        getContactPaginate:function(id_compagnie){
-                  axios.get('/getContactPaginate/'+id_compagnie+'?page='+this.contacts.current_page+'').then(
+        getContactPaginate:function(){
+                  axios.get('/getContactPaginate/'+this.$route.params.id_compagnie+'?page='+this.contacts.current_page+'').then(
                   response => {
-                       console.log('-------------------111');
-                    console.log(response.data.contacts);
                     this.contacts= response.data.contacts;
                     this.loading = false;
                    
-                    console.log('-------------------2222');
-                    console.log(this.contacts);
                   });     
         },
   fetchData () {
-      //this.error = this.post = null
-      this.loading = true
-      console.log("fetchDat...")
-       this.compagnie.id_compagnie=this.$route.params.id_compagnie;
-                console.log(this.$route.params.id_compagnie)
+          this.loading = true
           this.getCompagnie(this.$route.params.id_compagnie);
-         // this.getContactPaginate(this.compagnie.id_compagnie);
+          this.getContactPaginate();
   },
   },
-  computed:{
-     contactsPaginate(){
-         this.getContactPaginate(id_compagnie);
-     }
-  },
+ 
   created () {
     // fetch the data when the view is created and the data is
     // already being observed
@@ -308,6 +279,7 @@ console.log("getttt")
   watch:{
           // call again the method if the route changes
     '$route': 'fetchData', 
+
   },
   
 
@@ -342,17 +314,54 @@ a {
 .colBackround2{
     background-color: whitesmoke;
     box-shadow: 1px 1px 3px 4px #d2cfcf;
-    padding-left:  0px;
-    margin-left:  0px;
-    padding-right: 0px;
+    padding-left: 20px;
+    /* margin-left: 0px; */
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    margin-top: 15px;
+
 }
 .colBackround3{
-    background-color: #d8edff;
-    padding-left:  0px;
-    margin-left:  0px;
-    padding-right: 0px;
+padding-left: 20px;
 }
 .badgeSize{
     font-size: 14px;
+}
+
+
+
+
+   /*loading*/
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
 }
 </style>

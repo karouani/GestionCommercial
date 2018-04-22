@@ -17,7 +17,11 @@ import AddDevis from './components/Devis/AddDevis.vue'
 import AffDevis from './components/Devis/AffDevis.vue'
 import DevisDetails from './components/Devis/DevisDetails.vue'
 import EditDevis from './components/Devis/EditDevis.vue'
-
+ //Factures
+ import AddFacture from './components/Facture/AddFacture.vue'
+ import AffFactures from './components/Facture/AffFactures.vue'
+ import FactureDetails from './components/Facture/FactureDetails.vue'
+ import EditFacture from './components/Facture/EditFacture.vue'
 
 
 
@@ -229,8 +233,39 @@ const  router = new VueRouter({
          path:"/EditBonCommande",
          component: EditBonCommande,
          name: "EditBonCommande",
-        },           
+        },  
         
+        
+               // ----------------------------------------------------------  // Factures 
+// ajouter les factures 
+{    
+    path:"/addFacture",
+    component: AddFacture,
+    name: "addFacture",
+},
+{    
+    path:"/getFactures",
+    component: AffFactures
+},
+{    
+    path:"/getFactures/:success",
+    component: AffFactures
+},
+{    
+    path:"/FactureDetails",
+    component: FactureDetails,
+    name: "FactureDetails"
+},
+{
+    path:"/FactureDetails/:success/:id_facture",
+    component: FactureDetails,
+
+},
+{    
+    path:"/EditFacture",
+    component: EditFacture,
+    name: "EditFacture",
+},       
     ],
    
 })

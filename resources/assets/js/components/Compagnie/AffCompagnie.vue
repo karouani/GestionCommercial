@@ -37,7 +37,7 @@
 
             <div class="card-body">
                 <h5 class="card-title">Raison Sociale : {{compagnie.raison_sociale_comp}}</h5>
-                <p class="card-text">
+                <div class="card-text">
                     <hr>
                     <div class="widthTextCard">Secteur d'Activité : {{ compagnie.secteur_activite_comp}}</div>
                     <hr>
@@ -45,9 +45,10 @@
                     <hr>
                     <div class="widthTextCard">Taille de Compagnie : {{ compagnie.taille_comp}}</div>
                     <hr>
-                </p>
+                </div>
                 
                 <div> 
+                    
                 <a href="#"  class="btn btn-primary" @click="redirect_to_CompagnieDetails(compagnie)"  ><i class="fas fa-eye d-inline-block"></i></a>
 
                  <router-link :to="'/EditCompagnie/'+compagnie.id_compagnie">
@@ -148,21 +149,22 @@ watch:{
     methods: {
           
               // methode pour afficher tous les compagnies                  
-            getCompagnies(){
-console.log("testttt");
-                        axios.get('/getCompagnies?page='+this.compagnies.current_page+'')
-                        .then(response => {
+        getCompagnies(){
+            console.log("testttt");
+                axios.get('/getCompagnies?page='+this.compagnies.current_page+'')
+                    .then(response => {
                             // recuperé ensemble des compagnies sous format json
                             this.compagnies = response.data.compagnies;
                             this.loading = false
                          
-                        })
-                        .catch(function (error) {
+                    })
+                    .catch(function (error) {
                            
-                        });                
+                    });                
                          
                                
-            },
+        },
+
         redirect_to_CompagnieDetails(compagnie){
                      this.$router.push({ name: 'CompagnieDetails', params: {id_compagnie: compagnie.id_compagnie}});
 
@@ -186,18 +188,6 @@ console.log("testttt");
                 };
                 reader.readAsDataURL(file);
             },
-
-        getCompagnie(compagnie){
-              
-                  axios.get('/getCompagnie/'+compagnie.id_compagnie).then(
-                  response => {
-                       
-                    this.compagnie= response.data.compagnie;
-                  
-                    
-                    this.modalShow = !this.modalShow
-                  });         
-        },
             deleteCompagnie(compagnie) {
                                      this.$swal({
                         title: 'Êtes-vous sûr?',
@@ -228,7 +218,6 @@ console.log("testttt");
                        
         },
           fetchData () {
-      //this.error = this.post = null
       this.loading = true
       this.getCompagnies();
           }

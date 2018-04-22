@@ -493,10 +493,11 @@
 
 methods: { 
 
-     fetchData () { 
-          this.loading = true
- if(this.$route.params.id_devis != null){
-         this.countBonCommandes();
+    fetchData () { 
+        this.loading = true
+    
+    if(this.$route.params.id_devis != null){
+        this.countBonCommandes();
         this.id_devis = this.$route.params.id_devis;
         this.reference_d=this.$route.params.reference_d;
         this.getDevisD(this.$route.params.id_devis);
@@ -507,10 +508,8 @@ methods: {
         this.getTvas();
         this.getTypePaiement();
         
-         this.getCommandes(this.$route.params.id_devis);
+        this.getCommandes(this.$route.params.id_devis);
         this.getCommandes(this.$route.params.reference_d);
-         
-         console.log()
     }
     else{
 

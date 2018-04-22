@@ -354,7 +354,7 @@
                     this.compagnie= response.data.compagnie;
 
                     this.nameFile = response.data.compagnie.logo_comp;
-                                      this.loading = false;
+                                      
 
 
                                   });         
@@ -396,6 +396,7 @@
                   response => {
                        
                     this.contacts= response.data.contacts;
+                    this.loading = false;
                     console.log('-------------------');
                     console.log(this.contacts);
                   });     
