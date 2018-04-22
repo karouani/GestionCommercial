@@ -217,4 +217,13 @@ class CompteController extends Controller
         return Response()->json(['conditions_remise' => $remise ]);
      }
 
+     public function countCompte(){
+        $countCompteCL = Compte::withTrashed()->where('type_compte','=','Client')->count();
+        $countCompteCL ++;
+        $countCompteFR = Compte::withTrashed()->where('type_compte','=','Fournisseur')->count();
+        $countCompteFR ++;
+       // dd($countCompte);
+        return Response()->json(['countCompteCL' => $countCompteCL ,'countCompteFR' => $countCompteFR ]);
+    }
+
 }

@@ -103,6 +103,7 @@ Route::post('/updateCompte','CompteController@updateCompte');
 Route::delete('/deleteCompte/{id_compte}','CompteController@deleteCompte');
 Route::get('/getCompte/{id_compte}','CompteController@getCompte');
 Route::get('/searchComptes/{nomCompte}','CompteController@searchComptes');
+Route::get('/countCompte','CompteController@countCompte');
      
     // compte: client recupere pour les commandes
 Route::get('/getClients','CompteController@getClients');
