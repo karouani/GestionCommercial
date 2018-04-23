@@ -186,7 +186,7 @@ Route::get('/pdfBL/{reference_bl}','BonLivraisonController@pdf');
 Route::post('/updateStatusBL','BonLivraisonController@updateStatusBL');
    
 //pour facture
-//Route::get('/getBL_Facture/{idCompte}','BonLivraisonController@getBL_Facture');
+Route::get('/getBonLivraisonBL/{id_bl}','FactureController@getBonLivraisonBL');
 
 Auth::routes();
 

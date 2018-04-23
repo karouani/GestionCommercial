@@ -343,7 +343,11 @@
               articles:[],
               comptes:[],
               typePaiements:[],
-            
+            typePaiement:{
+                id_type_paiement:0,
+                type_paiement:"",
+            },
+           
             index:0,
             // total de prix de tt les commandes
             total_prix:0,
@@ -583,8 +587,22 @@ console.log(this.facture.total_lettre_f)
   var factor = Math.pow(10, precision);
   return Math.round(number * factor) / factor;
 },
+countFactures(){
+
+                axios.get('/countFactures')
+                .then((response) => {
+
+                   var today = new Date();
+                    var yyyy = today.getFullYear();             
+                    var year  = yyyy;
+                    this.facture.reference_f='F-'+year+'-'+response.data.count;
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
 // pour convert
-/* getBonLivraisonBL(id_bl){
+ getBonLivraisonBL(id_bl){
                   axios.get('/getBonLivraisonBL/'+id_bl).then(
                   response => {
                          console.log("bonLivraisonnnnnnn");
@@ -634,7 +652,7 @@ console.log(this.facture.total_lettre_f)
                     // this.commande.fk_article= response.data.articles;
                 this.loading= false;
                   });     
-        },*/
+        },
  echeanceDate(){
 Date.prototype.addDays = function(days) {
   var dat = new Date(this.valueOf());
@@ -643,7 +661,7 @@ Date.prototype.addDays = function(days) {
   dat.setDate(dat.getDate() + days);
   return dat;
 }
-
+if(this.echeance != "choix"){  
 var date_f=this.facture.date_f
 var dat = new Date(date_f);
 
@@ -667,7 +685,7 @@ var echeance= +this.facture.echeance;
                 } 
    console.log(dd+'-'+mm+'-'+yyyy)
 
-            this.facture.date_limit_f=yyyy+'-'+mm+'-'+dd;
+            this.facture.date_limit_f=yyyy+'-'+mm+'-'+dd;}
            // return dd+'-'+mm+'-'+yyyy;
    
 },
@@ -685,13 +703,15 @@ diffDate() {
       //this.error = this.post = null
       this.loading = true
    
-   /*    if(this.$route.params.id_bl != null){
+       if(this.$route.params.id_bl != null){
         this.countFactures();
         this.id_bl = this.$route.params.id_bl;
-        this.reference_f=this.$route.params.reference_f;
+        this.facture.fk_bl=this.$route.params.reference_bl;
         this.getBonLivraisonBL(this.$route.params.id_bl);
+        this.facture.fk_compte_f=this.$route.params.id_compte;
+        this.facture.id_compte=this.$route.params.id_compte;
        
-       
+        this.echeance = 'choix';
         this.getarticles();
         this.getClients();
         this.getTvas();
@@ -700,16 +720,17 @@ diffDate() {
         this.getCommandes(this.$route.params.id_bl);
         this.getCommandes(this.$route.params.reference_bl);
     }
-    else{*/
+    else{
       // replace `getPost` with your data fetching util / API wrapper
             this.facture.date_f=this.$route.params.currentDate;
             this.facture.reference_f=this.$route.params.reference_f;
             this.commande.fk_document=this.$route.params.reference_f;
             this.modePaiement.fk_document=this.$route.params.reference_f;
             this.facture.fk_compte_f=this.$route.params.id_compte;
+            this.facture.id_compte=this.$route.params.id_compte;
 
           
-            //this.countFactures();
+           
             this.getTvas();
             this.getarticles();
             this.getClients();
@@ -717,11 +738,11 @@ diffDate() {
             this.getRemise(this.$route.params.id_compte);
             this.getStatus();
             this.getTypePaiement();
-/*}*/
-    },
+
+    }
 },
     
-    
+},    
 computed:{
         // calcul
     TotalFacture(){

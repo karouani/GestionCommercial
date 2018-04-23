@@ -9,7 +9,7 @@
     <div v-if="!loading" >
     <div class="row">
         <div class="col">
-            <a href="#"    @click="redirect_To_AddFacture(bonlivraison)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
+            <a href="#"    @click="redirect_To_AddFacture(bonLivraison)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
            <a href="#"    @click="PdfBonLivraison(bonLivraison.reference_bl)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
 
      <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonLivraisons'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
@@ -251,7 +251,11 @@
           data: () => ({
               loading: false,
               bonLivraisons : [],
-            bonLivraison : {},
+            bonLivraison : {
+
+
+                id_compte:0,
+            },
                 commandes : [],
                 status : []
 
@@ -322,16 +326,16 @@ methods: {
                                    
                                     this.bonLivraison = response.data.bonLivraison[0];
                                     console.log("recup Bon Livraison")
-                                    console.log(this.bonLivraison)
+                                    console.log(this.bonLivraison.id_compte)
                                 })
                                 .catch(() => {
                                         console.log('handle server error from here');
                                 });
         },
- redirect_To_AddFacture(bonlivraison){
-           console.log("redirect id compte"+this.devi.id_compte)
+ redirect_To_AddFacture(bonLivraison){
+           console.log("redirect id compte"+this.bonLivraison.id_compte)
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
-                     this.$router.push({ name: 'addBonCommande', params: {id_bl: bonlivraison.id_bl, reference_bl: bonlivraison.reference_bl,id_compte:bonlivraison.id_compte}});
+                     this.$router.push({ name: 'addFacture', params: {id_bl: this.bonLivraison.id_bl, reference_bl: this.bonLivraison.reference_bl,id_compte:this.bonLivraison.id_compte}});
 },
         getCommandes(reference_bl){
 
