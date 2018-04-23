@@ -50,7 +50,11 @@
                                     <i class="far fa-file"></i> Bon  Commande
                                 </router-link>
                             </li>
-
+                            <li class="nav-item">
+                                <router-link :to="'/ShowBonLivraisons'" class="nav-link">
+                                    <i class="far fa-file"></i> Bon  Livraison
+                                </router-link>
+                            </li>
                             
                         </ul>
                     </li>

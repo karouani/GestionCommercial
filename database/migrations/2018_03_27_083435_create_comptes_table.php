@@ -31,6 +31,9 @@ class CreateComptesTable extends Migration
             $table->string('RC')->nullable();
             $table->string('adresse_compte')->nullable();
             $table->integer('fk_compagnie')->nullable();
+            $table->string('logo_compte')->nullable();
+
+            
             $table->softDeletes();
             $table->timestamps();
         });

@@ -945,7 +945,7 @@ computed:{
            
             this.bonCommande.montant_reste_bc=this.precisionRound(  +this.total_ttc - +this.bonCommande.accompte_bc,2);
 
-            var res = this.total_ttc.toString().split(".");
+            var res = this.bonCommande.montant_reste_bc.toString().split(".");
 
 
 

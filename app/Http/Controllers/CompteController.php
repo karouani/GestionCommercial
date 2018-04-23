@@ -7,6 +7,8 @@ use App\Compte;
 use App\Contact;
 use App\Condition_facture;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class CompteController extends Controller
 {
@@ -29,6 +31,24 @@ class CompteController extends Controller
 
      public function addCompte(Request $request){
         $compte = new Compte();
+
+        if($request->compte['logo_compte'])
+        {  
+            if(strlen($request->compte['logo_compte']) < 40 ){
+             $compte->logo_compte = $request->compte['logo_compte'];
+            }
+            else {
+           $image = $request->compte['logo_compte'];
+           $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+          $image2 = \Image::make($request->compte['logo_compte']);     
+           Storage::put('images/'.$name, (string) $image2->encode());
+           $compte->logo_compte = $name;}
+         }
+         else  {
+             $compte->logo_compte = "";
+         }
+
+
         $compte->nom_compte = $request->compte['nom_compte'];
         $compte->responsable = $request->compte['responsable'];
         $compte->type_compte = $request->compte['type_compte'];
@@ -60,6 +80,33 @@ class CompteController extends Controller
      public function updateCompte(Request $request){
 
         $compte = Compte::find($request->compte['id_compte']);
+
+
+        if($request->compte['logo_compte'])
+        {  
+            if(strlen($request->compte['logo_compte']) < 40 ){
+             $compte->logo_compte= $request->compte['logo_compte'];
+            }
+            else {
+           $image = $request->compte['logo_compte'];
+           $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+           if( $compte->logo_compte!=""){
+           Storage::disk('local')->delete('images/'.$compte->logo_compte);
+           }
+ 
+           $image2 = \Image::make($request->compte['logo_compte']);     
+           Storage::put('images/'.$name, (string) $image2->encode());
+           $compte->logo_compte= $name;}
+         }
+         else  {
+             $compte->logo_compte= "";
+         }
+
+
+
+
+
+
         $compte->nom_compte = $request->compte['nom_compte'];
         $compte->responsable = $request->compte['responsable'];
         $compte->type_compte = $request->compte['type_compte'];
@@ -89,6 +136,8 @@ class CompteController extends Controller
      public function deleteCompte($id_compte){
 
         $compte = Compte::find($id_compte);
+        if( $compte->logo_compte !=""){
+            Storage::disk('local')->delete('images/'.$compte->logo_compte);}
         $compte->delete();
         $contact = Contact::where('fk_compte_comp','=',$id_compte)->where('type_contact','=','compte');  
         $contact->delete();   
