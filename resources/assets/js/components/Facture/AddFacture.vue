@@ -330,6 +330,7 @@
             date_diff:"",
             total_lettre_f:"",
               },
+              echeance:0,
               compte:{
                   id_compte:0,
                   nom_compte:"",
@@ -773,7 +774,7 @@ computed:{
             }
              this.facture.total_lettre_f=this.total_lettre;
     },
-    echeance(){
+    echeancee(){
             this.echeanceDate();
 
    },
@@ -816,9 +817,9 @@ watch:{
             },
             deep : true
     },
-    'facture.echeance':{
+    'echeance':{
             handler: function(){
-                    this.echeance;
+                    this.echeancee;
                     this.diff;
 
             }
@@ -826,14 +827,14 @@ watch:{
 
             'facture.date_f':{
             handler: function(){
-                this.echeance;
+                this.echeancee;
                     this.diff;
 
             }
     },
     'facture.date_limit_f':{
         handler: function(){
-                this.echeance;
+                this.echeancee;
                     this.diff;
             console.log("watch")
 

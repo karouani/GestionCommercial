@@ -14,14 +14,14 @@
 <div v-if="!loading">
    
             <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
-        <strong>Bon Commande bien ajouter !</strong> 
+        <strong>Bon Livraison bien ajouter !</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
 
         <div v-if="Testopen.testnotifEdit" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
-        <strong>Bon Commande bien modifier !</strong> 
+        <strong>Bon Livraison bien modifier !</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -63,7 +63,7 @@
                 <div class="form-group row">
                     <label for="reference" class="col-sm-2 col-form-label">Référence: </label>
                     <div class="col-sm-10">
-                    <b-form-input  type="text" v-model="reference_bc" class="form-control" id="date" placeholder="" disabled/>
+                    <b-form-input  type="text" v-model="reference_bl" class="form-control" id="date" placeholder="" disabled/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -98,7 +98,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" @keyup.enter="searchBonCommande"  class="form-control" v-model="search" placeholder="recherche par nom du Compte ou responsable " aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="text" @keyup.enter="searchBonLivraison"  class="form-control" v-model="search" placeholder="recherche par nom du Compte ou responsable " aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div> 
         
@@ -111,7 +111,7 @@
                                     <thead>
                                     <tr>
                                         <th>reference</th>
-                                        <th>date Bon commande</th>
+                                        <th>date Bon livraison</th>
                                         <th>date limit</th>
                                         <th>Montant TTC</th>
                                         <th>Statut</th>
@@ -120,33 +120,33 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr  v-for="bonCommande of bonCommandes.data" :key="bonCommande.id_bc" >
-                                        <td>{{bonCommande.reference_bc}}</td>
-                                        <td>{{bonCommande.date_bc}}</td>
-                                        <td>{{bonCommande.date_limit_bc}}
-                                             <span v-if="bonCommande.date_diff > 0" style="color:#83ea0cf7">
-                                            (+{{bonCommande.date_diff}})
+                                    <tr  v-for="bonLivraison of bonLivraisons.data" :key="bonLivraison.id_bl" >
+                                        <td>{{bonLivraison.reference_bl}}</td>
+                                        <td>{{bonLivraison.date_bl}}</td>
+                                        <td>{{bonLivraison.date_limit_bl}}
+                                             <span v-if="bonLivraison.date_diff > 0" style="color:#83ea0cf7">
+                                            (+{{bonLivraison.date_diff}})
                                             </span>
-                                            <span v-if="bonCommande.date_diff <= 0" style="color:red">
-                                            ({{bonCommande.date_diff}})
+                                            <span v-if="bonLivraison.date_diff <= 0" style="color:red">
+                                            ({{bonLivraison.date_diff}})
                                             </span>
                                         </td>
-                                        <td>{{bonCommande.montant_ttc_bc}} </td>  
-                                              <td v-if="bonCommande.fk_status_bc == 'Brouillon'">
+                                        <td>{{bonLivraison.montant_ttc_bl}} </td>  
+                                              <td v-if="bonLivraison.fk_status_bl == 'Brouillon'">
                                             
-                                             <span class="badge badge-pill" style="background-color:rgb(170, 170, 170);color:white;font-size:14px"> <b>{{bonCommande.fk_status_bc}} </b></span> </td>
+                                             <span class="badge badge-pill" style="background-color:rgb(170, 170, 170);color:white;font-size:14px"> <b>{{bonLivraison.fk_status_bl}} </b></span> </td>
                                          <td  v-else>   
-                                             <span class="badge badge-pill" :style="{'background-color': bonCommande.colorStatu ,'color':fontStatu.white , 'font-size':fontStatu.size}"> <b>{{bonCommande.type_status}} </b></span> </td>
-                                        <td>{{bonCommande.nom_compte}} </td>  
+                                             <span class="badge badge-pill" :style="{'background-color': bonLivraison.colorStatu ,'color':fontStatu.white , 'font-size':fontStatu.size}"> <b>{{bonLivraison.type_status}} </b></span> </td>
+                                        <td>{{bonLivraison.nom_compte}} </td>  
                                        
                                         <td  class="optionsWidth"> 
-                                            <a href="#"    @click="redirect_To_ShowBonCommande(bonCommande.reference_bc)"  class="btn btn-primary" ><i class="fas fa-eye d-inline-block"></i></a>
-                                            <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary" ><i class="far fa-file-pdf"></i></a>
+                                            <a href="#"    @click="redirect_To_ShowBonLivraison(bonLivraison.reference_bl)"  class="btn btn-primary" ><i class="fas fa-eye d-inline-block"></i></a>
+                                            <a href="#"    @click="PdfBonLivraison(bonLivraison.reference_bl)"  class="btn btn-secondary" ><i class="far fa-file-pdf"></i></a>
                                             
 
-                                     <a href="#"  @click="redirect_To_EditBonCommande(bonCommande)" class="btn btn-success"><i class="fas fa-edit d-inline-block"></i></a>                                
+                                     <a href="#"  @click="redirect_To_EditBonLivraison(bonLivraison)" class="btn btn-success"><i class="fas fa-edit d-inline-block"></i></a>                                
 
-                                             <a href="#"  @click="deleteBonCommande(bonCommande)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
+                                             <a href="#"  @click="deleteBonLivraison(bonLivraison)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
                                     </tr>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     </div>
@@ -160,8 +160,8 @@
             </div>
     </div>
     
-    <vue-pagination  :pagination="bonCommandes"
-                     @paginate="getBonCommandes()"
+    <vue-pagination  :pagination="bonLivraisons"
+                     @paginate="getBonLivraisons()"
                      :offset="4">
     </vue-pagination>
     </div>
@@ -188,7 +188,7 @@ import  Pagination from '../Pagination.vue';
               
               ninjas: "hello ninjas ",
               datahidden: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, eius?",
-              reference_bc: "",
+              reference_bl: "",
               currentDate : "",
               test1 : {
                   searchQuery: 0,
@@ -217,7 +217,7 @@ import  Pagination from '../Pagination.vue';
               // tester  si affiche articles  ou afficher ajouter article 
               
               // initialisation d un article 
-              bonCommandes:{
+              bonLivraisons:{
                         
                         total: 0,
                         per_page: 2,
@@ -250,29 +250,29 @@ import  Pagination from '../Pagination.vue';
                     fk_compagnie : "",
                     adresse_compte:""
               },
-               bonCommande : { 
-            id_bc:0,
-            reference_bc:"",
-            date_bc:"", 
-            type_operation_bc:"",
-            objet_bc:"",
-            date_emission_bc:"",
-            remise_total_bc:"",
-            majoration_bc:"",
-            date_limit_bc:"",
-            introduction_bc:"",  
-            conditions_reglements_bc:"",
-            notes_bc:"",
-            accompte_bc:"",
-            adresse_bc:"",
-            fk_status_bc:"",
-            fk_compte_bc:"",
-            fk_user_bc:"",
-            total_ht_bc: 0,
-            remise_ht_bc: 0,
-            montant_net_bc: 0,
-            tva_montant_bc: 0,
-            montant_ttc_bc: 0,
+               bonLivraison : { 
+            id_bl:0,
+            reference_bl:"",
+            date_bl:"", 
+            type_operation_bl:"",
+            objet_bl:"",
+            date_emission_bl:"",
+            remise_total_bl:"",
+            majoration_bl:"",
+            date_limit_bl:"",
+            introduction_bl:"",  
+            conditions_reglements_bl:"",
+            notes_bl:"",
+            accompte_bl:"",
+            adresse_bl:"",
+            fk_status_bl:"",
+            fk_compte_bl:"",
+            fk_user_bl:"",
+            total_ht_bl: 0,
+            remise_ht_bl: 0,
+            montant_net_bl: 0,
+            tva_montant_bl: 0,
+            montant_ttc_bl: 0,
             date_diff: "",
       
               },
@@ -283,21 +283,9 @@ import  Pagination from '../Pagination.vue';
  
    
         mounted(){
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth() +1; 
-            var yyyy = today.getFullYear();
-             if(dd<10) 
-                {
-                    dd='0'+dd;
-                } 
-
-                if(mm<10) 
-                {
-                    mm='0'+mm;
-                } 
-            this.currentDate  = yyyy+'-'+mm+'-'+dd;
-            this.countBonCommandes()
+         
+            this.currentDate  = this.DataCourant();
+            this.countBonLivraisons()
             console.log(this.currentDate);
             console.log('test date ')
             this.getClients();
@@ -339,11 +327,27 @@ import  Pagination from '../Pagination.vue';
   },
 
       methods: {
+          DataCourant(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() +1; 
+            var yyyy = today.getFullYear();
+             if(dd<10) 
+                {
+                    dd='0'+dd;
+                } 
 
-          PdfBonCommande(reference_bc){
+                if(mm<10) 
+                {
+                    mm='0'+mm;
+                } 
+           return  yyyy+'-'+mm+'-'+dd;
+          },
+
+          PdfBonLivraison(reference_bl){
                            
-                //   window.location.href='/pdf/'+reference_bc
-                  window.open('/pdf/'+reference_bc,'_blank');
+                //   window.location.href='/pdf/'+reference_bl
+                  window.open('/pdfBL/'+reference_bl,'_blank');
           },
 
          getClients(){
@@ -358,14 +362,14 @@ import  Pagination from '../Pagination.vue';
                 });
           },
 
-           countBonCommandes(){
+           countBonLivraisons(){
 
-                axios.get('/countBonCommandes')
+                axios.get('/countBonLivraisons')
                 .then((response) => {
                      var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
-                    this.reference_bc='BC-'+year+'-'+response.data.count;
+                    this.reference_bl='BL-'+year+'-'+response.data.count;
 
                     
                     /*this.commande.fk_document='D'+response.data.count;
@@ -381,19 +385,19 @@ import  Pagination from '../Pagination.vue';
               let this1 = this
                setTimeout(function () { this1.Testopen.testnotifAdd = false }, 1000);
           },
-          searchBonCommande(event){
+          searchBonLivraison(event){
              console.log(this.search);
-             this.bonCommandes.current_page=1;
+             this.bonLivraisons.current_page=1;
              if(this.search === ""){
                 //console.log('test2');
-                    this.getBonCommandes();}
+                    this.getBonLivraisons();}
                 else {
                      // console.log('test1');
-                axios.get('/searchBonCommande/'+this.search+'?page='+this.bonCommandes.current_page+'')
+                axios.get('/searchBonLivraison/'+this.search+'?page='+this.bonLivraisons.current_page+'')
                 .then((response) => {
                   console.log('serchhhh ')
                   console.log(response.data.boncommandes)
-                    this.bonCommandes = response.data.boncommandes;
+                    this.bonLivraisons = response.data.boncommandes;
                   
                 })
                 .catch(() => {
@@ -406,27 +410,27 @@ import  Pagination from '../Pagination.vue';
       //this.error = this.post = null
       this.loading = true
       // replace `getPost` with your data fetching util / API wrapper
-  console.log("getBC mazal ")
-   this.getBonCommandes();
+  console.log("getBL mazal ")
+   this.getBonLivraisons();
 
     },
-          getBonCommandes(){
-               axios.get('/getBonCommandes?page='+this.bonCommandes.current_page+'')
+          getBonLivraisons(){
+               axios.get('/getBonLivraisons?page='+this.bonLivraisons.current_page+'')
                 .then((response) => {
                   this.loading = false;
-                    this.bonCommandes = response.data.bonCommandes;
+                    this.bonLivraisons = response.data.bonLivraisons;
                     let that=this
-                    this.bonCommandes.data.forEach(function(bonCommande) {
+                    this.bonLivraisons.data.forEach(function(bonLivraison) {
               
-                          // bonCommande.currentDateDevi = that.currentDate;
+                          // bonLivraison.currentDateDevi = that.currentDate;
                         var startDate = Date.parse(that.currentDate);
-                        var endDate = Date.parse(bonCommande.date_limit_bc);
+                        var endDate = Date.parse(bonLivraison.date_limit_bl);
                         var timeDiff = endDate - startDate;
                         var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                        bonCommande.date_diff=daysDiff;
+                        bonLivraison.date_diff=daysDiff;
                     })
-                  console.log(response.data.bonCommandes)
-                  console.log("getBC oook ")
+                  console.log(response.data.bonLivraisons)
+                  console.log("getBL oook ")
                 })
                 .catch(() => {
                     console.log('handle server error from here');
@@ -436,7 +440,7 @@ import  Pagination from '../Pagination.vue';
 
 
 
-             deleteBonCommande:function(bonCommande){
+             deleteBonLivraison:function(bonLivraison){
 
 
                         this.$swal({
@@ -449,10 +453,10 @@ import  Pagination from '../Pagination.vue';
                         confirmButtonText: 'Oui, supprimez-le!'
                                                 }).then((result) => {
                         if (result.value) {
-                            axios.delete('/deleteBonCommande/'+bonCommande.id_bc).then(
+                            axios.delete('/deleteBonLivraison/'+bonLivraison.id_bl).then(
                                         response => {
                                 
-                                            this.getBonCommandes();
+                                            this.getBonLivraisons();
                                         });
                         this.$swal(
                         'Supprimé!',
@@ -464,18 +468,18 @@ import  Pagination from '../Pagination.vue';
 
         },
 
-                redirect_To_ShowBonCommande(reference_bc){
-                     this.$router.push('/ShowBonCommande/'+reference_bc);
+                redirect_To_ShowBonLivraison(reference_bl){
+                     this.$router.push('/ShowBonLivraison/'+reference_bl);
             },
-            redirect_To_EditBonCommande(boncommande){
-                   //  this.$router.push('/ShowBonCommande/'+reference_bc);
-                     this.$router.push({ name: 'EditBonCommande', params: { reference_bc: boncommande.reference_bc, fk_compte_bc: boncommande.fk_compte_bc}});
+            redirect_To_EditBonLivraison(boncommande){
+                   //  this.$router.push('/ShowBonLivraison/'+reference_bl);
+                     this.$router.push({ name: 'EditBonLivraison', params: { reference_bl: boncommande.reference_bl, fk_compte_bl: boncommande.fk_compte_bl}});
 
             },
 
             
             handleOk(){
-                    this.$router.push({ name: 'addBonCommande', params: { id_compte: this.compte.id_compte ,reference_bc: this.reference_bc, currentDate: this.currentDate  }});
+                    this.$router.push({ name: 'addBonLivraison', params: { id_compte: this.compte.id_compte ,reference_bl: this.reference_bl, currentDate: this.currentDate  }});
 
             },
             

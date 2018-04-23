@@ -34,7 +34,7 @@ class BonLivraisonController extends Controller
         $bonLivraison = new BonLivraison();
  
                 $bonLivraison->reference_bl = $request->bonLivraison['reference_bl'];
-                $bonLivraison->fk_bonLivraison = $request->bonLivraison['fk_bonLivraison'];                
+                $bonLivraison->fk_bonCommande = $request->bonLivraison['fk_bonCommande'];                
                 $bonLivraison->date_bl = $request->bonLivraison['date_bl'];
                 $bonLivraison->type_operation_bl = "vente";
                 $bonLivraison->objet_bl = $request->bonLivraison['objet_bl'];
@@ -327,8 +327,8 @@ class BonLivraisonController extends Controller
         ->where('fk_document', $reference_bl)->get();
         //dd($bonLivraison);
   
-        $logo = public_path().'/storage/images/'.$bonLivraison[0]->logo_compte;
-      
+        $logo = public_path().'/storage/images/'.$bonLivraison[0]->logo_comp;
+        
         $headerHtml =  '<div>
         <img src="'.$logo.'" alt="test alt attribute" width="180" height="70" border="0" />
    
@@ -382,16 +382,16 @@ class BonLivraisonController extends Controller
 
 
 
-         $infoComp = ''.$bonLivraison[0]->nom_societe.' <span>
-        </span>'.$bonLivraison[0]->raison_sociale.'<span> 
-        ICE: </span>'.$bonLivraison[0]->ICE.'<span>
-        RC N°: </span>'.$bonLivraison[0]->RC.'<span>
-        IF: </span>'.$bonLivraison[0]->IF.'<span>
-        patente: </span>'.$bonLivraison[0]->patente.'<span>
-        cnss: </span>'.$bonLivraison[0]->cnss.'<span>
-        compte : </span>'.$bonLivraison[0]->nom_bank.'<span>
-        RIB: </span>'.$bonLivraison[0]->RIB.'<span>
-        E-mail: </span>'.$bonLivraison[0]->email.'<span>
+         $infoComp = ''.$bonLivraison[0]->nom_societe_comp.' <span>
+        </span>'.$bonLivraison[0]->raison_sociale_comp.'<span> 
+        ICE: </span>'.$bonLivraison[0]->ICE_comp.'<span>
+        RC N°: </span>'.$bonLivraison[0]->RC_comp.'<span>
+        IF: </span>'.$bonLivraison[0]->IF_comp.'<span>
+        patente: </span>'.$bonLivraison[0]->patente_comp.'<span>
+        cnss: </span>'.$bonLivraison[0]->cnss_comp.'<span>
+        compte : </span>'.$bonLivraison[0]->nom_bank_comp.'<span>
+        RIB: </span>'.$bonLivraison[0]->RIB_comp.'<span>
+        E-mail: </span>'.$bonLivraison[0]->email_comp.'<span>
         Site: </span>'.$bonLivraison[0]->webSite_comp.'<span>
         fax: </span>'.$bonLivraison[0]->fax_comp.'<span>
         fix: </span>'.$bonLivraison[0]->fix_comp.'<span>
@@ -523,15 +523,20 @@ $left_column = ' <table style="padding: 0px;padding-right:10px">
     <td>
     <span></span><br>
     <b> EMISSION DE LA COMMANDE </b> <br>
-    '.$bonLivraison[0]->nom_compte.'<br>
-    '.$bonLivraison[0]->raison_social.'<br>
-    '.$bonLivraison[0]->adresse_compte.'<br>
+    '.$bonLivraison[0]->nom_societe_comp.'<br>
+    Tél: '.$bonLivraison[0]->fax_comp.' /Fax: '.$bonLivraison[0]->fax_comp.'<br>
+    '.$bonLivraison[0]->raison_sociale_comp.'<br>
+    '.$bonLivraison[0]->adresse_comp.'<br>
     
     </td>
 
 </tr>
 </table>
-<b>Adresse de livraison </b> <br>
+
+<br><br>
+
+<br><br>';
+$right_column = '<br> <br><br><br> <b></b><br>
 <table  cellpadding="3" style="padding: 0px;padding-right:10px">
 <tr>
 
@@ -543,62 +548,12 @@ $left_column = ' <table style="padding: 0px;padding-right:10px">
     
     <b>'.$bonLivraison[0]->nom_compte.'</b><br>
     <span> '.$bonLivraison[0]->adresse_bl.'</span>
-   
-    </td>
-</tr>
-</table>
-<br><br>
-<b>Adresse de facturation </b> <br>
-<table  cellpadding="3" style="padding: 0px;padding-right:10px">
-<tr>
-
-    <td style=" border-right:1px solid black;
-    border-left:1px solid black;
-    border-bottom:1px solid black;
-    border-top:1px solid black;
-    ">
-    
-    <b>'.$bonLivraison[0]->nom_compte.'</b><br>
-    <span> '.$bonLivraison[0]->adresse_facture_bl.'</span>
-    
-    </td>
-</tr>
-</table>
-<br><br>';
-$right_column = '<br> <br><br><br> <b>Fournisseur :</b><br>
-<table  cellpadding="3" style="padding: 0px;padding-right:10px">
-<tr>
-
-    <td style=" border-right:1px solid black;
-    border-left:1px solid black;
-    border-bottom:1px solid black;
-    border-top:1px solid black;
-    ">
-    
-    <b>'.$bonLivraison[0]->nom_societe_comp.'</b><br>
-    <span> '.$bonLivraison[0]->adresse_comp.'</span>
     
     </td>
 </tr>
 </table>
 <br><br>
-<span>Commande suivi par : </span> <br>
-<table cellpadding="3" style="padding: 0px;padding-right:10px">
-<tr>
 
-    <td style=" border-right:1px solid black;
-    border-left:1px solid black;
-    border-bottom:1px solid black;
-    border-top:1px solid black;
-    ">
-    
-    <b>'.$bonLivraison[0]->nom.' '.$bonLivraison[0]->prenom.'</b><br>
-    <span> Tél :'.$bonLivraison[0]->fixe.'</span><br>
-    <span> E-mail :'.$bonLivraison[0]->email.'</span>
-    
-    </td>
-</tr>
-</table>
 ';
 
 
@@ -610,7 +565,7 @@ style="
 border-right:1px solid black;
 
 border-bottom: 1px solid black;
-"><h2> <b> Bon De Commande</b></h2> </td>
+"><h2> <b> Bon De Livraison</b></h2> </td>
 <td  align="center"
 style="width:70px;
 border-left:1px solid black;
@@ -638,7 +593,12 @@ border-top: 1px solid black;
 </tr>
 
 <tr>
-
+<td align="center"
+style="
+border-right:1px solid black;
+border-bottom: 1px solid black;
+border-top: 1px solid black;
+"><h5>Code Client</h5></td>
 <td align="center"
 style="
 border-right:1px solid black;
@@ -654,7 +614,7 @@ border-top: 1px solid black;
 "><h5>Réglement</h5></td>
 <td align="center"
 style="
-border-right:1px solid black;
+
 border-left:1px solid black;
 border-bottom: 1px solid black;
 border-top: 1px solid black;
@@ -662,6 +622,12 @@ border-top: 1px solid black;
 
 </tr>
 <tr>
+<td align="center"
+style="
+border-right:1px solid black;
+
+border-top: 1px solid black;
+"><span style="font-size: 8px;">'.$bonLivraison[0]->reference.'</span></td> 
 <td align="center"
 style="
 border-right:1px solid black;
@@ -675,7 +641,7 @@ border-top: 1px solid black;
 "><span style="font-size: 8px;">'.$bonLivraison[0]->type_paiement.'</span></td>
 <td align="center"
 style="
-border-right:1px solid black;
+
 border-left:1px solid black;
 border-top: 1px solid black;
 "><span style="font-size: 8px;">'.$bonLivraison[0]->date_bl.'</span></td> 
@@ -704,7 +670,7 @@ $y = PDF::getY();
 PDF::writeHTMLCell(0, 0, 100,$y,$infosBonLivraison,0, 0, 0, true, 'right', true);
 $y = PDF::getY(); 
 
-if(PDF::GetStringWidth($bonLivraison[0]->reference_bl) > 27.259138888889)
+if(PDF::GetStringWidth($bonLivraison[0]->reference_bl) > 27.259138888889 || PDF::GetStringWidth($bonLivraison[0]->type_paiement) > 27.259138888889 || PDF::GetStringWidth($bonLivraison[0]->reference) > 27.259138888889)
 $height =($y+27.2)+4.1;
 else 
 $height =($y+27.2);

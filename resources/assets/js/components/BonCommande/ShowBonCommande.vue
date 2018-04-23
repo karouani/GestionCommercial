@@ -9,6 +9,7 @@
     <div v-if="!loading" >
     <div class="row">
         <div class="col">
+          <a href="#"    @click="redirect_To_AddBonLivraison()"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
            <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
 
      <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
@@ -40,22 +41,54 @@
                 <label for="inputPassword" class="col-sm-12 col-form-label">Validité : {{bonCommande.date_limit_bc}}  </label>
             </div>
             <div class="top form-group row">
+                <label for="inputPassword" class="col-sm-12 col-form-label">Acheteur : {{bonCommande.nom_societe_comp}}  </label>
+            </div>
+            <div class="top form-group row">
                 <label for="inputPassword" class="col-sm-12 col-form-label">Vendeur : {{bonCommande.nom_compte}}  </label>
             </div>
-
-        
-            
-            </div>
-          
-    
-    <div class="col-md-6 col-sm-12">
-        
+        <span>Adresse de livraison  :</span> <br>
         <div class="container  infoClient">
             <label for="">{{bonCommande.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10 col-form-label">
             <label>{{bonCommande.adresse_bc}}</label>
 
+            </div>
+         </div>
+        </div>
+        <span>Adresse de facturation  :</span> <br>
+        <div class="container  infoClient">
+            <label for="">{{bonCommande.nom_compte}} </label>
+            <div class="form-group row">
+            <div class="col-sm-10 col-form-label">
+            <label>{{bonCommande.adresse_facture_bc}}</label>
+
+            </div>
+         </div>
+        </div>
+
+   </div>
+          
+    
+    <div class="col-md-6 col-sm-12">
+        <span>Fournisseur :</span> <br>
+        <div class="container  infoClient">
+            <label for="">{{bonCommande.nom_societe_comp}} </label>
+            <div class="form-group row">
+            <div class="col-sm-10 col-form-label">
+            <label>{{bonCommande.adresse_comp}}</label>
+
+            </div>
+         </div>
+        </div>
+        <span>Commande suivi par  :</span> <br>
+        <div class="container  infoClient">
+           
+            <div class="form-group row">
+            <div class="col-sm-10 col-form-label">
+            <label for="">{{bonCommande.prenom}} {{bonCommande.nom}} </label><br>
+            <label>Tél :{{bonCommande.fixe}}</label><br>
+            <label>E-mail :{{bonCommande.email}}</label>
             </div>
          </div>
         </div>
@@ -264,6 +297,11 @@
      
 
 methods: { 
+           redirect_To_AddBonLivraison(){
+                   //  this.$router.push('/ShowBonCommande/'+reference_bc);
+                     this.$router.push({ name: 'addBonLivraison', params: {bonCommande :this.bonCommande}});
+
+            }, 
 
           PdfBonCommande(reference_bc){
                            

@@ -8,16 +8,16 @@
     <div v-if="!loading" >
     <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonLivraisons'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div>    
 
 <div class=" container colBackround">
-    <form   @submit.prevent="EditBonCommande">
+    <form   @submit.prevent="EditBonLivraison">
 <div class="row">
     <div class="col">
         <br>
-    <h5><i class="far fa-file"></i> Ajouter un bon de commande</h5>
+    <h5><i class="far fa-file"></i> Ajouter un bon de Livraison</h5>
     </div>
 </div>
 <hr>
@@ -36,19 +36,19 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Devis</label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.reference_bc" disabled>
+                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonLivraison.reference_bl" disabled>
                 </div>
             </div>
                  <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">Date </label>
                     <div class="col-sm-10">
-                    <input  type="date" v-model="bonCommande.date_bc" class="form-control" id="date" />
+                    <input  type="date" v-model="bonLivraison.date_bl" class="form-control" id="date" />
                     </div>
                 </div> 
                 <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Objet  </label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.objet_bc" >
+                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonLivraison.objet_bl" >
                 </div>
             </div>
           
@@ -59,7 +59,7 @@
             <label for="">{{compte.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_bc"></textarea>
+            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonLivraison.adresse_bl"></textarea>
             </div>
          </div>
         </div>
@@ -67,7 +67,7 @@
             <label for="">Adresse de facturation </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_facture_bc" ></textarea>
+            <textarea placeholder="" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonLivraison.adresse_facture_bl" ></textarea>
             </div>
          </div>
         </div> 
@@ -120,7 +120,7 @@
                             <th>  <input class="form-control ThWidth"  type="text" v-model="commande.totalHT" disabled>
                            
                             </th>
-                                            <th><a @click="spliceBonCommande(index,commande)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                                            <th><a @click="spliceBonLivraison(index,commande)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                                         </tr>
                       
                                     </tbody>
@@ -150,7 +150,7 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Total en lettre</label>
                 <div class="col-sm-8">
-                <label  class="form-control" for="">{{bonCommande.total_lettre}}</label>
+                <label  class="form-control" for="">{{bonLivraison.total_lettre}}</label>
                 </div>
             </div>
 
@@ -170,15 +170,15 @@
 
                 </select>
                 <div v-if="echeance === undefined">
-                    {{bonCommande.date_l}}
+                    {{bonLivraison.date_l}}
                 </div>
                 <div v-if="echeance != undefined">
                     <br>
                     <div v-if="echeance != 'choix'">
-                                 {{bonCommande.date_limit_bc}} - ({{bonCommande.date_diff}})
+                                 {{bonLivraison.date_limit_bl}} - ({{bonLivraison.date_diff}})
                     </div>
                 <div v-if="echeance === 'choix'">
-                  <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.date_limit_bc" required>
+                  <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="bonLivraison.date_limit_bl" required>
                 </div>
                 </div>
                 
@@ -208,7 +208,7 @@
                 <div class="form-group row">
                     <label for="reference_paiement"  class="col-sm-4 col-form-label" >Remise Total </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="reference_paiement" v-model="bonCommande.remise_total_bc">
+                    <input type="text" class="form-control" id="reference_paiement" v-model="bonLivraison.remise_total_bl">
                     </div>
                 </div>                  
                       
@@ -251,13 +251,13 @@
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Acompte </label>
             <div class="col-sm-8">
-            <input type="text" class="form-control " style="width:100px;margin-left: 150px" id="staticEmail" v-model="bonCommande.accompte_bc">
+            <input type="text" class="form-control " style="width:100px;margin-left: 150px" id="staticEmail" v-model="bonLivraison.accompte_bl">
             </div>
          </div>
          <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Montant Reste (Montant) </label>
             <div class="col-sm-8">
-            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="bonCommande.montant_reste_bc">
+            <input type="text" readonly class="form-control-plaintext calculePadding" id="staticEmail" v-model="bonLivraison.montant_reste_bl">
             </div>
          </div>
    
@@ -271,7 +271,7 @@
                 <div class="form-group row">
             <label for="staticEmail" class="col-sm-2 col-form-label">Notes </label>
             <div class="col-sm-10">
-            <textarea class="noteCondition" name="" id="" cols="80" rows="3" v-model="bonCommande.notes_bc"></textarea>
+            <textarea class="noteCondition" name="" id="" cols="80" rows="3" v-model="bonLivraison.notes_bl"></textarea>
             </div>
          </div>
   </div>
@@ -282,7 +282,7 @@
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-2 col-form-label">Conditions </label>
             <div class="col-sm-10">
-            <textarea class="noteCondition" name="" id="" cols="80" rows="3" v-model="bonCommande.conditions_reglements_bc"></textarea>
+            <textarea class="noteCondition" name="" id="" cols="80" rows="3" v-model="bonLivraison.conditions_reglements_bl"></textarea>
             </div>
          </div>
    </div>
@@ -307,39 +307,39 @@
         
           data: () => ({
               loading: false,
-              suppBonCommandes :[],
+              suppBonLivraisons :[],
 
 
 
-               bonCommande : { 
-            id_bc:0,
-            reference_bc:"",
-            date_bc:"", 
-            type_operation_bc:"",
-            objet_bc:"",
-            date_emission_bc:"",
-            remise_total_bc:"",
-            majoration_bc:"",
-            date_limit_bc:"",
-            introduction_bc:"",  
-            conditions_reglements_bc:"",
-            notes_bc:"",
-            adresse_bc:"",
-            fk_status_bc:"",
-            fk_compte_bc:"",
-            fk_user_bc:"",
-            total_ht_bc: 0,
-            remise_ht_bc: 0,
-            montant_net_bc: 0,
-            tva_montant_bc: 0,
-            montant_ttc_bc: 0,
+               bonLivraison : { 
+            id_bl:0,
+            reference_bl:"",
+            date_bl:"", 
+            type_operation_bl:"",
+            objet_bl:"",
+            date_emission_bl:"",
+            remise_total_bl:"",
+            majoration_bl:"",
+            date_limit_bl:"",
+            introduction_bl:"",  
+            conditions_reglements_bl:"",
+            notes_bl:"",
+            adresse_bl:"",
+            fk_status_bl:"",
+            fk_compte_bl:"",
+            fk_user_bl:"",
+            total_ht_bl: 0,
+            remise_ht_bl: 0,
+            montant_net_bl: 0,
+            tva_montant_bl: 0,
+            montant_ttc_bl: 0,
             total_lettre : "",
             
             date_diff:"",
             date_l:"",
-            accompte_bc: 0,
-            montant_reste_bc: 0,
-            adresse_facture_bc:"",
+            accompte_bl: 0,
+            montant_reste_bl: 0,
+            adresse_facture_bl:"",
               },
                 echeance:0,
                compte: { 
@@ -476,15 +476,15 @@ methods: {
       this.loading = true
             this.getTvas();
             this.getClients();
-            this.getCompte(this.$route.params.fk_compte_bc);
-            this.showBonCommande(this.$route.params.reference_bc);
-            this.getCommandes(this.$route.params.reference_bc);
+            this.getCompte(this.$route.params.fk_compte_bl);
+            this.showBonLivraison(this.$route.params.reference_bl);
+            this.getCommandes(this.$route.params.reference_bl);
             this.getStatus();
            
             this.getarticles();
              
             console.log('-------------- id_Compte ----- ---- ')
-            console.log(this.$route.params.fk_compte_bc)
+            console.log(this.$route.params.fk_compte_bl)
             
            
             this.getRemise(this.$route.params.id_compte)
@@ -502,39 +502,39 @@ methods: {
 
 
 
-     spliceBonCommande(index,commande){
+     spliceBonLivraison(index,commande){
             this.commandes.splice(index, 1);
-           // commande.fk_document = this.$route.params.reference_bc;
-                        this.suppBonCommandes.push(commande);
+           // commande.fk_document = this.$route.params.reference_bl;
+                        this.suppBonLivraisons.push(commande);
                         console.log('supp ----------');
                         console.log(this.suppContacts)
         },
-    showBonCommande(reference_bc){
+    showBonLivraison(reference_bl){
 
-            axios.get('/showBonCommande/'+reference_bc)
+            axios.get('/showBonLivraison/'+reference_bl)
                                 .then((response) => {
                                   
                                   this.echeance = 'choix';
                                    console.log('------- date limit ------------')
-                                     console.log(this.bonCommande);
-                                    this.bonCommande = response.data.bonCommande[0];
-                                    this.compte.id_compte = this.bonCommande.id_compte;
-                                    this.compte.nom_compte = this.bonCommande.nom_compte;
-                                   // this.compte.adresse_compte = this.bonCommande.adresse_bc;
-                                    this.modePaiement.id_modeP =this.bonCommande.id_modeP
-                                     // this.modePaiement.type_paiement =this.bonCommande.type_paiement
+                                     console.log(this.bonLivraison);
+                                    this.bonLivraison = response.data.bonLivraison[0];
+                                    this.compte.id_compte = this.bonLivraison.id_compte;
+                                    this.compte.nom_compte = this.bonLivraison.nom_compte;
+                                   // this.compte.adresse_compte = this.bonLivraison.adresse_bl;
+                                    this.modePaiement.id_modeP =this.bonLivraison.id_modeP
+                                     // this.modePaiement.type_paiement =this.bonLivraison.type_paiement
                                      
-                                    this.typePaiement.type_paiement =this.bonCommande.type_paiement
-                                    this.typePaiement.id_type_paiement =  this.bonCommande.id_type_paiement 
-                                    this.modePaiement.fk_type_paiement = this.bonCommande.id_type_paiement                       
+                                    this.typePaiement.type_paiement =this.bonLivraison.type_paiement
+                                    this.typePaiement.id_type_paiement =  this.bonLivraison.id_type_paiement 
+                                    this.modePaiement.fk_type_paiement = this.bonLivraison.id_type_paiement                       
                                      console.log('--------- id type ')
-                                    console.log(this.bonCommande.id_type_paiement);
+                                    console.log(this.bonLivraison.id_type_paiement);
                                     console.log('--------------- ')
 
-                                    this.modePaiement.reference_paiement    = this.bonCommande.reference_paiement
-                                     this.modePaiement.date_paiement   =this.bonCommande.date_paiement
-                                     this.modePaiement.fk_document =this.bonCommande.fk_document
-                                     this.bonCommande.date_l=response.data.bonCommande[0].date_limit_bc;
+                                    this.modePaiement.reference_paiement    = this.bonLivraison.reference_paiement
+                                     this.modePaiement.date_paiement   =this.bonLivraison.date_paiement
+                                     this.modePaiement.fk_document =this.bonLivraison.fk_document
+                                     this.bonLivraison.date_l=response.data.bonLivraison[0].date_limit_bl;
                                     
                                 })
                                 .catch(() => {
@@ -542,9 +542,9 @@ methods: {
                                 });
         },
 
-        getCommandes(reference_bc){
+        getCommandes(reference_bl){
 
-         axios.get('/getCommandes_bc/'+reference_bc)
+         axios.get('/getCommandes_bl/'+reference_bl)
                         .then((response) => {
                                 console.log("getCommande ------ ")
                                 console.log(response.data.commandes)
@@ -558,28 +558,28 @@ methods: {
         },
 
 
-    EditBonCommande(){
+    EditBonLivraison(){
              if(this.echeance === undefined){
-     this.bonCommande.date_limit_bc=this.bonCommande.date_l;
+     this.bonLivraison.date_limit_bl=this.bonLivraison.date_l;
      console.log(this.devi.date_limit_d)
      }
-            this.bonCommande.total_ht_bc =  this.total_prix,
-            this.bonCommande.remise_ht_bc = this.remise_T, 
-            this.bonCommande.montant_net_bc = this.net_HT ,
-            this.bonCommande.tva_montant_bc = this.tva_total ,
-            this.bonCommande.montant_ttc_bc =  this.total_ttc,
-            //this.bonCommande.adresse_bc=  this.compte.adresse_compte
-            this.bonCommande.fk_compte_bc = this.compte.id_compte;
+            this.bonLivraison.total_ht_bl =  this.total_prix,
+            this.bonLivraison.remise_ht_bl = this.remise_T, 
+            this.bonLivraison.montant_net_bl = this.net_HT ,
+            this.bonLivraison.tva_montant_bl = this.tva_total ,
+            this.bonLivraison.montant_ttc_bl =  this.total_ttc,
+            //this.bonLivraison.adresse_bl=  this.compte.adresse_compte
+            this.bonLivraison.fk_compte_bl = this.compte.id_compte;
             console.log('verifie fk_document  : ')
             console.log(this.commandes)
             console.log(this.modePaiement)
-                  axios.post('/UpdateBonCommande',{commandes:this.commandes,bonCommande:this.bonCommande,modePaiements:this.modePaiement,suppBonCommandes: this.suppBonCommandes})
+                  axios.post('/UpdateBonLivraison',{commandes:this.commandes,bonLivraison:this.bonLivraison,modePaiements:this.modePaiement,suppBonLivraisons: this.suppBonLivraisons})
         .then(response => {         
                 console.log(response.data)
-               // this.$router.push('/ShowBonCommandes/editsuccess');
-                this.$router.push({ name: 'ShowBonCommandes', params: { success: "editsuccess"  }});
+               // this.$router.push('/ShowBonLivraisons/editsuccess');
+                this.$router.push({ name: 'ShowBonLivraisons', params: { success: "editsuccess"  }});
                // this.$router.push('/');
-              // this.$router.push('/ShowBonCommandes/addsuccess');  
+              // this.$router.push('/ShowBonLivraisons/addsuccess');  
         })
         .catch(() => {
                 console.log('handle server error from here');
@@ -597,7 +597,7 @@ methods: {
                majoration_cmd: commande.majoration_cmd,
                prix_ht: commande.prix_ht,
                fk_article:commande.fk_article,
-               fk_document:this.$route.params.reference_bc,
+               fk_document:this.$route.params.reference_bl,
                fk_tva_cmd:commande.fk_tva_cmd,
                designation:commande.designation,
                totalHT:commande.totalHT,
@@ -614,7 +614,7 @@ methods: {
                 majoration_cmd:0,
                 prix_ht:0,
                 fk_article:"",
-                fk_document:this.$route.params.reference_bc,
+                fk_document:this.$route.params.reference_bl,
                 fk_tva_cmd:"",
                
                //montant tva de chaque commande
@@ -738,10 +738,10 @@ methods: {
         axios.get('/getRemise/'+id_compte)
             .then((response) => {
                 if(response.data.conditions_remise[0].remise==null){
-                    this.bonCommande.remise_total_bc=0;
+                    this.bonLivraison.remise_total_bl=0;
                 }
                 else
-                    this.bonCommande.remise_total_bc=response.data.conditions_remise[0].remise;
+                    this.bonLivraison.remise_total_bl=response.data.conditions_remise[0].remise;
                   
              
             })
@@ -766,8 +766,8 @@ methods: {
                   response => {
                        
                     this.compte= response.data.compte;
-                    this.bonCommande.adresse_bc = this.compte.adresse_compte;
-                    this.bonCommande.adresse_facture_bc = this.compte.adresse_compte;
+                    this.bonLivraison.adresse_bl = this.compte.adresse_compte;
+                    this.bonLivraison.adresse_facture_bl = this.compte.adresse_compte;
 
                   });
                   this.getRemise(id_compte);     
@@ -806,8 +806,8 @@ methods: {
                         return dat;
                         }
                         if(this.echeance != "choix"){
-                        var date_bc=this.bonCommande.date_bc
-                        var dat = new Date(date_bc);
+                        var date_bl=this.bonLivraison.date_bl
+                        var dat = new Date(date_bl);
                      console.log('------ date limit bon commande - --- --')
                                 console.log(this.echeance)
                         var echeance= +this.echeance;
@@ -830,7 +830,7 @@ methods: {
                                         } 
                         console.log(dd+'-'+mm+'-'+yyyy)
 
-                                    this.bonCommande.date_limit_bc=yyyy+'-'+mm+'-'+dd;}
+                                    this.bonLivraison.date_limit_bl=yyyy+'-'+mm+'-'+dd;}
                                 // return dd+'-'+mm+'-'+yyyy;
 
                         
@@ -838,11 +838,11 @@ methods: {
                         diffDate() {
                         //console.log("xaaaaaaaaaaaaaaaaa"+this.devi.date_limit_d)
 
-                            var startDate = Date.parse(this.bonCommande.date_bc);
-                                    var endDate = Date.parse(this.bonCommande.date_limit_bc);
+                            var startDate = Date.parse(this.bonLivraison.date_bl);
+                                    var endDate = Date.parse(this.bonLivraison.date_limit_bl);
                                     var timeDiff = endDate - startDate;
                                     var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                                    this.bonCommande.date_diff=daysDiff;
+                                    this.bonLivraison.date_diff=daysDiff;
                         //alert(daysDiff)
                         },
 
@@ -864,16 +864,16 @@ computed:{
             this.commande.totalHT=(+prix_v + +majoration_art - remise_art)*quantite_art;
 
                 //montant de remise pour chque commande
-            let remise=this.commande.totalHT*(this.bonCommande.remise_total_bc/100);
+            let remise=this.commande.totalHT*(this.bonLivraison.remise_total_bl/100);
                 //montant de commande apres remise
-            let net=this.commande.totalHT - this.commande.totalHT*(this.bonCommande.remise_total_bc/100);
+            let net=this.commande.totalHT - this.commande.totalHT*(this.bonLivraison.remise_total_bl/100);
                 //montant tva par article
             let tva=net*(this.commande.taux_tva/100);
             this.commande.tva_montant=tva;
 
     },
             
-    TotalBonCommande(){
+    TotalBonLivraison(){
              let sum=0;
             let sum_tva=0;
         for (let index = 0; index < this.commandes.length; index++) {
@@ -882,11 +882,11 @@ computed:{
 
             sum = this.precisionRound(+sum + (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd,2);
                 //montant tva de chaque commande apres remise
-            this.tva_montant= this.precisionRound( this.total_prix*(this.bonCommande.remise_total_bc/100)*(this.commande.taux_tva/100),2);
+            this.tva_montant= this.precisionRound( this.total_prix*(this.bonLivraison.remise_total_bl/100)*(this.commande.taux_tva/100),2);
                 //montant de remise
-            let remise= this.precisionRound( this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100),2);
+            let remise= this.precisionRound( this.commandes[index].totalHT*(this.bonLivraison.remise_total_bl/100),2);
                 //montant apres remise
-            let net=this.precisionRound( this.commandes[index].totalHT - this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100),2);
+            let net=this.precisionRound( this.commandes[index].totalHT - this.commandes[index].totalHT*(this.bonLivraison.remise_total_bl/100),2);
                 // montant de tva
             let tva=this.precisionRound( net*(this.commandes[index].fk_tva_cmd/100),2);
                 // total de montant des tvas
@@ -897,23 +897,23 @@ computed:{
                 // total de montant tvas (affectation)
             this.tva_total= this.precisionRound( sum_tva ,2);
                 //remise sur le montant total
-            this.remise_T= this.precisionRound( this.total_prix*(this.bonCommande.remise_total_bc/100),2);
+            this.remise_T= this.precisionRound( this.total_prix*(this.bonLivraison.remise_total_bl/100),2);
                 // montant total apres remise
             this.net_HT=this.precisionRound( this.total_prix - this.remise_T,2);
                // montant total final
             this.total_ttc=  this.precisionRound( +this.net_HT + +this.tva_total,2);
-            this.bonCommande.montant_reste_bc=this.precisionRound(  +this.total_ttc - +this.bonCommande.accompte_bc,2);
+            this.bonLivraison.montant_reste_bl=this.precisionRound(  +this.total_ttc - +this.bonLivraison.accompte_bl,2);
 
-            var res = this.bonCommande.montant_reste_bc.toString().split(".");
-           this.bonCommande.total_lettre = this.$WrittenNumber(res[0], { lang: 'fr'})
+            var res = this.bonLivraison.montant_reste_bl.toString().split(".");
+           this.bonLivraison.total_lettre = this.$WrittenNumber(res[0], { lang: 'fr'})
              
 
             if (typeof res[1] !== 'undefined') {
                 if(res[1].toString().split("")[0] == "0"){
-                    this.bonCommande.total_lettre += ' et zéro '+this.$WrittenNumber(res[1], { lang: 'fr'})
+                    this.bonLivraison.total_lettre += ' et zéro '+this.$WrittenNumber(res[1], { lang: 'fr'})
                 }
                 else 
-                this.bonCommande.total_lettre += ' et '+this.$WrittenNumber(res[1], { lang: 'fr'})
+                this.bonLivraison.total_lettre += ' et '+this.$WrittenNumber(res[1], { lang: 'fr'})
             }
     },
          echeancee(){
@@ -931,10 +931,10 @@ computed:{
 },
 
 watch:{
-       'bonCommande.remise_total_bc':{
+       'bonLivraison.remise_total_bl':{
             handler: function(){
                   
-                    this.TotalBonCommande;
+                    this.TotalBonLivraison;
 
             },
             '$route': 'fetchData',
@@ -946,7 +946,7 @@ watch:{
             handler: function(){
                       
              //   this.totalHTaxe;
-                this.TotalBonCommande;
+                this.TotalBonLivraison;
 
             },
             deep : true
@@ -959,14 +959,14 @@ watch:{
             }
     },
 
-            'bonCommande.date_bc':{
+            'bonLivraison.date_bl':{
             handler: function(){
                 this.echeancee;
                     this.diff;
 
             }
     },
-    'bonCommande.date_limit_bc':{
+    'bonLivraison.date_limit_bl':{
         handler: function(){
                 this.echeancee;
                     this.diff;
@@ -974,9 +974,9 @@ watch:{
 
             }
     },
-            'bonCommande.accompte_bc':{
+            'bonLivraison.accompte_bl':{
             handler: function(){
-                    this.TotalBonCommande;
+                    this.TotalBonLivraison;
 
             },
     },

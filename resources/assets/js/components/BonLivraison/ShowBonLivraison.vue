@@ -9,10 +9,10 @@
     <div v-if="!loading" >
     <div class="row">
         <div class="col">
-           <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
             <a href="#"    @click="redirect_To_AddFacture(bonlivraison)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
+           <a href="#"    @click="PdfBonLivraison(bonLivraison.reference_bl)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
 
-     <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+     <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonLivraisons'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
       
 
     </div>
@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col">
         <br>
-    <h5><i class="far fa-file"></i> Information sur le bon de commande</h5>
+    <h5><i class="far fa-file"></i> Information sur le bon de livraison</h5>
     </div>
 </div>
 <hr>
@@ -31,17 +31,17 @@
     <div class="col-md-6 col-sm-12">
 
           <div class="top form-group row">
-                <label for="inputPassword" class="col-sm-12 col-form-label"><strong>Bon Commande {{bonCommande.reference_bc}} [{{bonCommande.montant_ttc_bc}} DH]</strong> </label>
+                <label for="inputPassword" class="col-sm-12 col-form-label"><strong>Bon Livraison {{bonLivraison.reference_bl}} [{{bonLivraison.montant_ttc_bl}} DH]</strong> </label>
 
             </div>
             <div class="top form-group row">
-                <label for="inputPassword" class="col-sm-12 col-form-label">Date : {{bonCommande.date_bc}}</label>
+                <label for="inputPassword" class="col-sm-12 col-form-label">Date : {{bonLivraison.date_bl}}</label>
             </div>
             <div class="top form-group row">
-                <label for="inputPassword" class="col-sm-12 col-form-label">Validité : {{bonCommande.date_limit_bc}}  </label>
+                <label for="inputPassword" class="col-sm-12 col-form-label">Validité : {{bonLivraison.date_limit_bl}}  </label>
             </div>
             <div class="top form-group row">
-                <label for="inputPassword" class="col-sm-12 col-form-label">Vendeur : {{bonCommande.nom_compte}}  </label>
+                <label for="inputPassword" class="col-sm-12 col-form-label">Vendeur : {{bonLivraison.nom_compte}}  </label>
             </div>
 
         
@@ -52,23 +52,23 @@
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
-            <label for="">{{bonCommande.nom_compte}} </label>
+            <label for="">{{bonLivraison.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10 col-form-label">
-            <label>{{bonCommande.adresse_bc}}</label>
+            <label>{{bonLivraison.adresse_bl}}</label>
 
             </div>
          </div>
         </div>
                <div class="form-group row">
                  <div class="col-sm-4"> 
-                <select class="form-control custom-select " id="fk_status_d"  v-model="bonCommande.fk_status_bc" >
+                <select class="form-control custom-select " id="fk_status_d"  v-model="bonLivraison.fk_status_bl" >
                     <option value="Brouillon">Brouillon</option>
                     <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
                 </select>
                  </div>
                  <div class="col-sm-2"> 
-                <a href="#" @click="updateStatusBC()"  class="btn btn-info refresh" style="font-size:10px"><i class="fa fa-undo"></i></a>                                
+                <a href="#" @click="updateStatusBL()"  class="btn btn-info refresh" style="font-size:10px"><i class="fa fa-undo"></i></a>                                
                  </div>
         </div>
     </div>
@@ -127,37 +127,37 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Total en lettre</label>
                 <div class="col-sm-8 col-form-label ">
-                <label>{{bonCommande.total_lettre}}</label>
+                <label>{{bonLivraison.total_lettre}}</label>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
                 <div class="col-sm-8 col-form-label ">
-                <label>{{bonCommande.date_limit_bc}}</label>
+                <label>{{bonLivraison.date_limit_bl}}</label>
                 </div>
             </div>
             <div class="form-group row">
                     <label for="type_paiement" class="col-sm-4 col-form-label" > Type Paiement </label>
                 <div class="col-sm-8 col-form-label">
-                <label>{{bonCommande.type_paiement}}</label>
+                <label>{{bonLivraison.type_paiement}}</label>
                 </div>
             </div>
                 <div class="form-group row">
                     <label for="reference_paiement"  class="col-sm-4 col-form-label" >Reference Paiement </label>
                     <div class="col-sm-8 col-form-label">
-                    <label>{{bonCommande.reference_paiement}}</label>
+                    <label>{{bonLivraison.reference_paiement}}</label>
                     </div>
                 </div> 
                  <div class="form-group row">
                     <label for="date_paiement"  class="col-sm-4 col-form-label" >Date Paiement </label>
                     <div class="col-sm-8 col-form-label">
-                    <label>{{bonCommande.date_paiement}}</label>
+                    <label>{{bonLivraison.date_paiement}}</label>
                     </div>
                 </div>  
                 <div class="form-group row">
                     <label for="reference_paiement"  class="col-sm-4 col-form-label" >Remise Total </label>
                     <div class="col-sm-8 col-form-label">
-                    <label>{{bonCommande.remise_total_bc}}</label>
+                    <label>{{bonLivraison.remise_total_bl}}</label>
                     </div>
                 </div>                  
                       
@@ -168,7 +168,7 @@
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Total HT </label>
             <div class="col-sm-8 col-form-label">
-            <label>{{bonCommande.total_ht_bc}}</label>
+            <label>{{bonLivraison.total_ht_bl}}</label>
             </div>
          </div>
    
@@ -176,37 +176,37 @@
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Remise Total (montant) </label>
             <div class="col-sm-8 col-form-label">
-            <label>{{bonCommande.remise_total_bc}}</label>
+            <label>{{bonLivraison.remise_total_bl}}</label>
             </div>
          </div>
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label"> Montant Net HT  </label>
             <div class="col-sm-8 col-form-label">
-                <label>{{bonCommande.montant_net_bc}}</label>
+                <label>{{bonLivraison.montant_net_bl}}</label>
             </div>
          </div>
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">TVA (Montant) </label>
             <div class="col-sm-8 col-form-label">
-                <label>{{bonCommande.tva_montant_bc}}</label>
+                <label>{{bonLivraison.tva_montant_bl}}</label>
             </div>
          </div>
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Montant TTC (Montant) </label>
             <div class="col-sm-8 col-form-label">
-                <label>{{bonCommande.montant_ttc_bc}}</label>
+                <label>{{bonLivraison.montant_ttc_bl}}</label>
             </div>
          </div>
          <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Acompte </label>
             <div class="col-sm-8 col-form-label">
-                <label>{{bonCommande.accompte_bc}}</label>
+                <label>{{bonLivraison.accompte_bl}}</label>
             </div>
          </div>
          <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Montant Reste (Montant) </label>
             <div class="col-sm-8 col-form-label">
-                <label>{{bonCommande.montant_reste_bc}}</label>
+                <label>{{bonLivraison.montant_reste_bl}}</label>
             </div>
          </div>
  </div>
@@ -219,7 +219,7 @@
                 <div class="form-group row">
             <label for="staticEmail" class="col-sm-2 col-form-label">Notes </label>
             <div class="col-sm-10 col-form-label">
-            <label>{{bonCommande.notes_bc}}</label>
+            <label>{{bonLivraison.notes_bl}}</label>
             </div>
          </div>
   </div>
@@ -230,7 +230,7 @@
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-2 col-form-label">Conditions </label>
             <div class="col-sm-10 col-form-label">
-            <label>{{bonCommande.conditions_reglements_bc}}</label>
+            <label>{{bonLivraison.conditions_reglements_bl}}</label>
             </div>
          </div>
    </div>
@@ -250,8 +250,8 @@
         
           data: () => ({
               loading: false,
-              bonCommandes : [],
-            bonCommande : {},
+              bonLivraisons : [],
+            bonLivraison : {},
                 commandes : [],
                 status : []
 
@@ -264,28 +264,29 @@
   },
      
 
-methods: { 
+methods: {
+     
 
-          PdfBonCommande(reference_bc){
+          PdfBonLivraison(reference_bl){
                            
-                //   window.location.href='/pdf/'+reference_bc
-                  window.open('/pdf/'+reference_bc,'_blank');
+                //   window.location.href='/pdf/'+reference_bl
+                  window.open('/pdf/'+reference_bl,'_blank');
           },
     fetchData () { 
         this.loading = true
         this.getStatus();
-            this.showBonCommande(this.$route.params.reference_bc);
-             this.getCommandes(this.$route.params.reference_bc);
+            this.showBonLivraison(this.$route.params.reference_bl);
+             this.getCommandes(this.$route.params.reference_bl);
     },
 
     
-    updateStatusBC(){
-                axios.post('/updateStatusBC',this.bonCommande)
+    updateStatusBL(){
+                axios.post('/updateStatusBL',this.bonLivraison)
                 .then(response => {
                         console.log("updateStatusDevis")
 
                     if(response.data.etat){
-                        this.$router.push({ name: 'ShowBonCommandes', params: { success: "editsuccess"  }});
+                        this.$router.push({ name: 'ShowBonLivraisons', params: { success: "editsuccess"  }});
                     }
                 })
                 .catch(error => {
@@ -314,14 +315,14 @@ methods: {
         });
     },
 
-        showBonCommande(reference_bc){
+        showBonLivraison(reference_bl){
 
-            axios.get('/showBonCommande/'+reference_bc)
+            axios.get('/showBonLivraison/'+reference_bl)
                                 .then((response) => {
                                    
-                                    this.bonCommande = response.data.bonCommande[0];
-                                    console.log("recup Bon Commande")
-                                    console.log(this.bonCommande)
+                                    this.bonLivraison = response.data.bonLivraison[0];
+                                    console.log("recup Bon Livraison")
+                                    console.log(this.bonLivraison)
                                 })
                                 .catch(() => {
                                         console.log('handle server error from here');
@@ -331,11 +332,10 @@ methods: {
            console.log("redirect id compte"+this.devi.id_compte)
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
                      this.$router.push({ name: 'addBonCommande', params: {id_bl: bonlivraison.id_bl, reference_bl: bonlivraison.reference_bl,id_compte:bonlivraison.id_compte}});
+},
+        getCommandes(reference_bl){
 
-            }, 
-        getCommandes(reference_bc){
-
-         axios.get('/getCommandes_bc/'+reference_bc)
+         axios.get('/getCommandes_bl/'+reference_bl)
                         .then((response) => {
                             console.log("recup commandessss ")
                             console.log(response.data)
