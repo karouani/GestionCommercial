@@ -103,6 +103,7 @@ Route::post('/updateCompte','CompteController@updateCompte');
 Route::delete('/deleteCompte/{id_compte}','CompteController@deleteCompte');
 Route::get('/getCompte/{id_compte}','CompteController@getCompte');
 Route::get('/searchComptes/{nomCompte}','CompteController@searchComptes');
+Route::get('/countCompte','CompteController@countCompte');
      
     // compte: client recupere pour les commandes
 Route::get('/getClients','CompteController@getClients');
@@ -157,9 +158,8 @@ Route::post('/updateStatusBC','BonCommandeController@updateStatusBC');
         Route::post('/updateFacture','FactureController@updateFacture');
         Route::delete('/deleteFacture/{id_facture}','FactureController@deleteFacture');
         Route::post('/updateStatusFacture','FactureController@updateStatusFacture');
-        
         Route::get('/pdf_f/{reference_f}','FactureController@pdf_f');
-        
+ 
 Auth::routes();
 
 

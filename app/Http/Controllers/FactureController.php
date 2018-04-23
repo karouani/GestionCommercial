@@ -170,7 +170,21 @@ class FactureController extends Controller
          }
   
     }
+/*
+public function getBonLivraisonBL($id_bl){
+        // $bonLivraison= BonLivraison::find($id_bl);
+         $bonLivraison= bonLivraison::leftJoin('boncommandes', 'bonLivraisons.fk_bc', '=', 'boncommandes.id_bc')
+               ->leftJoin('comptes', 'bonLivraisons.fk_compte_bl', '=', 'comptes.id_compte')
+               ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
+               ->leftJoin('mode_paiements', 'bonLivraisons.reference_bl', '=', 'mode_paiements.fk_document')
+               ->leftJoin('status', 'bonLivraisons.fk_status_bl', '=', 'status.id_status')
+               ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
+               ->select('bonLivraisons.*', 'comptes.nom_compte','status.*', 'macompagnies.*','mode_paiements.*','type_paiements.*','boncommandes.*')
+               ->where('id_bl', $id_bl)->get();
+         return Response()->json(['bonLivraison' => $bonLivraison ]);
+    }
 
+*/
         
     public function getFactureF($id_facture){
         // $facture= Facture::find($id_facture);
@@ -238,13 +252,13 @@ class FactureController extends Controller
     }
 
 
-
+   
     public function pdf_f($reference_f){
         $facture= Facture::leftJoin('comptes', 'factures.fk_compte_f', '=', 'comptes.id_compte')
         ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
         ->leftJoin('mode_paiements', 'factures.reference_f', '=', 'mode_paiements.fk_document')
         ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
-        ->select('factures.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.*','mode_paiements.*','type_paiements.*')
+        ->select('factures.*', 'comptes.*','macompagnies.*','mode_paiements.*','type_paiements.*')
         ->where('reference_f', $reference_f)->get();
 
         $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
@@ -260,40 +274,21 @@ class FactureController extends Controller
    
     </div>
         <br>
-       <table style="padding: 0px;padding-right:10px">
-       <tr>
-           <td>
-           <span></span><br>
-           <b>Facture: '.$facture[0]->reference_f.'</b> <br>
-           Date: '.$facture[0]->date_f.'<br>
-           Réglement: '.$facture[0]->type_paiement.'<br>
-           Validité: '.$facture[0]->date_limit_f.'<br>
-           
-           </td>
-           <td style=" border-right:1px solid black;
-           border-left:1px solid black;
-           border-bottom:1px solid black;
-           border-top:1px solid black;">
-           <br>
-           <b>'.$facture[0]->nom_compte.'</b>
-           <p> '.$facture[0]->adresse_f.'</p>
-           
-           </td>
-       </tr>
-       </table>';
+      ';
 
 
 
-       $objethtml = '<p style="margin-top: 50px;">Objet:'. $facture[0]->objet_f.'</p>';
-        $commandesHtml ='<table border="1" style="padding: 3px 0px;">
+        $objethtml = '<p style="margin-top: 50px;">Référence Bon de Livraison: '. $facture[0]->fk_bl.'</p>';
+        $commandesHtml ='<table border="1" style="padding: 3px 0px;" cellpadding="2">
         <thead>
                 <tr style="color:white; font-size: 10pt;background-color: black;">
                 
                     <th width="80">Code article</th>
-                    <th  width="214">Description</th>
+                    <th  width="170">Description</th>
                     <th width="35">QTÉ</th>
                     <th width="30">UT</th>
-                    <th width="80">PU HT</th>
+                    <th width="60">(DH)remise</th>
+                    <th width="70">PU HT</th>
                     <th width="100">TOTAL HT</th>
                     <th width="25">TVA</th>
          
@@ -304,12 +299,16 @@ class FactureController extends Controller
             $commandesHtml.='
             <tr style="border-bottom: 1px solid;font-size: 10pt; ">                   
                     <th align="center" width="80">'.$commande->reference_art.'</th>
-                    <th  align="center"  width="214">'.$commande->description_article.'</th>
+                    <th  align="center"  width="170">'.$commande->description_article.'</th>
                     <th align="center" width="35">'.$commande->quantite_cmd.'</th>
                     <th align="center" width="30">'.$commande->unite.'</th>
-                    <th align="center" width="80">'.$commande->prix_ht.'</th>
+                  
+                    <th align="center" width="60">'.$commande->remise_cmd.'</th>
+                    <th align="center" width="70">'.$commande->prix_ht.'</th>
                     <th align="center" width="100">'.$commande->total_ht_cmd.'</th>
                     <th align="center" width="25">'.$commande->taux_tva.'</th>
+
+                    
                 </tr> ';
             };
             $commandesHtml.='</tbody> </table>';
@@ -323,16 +322,16 @@ class FactureController extends Controller
 
 
 
-         $infoComp = ''.$facture[0]->nom_societe.' <span>
-        </span>'.$facture[0]->raison_sociale.'<span> 
-        ICE: </span>'.$facture[0]->ICE.'<span>
-        RC N°: </span>'.$facture[0]->RC.'<span>
-        IF: </span>'.$facture[0]->IF.'<span>
-        patente: </span>'.$facture[0]->patente.'<span>
-        cnss: </span>'.$facture[0]->cnss.'<span>
-        compte : </span>'.$facture[0]->nom_bank.'<span>
-        RIB: </span>'.$facture[0]->RIB.'<span>
-        E-mail: </span>'.$facture[0]->email.'<span>
+         $infoComp = ''.$facture[0]->nom_societe_comp.' <span>
+        </span>'.$facture[0]->raison_sociale_comp.'<span> 
+        ICE: </span>'.$facture[0]->ICE_comp.'<span>
+        RC N°: </span>'.$facture[0]->RC_comp.'<span>
+        IF: </span>'.$facture[0]->IF_comp.'<span>
+        patente: </span>'.$facture[0]->patente_comp.'<span>
+        cnss: </span>'.$facture[0]->cnss_comp.'<span>
+        compte : </span>'.$facture[0]->nom_bank_comp.'<span>
+        RIB: </span>'.$facture[0]->RIB_comp.'<span>
+        E-mail: </span>'.$facture[0]->email_comp.'<span>
         Site: </span>'.$facture[0]->webSite_comp.'<span>
         fax: </span>'.$facture[0]->fax_comp.'<span>
         fix: </span>'.$facture[0]->fix_comp.'<span>
@@ -343,7 +342,7 @@ class FactureController extends Controller
         <table style="padding: 3px;padding-right:5pt;">
         
         <tr>
-        <td style="width:286px;">Total en lettre : '.$facture[0]->total_lettre.'</td>
+        <td style="width:286px;">Total en lettre : '.$facture[0]->total_lettre_f.'</td>
         <td style="width:140px;" align="left">Total</td> <td style="width:140px;" align="right">'.$facture[0]->total_ht_f.'</td>
         </tr>
         <tr>
@@ -452,22 +451,183 @@ class FactureController extends Controller
  //---------------
  //PDF::writeHTMLCell(0, 0, '',0,$page2 ,0, 1, 0, true, 'top', true);
 
- $y = PDF::getY();    
+    
 
  //PDF::writeHTMLCell(0, 0, '', $y,$headerHtml, 0, 1, 0, true, '', true);
 //PDF::writeHTMLCell(0, 0, '', $y,$headerHtml, 0, 1, 0, true, '', true);
 
 
-$left_column = '<b>LEFT COLUMN</b> left column left column left column left</b>';
-$right_column = '<b>RIGHT COLUMN</b> right column right column right column</b>';
+$left_column = ' <table style="padding: 0px;padding-right:10px">
+<tr>
+    <td>
+    <span></span><br>
+    <b> '.$facture[0]->nom_societe_comp.' </b> <br><span> 
+    </span>'.$facture[0]->secteur_activite_comp.'<br><span> 
+    Tél: </span>'.$facture[0]->fix_comp.'<span>
+    /Fax: </span> '.$facture[0]->fax_comp.'<br><span> 
+    GSM: </span>'.$facture[0]->GSM_comp.'<br>
+    '.$facture[0]->adresse_comp.'<br>
+    
+    </td>
 
-PDF::writeHTMLCell(80, '', '', $y, $left_column, 0, 0, 0, true, 'left', true);
-PDF::writeHTMLCell(80, '', 110, '', $right_column, 0, 1, 0, true, 'right', true);
+</tr>
+</table>
+<br><br>';
+$right_column = '<br> <br><br>
+<b>Adresse de facturation </b> <br>
+<table  cellpadding="3" style="padding: 0px;padding-right:10px">
+<tr>
+
+    <td style=" border-right:1px solid black;
+    border-left:1px solid black;
+    border-bottom:1px solid black;
+    border-top:1px solid black;
+    ">
+    
+    <b>'.$facture[0]->nom_compte.'</b><br>
+    <span> '.$facture[0]->adresse_f.'</span>
+    
+    </td>
+</tr>
+</table>
+';
+
+
+// facture top 
+$facture[0]->reference_f=  $facture[0]->reference_f;
+$infosfacture = '<br><br><table cellpadding="3" style="padding: 0px;padding-right:10px">
+<tr>
+<td  rowspan="2" colspan="3" align="center"
+style="
+border-right:1px solid black;
+
+border-bottom: 1px solid black;
+"><h2> <b> Facture </b></h2> </td>
+<td  align="center"
+style="width:70px;
+border-left:1px solid black;
+border-bottom: 1px solid black;
+" ><h5>Numéro</h5></td>
+  </tr>
+  <tr>
+
+  <td  align="center"
+style="width:70px;
+border-left:1px solid black;
+border-bottom: 1px solid black;
+" ><span style="font-size: 8px;" >'.$facture[0]->reference_f.'</span></td>
+ 
+</tr>
+<tr>
+<td  align="center" colspan="4" 
+style="
+border-bottom: 1px solid black;
+border-top: 1px solid black;
+">
+<h3>Date : '.$facture[0]->date_f.'</h3>
+</td>
+
+</tr>
+
+<tr>
+<td align="center"
+style="
+border-right:1px solid black;
+border-bottom: 1px solid black;
+border-top: 1px solid black;
+"><h5> Code Client</h5></td>
+<td align="center"
+style="
+border-right:1px solid black;
+border-bottom: 1px solid black;
+border-top: 1px solid black;
+"><h5> Date validité</h5></td>
+<td align="center"
+style="
+border-right:1px solid black;
+border-left:1px solid black;
+border-bottom: 1px solid black;
+border-top: 1px solid black;
+"><h5>Réglement</h5></td>
+<td align="center"
+style="
+border-left:1px solid black;
+border-top: 1px solid black;
+"><h5>Date livraison</h5></td> 
+
+</tr>
+<tr>
+<td align="center"
+style="
+border-right:1px solid black;
+border-top: 1px solid black;
+"><span style="font-size: 8px;">'.$facture[0]->reference.'</span></td>
+<td align="center"
+style="
+border-right:1px solid black;
+border-top: 1px solid black;
+"><span style="font-size: 8px;">'.$facture[0]->date_limit_f.'</span></td>
+<td align="center"
+style="
+border-right:1px solid black;
+border-left:1px solid black;
+border-top: 1px solid black;
+"><span style="font-size: 8px;">'.$facture[0]->type_paiement.'</span></td>
+<td align="center"
+style="
+border-left:1px solid black;
+border-top: 1px solid black;
+"><span style="font-size: 8px;">'.$facture[0]->date_f.'</span></td> 
+
+</tr>
+</table>';
+
+//PDF::SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'cap' => 'round' ,'color' => array(255, 0, 255)));
+//PDF::SetFillColor(0,255,0);
+// Start clipping.      
+
+
+// Draw clipping rectangle to match html cell.
+
+//PDF::RoundedRect(100, $y, 105, 35, 3.50, '1111', '<h1>test</h1>');
+
+// Output html.
+//PDF::writeHTMLCell(10, 10, 100, $y, '<h1>hhkhkhjnnknj</h1><h1>njnkjnk</h1>');
+
+// Stop clipping.
+
+
+//dd(PDF::GetStringWidth($facture[0]->reference_f));
+$y = PDF::getY(); 
+
+PDF::writeHTMLCell(0, 0, 100,$y,$infosfacture,0, 0, 0, true, 'right', true);
+$y = PDF::getY(); 
+
+if(PDF::GetStringWidth($facture[0]->reference_f) > 27.259138888889)
+$height =($y+27.2)+4.1;
+else 
+$height =($y+27.2);
+PDF::RoundedRect(100.8, 9.2, 102.4, $height, 3.50, '1111', '');
+
+
+
+//RoundedRect(x, y, width, height, raduis, '1111', 'backroundColor');
+//writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+
+PDF::writeHTMLCell(0, 0, 10,'',$headerHtml ,0, 1, 0, true, 'left', true);
+$y = PDF::getY();
+
+
+
+
+
+
+PDF::writeHTMLCell(80, '', 110, $y, $right_column, 0, 0, 0, true, 'right', true);
+PDF::writeHTMLCell(80, '', 10, '', $left_column, 0, 1, 0, true, 'left', true);
 $y = PDF::getY();  
 
  
- PDF::writeHTMLCell(0, 0, '',$y,$headerHtml ,0, 1, 0, true, '', true);
- $y = PDF::getY();
+
 
 
 
@@ -479,17 +639,12 @@ $y = PDF::getY();
  
 
  
- //PDF::SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)));
 
  //$style2 = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 0));
 
  //PDF::Line(5, 40, 5, 30, $style2);
  //$this->Line($p1x, $p1y, $p2x, $p2y, $style);
- /*$border = array(
-    'L' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 0)),
-    'R' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)),
-    'T' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 255, 0)),
-    'B' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255)));*/
+
 
 
   /*  $border = array(
@@ -501,6 +656,7 @@ $y = PDF::getY();
 //$y=78 minimum
 //chaque ligne = y=6.5 ou 12
 // 17 lign 
+//PDF::SetLineStyle(array('width' => 0.5,'join' => 'round', 'dash' => 0, 'color' => array(255, 0, 255)));
 
  PDF::writeHTMLCell(0, 0,'', $y,$commandesHtml,0, 1, 0, true, '', true);
 
@@ -544,7 +700,7 @@ $height = 300-$y*1.5;*/
  border-left:1px solid black;
  border-bottom: 1px solid black;
  "> </th>
- <th  width="214" style="
+ <th  width="170" style="
  border-right:1px solid black;
  border-left:1px solid black;
  border-bottom: 1px solid black;
@@ -559,7 +715,12 @@ $height = 300-$y*1.5;*/
  border-left:1px solid black;
  border-bottom: 1px solid black;
  "> </th>
- <th width="80" style="
+ <th width="60" style="
+ border-right:1px solid black;
+ border-left:1px solid black;
+ border-bottom: 1px solid black;
+ "> </th>
+ <th width="70" style="
  border-right:1px solid black;
  border-left:1px solid black;
  border-bottom: 1px solid black;
@@ -646,11 +807,19 @@ $height = 300-$y*1.5;*/
 
        //  PDF::writeHTMLCell(0, '', '', 290,$infoComp, 0, 0, 0, false, '', true);
          //PDF::SetY(0);
+         $style6 = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => '10,10', 'color' => array(0, 128, 0));
+
+         //PDF::Text(5, 249, 'Rounded rectangle examples');
          
+
+
+
+
+
+
          
          PDF::Output($reference_f.'.pdf');
          
       }
-   
     
 }

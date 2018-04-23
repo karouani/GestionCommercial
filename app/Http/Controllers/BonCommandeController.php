@@ -36,7 +36,7 @@ class BonCommandeController extends Controller
                 $bonCommande->reference_bc = $request->bonCommande['reference_bc'];
                 $bonCommande->fk_devis = $request->bonCommande['fk_devis'];                
                 $bonCommande->date_bc = $request->bonCommande['date_bc'];
-                $bonCommande->type_operation_bc = "achat";//$request->bonCommande['type_operation_bc'];
+                $bonCommande->type_operation_bc = "vente";
                 $bonCommande->objet_bc = $request->bonCommande['objet_bc'];
                 $bonCommande->date_emission_bc = $request->bonCommande['date_emission_bc'];
                 $bonCommande->remise_total_bc = $request->bonCommande['remise_total_bc'];
@@ -163,7 +163,7 @@ class BonCommandeController extends Controller
 
 
     public function countBonCommandes(){
-        $count = Boncommande::withTrashed()->count();
+        $count = Boncommande::withTrashed()->where('type_operation_bc','=','vente')->count();
        
         $count ++;
         return Response()->json(['count' => $count]);
@@ -302,11 +302,12 @@ class BonCommandeController extends Controller
 
       public function pdf($reference_bc){
         $bonCommande= Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
+        ->leftJoin('contacts', 'contacts.fk_compte_comp', '=', 'comptes.id_compte')
         ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
         ->leftJoin('mode_paiements', 'bonCommandes.reference_bc', '=', 'mode_paiements.fk_document')
         ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
-        ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.*','mode_paiements.*','type_paiements.*')
-        ->where('reference_bc', $reference_bc)->get();
+        ->select('bonCommandes.*', 'comptes.*','macompagnies.*','mode_paiements.*','type_paiements.*','contacts.*')
+        ->where('reference_bc', $reference_bc)->where('contacts.type_contact','=','compte')->get();
 
         $commandes= Commande::leftJoin('articles', 'commandes.fk_article', '=', 'articles.id_article')
         ->leftJoin('tvas', 'commandes.fk_tva_cmd', '=', 'tvas.id_tva')
@@ -321,40 +322,21 @@ class BonCommandeController extends Controller
    
     </div>
         <br>
-       <table style="padding: 0px;padding-right:10px">
-       <tr>
-           <td>
-           <span></span><br>
-           <b>Bon Commande: '.$bonCommande[0]->reference_bc.'</b> <br>
-           Date: '.$bonCommande[0]->date_bc.'<br>
-           Réglement: '.$bonCommande[0]->type_paiement.'<br>
-           Validité: '.$bonCommande[0]->date_limit_bc.'<br>
-           
-           </td>
-           <td style=" border-right:1px solid black;
-           border-left:1px solid black;
-           border-bottom:1px solid black;
-           border-top:1px solid black;">
-           <br>
-           <b>'.$bonCommande[0]->nom_compte.'</b>
-           <p> '.$bonCommande[0]->adresse_bc.'</p>
-           
-           </td>
-       </tr>
-       </table>';
+      ';
 
 
 
        $objethtml = '<p style="margin-top: 50px;">Objet:'. $bonCommande[0]->objet_bc.'</p>';
-        $commandesHtml ='<table border="1" style="padding: 3px 0px;">
+        $commandesHtml ='<table border="1" style="padding: 3px 0px;" cellpadding="2">
         <thead>
                 <tr style="color:white; font-size: 10pt;background-color: black;">
                 
                     <th width="80">Code article</th>
-                    <th  width="214">Description</th>
+                    <th  width="170">Description</th>
                     <th width="35">QTÉ</th>
                     <th width="30">UT</th>
-                    <th width="80">PU HT</th>
+                    <th width="60">(DH)remise</th>
+                    <th width="70">PU HT</th>
                     <th width="100">TOTAL HT</th>
                     <th width="25">TVA</th>
          
@@ -365,12 +347,16 @@ class BonCommandeController extends Controller
             $commandesHtml.='
             <tr style="border-bottom: 1px solid;font-size: 10pt; ">                   
                     <th align="center" width="80">'.$commande->reference_art.'</th>
-                    <th  align="center"  width="214">'.$commande->description_article.'</th>
+                    <th  align="center"  width="170">'.$commande->description_article.'</th>
                     <th align="center" width="35">'.$commande->quantite_cmd.'</th>
                     <th align="center" width="30">'.$commande->unite.'</th>
-                    <th align="center" width="80">'.$commande->prix_ht.'</th>
+                  
+                    <th align="center" width="60">'.$commande->remise_cmd.'</th>
+                    <th align="center" width="70">'.$commande->prix_ht.'</th>
                     <th align="center" width="100">'.$commande->total_ht_cmd.'</th>
                     <th align="center" width="25">'.$commande->taux_tva.'</th>
+
+                    
                 </tr> ';
             };
             $commandesHtml.='</tbody> </table>';
@@ -513,22 +499,225 @@ class BonCommandeController extends Controller
  //---------------
  //PDF::writeHTMLCell(0, 0, '',0,$page2 ,0, 1, 0, true, 'top', true);
 
- $y = PDF::getY();    
+    
 
  //PDF::writeHTMLCell(0, 0, '', $y,$headerHtml, 0, 1, 0, true, '', true);
 //PDF::writeHTMLCell(0, 0, '', $y,$headerHtml, 0, 1, 0, true, '', true);
 
 
-$left_column = '<b>LEFT COLUMN</b> left column left column left column left</b>';
-$right_column = '<b>RIGHT COLUMN</b> right column right column right column</b>';
+$left_column = ' <table style="padding: 0px;padding-right:10px">
+<tr>
+    
+    <td>
+    <span></span><br>
+    <b> EMISSION DE LA COMMANDE </b> <br>
+    '.$bonCommande[0]->nom_compte.'<br>
+    '.$bonCommande[0]->raison_social.'<br>
+    '.$bonCommande[0]->adresse_compte.'<br>
+    
+    </td>
 
-PDF::writeHTMLCell(80, '', '', $y, $left_column, 0, 0, 0, true, 'left', true);
-PDF::writeHTMLCell(80, '', 110, '', $right_column, 0, 1, 0, true, 'right', true);
+</tr>
+</table>
+<b>Adresse de livraison </b> <br>
+<table  cellpadding="3" style="padding: 0px;padding-right:10px">
+<tr>
+
+    <td style=" border-right:1px solid black;
+    border-left:1px solid black;
+    border-bottom:1px solid black;
+    border-top:1px solid black;
+    ">
+    
+    <b>'.$bonCommande[0]->nom_compte.'</b><br>
+    <span> '.$bonCommande[0]->adresse_bc.'</span>
+   
+    </td>
+</tr>
+</table>
+<br><br>
+<b>Adresse de facturation </b> <br>
+<table  cellpadding="3" style="padding: 0px;padding-right:10px">
+<tr>
+
+    <td style=" border-right:1px solid black;
+    border-left:1px solid black;
+    border-bottom:1px solid black;
+    border-top:1px solid black;
+    ">
+    
+    <b>'.$bonCommande[0]->nom_compte.'</b><br>
+    <span> '.$bonCommande[0]->adresse_facture_bc.'</span>
+    
+    </td>
+</tr>
+</table>
+<br><br>';
+$right_column = '<br> <br><br><br> <b>Fournisseur :</b><br>
+<table  cellpadding="3" style="padding: 0px;padding-right:10px">
+<tr>
+
+    <td style=" border-right:1px solid black;
+    border-left:1px solid black;
+    border-bottom:1px solid black;
+    border-top:1px solid black;
+    ">
+    
+    <b>'.$bonCommande[0]->nom_societe_comp.'</b><br>
+    <span> '.$bonCommande[0]->adresse_comp.'</span>
+    
+    </td>
+</tr>
+</table>
+<br><br>
+<span>Commande suivi par : </span> <br>
+<table cellpadding="3" style="padding: 0px;padding-right:10px">
+<tr>
+
+    <td style=" border-right:1px solid black;
+    border-left:1px solid black;
+    border-bottom:1px solid black;
+    border-top:1px solid black;
+    ">
+    
+    <b>'.$bonCommande[0]->nom.' '.$bonCommande[0]->prenom.'</b><br>
+    <span> Tél :'.$bonCommande[0]->fixe.'</span><br>
+    <span> E-mail :'.$bonCommande[0]->email.'</span>
+    
+    </td>
+</tr>
+</table>
+';
+
+
+// BonCommande top 
+$bonCommande[0]->reference_bc=  $bonCommande[0]->reference_bc."34353";
+$infosBonCommande = '<br><br><table cellpadding="3" style="padding: 0px;padding-right:10px">
+<tr>
+<td  rowspan="2" colspan="3" align="center"
+style="
+border-right:1px solid black;
+
+border-bottom: 1px solid black;
+"><h2> <b> Bon De Commande</b></h2> </td>
+<td  align="center"
+style="width:70px;
+border-left:1px solid black;
+border-bottom: 1px solid black;
+" ><h5>Numéro</h5></td>
+  </tr>
+  <tr>
+
+  <td  align="center"
+style="width:70px;
+border-left:1px solid black;
+border-bottom: 1px solid black;
+" ><span style="font-size: 8px;" >'.$bonCommande[0]->reference_bc.'</span></td>
+ 
+</tr>
+<tr>
+<td  align="center" colspan="4" 
+style="
+border-bottom: 1px solid black;
+border-top: 1px solid black;
+">
+<h3>Date : '.$bonCommande[0]->date_bc.'</h3>
+</td>
+
+</tr>
+
+<tr>
+
+<td align="center"
+style="
+border-right:1px solid black;
+border-bottom: 1px solid black;
+border-top: 1px solid black;
+"><h5> Date validité</h5></td>
+<td align="center"
+style="
+border-right:1px solid black;
+border-left:1px solid black;
+border-bottom: 1px solid black;
+border-top: 1px solid black;
+"><h5>Réglement</h5></td>
+<td align="center"
+style="
+border-right:1px solid black;
+border-left:1px solid black;
+border-bottom: 1px solid black;
+border-top: 1px solid black;
+"><h5>Date livraison</h5></td> 
+
+</tr>
+<tr>
+<td align="center"
+style="
+border-right:1px solid black;
+border-top: 1px solid black;
+"><span style="font-size: 8px;">'.$bonCommande[0]->date_limit_bc.'</span></td>
+<td align="center"
+style="
+border-right:1px solid black;
+border-left:1px solid black;
+border-top: 1px solid black;
+"><span style="font-size: 8px;">'.$bonCommande[0]->type_paiement.'</span></td>
+<td align="center"
+style="
+border-right:1px solid black;
+border-left:1px solid black;
+border-top: 1px solid black;
+"><span style="font-size: 8px;">'.$bonCommande[0]->date_bc.'</span></td> 
+
+</tr>
+</table>';
+
+//PDF::SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'cap' => 'round' ,'color' => array(255, 0, 255)));
+//PDF::SetFillColor(0,255,0);
+// Start clipping.      
+
+
+// Draw clipping rectangle to match html cell.
+
+//PDF::RoundedRect(100, $y, 105, 35, 3.50, '1111', '<h1>test</h1>');
+
+// Output html.
+//PDF::writeHTMLCell(10, 10, 100, $y, '<h1>hhkhkhjnnknj</h1><h1>njnkjnk</h1>');
+
+// Stop clipping.
+
+
+//dd(PDF::GetStringWidth($bonCommande[0]->reference_bc));
+$y = PDF::getY(); 
+
+PDF::writeHTMLCell(0, 0, 100,$y,$infosBonCommande,0, 0, 0, true, 'right', true);
+$y = PDF::getY(); 
+
+if(PDF::GetStringWidth($bonCommande[0]->reference_bc) > 27.259138888889)
+$height =($y+27.2)+4.1;
+else 
+$height =($y+27.2);
+PDF::RoundedRect(100.8, 9.2, 102.4, $height, 3.50, '1111', '');
+
+
+
+//RoundedRect(x, y, width, height, raduis, '1111', 'backroundColor');
+//writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+
+PDF::writeHTMLCell(0, 0, 10,'',$headerHtml ,0, 1, 0, true, 'left', true);
+$y = PDF::getY();
+
+
+
+
+
+
+PDF::writeHTMLCell(80, '', 110, $y, $right_column, 0, 0, 0, true, 'right', true);
+PDF::writeHTMLCell(80, '', 10, '', $left_column, 0, 1, 0, true, 'left', true);
 $y = PDF::getY();  
 
  
- PDF::writeHTMLCell(0, 0, '',$y,$headerHtml ,0, 1, 0, true, '', true);
- $y = PDF::getY();
+
 
 
 
@@ -540,17 +729,12 @@ $y = PDF::getY();
  
 
  
- //PDF::SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)));
 
  //$style2 = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 0));
 
  //PDF::Line(5, 40, 5, 30, $style2);
  //$this->Line($p1x, $p1y, $p2x, $p2y, $style);
- /*$border = array(
-    'L' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 0)),
-    'R' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)),
-    'T' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 255, 0)),
-    'B' => array('width' => 2, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255)));*/
+
 
 
   /*  $border = array(
@@ -562,6 +746,7 @@ $y = PDF::getY();
 //$y=78 minimum
 //chaque ligne = y=6.5 ou 12
 // 17 lign 
+//PDF::SetLineStyle(array('width' => 0.5,'join' => 'round', 'dash' => 0, 'color' => array(255, 0, 255)));
 
  PDF::writeHTMLCell(0, 0,'', $y,$commandesHtml,0, 1, 0, true, '', true);
 
@@ -605,7 +790,7 @@ $height = 300-$y*1.5;*/
  border-left:1px solid black;
  border-bottom: 1px solid black;
  "> </th>
- <th  width="214" style="
+ <th  width="170" style="
  border-right:1px solid black;
  border-left:1px solid black;
  border-bottom: 1px solid black;
@@ -620,7 +805,12 @@ $height = 300-$y*1.5;*/
  border-left:1px solid black;
  border-bottom: 1px solid black;
  "> </th>
- <th width="80" style="
+ <th width="60" style="
+ border-right:1px solid black;
+ border-left:1px solid black;
+ border-bottom: 1px solid black;
+ "> </th>
+ <th width="70" style="
  border-right:1px solid black;
  border-left:1px solid black;
  border-bottom: 1px solid black;
@@ -707,7 +897,16 @@ $height = 300-$y*1.5;*/
 
        //  PDF::writeHTMLCell(0, '', '', 290,$infoComp, 0, 0, 0, false, '', true);
          //PDF::SetY(0);
+         $style6 = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => '10,10', 'color' => array(0, 128, 0));
+
+         //PDF::Text(5, 249, 'Rounded rectangle examples');
          
+
+
+
+
+
+
          
          PDF::Output($reference_bc.'.pdf');
          

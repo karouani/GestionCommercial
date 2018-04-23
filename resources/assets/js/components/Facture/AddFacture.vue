@@ -42,9 +42,9 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Objet  </label>
+                <label for="inputPassword" class="col-sm-2 col-form-label">Réf. BL  </label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="facture.objet_f">
+                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="facture.fk_bl">
                 </div>
             </div>
           
@@ -592,17 +592,19 @@ console.log(this.facture.total_lettre_f)
                          
 
             
-                    this.facture.objet_bc= response.data.bonLivraison[0].objet_bl;
-                    this.facture.date_bc= response.data.bonLivraison[0].date_bl;
+                    this.facture.objet_f= response.data.bonLivraison[0].objet_bl;
+                    this.facture.date_f= response.data.bonLivraison[0].date_bl;
 
-                    this.facture.remise_total_bc= response.data.bonLivraison[0].remise_total_bl;
-                    this.facture.date_limit_bc= response.data.bonLivraison[0].date_limit_bl;
-                    this.facture.conditions_reglements_bc= response.data.bonLivraison[0].conditions_reglements_bl;
-                    this.facture.notes_bc= response.data.bonLivraison[0].notes_bl;
+                    this.facture.remise_total_f= response.data.bonLivraison[0].remise_total_bl;
+                    this.facture.date_limit_f= response.data.bonLivraison[0].date_limit_bl;
+                    this.facture.conditions_reglements_f= response.data.bonLivraison[0].conditions_reglements_bl;
+                    this.facture.notes_f= response.data.bonLivraison[0].notes_bl;
                     this.facture.fk_bl= response.data.bonLivraison[0].reference_bl;
 
-                    this.facture.adresse_bc= response.data.bonLivraison[0].adresse_bl;
-                    this.facture.accompte_bc= response.data.bonLivraison[0].accompte_bl;
+                    //this.facture.adresse_f= response.data.bonLivraison[0].adresse_bl;
+                    this.facture.adresse_f= response.data.bonLivraison[0].adresse_facture_bc;
+
+                    this.facture.accompte_f= response.data.bonLivraison[0].accompte_bl;
                     this.compte.nom_compte= response.data.bonLivraison[0].nom_compte;
                     this.compte.id_compte= response.data.bonLivraison[0].fk_compte_bl;
 

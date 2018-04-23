@@ -41,7 +41,7 @@
                 <div class="form-group row ">
                 <label for="type_compte" class="col-sm-4" >Famille</label>
                 <div class="col-sm-8">
-                <select class="form-control custom-select " id="type_compte" v-model="compte.type_compte" >
+                <select class="form-control custom-select " id="type_compte" v-model="compte.type_compte"  @change="getcountCompte(compte.type_compte)" required>
                     <option selected>Choisir Type du Compte</option>
                     <option value="Client">Client</option>
                     <option value="Fournisseur">Fournisseur</option>                   
@@ -63,7 +63,7 @@
                 <div class="form-group row ">
                     <label for="reference" class="col-sm-4" > Reference </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" id="reference" v-model="compte.reference" >
+                    <input type="text" readonly class="form-control" id="reference" v-model="compte.reference" >
                     </div>
                 </div>
                 <div class="form-group row ">
@@ -279,6 +279,7 @@
                     fk_compte : 0,
 
               },
+              countCompte:"",
               
               
               // tableau des articles 
@@ -289,7 +290,22 @@
       }),
       
 
+
       methods: { 
+
+          getcountCompte(typeCompte){
+            axios.get('/countCompte').then(
+                  response => {
+                      console.log('------------ count cl -----')
+                if(typeCompte === "Client"){
+                       this.compte.reference = "CL0";
+                    this.compte.reference += response.data.countCompteCL;}
+                    else {
+                    this.compte.reference = "FR0";
+                    this.compte.reference += response.data.countCompteFR;}
+                    console.log("allCompagnies");
+                  });  
+          },
           testAjoutCompte(){
 
           },
