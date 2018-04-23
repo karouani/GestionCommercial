@@ -9,7 +9,46 @@
     <div v-if="!loading" >
     <div class="row">
         <div class="col">
-          <a href="#"    @click="redirect_To_AddBonLivraison()"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
+          <a href="#"  v-b-modal.modalPrevent    class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
+
+
+ <b-modal id="modalPrevent"
+             ref="modal"
+             title="+ convertir"
+             @ok="handleOk"
+             ok-title="Enregister" >
+      <form @submit.stop.prevent="handleSubmit">
+
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Convertir</label>
+                <div class="col-sm-10">
+                <input type="text"  readonly class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.reference_bc" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
+                    <div class="col-sm-10">
+         <select class="form-control custom-select " id="fk_compte" v-model="document" >
+                   <option value="facture">Facture</option>
+                    <option value="bonLivraison">Bon de livraison</option>
+                </select>  
+
+                
+                </div>
+            </div> 
+          
+      
+      </form>
+
+    </b-modal>
+
+
+
+
+
+              
+
            <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
 
      <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
@@ -285,7 +324,8 @@
               bonCommandes : [],
             bonCommande : {},
                 commandes : [],
-                status : []
+                status : [],
+                document :""
 
                
       }),
@@ -297,6 +337,14 @@
      
 
 methods: { 
+    handleOk(){
+        console.log('----- doc ')
+            console.log(this.document);
+            if(this.document ==="bonLivraison"){
+                this.redirect_To_AddBonLivraison();
+
+            }
+    },
            redirect_To_AddBonLivraison(){
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
                      this.$router.push({ name: 'addBonLivraison', params: {bonCommande :this.bonCommande}});
@@ -310,6 +358,7 @@ methods: {
           },
     fetchData () { 
         this.loading = true
+        
         this.getStatus();
             this.showBonCommande(this.$route.params.reference_bc);
              this.getCommandes(this.$route.params.reference_bc);

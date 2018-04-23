@@ -290,12 +290,13 @@ class BonLivraisonController extends Controller
     
      public function showBonLivraison($reference_bl){
         // $devi= Devi::find($id_devis);
-         $bonLivraison= Bonlivraison::leftJoin('comptes', 'bonLivraisons.fk_compte_bl', '=', 'comptes.id_compte')
-               ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
-               ->leftJoin('mode_paiements', 'bonLivraisons.reference_bl', '=', 'mode_paiements.fk_document')
-               ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
-               ->select('bonLivraisons.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.*','mode_paiements.*','type_paiements.*')
-               ->where('reference_bl', $reference_bl)->get();
+        $bonLivraison= Bonlivraison::leftJoin('comptes', 'bonLivraisons.fk_compte_bl', '=', 'comptes.id_compte')
+        ->leftJoin('contacts', 'contacts.fk_compte_comp', '=', 'comptes.id_compte')
+        ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
+        ->leftJoin('mode_paiements', 'bonLivraisons.reference_bl', '=', 'mode_paiements.fk_document')
+        ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
+        ->select('bonLivraisons.*', 'comptes.*','macompagnies.*','mode_paiements.*','type_paiements.*','contacts.*')
+        ->where('reference_bl', $reference_bl)->where('contacts.type_contact','=','compte')->get();
          return Response()->json(['bonLivraison' => $bonLivraison ]);
       }
 

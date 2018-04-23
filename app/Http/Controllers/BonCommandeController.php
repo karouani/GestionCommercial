@@ -514,6 +514,7 @@ $left_column = ' <table style="padding: 0px;padding-right:10px">
     <b> EMISSION DE LA COMMANDE </b> <br>
     '.$bonCommande[0]->nom_compte.'<br>
     '.$bonCommande[0]->raison_social.'<br>
+    Tél :'.$bonCommande[0]->portable.' / Fix: '.$bonCommande[0]->fixe.'<br>
     '.$bonCommande[0]->adresse_compte.'<br>
     
     </td>

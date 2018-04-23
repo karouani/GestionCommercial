@@ -528,7 +528,7 @@ methods: {
     console.log('------dateeeee bl ')
     console.log(this.$route.params.bonCommande.date_limit_bc)
    
-    this.getTypePaiement();
+    
     
     this.modePaiement.reference_paiement = this.$route.params.bonCommande.reference_paiement;
     this.modePaiement.date_paiement = this.$route.params.bonCommande.date_paiement ;
@@ -547,6 +547,7 @@ methods: {
 this.Testopen.testRefBC = true;
 this.bonLivraison.fk_bonCommande= this.$route.params.bonCommande.reference_bc;
 
+this.getTypePaiement();
 console.log('-------------------- test ------------------------')
       /* this.countBonLivraisons();
         this.id_devis = this.$route.params.id_devis;
@@ -563,7 +564,7 @@ console.log('-------------------- test ------------------------')
         this.getCommandes(this.$route.params.reference_d);
          
          console.log()*/
-          this.loading=false;
+          
     }
     else{
 
@@ -882,6 +883,7 @@ console.log('-------------------- test22222 ------------------------')
                             axios.get('/getTypePaiement')
                             .then((response) => {                        
                                 this.typePaiements= response.data.listeTypePaiments;
+                                this.loading=false;
                             })
                             .catch(() => {
                                 console.log('handle server error from here');
