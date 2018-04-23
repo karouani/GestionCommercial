@@ -181,7 +181,7 @@ Route::get('/showBonLivraison/{reference_bl}','BonLivraisonController@showBonLiv
 Route::post('/UpdateBonLivraison','BonLivraisonController@UpdateBonLivraison');
 
 
-Route::get('/pdf/{reference_bl}','BonLivraisonController@pdf');
+Route::get('/pdfBL/{reference_bl}','BonLivraisonController@pdf');
 
 Route::post('/updateStatusBL','BonLivraisonController@updateStatusBL');
 Auth::routes();

@@ -290,12 +290,13 @@ class BonCommandeController extends Controller
     
      public function showBonCommande($reference_bc){
         // $devi= Devi::find($id_devis);
-         $bonCommande= Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
-               ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
-               ->leftJoin('mode_paiements', 'bonCommandes.reference_bc', '=', 'mode_paiements.fk_document')
-               ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
-               ->select('bonCommandes.*', 'comptes.nom_compte','comptes.id_compte','macompagnies.*','mode_paiements.*','type_paiements.*')
-               ->where('reference_bc', $reference_bc)->get();
+        $bonCommande= Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
+        ->leftJoin('contacts', 'contacts.fk_compte_comp', '=', 'comptes.id_compte')
+        ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
+        ->leftJoin('mode_paiements', 'bonCommandes.reference_bc', '=', 'mode_paiements.fk_document')
+        ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
+        ->select('bonCommandes.*', 'comptes.*','macompagnies.*','mode_paiements.*','type_paiements.*','contacts.*')
+        ->where('reference_bc', $reference_bc)->where('contacts.type_contact','=','compte')->get();
          return Response()->json(['bonCommande' => $bonCommande ]);
       }
 
@@ -692,7 +693,7 @@ $y = PDF::getY();
 PDF::writeHTMLCell(0, 0, 100,$y,$infosBonCommande,0, 0, 0, true, 'right', true);
 $y = PDF::getY(); 
 
-if(PDF::GetStringWidth($bonCommande[0]->reference_bc) > 27.259138888889)
+if(PDF::GetStringWidth($bonCommande[0]->reference_bc) > 27.259138888889 || PDF::GetStringWidth($bonCommande[0]->type_paiement) > 27.259138888889)
 $height =($y+27.2)+4.1;
 else 
 $height =($y+27.2);
