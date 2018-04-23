@@ -10,6 +10,7 @@
     <div class="row">
         <div class="col">
            <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
+            <a href="#"    @click="redirect_To_AddFacture(bonlivraison)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
 
      <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
       
@@ -326,7 +327,12 @@ methods: {
                                         console.log('handle server error from here');
                                 });
         },
+ redirect_To_AddFacture(bonlivraison){
+           console.log("redirect id compte"+this.devi.id_compte)
+                   //  this.$router.push('/ShowBonCommande/'+reference_bc);
+                     this.$router.push({ name: 'addBonCommande', params: {id_bl: bonlivraison.id_bl, reference_bl: bonlivraison.reference_bl,id_compte:bonlivraison.id_compte}});
 
+            }, 
         getCommandes(reference_bc){
 
          axios.get('/getCommandes_bc/'+reference_bc)

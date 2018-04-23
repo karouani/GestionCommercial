@@ -177,7 +177,7 @@
                
 <label for="inputPassword" class="col-sm-4 col-form-label">Échéance </label>
                 <div class="col-sm-8">
-                    <select class="form-control custom-select " id="echeance" v-model="bonCommande.echeance" >
+                    <select class="form-control custom-select " id="echeance" v-model="echeance" >
                     <option selected disabled>nombre de jour</option>
                     <option value="7">une semaine</option>
                     <option value="14">deux semaine</option>
@@ -188,12 +188,12 @@
 
                 </select>
                  
-                <div v-if="bonCommande.echeance != undefined">
+                <div v-if="echeance != undefined">
                     <br>
-                    <div v-if="bonCommande.echeance != 'choix'">
+                    <div v-if="echeance != 'choix'">
                                  {{bonCommande.date_limit_bc}} - ({{bonCommande.date_diff}})
                     </div>
-                <div v-if="bonCommande.echeance === 'choix'">
+                <div v-if="echeance === 'choix'">
                   <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.date_limit_bc" required>
                 </div>
                 </div>
@@ -364,7 +364,7 @@
             adresse_facture_bc:"",
 
               },
-
+ echeance:0,
                compte: { 
                     id_compte : 0,
                     nom_compte : "",
@@ -502,14 +502,16 @@ methods: {
         this.reference_d=this.$route.params.reference_d;
         this.getDevisD(this.$route.params.id_devis);
        
-       
+       this.echeance = 'choix';
         this.getarticles();
         this.getClients();
         this.getTvas();
         this.getTypePaiement();
         
-        this.getCommandes(this.$route.params.id_devis);
+     
         this.getCommandes(this.$route.params.reference_d);
+        this.getCompte(this.$route.params.id_compte);
+        this.getContacts(this.$route.params.id_compte);
     }
     else{
 
@@ -525,7 +527,6 @@ methods: {
             //this.commande.fk_document=this.$route.params.reference_bc
             this.modePaiement.fk_document=this.$route.params.reference_bc
             this.getCompte(this.$route.params.id_compte);
-            this.getContacts(this.$route.params.id_compte);
             this.getCondtionFacture(this.$route.params.id_compte); 
             this.getStatus();
             this.getTvas();
@@ -751,17 +752,10 @@ methods: {
                     this.compte= response.data.compte;
                     this.bonCommande.adresse_bc = this.compte.adresse_compte;
                     this.bonCommande.adresse_facture_bc = this.compte.adresse_compte;
+                    this.getContacts(this.compte.id_compte);
                     console.log(this.compte)
                   });
                   this.getRemise(id_compte);     
-        },
-        getContacts:function(id_compte){
-                  axios.get('/getContacts/'+id_compte).then(
-                  response => {
-                       
-                    this.contacts= response.data.contacts;
-                     console.log(this.contacts)
-                  });     
         },
         getCondtionFacture:function(id_compte){
                   axios.get('/getCFacture/'+id_compte).then(
@@ -825,10 +819,12 @@ methods: {
 
                 axios.get('/countBonCommandes')
                 .then((response) => {
-
-                    this.bonCommande.reference_bc='BC'+response.data.count;
-                    this.modePaiement.fk_document='BC'+response.data.count;
-                    this.fk_document_cmd='BC'+response.data.count;
+ var today = new Date();
+                    var yyyy = today.getFullYear();             
+                    var year  = yyyy;
+                    this.bonCommande.reference_bc='BC-'+year+'-'+response.data.count;
+                    this.modePaiement.fk_document='BC-'+year+'-'+response.data.count;
+                    this.fk_document_cmd='BC-'+year+'-'+response.data.count;
 
 
                     /*this.commande.fk_document='D'+response.data.count;
@@ -858,7 +854,7 @@ methods: {
                         dat.setDate(dat.getDate() + days);
                         return dat;
                         }
-                            
+                         if(this.echeance != "choix"){   
                         var date_bc=this.bonCommande.date_bc
                         var dat = new Date(date_bc);
 
@@ -882,7 +878,7 @@ methods: {
                                         } 
                         console.log(dd+'-'+mm+'-'+yyyy)
 
-                                    this.bonCommande.date_limit_bc=yyyy+'-'+mm+'-'+dd;
+                                    this.bonCommande.date_limit_bc=yyyy+'-'+mm+'-'+dd;}
                                 // return dd+'-'+mm+'-'+yyyy;
                         
                         },
@@ -964,7 +960,7 @@ computed:{
 
             
     },
-       echeance(){
+       echeancee(){
             this.echeanceDate();
 
    },
@@ -993,9 +989,9 @@ commandes: {
             },
             deep : true
     },
-      'bonCommande.echeance':{
+      'echeance':{
             handler: function(){
-                    this.echeance;
+                    this.echeancee;
                     this.diff;
 
             }
@@ -1003,14 +999,14 @@ commandes: {
 
             'bonCommande.date_bc':{
             handler: function(){
-                this.echeance;
+                this.echeancee;
                     this.diff;
 
             }
     },
     'bonCommande.date_limit_bc':{
         handler: function(){
-                this.echeance;
+                this.echeancee;
                     this.diff;
             console.log("watch")
 
@@ -1025,8 +1021,6 @@ commandes: {
             
 },
 
-    mounted(){
-}
 }   
 </script>
 <style scoped>

@@ -179,7 +179,7 @@ class DevisController extends Controller
             ->leftJoin('mode_paiements', 'devis.reference_d', '=', 'mode_paiements.fk_document')
             ->leftJoin('status', 'devis.fk_status_d', '=', 'status.id_status')
             ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
-            ->select('devis.*', 'comptes.nom_compte','status.*', 'macompagnies.*','mode_paiements.*','type_paiements.*')
+            ->select('devis.*', 'comptes.*','status.*', 'macompagnies.*','mode_paiements.*','type_paiements.*')
             ->where('id_devis', $id_devis)->get();
       return Response()->json(['devi' => $devi ]);
    }

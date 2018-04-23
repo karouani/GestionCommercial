@@ -141,7 +141,7 @@
                
 <label for="inputPassword" class="col-sm-4 col-form-label">Échéance </label>
                 <div class="col-sm-8">
-                    <select class="form-control custom-select " id="echeance" v-model="devi.echeance" >
+                    <select class="form-control custom-select " id="echeance" v-model="echeance" >
                     <option selected disabled>nombre de jour</option>
                     <option value="7">une semaine</option>
                     <option value="14">deux semaine</option>
@@ -152,12 +152,12 @@
 
                 </select>
                  
-                <div v-if="devi.echeance != undefined">
+                <div v-if="echeance != undefined">
                     <br>
-                    <div v-if="devi.echeance != 'choix'">
+                    <div v-if="echeance != 'choix'">
                                  {{devi.date_limit_d}} - ({{devi.date_diff}})
                     </div>
-                <div v-if="devi.echeance === 'choix'">
+                <div v-if="echeance === 'choix'">
                   <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="devi.date_limit_d" required>
                 </div>
                 </div>
@@ -326,7 +326,7 @@
             montant_ttc_d:0,
             montant_reste_d:0,
 
-            echeance:0,
+            
             date_diff:"",
             total_lettre_d:"",
               },
@@ -334,6 +334,7 @@
                   id_compte:0,
                   nom_compte:"",
               },
+              echeance:0,
               // tableau des devis 
               devis :[],
               //tables foreign key 
@@ -376,6 +377,7 @@
                designation:"",
                // montant total de chaque commande
                 total_ht_cmd:0,
+                echeance:0,
               },
              
               commandes:[],
@@ -564,7 +566,7 @@ console.log(this.devi.total_lettre_d)
             .then((response) => {
                     this.compte = response.data.compte;
                     this.getRemise(id_compte)
-                  this.devi.adresse_d=response.data.compte.adresse_compte;
+                    this.devi.adresse_d=response.data.compte.adresse_compte;
             })
             .catch(() => {
                     console.log('handle server error from here');
@@ -592,11 +594,11 @@ Date.prototype.addDays = function(days) {
   dat.setDate(dat.getDate() + days);
   return dat;
 }
-
+if(this.echeance != "choix"){
 var date_d=this.devi.date_d
 var dat = new Date(date_d);
 
-var echeance= +this.devi.echeance;
+var echeance= +this.echeance;
    //console.log("echeance-------- "+echeance)
         if(typeof(echeance) === 'number'){
     console.log("echeance is number            "+typeof(echeance) )
@@ -616,7 +618,7 @@ var echeance= +this.devi.echeance;
                 } 
    console.log(dd+'-'+mm+'-'+yyyy)
 
-            this.devi.date_limit_d=yyyy+'-'+mm+'-'+dd;
+            this.devi.date_limit_d=yyyy+'-'+mm+'-'+dd;}
            // return dd+'-'+mm+'-'+yyyy;
    
 },
@@ -635,12 +637,13 @@ diffDate() {
       this.loading = true
       // replace `getPost` with your data fetching util / API wrapper
             this.devi.date_d=this.$route.params.currentDate;
+            this.devi.date_limit_d=this.$route.params.currentDate;
             this.devi.reference_d=this.$route.params.reference_d;
             this.commande.fk_document=this.$route.params.reference_d;
             this.modePaiement.fk_document=this.$route.params.reference_d;
             this.devi.fk_compte_d=this.$route.params.id_compte;
 
-          
+          this.echeance = 'choix';
             //this.countDevis();
             this.getTvas();
             this.getarticles();
@@ -706,7 +709,7 @@ computed:{
             }
              this.devi.total_lettre_d=this.total_lettre;
     },
-    echeance(){
+    echeancee(){
             this.echeanceDate();
 
    },
@@ -750,9 +753,9 @@ watch:{
             },
             deep : true
     },
-    'devi.echeance':{
+    'echeance':{
             handler: function(){
-                    this.echeance;
+                    this.echeancee;
                     this.diff;
 
             }
@@ -760,14 +763,14 @@ watch:{
 
             'devi.date_d':{
             handler: function(){
-                this.echeance;
+                this.echeancee;
                     this.diff;
 
             }
     },
     'devi.date_limit_d':{
         handler: function(){
-                this.echeance;
+                this.echeancee;
                     this.diff;
             console.log("watch")
 

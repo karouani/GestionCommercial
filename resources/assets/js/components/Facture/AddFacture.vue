@@ -44,7 +44,7 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Réf. BL  </label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="facture.fk_bl">
+                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="facture.fk_bl" disabled>
                 </div>
             </div>
           
@@ -141,7 +141,7 @@
                
 <label for="inputPassword" class="col-sm-4 col-form-label">Échéance </label>
                 <div class="col-sm-8">
-                    <select class="form-control custom-select " id="echeance" v-model="facture.echeance" >
+                    <select class="form-control custom-select " id="echeance" v-model="echeance" >
                     <option selected disabled>nombre de jour</option>
                     <option value="7">une semaine</option>
                     <option value="14">deux semaine</option>
@@ -152,12 +152,12 @@
 
                 </select>
                  
-                <div v-if="facture.echeance != undefined">
+                <div v-if="echeance != undefined">
                     <br>
-                    <div v-if="facture.echeance != 'choix'">
+                    <div v-if="echeance != 'choix'">
                                  {{facture.date_limit_f}} - ({{facture.date_diff}})
                     </div>
-                <div v-if="facture.echeance === 'choix'">
+                <div v-if="echeance === 'choix'">
                   <input type="date"  class="form-control" id="inputPassword" placeholder="" v-model="facture.date_limit_f" required>
                 </div>
                 </div>

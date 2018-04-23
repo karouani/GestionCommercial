@@ -278,6 +278,7 @@
             montant_reste_d:0,
             
             nom_societe:"",
+            id_compte:0,
             },
 
             statu :{
@@ -340,7 +341,6 @@ updateStatusDevis(){
                   window.open('/pdf_d/'+reference_d,'_blank');
           },
                         fetchData () {
-      //this.error = this.post = null
       this.loading = true
       console.log("loading+++++++++++++++++++++")
       // replace `getPost` with your data fetching util / API wrapper
@@ -350,7 +350,7 @@ updateStatusDevis(){
               
               this.getStatus();
               this.getCommandes(this.devi.reference_d);
-   //this.getDevisD(this.$route.params.id_devis);
+
 
     },
        getDevisD:function(id_devis){
@@ -362,7 +362,6 @@ updateStatusDevis(){
                     this.devi= response.data.devi[0];
                     this.devi.colorStatu=response.data.devi[0].colorStatu;
                     console.log("color devi +++++++"+this.devi.colorStatu);
-console.log(this.devi);
                   });     
         },
         getCommandes:function(reference_d){
@@ -405,8 +404,9 @@ console.log(this.devi);
         });
     },
        redirect_To_AddBonCommande(devi){
+           console.log("redirect id compte"+this.devi.id_compte)
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
-                     this.$router.push({ name: 'addBonCommande', params: {id_devis: devi.id_devis, reference_d: devi.reference_d}});
+                     this.$router.push({ name: 'addBonCommande', params: {id_devis: devi.id_devis, reference_d: devi.reference_d,id_compte:devi.id_compte}});
 
             }, 
     },

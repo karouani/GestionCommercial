@@ -201,8 +201,9 @@ public function getBonLivraisonBL($id_bl){
     public function getFactures(){
      
         $factures = Facture::leftJoin('comptes', 'factures.fk_compte_f', '=', 'comptes.id_compte')
+        ->leftJoin('bonLivraisons','factures.fk_bl', '=', 'bonLivraisons.reference_bl')
         ->leftJoin('status', 'factures.fk_status_f', '=', 'status.id_status')
-                    ->select('factures.*', 'comptes.nom_compte','status.*')
+                    ->select('factures.*', 'comptes.nom_compte','status.*','bonLivraisons.*')
                     ->paginate(10);
                    
                  return Response()->json(['factures' => $factures ]);

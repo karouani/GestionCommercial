@@ -184,6 +184,10 @@ Route::post('/UpdateBonLivraison','BonLivraisonController@UpdateBonLivraison');
 Route::get('/pdf/{reference_bl}','BonLivraisonController@pdf');
 
 Route::post('/updateStatusBL','BonLivraisonController@updateStatusBL');
+   
+//pour facture
+//Route::get('/getBL_Facture/{idCompte}','BonLivraisonController@getBL_Facture');
+
 Auth::routes();
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bonlivraison;
+use App\Facture;
 use App\Statu;
 use App\Commande;
 use App\Article;
@@ -250,7 +251,7 @@ class BonLivraisonController extends Controller
            
         $bonlivraisons = Bonlivraison::leftJoin('comptes', 'bonLivraisons.fk_compte_bl', '=', 'comptes.id_compte')
             ->leftJoin('status', 'bonLivraisons.fk_status_bl', '=', 'status.id_status')
-            ->select('bonLivraisons.*', 'comptes.nom_compte','status.*')
+            ->select('bonLivraisons.*', 'comptes.*','status.*')
             ->paginate(10);
            
          return Response()->json(['bonLivraisons' => $bonlivraisons ]);
@@ -297,6 +298,18 @@ class BonLivraisonController extends Controller
                ->where('reference_bl', $reference_bl)->get();
          return Response()->json(['bonLivraison' => $bonLivraison ]);
       }
+
+
+// POUR FACTURE
+/*public function  getBL_Facture($idCompte){
+           
+    $bonlivraisons = Bonlivraison::leftJoin('factures', 'bonLivraisons.reference_bl', '=', 'factures.fk_bl')
+        ->select('bonLivraisons.*','factures.fk_bl')
+        ->where('bonLivraisons.reference_bl','!=','factures.fk_bl')
+        ->get();
+     return Response()->json(['bonLivraisons' => $bonlivraisons ]);
+  }
+*/
 
 
       public function pdf($reference_bl){
