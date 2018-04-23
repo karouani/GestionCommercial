@@ -123,7 +123,16 @@
                     <div class="col-sm-8">
                     <input type="text" class="form-control" id="RC" v-model="compte.RC">
                     </div>
-                </div>   
+                </div>
+                <div class="form-group row ">
+                    <label for="RC" class="col-sm-4" >Logo </label>
+                    <div class="col-sm-8">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" v-on:change="onImageChange">
+                        <label class="custom-file-label" for="inputGroupFile01">{{nameFile}}</label>
+                    </div>
+                    </div>
+                </div>    
 
                 
 
@@ -221,6 +230,7 @@
     export default{ 
         
           data: () => ({
+              nameFile : "Choose file",
              isActive: true,
               breadcrumbstree : "breadcrumbs-tree",
 
@@ -251,7 +261,8 @@
                     taille : "",
                     RC : "",
                     fk_compagnie : "",
-                    adresse_compte:""
+                    adresse_compte:"",
+                    logo_compte: ""
               },
 
 
@@ -290,6 +301,63 @@
       
 
       methods: {
+           onImageChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                this.nameFile = files[0].name;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+            },
+            createImage(file) {
+                
+                
+                
+                let reader = new FileReader();
+                let vm = this;
+                reader.onload = (e) => {
+                        var image = new Image();
+                       image.src=e.target.result;
+                         //console.log("okkkkk111 : "+image.src.length)
+                        image.onload=function(){
+                        //console.log("test222222");
+                        //document.getElementById("original-Img").src=image.src;
+                       // console.log("taille width : "+image.width)
+                         console.log("taille size : "+image.src.length)
+                         //console.log("taille width : "+image.height)
+
+                        var canvas=document.createElement("canvas");
+                        var context=canvas.getContext("2d");
+                        if(image.src.length > 1000000){
+                            
+                        canvas.width=image.width/8; 
+                        canvas.height=image.height/8;
+                        }
+                        else {
+                         canvas.width=image.width; 
+                        canvas.height=image.height;}
+                        //console.log("canvas.width : "+canvas.width)
+                        context.drawImage(image,
+                            0,
+                            0,
+                            image.width,
+                            image.height,
+                            0,
+                            0,
+                            canvas.width,
+                            canvas.height
+                        );
+                        console.log("size 2 : "+canvas.toDataURL().length)
+                        vm.compte.logo_compte = canvas.toDataURL();
+                        console.log(vm.compte.logo_compte);
+                    }
+                        
+
+                   // vm.article.photo_art = e.target.result;
+                
+                    
+                };
+                reader.readAsDataURL(file);
+            },
 
         getcountCompte(typeCompte){
             axios.get('/countCompte').then(
@@ -381,7 +449,7 @@
                   response => {
                        
                     this.compte= response.data.compte;
-                   
+                   this.nameFile = response.data.compte.logo_compte;
                   });     
         },
         getContacts:function(id_compte){

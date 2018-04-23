@@ -49,7 +49,11 @@ import  ShowBonCommandes from './components/BonCommande/ShowBonCommandes.vue'
 import  ShowBonCommande from './components/BonCommande/ShowBonCommande.vue' 
 import  EditBonCommande from './components/BonCommande/EditBonCommande.vue' 
 
-
+// Bon de Livraison
+import  AddBonLivraison from './components/BonLivraison/AddBonLivraison.vue' 
+import  ShowBonLivraisons from './components/BonLivraison/ShowBonLivraisons.vue' 
+import  ShowBonLivraison from './components/BonLivraison/ShowBonLivraison.vue' 
+import  EditBonLivraison from './components/BonLivraison/EditBonLivraison.vue' 
 
 Vue.use(VueRouter) 
 
@@ -266,6 +270,31 @@ const  router = new VueRouter({
     component: EditFacture,
     name: "EditFacture",
 },       
+               
+        // ----------------------------------------------------------  // Bon Livraison
+        {     
+            path:"/addBonLivraison",
+            component: AddBonLivraison,
+            name: "addBonLivraison",
+            },
+            {     
+                path:"/addBonLivraison/:id_bonCommande",
+                component: AddBonLivraison,
+                },
+            {     
+             path:"/ShowBonLivraisons",
+              component: ShowBonLivraisons,
+              name: "ShowBonLivraisons",
+             },
+            {     
+             path:"/ShowBonLivraison/:reference_bl",
+             component: ShowBonLivraison 
+                },
+            {     
+             path:"/EditBonLivraison",
+             component: EditBonLivraison,
+             name: "EditBonLivraison",
+            },      
     ],
    
 })

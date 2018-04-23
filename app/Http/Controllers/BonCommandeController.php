@@ -315,7 +315,7 @@ class BonCommandeController extends Controller
         ->where('fk_document', $reference_bc)->get();
         //dd($bonCommande);
   
-        $logo = public_path().'/storage/images/'.$bonCommande[0]->logo_comp;
+        $logo = public_path().'/storage/images/'.$bonCommande[0]->logo_compte;
       
         $headerHtml =  '<div>
         <img src="'.$logo.'" alt="test alt attribute" width="180" height="70" border="0" />
@@ -591,7 +591,6 @@ $right_column = '<br> <br><br><br> <b>Fournisseur :</b><br>
 
 
 // BonCommande top 
-$bonCommande[0]->reference_bc=  $bonCommande[0]->reference_bc."34353";
 $infosBonCommande = '<br><br><table cellpadding="3" style="padding: 0px;padding-right:10px">
 <tr>
 <td  rowspan="2" colspan="3" align="center"

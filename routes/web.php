@@ -160,6 +160,30 @@ Route::post('/updateStatusBC','BonCommandeController@updateStatusBC');
         Route::post('/updateStatusFacture','FactureController@updateStatusFacture');
         Route::get('/pdf_f/{reference_f}','FactureController@pdf_f');
  
+
+// bon livraison 
+Route::post('/addBonLivraison','BonLivraisonController@addBonLivraison');
+Route::get('/countBonLivraisons','BonLivraisonController@countBonLivraisons');
+Route::get('/getPrixArticle_bl/{fk_article}','BonLivraisonController@getPrixArticle_bl');
+Route::get('/getCommandes_bl/{fk_document}','BonLivraisonController@getCommandes_bl');
+Route::get('/getPaiement_bl/{fk_document}','BonLivraisonController@getPaiement_bl');
+Route::get('/tauxTva_bl/{id_tva}','BonLivraisonController@tauxTva_bl');
+
+Route::get('/getBonLivraisons','BonLivraisonController@getBonLivraisons');
+Route::get('/getBonLivraison/{id_bl}','BonLivraisonController@getBonLivraison');
+Route::get('/searchBonLivraison/{search_BL}','BonLivraisonController@searchBonLivraison');
+Route::get('/getBonLivraisonsCompte/{idCompte}','BonLivraisonController@getBonLivraisonsCompte');
+
+
+
+Route::delete('/deleteBonLivraison/{id_bl}','BonLivraisonController@deleteBonLivraison');
+Route::get('/showBonLivraison/{reference_bl}','BonLivraisonController@showBonLivraison');
+Route::post('/UpdateBonLivraison','BonLivraisonController@UpdateBonLivraison');
+
+
+Route::get('/pdf/{reference_bl}','BonLivraisonController@pdf');
+
+Route::post('/updateStatusBL','BonLivraisonController@updateStatusBL');
 Auth::routes();
 
 

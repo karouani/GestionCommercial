@@ -904,7 +904,7 @@ computed:{
             this.total_ttc=  this.precisionRound( +this.net_HT + +this.tva_total,2);
             this.bonCommande.montant_reste_bc=this.precisionRound(  +this.total_ttc - +this.bonCommande.accompte_bc,2);
 
-            var res = this.total_ttc.toString().split(".");
+            var res = this.bonCommande.montant_reste_bc.toString().split(".");
            this.bonCommande.total_lettre = this.$WrittenNumber(res[0], { lang: 'fr'})
              
 
