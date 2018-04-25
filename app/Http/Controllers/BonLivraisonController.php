@@ -18,6 +18,13 @@ class BonLivraisonController extends Controller
 {
     public $template;
 
+
+
+
+
+
+
+    
     public function updateStatusBL(Request $request){
         //dd($request->id_devis);
               $bonlivraison = Bonlivraison::find($request->id_bl);
@@ -36,7 +43,7 @@ class BonLivraisonController extends Controller
                 $bonLivraison->reference_bl = $request->bonLivraison['reference_bl'];
                 $bonLivraison->fk_bonCommande = $request->bonLivraison['fk_bonCommande'];                
                 $bonLivraison->date_bl = $request->bonLivraison['date_bl'];
-                $bonLivraison->type_operation_bl = "vente";
+                $bonLivraison->type_operation_bl =  $request->bonLivraison['type_operation_bl'];
                 $bonLivraison->objet_bl = $request->bonLivraison['objet_bl'];
                 $bonLivraison->date_emission_bl = $request->bonLivraison['date_emission_bl'];
                 $bonLivraison->remise_total_bl = $request->bonLivraison['remise_total_bl'];
@@ -75,7 +82,6 @@ class BonLivraisonController extends Controller
     { 
         $bonLivraison = BonLivraison::where('reference_bl',$request->bonLivraison['reference_bl'])->update([
         'date_bl' => $request->bonLivraison['date_bl'],
-        'type_operation_bl' => "achat",
         'objet_bl' => $request->bonLivraison['objet_bl'],
         'date_emission_bl' => $request->bonLivraison['date_emission_bl'],
         'remise_total_bl' => $request->bonLivraison['remise_total_bl'],

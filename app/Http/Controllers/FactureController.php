@@ -16,6 +16,23 @@ use Illuminate\Http\Request;
 class FactureController extends Controller
 {
        // ajouter un facture
+
+
+
+       public function getFacturesCompte($idCompte){
+     
+        $factures = Facture::leftJoin('comptes', 'factures.fk_compte_f', '=', 'comptes.id_compte')
+        ->leftJoin('bonLivraisons','factures.fk_bl', '=', 'bonLivraisons.reference_bl')
+        ->leftJoin('status', 'factures.fk_status_f', '=', 'status.id_status')
+                    ->select('factures.*', 'comptes.nom_compte','status.*','bonLivraisons.*')
+                    ->where('factures.fk_compte_f','=', $idCompte)
+                    ->paginate(10);
+                   
+                 return Response()->json(['factures' => $factures ]);
+              }
+
+
+
        public function addFacture(Request $request)
        { 
         

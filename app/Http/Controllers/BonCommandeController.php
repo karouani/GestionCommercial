@@ -36,7 +36,7 @@ class BonCommandeController extends Controller
                 $bonCommande->reference_bc = $request->bonCommande['reference_bc'];
                 $bonCommande->fk_devis = $request->bonCommande['fk_devis'];                
                 $bonCommande->date_bc = $request->bonCommande['date_bc'];
-                $bonCommande->type_operation_bc = "vente";
+                $bonCommande->type_operation_bc = $request->bonCommande['type_operation_bc'];
                 $bonCommande->objet_bc = $request->bonCommande['objet_bc'];
                 $bonCommande->date_emission_bc = $request->bonCommande['date_emission_bc'];
                 $bonCommande->remise_total_bc = $request->bonCommande['remise_total_bc'];
@@ -75,7 +75,6 @@ class BonCommandeController extends Controller
     { 
         $bonCommande = BonCommande::where('reference_bc',$request->bonCommande['reference_bc'])->update([
         'date_bc' => $request->bonCommande['date_bc'],
-        'type_operation_bc' => "achat",
         'objet_bc' => $request->bonCommande['objet_bc'],
         'date_emission_bc' => $request->bonCommande['date_emission_bc'],
         'remise_total_bc' => $request->bonCommande['remise_total_bc'],

@@ -28,7 +28,13 @@ class ArticleController extends Controller
         //dd($listeArticles);
         return Response()->json(['articles' => $listeArticles ]);
      }
+     public function getAllArticles(){
 
+        $listeArticles = Article::leftJoin('tvas','articles.fk_tva_applicable','=','tvas.id_tva')
+        ->select('articles.*','tvas.*')->get();
+        return Response()->json(['articles' => $listeArticles ]);
+
+     }
     
     
      public function searchArticles($desig){
