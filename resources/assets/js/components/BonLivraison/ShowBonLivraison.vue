@@ -335,7 +335,7 @@ methods: {
  redirect_To_AddFacture(bonLivraison){
            console.log("redirect id compte"+this.bonLivraison.id_compte)
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
-                     this.$router.push({ name: 'addFacture', params: {id_bl: this.bonLivraison.id_bl, reference_bl: this.bonLivraison.reference_bl,id_compte:this.bonLivraison.id_compte}});
+                     this.$router.push({ name: 'addFacture', params: {bonLivraison: this.bonLivraison}});
 },
         getCommandes(reference_bl){
 

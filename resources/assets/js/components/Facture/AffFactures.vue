@@ -400,7 +400,7 @@ countFactures(){
                 });}
                     
           },
-       deleteFactures(facture){
+       deleteFacture(facture){
 
 
                         this.$swal({
@@ -413,7 +413,7 @@ countFactures(){
                         confirmButtonText: 'Oui, supprimez-le!'
                                                 }).then((result) => {
                         if (result.value) {
-                            axios.delete('/deleteFactures/'+facture.id_facture).then(
+                            axios.delete('/deleteFacture/'+facture.id_facture).then(
                                         response => {
                                 
                                             this.getFactures();

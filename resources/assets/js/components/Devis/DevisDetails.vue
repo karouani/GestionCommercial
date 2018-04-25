@@ -17,9 +17,47 @@
 </div>
      <div class="row">
         <div class="col">
+            <!--
         <a href="#"    @click="redirect_To_AddBonCommande(devi)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
+    -->
+        <a href="#"  v-b-modal.modalPrevent    class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
         <a href="#"    @click="PdfDevis(devi.reference_d)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i> Imprimer</a>
 
+
+ <b-modal id="modalPrevent"
+             ref="modal"
+             title="+ convertir"
+             @ok="handleOk"
+             ok-title="Enregister" >
+      <form @submit.stop.prevent="handleSubmit">
+
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Convertir</label>
+                <div class="col-sm-10">
+                <input type="text"  readonly class="form-control" id="inputPassword" placeholder="" v-model="devi.reference_d" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
+                    <div class="col-sm-10">
+         <select class="form-control custom-select " id="fk_compte" v-model="document" >
+                   <option value="facture">Facture</option>
+                    <option value="bonLivraison">Bon de livraison</option>
+                    <option value="bonCommande">Bon de Commande</option>
+                </select>  
+
+                
+                </div>
+            </div> 
+          
+      
+      </form>
+
+    </b-modal>
+
+
+    
         <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getDevis'">
         <i class="fas fa-long-arrow-alt-left fontsize"></i>
         </router-link>
@@ -315,7 +353,7 @@
                 total_ht_cmd:0,
                 taux_tva:0,
             },
-            
+            document :"",
             commandes:[],
     }),
           methods:{
@@ -403,12 +441,35 @@ updateStatusDevis(){
                     console.log('handle server error from here');
         });
     },
-       redirect_To_AddBonCommande(devi){
-           console.log("redirect id compte"+this.devi.id_compte)
-                   //  this.$router.push('/ShowBonCommande/'+reference_bc);
-                     this.$router.push({ name: 'addBonCommande', params: {id_devis: devi.id_devis, reference_d: devi.reference_d,id_compte:devi.id_compte}});
+    handleOk(){
+        console.log('----- doc ')
+            console.log(this.document);
+            if(this.document ==="bonCommande"){
+                this.redirect_To_AddBonCommande(this.devi);
+
+            }
+           /* if(this.document ==="bonLivraison"){
+                this.redirect_To_AddBonLivraison();
+
+            }*/
+             if(this.document ==="facture"){
+                this.redirect_To_AddFacture(this.devi);
+
+            }
+    },
+            redirect_To_AddBonCommande(devi){
+                    this.$router.push({ name: 'addBonCommande', params: {id_devis: devi.id_devis, reference_d: devi.reference_d,id_compte:devi.id_compte}});
 
             }, 
+          /*  redirect_To_AddBonLivraison(){
+                   //  this.$router.push('/ShowBonCommande/'+reference_bc);
+                     this.$router.push({ name: 'addBonLivraison', params: {devi :this.devi}});
+
+            }, */
+            
+            redirect_To_AddFacture(devi){
+                    this.$router.push({ name: 'addFacture', params: {devi: this.devi}});
+            },
     },
                 created () {
     // fetch the data when the view is created and the data is
@@ -416,10 +477,6 @@ updateStatusDevis(){
     this.fetchData()
   },  
  
-          mounted(){
-                          
-       
-            },
               updated(){
         if( this.$route.params.success == "editS"){
           let that = this
@@ -432,7 +489,7 @@ updateStatusDevis(){
     '$route': 'fetchData',
            }
 
-      }
+}
 </script>
 <style scoped>
  .btnMarge{

@@ -174,13 +174,13 @@ class FactureController extends Controller
 
 public function getBonLivraisonBL($id_bl){
         // $bonLivraison= BonLivraison::find($id_bl);
-         $bonLivraison= bonLivraison::leftJoin('boncommandes', 'bonLivraisons.fk_bonCommande', '=', 'boncommandes.id_bc')
-               ->leftJoin('comptes', 'bonLivraisons.fk_compte_bl', '=', 'comptes.id_compte')
+         $bonLivraison= bonLivraison::leftJoin('boncommandes', 'bonLivraisons.fk_bonCommande', '=', 'boncommandes.reference_bc')
+         ->leftJoin('comptes', 'bonLivraisons.fk_compte_bl', '=', 'comptes.id_compte')
                ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
                ->leftJoin('mode_paiements', 'bonLivraisons.reference_bl', '=', 'mode_paiements.fk_document')
                ->leftJoin('status', 'bonLivraisons.fk_status_bl', '=', 'status.id_status')
                ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
-               ->select('bonLivraisons.*', 'comptes.*','status.*', 'macompagnies.*','mode_paiements.*','type_paiements.*','boncommandes.*')
+               ->select('bonLivraisons.*','comptes.*','status.*', 'macompagnies.*','mode_paiements.*','type_paiements.*','boncommandes.*')
                ->where('id_bl', $id_bl)->get();
          return Response()->json(['bonLivraison' => $bonLivraison ]);
     }
@@ -243,13 +243,13 @@ public function getBonLivraisonBL($id_bl){
 
     }
 
-    public function deleteFactures($id_facture){
+    public function deleteFacture($id_facture){
 
-        $factures = Devi::find($id_facture);
+        $facture = Facture::find($id_facture);
         $facture->delete();
-        $commande = Commande::where('fk_document','=',$id_facture);  
+        $commande = Commande::where('fk_document','=',$facture->reference_f);  
         $commande->delete();   
-        $modePaiement = Mode_paiement::where('fk_document','=',$id_facture)->delete(); 
+        $modePaiement = Mode_paiement::where('fk_document','=',$facture->reference_f)->delete(); 
         return Response()->json(['delete' => 'true']);
     }
 
