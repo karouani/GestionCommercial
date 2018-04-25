@@ -140,28 +140,37 @@
      <div class="colBackround3">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#devis" role="tab" aria-controls="home" aria-expanded="true"><i class="far fa-file"></i> Devis</a>
+                            <a class="nav-link" data-toggle="tab" href="#devis" role="tab" aria-controls="home" aria-expanded="true"><i class="far fa-file"></i> Devis <span class="badge badge-light"><span class="badgeSize">{{CountD}}</span></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#bonCommande" role="tab" aria-controls="profile" aria-expanded="false"><i class="far fa-file"></i> Bon Commande <span class="badge badge-light"><span class="badgeSize">{{CountBc}}</span></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#bonLivraison" role="tab" aria-controls="profile" aria-expanded="false"><i class="far fa-file"></i> Bon de Livraison <span class="badge badge-light"><span class="badgeSize">{{CountBL}}</span></span></a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#facture" role="tab" aria-controls="profile" aria-expanded="false"><i class="far fa-file"></i> Factures <span class="badge badge-light"><span class="badgeSize">{{CountF}}</span></span></a>
                         </li>
                     </ul>
     </div>
     <div class="tab-content">  
                   <div class="tab-pane" id="devis" role="tabpanel" aria-expanded="false">
-                        <div class="row">
-                            <table border="1">
-                                <tr><td>devis</td></tr>
-                            </table>
-                        </div>
+
+                    <app-Devis :idCompte="compte.id_compte" @CountD="getCountD($event)" ></app-Devis>
 
                     </div>
                     <div class="tab-pane" id="bonCommande" role="tabpanel" aria-expanded="false">
                           
                            <app-BCcompte :idCompte="compte.id_compte" @CountBC="getCountBc($event)"></app-BCcompte>
-                       
-
                     </div>
+                    <div class="tab-pane" id="bonLivraison" role="tabpanel" aria-expanded="false">
+                          
+                           <app-BLcompte :idCompte="compte.id_compte" @CountBL="getCountBL($event)" ></app-BLcompte>
+                    </div>
+                    <div class="tab-pane" id="facture" role="tabpanel" aria-expanded="false">
+                          
+                           <app-Facture :idCompte="compte.id_compte" @CountF="getCountF($event)" ></app-Facture>
+                    </div>                    
     </div>
      </div>
      </div>
@@ -172,16 +181,24 @@
 <script>
     
 import  BCcompte from './BonCommandesCompte.vue';
+import  Deviscompte from './DevisCompte.vue';
+import  BonLivraisons from './BonLivraisonsCompte.vue';
+import  FactureComptes from './FacturesCompte.vue';
 
 
       export default{ 
          components:{
             'app-BCcompte':BCcompte,
+            'app-Devis':Deviscompte,
+            'app-BLcompte':BonLivraisons,
+            'app-Facture':FactureComptes
          },
           data: () => ({
                loading: false,
               CountBc : 0,
-
+              CountD:0,
+              CountBL:0,
+              CountF:0,
               compte: { 
 
                     id_compte : 0,
@@ -254,8 +271,23 @@ import  BCcompte from './BonCommandesCompte.vue';
         },
         getCountBc(CountBc){
             this.CountBc = CountBc;
-            console.log('-------- count bc ------- ok ----')
+            console.log('-------- count bc22222 ------- ok ----')
             console.log(CountBc)
+        },
+        getCountD(CountD){
+            this.CountD = CountD;
+            console.log('-------- count D ------- ok ----')
+            console.log(CountD)
+        },
+        getCountBL(CountBL){
+            this.CountBL = CountBL;
+            console.log('-------- count BLLLL ------- ok ----')
+            console.log(CountD)
+        },
+        getCountF(CountF){
+            this.CountF = CountF;
+            console.log('-------- count BLLLL ------- ok ----')
+            console.log(CountF)
         },
           },
 

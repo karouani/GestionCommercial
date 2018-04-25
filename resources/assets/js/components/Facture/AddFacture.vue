@@ -99,7 +99,7 @@
                             <th>  <input class="form-control"  type="text" v-model="commande.prix_ht" ></th> 
                             
                             <th> 
-                              <select class="form-control custom-select " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" @change="tauxTva()" >
+                              <select class="form-control custom-select " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" @change="changeTVA(commande.fk_tva_cmd,commande)" >
                     <option selected>Choisir Tva</option>
                     <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
                     </select>
@@ -117,7 +117,7 @@
                                             <div class="col-sm-4"> 
                                                 <select class="custom-select " id="fk_article" v-model="commande.fk_article" @change=" getPrixArticle()">
                                                  <option  disabled selected>Séléctionner un Article</option>
-                                                <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
+                                                <option v-for="article in articles" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
                                                 </select>                                                                     
                                             </div>
                                             <div class="col-sm-6">
@@ -465,17 +465,18 @@ console.log(this.facture.total_lettre_f)
             
     },
     
-        // Taux de tva
-    tauxTva(){
-        axios.get('/tauxTva/'+this.commande.fk_tva_cmd)
-        .then((response) => {
-                this.commande.taux_tva=response.data.taux_tva.taux_tva;
-            
-                  
-        })
-        .catch(() => {
-                console.log('handle server error from here');
-        });
+  changeTVA(tvaa,commande){
+        console.log(tvaa);
+ 
+                let this1 = this;
+                   this.tvas.forEach(function(tva) {
+              
+               if(tva.id_tva == tvaa){
+                    commande.taux_tva = tva.taux_tva;
+               }
+               
+               });
+
     },
         //recuperer tt les status
     getStatus(){
@@ -505,11 +506,13 @@ console.log(this.facture.total_lettre_f)
         //recuperer tt les articles
     getarticles(){
         
-        axios.get('/getArticles')
+        axios.get('/getAllArticles')
             .then((response) => {
-                 
-                    this.articles = response.data.articles;
+                   console.log('-----------------article -------')
+                   
                   
+                    this.articles = response.data.articles;
+                   console.log(this.articles[0])
             })
             .catch(() => {
                     console.log('handle server error from here');
@@ -519,12 +522,13 @@ console.log(this.facture.total_lettre_f)
     getPrixArticle(){
 
            let this1=this;
-           this.articles.data.forEach(function(article) {
+           this.articles.forEach(function(article) {
                if(article.id_article == this1.commande.fk_article){
                    this1.commande.prix_ht = article.prix_ht_vente;
                    this1.commande.fk_tva_cmd = article.fk_tva_applicable
                    this1.commande.designation = article.designation;
                    this1.commande.description_article = article.description;
+                    this1.commande.taux_tva = article.taux_tva;
                    console.log('truuuuue');
                }
                 

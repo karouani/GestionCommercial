@@ -16,7 +16,23 @@ use Illuminate\Http\Request;
 
 
 class DevisController extends Controller
-{       // ajouter un devis
+{     
+    
+    // partis pour afficher les devis d un compte exacte
+          public function getDevisCompte($idCompte){
+     
+        $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
+        ->leftJoin('status', 'devis.fk_status_d', '=', 'status.id_status')
+                    ->select('devis.*', 'comptes.nom_compte','status.*')
+                    ->where('devis.fk_compte_d','=', $idCompte)
+                    ->paginate(10);
+                   
+                 return Response()->json(['devis' => $devis ]);
+              }
+    
+    
+    
+    // ajouter un devis
     public function addDevis(Request $request)
     { 
        // dd($request->devi['total_lettre_d']);

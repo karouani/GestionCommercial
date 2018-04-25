@@ -111,7 +111,7 @@
                             <th>  <input class="form-control ThWidth"  type="text" v-model="commande.majoration_cmd" ></th> 
                             <th>  <input class="form-control ThWidth"  type="text" v-model="commande.prix_ht" ></th> 
                                                         <th>  <input class="mr-4"  type="text" v-model="commande.fk_tva_cmd" disabled hidden>
-                             <select class="form-control custom-select ThWidth " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" >
+                             <select class="form-control custom-select ThWidth " id="fk_tva_cmd" v-model="commande.fk_tva_cmd"  @change="changeTVA(commande.fk_tva_cmd,commande)" >
                             <option selected>Choisir Tva</option>
                             <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
                             </select>
@@ -134,7 +134,7 @@
                                             <div class="col-sm-4"> 
                                                 <select class="custom-select " id="fk_article" v-model="commande.fk_article" >
                                                  <option selected>Choisir Article</option>
-                                                <option v-for="article in articles.data" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
+                                                <option v-for="article in articles" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
                                                 </select>                                                                     
                                             </div>
                                             <div class="col-sm-6">
@@ -470,7 +470,19 @@
 
 methods: { 
 
+ changeTVA(tvaa,commande){
+        console.log(tvaa);
+ 
+                let this1 = this;
+                   this.tvas.forEach(function(tva) {
+              
+               if(tva.id_tva == tvaa){
+                    commande.taux_tva = tva.taux_tva;
+               }
+               
+               });
 
+    },
  fetchData () {
       //this.error = this.post = null
       this.loading = true
@@ -703,13 +715,15 @@ methods: {
             });
     },
         //recuperer tt les articles
-    getarticles(){
+getarticles(){
         
-        axios.get('/getArticles')
+        axios.get('/getAllArticles')
             .then((response) => {
-                 
-                    this.articles = response.data.articles;
+                   console.log('-----------------article -------')
+                   
                   
+                    this.articles = response.data.articles;
+                   console.log(this.articles[0])
             })
             .catch(() => {
                     console.log('handle server error from here');
@@ -720,7 +734,7 @@ methods: {
        // console.log('-------- articles ');
          //  console.log();
          let this1=this;
-           this.articles.data.forEach(function(article) {
+           this.articles.forEach(function(article) {
                if(article.id_article == this1.commande.fk_article){
                    this1.commande.prix_ht = article.prix_ht_vente;
                    this1.commande.fk_tva_cmd = article.fk_tva_applicable
@@ -888,7 +902,7 @@ computed:{
                 //montant apres remise
             let net=this.precisionRound( this.commandes[index].totalHT - this.commandes[index].totalHT*(this.bonCommande.remise_total_bc/100),2);
                 // montant de tva
-            let tva=this.precisionRound( net*(this.commandes[index].fk_tva_cmd/100),2);
+            let tva=this.precisionRound( net*(this.commandes[index].taux_tva/100),2);
                 // total de montant des tvas
             sum_tva= this.precisionRound( +sum_tva + +tva,2);
         }

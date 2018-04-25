@@ -36,6 +36,8 @@ Route::post('/updateArticle','ArticleController@updateArticle');
 Route::delete('/deleteArticle/{id_article}','ArticleController@deleteArticle');
 Route::get('/getArticle/{id_article}','ArticleController@getArticle');
 Route::get('/searchArticles/{desig}','ArticleController@searchArticles');
+Route::get('/getAllArticles','ArticleController@getAllArticles');
+
 
 
         //user
@@ -94,6 +96,8 @@ Route::get('/searchDevis/{search_D}','DevisController@searchDevis');
 Route::post('/updateStatusDevis','DevisController@updateStatusDevis');
 
 Route::get('/pdf_d/{reference_d}','DevisController@pdf_d');
+Route::get('/getDevisCompte/{idCompte}','DevisController@getDevisCompte');
+
 
 //----------------------------------------------------------------------
 //Compte 
@@ -159,6 +163,9 @@ Route::post('/updateStatusBC','BonCommandeController@updateStatusBC');
         Route::delete('/deleteFacture/{id_facture}','FactureController@deleteFacture');
         Route::post('/updateStatusFacture','FactureController@updateStatusFacture');
         Route::get('/pdf_f/{reference_f}','FactureController@pdf_f');
+        Route::get('/getFacturesCompte/{idCompte}','FactureController@getFacturesCompte');
+
+        
  
 
 // bon livraison 
@@ -184,6 +191,7 @@ Route::post('/UpdateBonLivraison','BonLivraisonController@UpdateBonLivraison');
 Route::get('/pdfBL/{reference_bl}','BonLivraisonController@pdf');
 
 Route::post('/updateStatusBL','BonLivraisonController@updateStatusBL');
+
    
 //pour facture
 Route::get('/getBonLivraisonBL/{id_bl}','FactureController@getBonLivraisonBL');
