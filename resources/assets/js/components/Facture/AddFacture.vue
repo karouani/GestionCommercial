@@ -382,7 +382,6 @@
                // montant total de chaque commande
                 total_ht_cmd:0,
               },
-             reference_document:"",
               commandes:[],
               
                 //mode paiement
@@ -606,67 +605,10 @@ countFactures(){
                 .catch(() => {
                     console.log('handle server error from here');
                 });
-          },
-//BL  convert TO Facture
- getBonLivraisonBL(id_bl){
-                  axios.get('/getBonLivraisonBL/'+id_bl).then(
-                  response => {
-                         console.log("bonLivraisonnnnnnn");
-                        // console.log(id_bl);
-                         console.log(response.data.bonLivraison[0]);
-                         
-
-            
-                    this.facture.objet_f= response.data.bonLivraison[0].objet_bl;
-                    this.facture.date_f= response.data.bonLivraison[0].date_bl;
-
-                    this.facture.remise_total_f= response.data.bonLivraison[0].remise_total_bl;
-                    this.facture.date_limit_f= response.data.bonLivraison[0].date_limit_bl;
-                    this.facture.conditions_reglements_f= response.data.bonLivraison[0].conditions_reglements_bl;
-                    this.facture.notes_f= response.data.bonLivraison[0].notes_bl;
-                    this.facture.fk_bl= response.data.bonLivraison[0].reference_bl;
-
-                    //this.facture.adresse_f= response.data.bonLivraison[0].adresse_bl;
-                    this.facture.adresse_f= response.data.bonLivraison[0].adresse_facture_bc;
-
-                    this.facture.accompte_f= response.data.bonLivraison[0].accompte_bl;
-                    this.compte.nom_compte= response.data.bonLivraison[0].nom_compte;
-                    this.compte.id_compte= response.data.bonLivraison[0].fk_compte_bl;
-
-                     console.log(">>>>>>>>>>"+this.typePaiement.type_paiement)                                     
-
-                         console.log(this.commande.fk_document);
-
-                  });     
- },
- // pour convert
- getDevisD(id_devis){
-                  axios.get('/getDevisD/'+id_devis).then(
-                  response => {
-                         console.log("deviiiiiiiis");
-                        // console.log(id_devis);
-                         console.log(response.data.devi[0]);
-                         
-
-            
-                    this.facture.objet_bc= response.data.devi[0].objet_d;
-                    this.facture.date_bc= response.data.devi[0].date_d;
-
-                    this.facture.remise_total_bc= response.data.devi[0].remise_total_d;
-                    this.facture.date_limit_bc= response.data.devi[0].date_limit_d;
-                    this.facture.conditions_reglements_bc= response.data.devi[0].conditions_reglements_d;
-                    this.facture.notes_bc= response.data.devi[0].notes_d;
-                    this.facture.fk_devis= response.data.devi[0].reference_d;
-
-                    this.facture.adresse_bc= response.data.devi[0].adresse_d;
-                    this.facture.accompte_bc= response.data.devi[0].accompte_d;
-                    this.compte.nom_compte= response.data.devi[0].nom_compte;
-                    this.compte.id_compte= response.data.devi[0].fk_compte_d;
-                  });     
-        },
-        
-        getCommandes:function(reference_document){
-                  axios.get('/getCommandes/'+this.reference_documment).then(
+          }, 
+      
+ getCommandes(reference_d){
+                  axios.get('/getCommandes/'+reference_d).then(
                   response => {
                       console.log("commandes:  ");
                          console.log(response.data.commandes);
@@ -680,7 +622,6 @@ countFactures(){
                 this.loading= false;
                   });     
         },
-
  echeanceDate(){
 Date.prototype.addDays = function(days) {
   var dat = new Date(this.valueOf());
@@ -718,71 +659,88 @@ var echeance= +this.echeance;
    
 },
 diffDate() {
-//console.log("xaaaaaaaaaaaaaaaaa"+this.facture.date_limit_f)
 
     var startDate = Date.parse(this.facture.date_f);
             var endDate = Date.parse(this.facture.date_limit_f);
             var timeDiff = endDate - startDate;
             var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
             this.facture.date_diff=daysDiff;
-//alert(daysDiff)
 },
+
        fetchData () {
-      //this.error = this.post = null
       this.loading = true
-   
+        //convert bon livraison to facture
        if(this.$route.params.bonLivraison != null){
-           console.log("fetchdata=======>")
+           console.log("convert bon livraison=======>")
            console.log(this.$route.params.bonLivraison)
         this.countFactures();
+        
         this.id_bl = this.$route.params.bonLivraison.id_bl;
         this.facture.fk_bl=this.$route.params.bonLivraison.reference_bl;
-        this.getBonLivraisonBL(this.$route.params.bonLivraison.id_bl);
         this.facture.fk_compte_f=this.$route.params.bonLivraison.id_compte;
-        this.facture.id_compte=this.$route.params.bonLivraison.id_compte;
-       
+        
+        this.compte.nom_compte= this.$route.params.bonLivraison.nom_compte;
+        this.compte.id_compte= this.$route.params.bonLivraison.id_compte;
+        
         this.modePaiement.reference_paiement=this.$route.params.bonLivraison.reference_paiement;
         this.modePaiement.date_paiement=this.$route.params.bonLivraison.date_paiement;
         this.typePaiement.id_type_paiement = this.$route.params.bonLivraison.id_type_paiement; 
         this.modePaiement.fk_type_paiement =this.$route.params.bonLivraison.id_type_paiement;                       
         this.typePaiement.type_paiement=this.$route.params.bonLivraison.type_paiement;
-        this.facture.fk_compte_f=this.$route.params.bonLivraison.id_compte;
-        this.facture.id_compte=this.$route.params.bonLivraison.id_compte;
+        
+        this.facture.objet_f= this.$route.params.bonLivraison.objet_bl;
+        this.facture.date_f= this.$route.params.bonLivraison.date_bl;
+        this.facture.remise_total_f= this.$route.params.bonLivraison.remise_total_bl;
+        this.facture.date_limit_f= this.$route.params.bonLivraison.date_limit_bl;
+        this.facture.conditions_reglements_f= this.$route.params.bonLivraison.conditions_reglements_bl;
+        this.facture.notes_f= this.$route.params.bonLivraison.notes_bl;
+        this.facture.fk_bl= this.$route.params.bonLivraison.reference_bl;
+        this.facture.adresse_f= this.$route.params.bonLivraison.adresse_facture_bc;
+        this.facture.accompte_f= this.$route.params.bonLivraison.accompte_bl;
+        this.compte.nom_compte= this.$route.params.bonLivraison.nom_compte;
+        this.compte.id_compte= this.$route.params.bonLivraison.fk_compte_bl;
         
         this.echeance = 'choix';
         this.getarticles();
         this.getClients();
         this.getTvas();
         this.getTypePaiement();
-        this.reference_document=this.$route.params.bonLivraison.reference_bl;
-       // this.getCommandes(this.$route.params.bonLivraison.id_bl);
         this.getCommandes(this.$route.params.bonLivraison.reference_bl);
     }
-       if(this.$route.params.devi != null){
-           console.log("fetchdata devi=======>")
+    //convert devis to facture
+    else if(this.$route.params.devi != null){
+           console.log("devis convert=======>")
            console.log(this.$route.params.devi)
         this.countFactures();
+        
         this.id_devis = this.$route.params.devi.id_devis;
         this.facture.fk_bl=this.$route.params.devi.reference_d;
-        this.getDevisD(this.$route.params.devi.id_devis);
+        this.facture.fk_compte_f=this.$route.params.devi.id_compte;
 
-this.modePaiement.reference_paiement=this.$route.params.devi.reference_paiement;
+        this.compte.nom_compte= this.$route.params.devi.nom_compte;
+        this.compte.id_compte= this.$route.params.devi.id_compte;
+        
+        this.modePaiement.reference_paiement=this.$route.params.devi.reference_paiement;
         this.modePaiement.date_paiement=this.$route.params.devi.date_paiement;
         this.typePaiement.id_type_paiement = this.$route.params.devi.id_type_paiement; 
         this.modePaiement.fk_type_paiement =this.$route.params.devi.id_type_paiement;                       
         this.typePaiement.type_paiement=this.$route.params.devi.type_paiement;
-        this.facture.fk_compte_f=this.$route.params.devi.id_compte;
-        this.facture.id_compte=this.$route.params.devi.id_compte;
 
+        this.facture.objet_f= this.$route.params.devi.objet_d;
+        this.facture.date_f= this.$route.params.devi.date_d;
+        this.facture.remise_total_f=this.$route.params.devi.remise_total_d;
+        this.facture.date_limit_f= this.$route.params.devi.date_limit_d;
+        this.facture.conditions_reglements_f= this.$route.params.devi.conditions_reglements_d;
+        this.facture.notes_f= this.$route.params.devi.notes_d;
+        this.facture.fk_devis= this.$route.params.devi.reference_d;
+        this.facture.adresse_f= this.$route.params.devi.adresse_d;
+        this.facture.accompte_f= this.$route.params.devi.accompte_d;
 
         this.echeance = 'choix';
         this.getarticles();
         this.getClients();
         this.getTvas();
         this.getTypePaiement();
-        this.reference_document=this.$route.params.devi.reference_d;
-        console.log("reference............")
-        console.log( this.reference_document)
         this.getCommandes(this.$route.params.devi.reference_d);
 
        }

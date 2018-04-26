@@ -580,6 +580,43 @@ console.log('-------------------- test ------------------------')
          console.log()*/
           
     }
+      //convert devis to facture
+    else if(this.$route.params.devi != null){
+           console.log("devis convert=======>")
+           console.log(this.$route.params.devi)
+        
+        this.id_devis = this.$route.params.devi.id_devis;
+        this.bonLivraison.fk_bl=this.$route.params.devi.reference_d;
+        this.bonLivraison.fk_compte_bl=this.$route.params.devi.id_compte;
+
+        this.compte.nom_compte= this.$route.params.devi.nom_compte;
+        this.compte.id_compte= this.$route.params.devi.id_compte;
+        
+        this.modePaiement.reference_paiement=this.$route.params.devi.reference_paiement;
+        this.modePaiement.date_paiement=this.$route.params.devi.date_paiement;
+        this.typePaiement.id_type_paiement = this.$route.params.devi.id_type_paiement; 
+        this.modePaiement.fk_type_paiement =this.$route.params.devi.id_type_paiement;                       
+        this.typePaiement.type_paiement=this.$route.params.devi.type_paiement;
+
+        this.bonLivraison.objet_bl= this.$route.params.devi.objet_d;
+        this.bonLivraison.date_bl= this.$route.params.devi.date_d;
+        this.bonLivraison.remise_total_bl=this.$route.params.devi.remise_total_d;
+        this.bonLivraison.date_limit_bl= this.$route.params.devi.date_limit_d;
+        this.bonLivraison.conditions_reglements_bl= this.$route.params.devi.conditions_reglements_d;
+        this.bonLivraison.notes_bl= this.$route.params.devi.notes_d;
+        this.bonLivraison.fk_devis= this.$route.params.devi.reference_d;
+        this.bonLivraison.adresse_bl= this.$route.params.devi.adresse_d;
+        this.bonLivraison.accompte_bl= this.$route.params.devi.accompte_d;
+
+        this.bonLivraison.echeance = 'choix';
+                this.countBonLivraisons();
+        this.getarticles();
+        this.getClients();
+        this.getTvas();
+        this.getTypePaiement();
+        this.getCommandes(this.$route.params.devi.reference_d);
+
+       }
     else{
 
 

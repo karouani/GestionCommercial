@@ -333,7 +333,7 @@ methods: {
                                 });
         },
  redirect_To_AddFacture(bonLivraison){
-           console.log("redirect id compte"+this.bonLivraison.id_compte)
+           console.log("=======================================redirect id compte"+this.bonLivraison.id_compte)
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
                      this.$router.push({ name: 'addFacture', params: {bonLivraison: this.bonLivraison}});
 },

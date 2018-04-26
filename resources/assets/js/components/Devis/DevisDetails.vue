@@ -448,10 +448,10 @@ updateStatusDevis(){
                 this.redirect_To_AddBonCommande(this.devi);
 
             }
-           /* if(this.document ==="bonLivraison"){
+            if(this.document ==="bonLivraison"){
                 this.redirect_To_AddBonLivraison();
 
-            }*/
+            }
              if(this.document ==="facture"){
                 this.redirect_To_AddFacture(this.devi);
 
@@ -461,11 +461,11 @@ updateStatusDevis(){
                     this.$router.push({ name: 'addBonCommande', params: {id_devis: devi.id_devis, reference_d: devi.reference_d,id_compte:devi.id_compte}});
 
             }, 
-          /*  redirect_To_AddBonLivraison(){
+            redirect_To_AddBonLivraison(){
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
                      this.$router.push({ name: 'addBonLivraison', params: {devi :this.devi}});
 
-            }, */
+            },
             
             redirect_To_AddFacture(devi){
                     this.$router.push({ name: 'addFacture', params: {devi: this.devi}});
