@@ -30,8 +30,9 @@
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
          <select class="form-control custom-select " id="fk_compte" v-model="document" >
+                  <option value="bonLivraison">Bon de livraison</option>
                    <option value="facture">Facture</option>
-                    <option value="bonLivraison">Bon de livraison</option>
+                    
                 </select>  
 
                 

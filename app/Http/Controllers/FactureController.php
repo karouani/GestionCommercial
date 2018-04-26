@@ -64,7 +64,9 @@ class FactureController extends Controller
                    $facture->tva_montant_f = $request->factures['tva_montant_f'];
                    $facture->montant_ttc_f = $request->factures['montant_ttc_f'];
                    $facture->montant_reste_f = $request->factures['montant_reste_f'];
-   
+                   if (isset($request->factures['fk_bl'])) {
+                   $facture->fk_bl= $request->factures['fk_bl'];
+                   }
                    $facture->save();
    
                    $this->addCommandes_f($request);
@@ -296,8 +298,20 @@ public function getBonLivraisonBL($id_bl){
       ';
 
 
+      if (isset($facture[0]->fk_bl)) {
+        if(strpos($facture[0]->fk_bl,"D") === 0){
+        $objethtml = '<p style="margin-top: 50px;">Réf  Devis: '. $facture[0]->fk_bl.'</p>';
 
-        $objethtml = '<p style="margin-top: 50px;">Référence Bon de Livraison: '. $facture[0]->fk_bl.'</p>';
+        }
+       else  if(strpos($facture[0]->fk_bl,"BC") === 0){
+            $objethtml = '<p style="margin-top: 50px;">Réf Bon de Commande : '. $facture[0]->fk_bl.'</p>';
+    
+            }
+       else  if(strpos($facture[0]->fk_bl,"BL") === 0){
+                $objethtml = '<p style="margin-top: 50px;">Réf Bon de livraison : '. $facture[0]->fk_bl.'</p>';
+        
+        }
+    }
         $commandesHtml ='<table border="1" style="padding: 3px 0px;" cellpadding="2">
         <thead>
                 <tr style="color:white; font-size: 10pt;background-color: black;">
@@ -649,9 +663,10 @@ $y = PDF::getY();
 
 
 
-
+if (isset($facture[0]->fk_bl)) {
  PDF::writeHTMLCell(0, 10, '',$y,$objethtml, 0, 1, 0, true, '', true);
  $y = PDF::getY();
+}
  
  
  

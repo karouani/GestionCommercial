@@ -36,13 +36,7 @@
                 </div>
             </div> 
 
-            <div class="form-group row" v-if="Testopen.testRefBC">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Réf BC</label>
-                <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonLivraison.fk_bonCommande" disabled>
 
-                </div>
-            </div>
                  <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">Date </label>
                     <div class="col-sm-10">
@@ -55,6 +49,14 @@
                 <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonLivraison.objet_bl" >
                 </div>
             </div>
+             <div class="form-group row" v-if="TestConvert">
+                <label for="inputPassword" class="col-sm-2 col-form-label" v-if="TestConvertD">Réf Devis</label>
+                 <label for="inputPassword" class="col-sm-2 col-form-label" v-if="TestConvertBC" >Réf BC</label>
+                <div class="col-sm-10">
+                <input type="text" readonly class="form-control" id="inputPassword" placeholder="" v-model="bonLivraison.fk_bonCommande">
+                </div>
+            </div>
+ 
 
           
     </div>
@@ -311,7 +313,9 @@
     export default{ 
         
           data: () => ({
-              
+                TestConvert:false,
+                TestConvertD:false,
+                TestConvertBC:false,
                 loading: false,
                bonLivraison : { 
             id_bl:0,
@@ -534,7 +538,6 @@ methods: {
  if(this.$route.params.bonCommande != null){
      console.log('----------bon Commande a converti--------------')
      console.log(this.$route.params.bonCommande.reference_bc)
-    this.getCommandes(this.$route.params.bonCommande.reference_bc);
     this.getClients();
     this.getCompte(this.$route.params.bonCommande.id_compte);
     this.bonLivraison.objet_bl = this.$route.params.bonCommande.objet_bc;
@@ -562,24 +565,13 @@ methods: {
   this.bonLivraison.date_bl = this.DataCourant();
 this.Testopen.testRefBC = true;
 this.bonLivraison.fk_bonCommande= this.$route.params.bonCommande.reference_bc;
+
 this.getTypePaiement();
 console.log('-------------------- test ------------------------')
-      /* this.countBonLivraisons();
-        this.id_devis = this.$route.params.id_devis;
-        this.reference_d=this.$route.params.reference_d;
-        this.getDevisD(this.$route.params.id_devis);
-       
-       
-        this.getarticles();
-        this.getClients();
-        this.getTvas();
-        this.getTypePaiement();
-        
-         this.getCommandes(this.$route.params.id_devis);
-        this.getCommandes(this.$route.params.reference_d);
-         
-         console.log()*/
-          
+this.TestConvert= true;
+this.TestConvertBC= true;
+    this.getCommandes(this.$route.params.bonCommande.reference_bc);
+
     }
       //convert devis to facture
     else if(this.$route.params.devi != null){
@@ -587,7 +579,7 @@ console.log('-------------------- test ------------------------')
            console.log(this.$route.params.devi)
         
         this.id_devis = this.$route.params.devi.id_devis;
-        this.bonLivraison.fk_bl=this.$route.params.devi.reference_d;
+        this.bonLivraison.fk_bonCommande=this.$route.params.devi.reference_d;
         this.bonLivraison.fk_compte_bl=this.$route.params.devi.id_compte;
 
         this.compte.nom_compte= this.$route.params.devi.nom_compte;
@@ -616,7 +608,8 @@ console.log('-------------------- test ------------------------')
         this.getTvas();
         this.getTypePaiement();
         this.getCommandes(this.$route.params.devi.reference_d);
-
+        this.TestConvert= true;
+        this.TestConvertD= true;
        }
     else{
 
@@ -921,7 +914,7 @@ console.log('-------------------- test22222 ------------------------')
                     console.log(this.commandes);
                       for (let index = 0; index < this.commandes.length; index++) {
             console.log("compuuuuuted")
-            this.commandes[index].fk_document=this.fk_document_cmd;
+            this.commandes[index].fk_document=this.bonLivraison.reference_bl;
                       }
                     // this.commande.fk_article= response.data.articles;
                 this.loading= false;
