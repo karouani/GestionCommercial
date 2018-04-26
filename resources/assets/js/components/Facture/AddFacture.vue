@@ -399,7 +399,32 @@
       
 
 methods: { 
+         getCompte:function(id_compte){
+                  axios.get('/getCompte/'+id_compte).then(
+                  response => {
+                       
+                    this.compte= response.data.compte;
+        
+                    console.log(this.compte)
+                  });
+               
+        },
+    DataCourant(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() +1; 
+            var yyyy = today.getFullYear();
+             if(dd<10) 
+                {
+                    dd='0'+dd;
+                } 
 
+                if(mm<10) 
+                {
+                    mm='0'+mm;
+                } 
+           return  yyyy+'-'+mm+'-'+dd;
+          },
 
 async  addRow (commande) {
       var result = await this.getPrixArticle();
@@ -614,9 +639,11 @@ countFactures(){
                          console.log(response.data.commandes);
 
                     this.commandes= response.data.commandes;
+                    console.log('-----commandes ---------------------')
+                    console.log(this.commandes);
                       for (let index = 0; index < this.commandes.length; index++) {
             console.log("compuuuuuted")
-            this.commandes[index].fk_document=this.commande.fk_document;
+            this.commandes[index].fk_document=this.fk_document_cmd;
                       }
                     // this.commande.fk_article= response.data.articles;
                 this.loading= false;
@@ -670,8 +697,45 @@ diffDate() {
        fetchData () {
       this.loading = true
         //convert bon livraison to facture
-       if(this.$route.params.bonLivraison != null){
-           console.log("convert bon livraison=======>")
+      
+    if(this.$route.params.bonCommande != null){
+    
+    this.getCommandes(this.$route.params.bonCommande.reference_bc);
+    this.getClients();
+    this.getCompte(this.$route.params.bonCommande.id_compte);
+    this.facture.fk_bl = this.$route.params.bonCommande.objet_bc;
+    this.countFactures();
+    this.getarticles();      
+    
+
+    
+    
+    this.modePaiement.reference_paiement = this.$route.params.bonCommande.reference_paiement;
+    this.modePaiement.date_paiement = this.$route.params.bonCommande.date_paiement ;
+    this.modePaiement.fk_document = this.$route.params.bonCommande.fk_document ;
+    this.modePaiement.fk_type_paiement = this.$route.params.bonCommande.fk_type_paiement ;
+    this.typePaiement.type_paiement = this.$route.params.bonCommande.type_paiement;
+    this.facture.accompte_f= this.$route.params.bonCommande.accompte_bc;
+    this.facture.conditions_reglements_f = this.$route.params.bonCommande.conditions_reglements_bc
+    this.facture.notes_f =  this.$route.params.bonCommande.notes_bc;
+    this.facture.adresse_f = this.$route.params.bonCommande.adresse_facture_bc ;
+    this.facture.remise_total_f = this.$route.params.bonCommande.remise_total_bc ;
+    this.echeance = 'choix';
+    this.facture.date_limit_f = this.$route.params.bonCommande.date_limit_bc;
+    console.log('limitttt-------')
+    console.log(this.$route.params.bonCommande.date_limit_bc)
+    this.facture.date_f = this.DataCourant();
+
+//this.Testopen.testRefBC = true;
+//this.bonLivraison.fk_bonCommande= this.$route.params.bonCommande.reference_bc;
+
+this.getTypePaiement();
+console.log('-------------------- test ------------------------')
+     
+          
+    }
+       else if(this.$route.params.bonLivraison != null){
+           console.log("fetchdata=======>")
            console.log(this.$route.params.bonLivraison)
         this.countFactures();
         
