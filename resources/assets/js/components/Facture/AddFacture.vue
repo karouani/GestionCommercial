@@ -41,10 +41,12 @@
                 <input type="date" class="form-control" v-model="facture.date_f" id="inputPassword" placeholder="">
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Réf. BL  </label>
+             <div class="form-group row" v-if="TestConvert">
+                <label for="inputPassword" class="col-sm-2 col-form-label" v-if="TestConvertD">Réf Devis</label>
+                 <label for="inputPassword" class="col-sm-2 col-form-label" v-if="TestConvertBC" >Réf BC</label>
+                <label for="inputPassword" class="col-sm-2 col-form-label" v-if="TestConvertBL" >Réf BL</label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="facture.fk_bl" disabled>
+                <input type="text" readonly class="form-control" id="inputPassword" placeholder="" v-model="facture.fk_bl">
                 </div>
             </div>
           
@@ -290,6 +292,10 @@
     export default{ 
         
           data: () => ({
+            TestConvert:false,
+            TestConvertD:false,
+            TestConvertBC:false,
+            TestConvertBL:false,
             loading: false,
             error: null,
               // objet test sur affichage , ajout , recherche
@@ -699,17 +705,17 @@ diffDate() {
         //convert bon livraison to facture
       
     if(this.$route.params.bonCommande != null){
+        this.countFactures();
     
-    this.getCommandes(this.$route.params.bonCommande.reference_bc);
     this.getClients();
     this.getCompte(this.$route.params.bonCommande.id_compte);
-    this.facture.fk_bl = this.$route.params.bonCommande.reference_bc;
-    this.countFactures();
+    this.facture.fk_bl = this.$route.params.bonCommande.objet_bc;
+    
     this.getarticles();      
     
 
     
-    
+    this.facture.fk_compte_f=this.$route.params.bonCommande.id_compte;
     this.modePaiement.reference_paiement = this.$route.params.bonCommande.reference_paiement;
     this.modePaiement.date_paiement = this.$route.params.bonCommande.date_paiement ;
     this.modePaiement.fk_document = this.$route.params.bonCommande.fk_document ;
@@ -725,13 +731,18 @@ diffDate() {
     console.log('limitttt-------')
     console.log(this.$route.params.bonCommande.date_limit_bc)
     this.facture.date_f = this.DataCourant();
+    this.facture.fk_bl = this.$route.params.bonCommande.reference_bc;
+        this.getCommandes(this.$route.params.bonCommande.reference_bc);
 
 //this.Testopen.testRefBC = true;
 //this.bonLivraison.fk_bonCommande= this.$route.params.bonCommande.reference_bc;
 
 this.getTypePaiement();
 console.log('-------------------- test ------------------------')
-     
+           this.TestConvert = true
+          
+           this. TestConvertBC = true
+          
           
     }
        else if(this.$route.params.bonLivraison != null){
@@ -770,6 +781,8 @@ console.log('-------------------- test ------------------------')
         this.getTvas();
         this.getTypePaiement();
         this.getCommandes(this.$route.params.bonLivraison.reference_bl);
+           this.TestConvert = true
+           this. TestConvertBL = true
     }
     //convert devis to facture
     else if(this.$route.params.devi != null){
@@ -806,7 +819,9 @@ console.log('-------------------- test ------------------------')
         this.getTvas();
         this.getTypePaiement();
         this.getCommandes(this.$route.params.devi.reference_d);
-
+           this.TestConvert = true
+          
+           this. TestConvertD = true
        }
     else{
       // replace `getPost` with your data fetching util / API wrapper

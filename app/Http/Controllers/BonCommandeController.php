@@ -325,8 +325,8 @@ class BonCommandeController extends Controller
       ';
 
 
-
-       $objethtml = '<p style="margin-top: 50px;">Objet:'. $bonCommande[0]->objet_bc.'</p>';
+      if (isset($bonCommande[0]->fk_devis)) {
+       $objethtml = '<p style="margin-top: 50px;">Ref Devis: '. $bonCommande[0]->fk_devis.'</p>';}
         $commandesHtml ='<table border="1" style="padding: 3px 0px;" cellpadding="2">
         <thead>
                 <tr style="color:white; font-size: 10pt;background-color: black;">
@@ -720,8 +720,8 @@ $y = PDF::getY();
 
 
 
-
- PDF::writeHTMLCell(0, 10, '',$y,$objethtml, 0, 1, 0, true, '', true);
+if (isset($bonCommande[0]->fk_devis)) {
+ PDF::writeHTMLCell(0, 10, '',$y,$objethtml, 0, 1, 0, true, '', true);}
  $y = PDF::getY();
  
  

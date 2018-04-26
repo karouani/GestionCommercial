@@ -345,8 +345,13 @@ class BonLivraisonController extends Controller
       ';
 
 
-
-       $objethtml = '<p style="margin-top: 50px;">Objet:'. $bonLivraison[0]->objet_bl.'</p>';
+      if (isset($bonLivraison[0]->fk_bonCommande)) {
+        if(strpos($bonLivraison[0]->fk_bonCommande,"BC") === 0){
+       $objethtml = '<p style="margin-top: 50px;">Ref Bon Cammande  :'. $bonLivraison[0]->fk_bonCommande.'</p>';
+        }
+        else
+        $objethtml = '<p style="margin-top: 50px;">Ref Devis  :'. $bonLivraison[0]->fk_bonCommande.'</p>';
+    }
         $commandesHtml ='<table border="1" style="padding: 3px 0px;" cellpadding="2">
         <thead>
                 <tr style="color:white; font-size: 10pt;background-color: black;">
@@ -705,8 +710,8 @@ $y = PDF::getY();
 
 
 
-
- PDF::writeHTMLCell(0, 10, '',$y,$objethtml, 0, 1, 0, true, '', true);
+if (isset($bonLivraison[0]->fk_bonCommande)) {
+ PDF::writeHTMLCell(0, 10, '',$y,$objethtml, 0, 1, 0, true, '', true);}
  $y = PDF::getY();
  
  

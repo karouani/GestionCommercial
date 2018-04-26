@@ -34,19 +34,25 @@
                 <input type="text"  readonly class="form-control" id="inputPassword" placeholder="" v-model="devi.reference_d" disabled>
                 </div>
             </div>
+<<<<<<< HEAD
 <br>
+=======
+               
+>>>>>>> 84963394a1e7dd9126491ac646c853b1d4ea7701
             <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
-         <select class="form-control custom-select " id="fk_compte" v-model="document" >
-                   <option value="facture">Facture</option>
+         <select class="form-control custom-select" id="fk_compte" v-model="document" >
+                   <option value="bonCommande">Bon de Commande</option>
                     <option value="bonLivraison">Bon de livraison</option>
-                    <option value="bonCommande">Bon de Commande</option>
+                     <option value="facture">Facture</option>
+                   
                 </select>  
 
                 
                 </div>
             </div> 
+            
           
       
       </form>
@@ -591,9 +597,7 @@ a.last::before {
     background-color: #d8e9f6;
 }
 
-.form-group{
-    margin-bottom: 0rem;
-}
+
 .cal{
 padding-right: 0px;
 padding-left: 120px;

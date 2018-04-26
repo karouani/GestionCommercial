@@ -1,7 +1,10 @@
 <template>
         <div>
             
-
+   <div class="loading" v-show="loading">
+          <div class="lds-hourglass"></div>
+    </div>
+     <div v-show="!loading" >
                 <div class="row">
                     <div class="col-md-3">
                         <div class="card p-4">
@@ -94,7 +97,7 @@
                 </div>
                       
 
-                
+     </div>     
      </div> 
 </template>
 <script>
@@ -104,12 +107,21 @@ import Chart from 'chart.js';
 
 export default {
 data: () => ({
+     loading: false,
+    articles: [],
+        labels2 :[],
+        votes2:[],
         message: "Vue.js & Chart.js",
         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        votes: [12, 19, 3, 5, 2, 15],
+        votes: [12, 19, 3, 5, 40, 70],
         type : "bar"
   }),
+  created(){
+   
+
+  },
    mounted () {
+     
     var ctx =    document.getElementById("myChart");
     var ctxL =    document.getElementById("myLine");
     var ctxP =    document.getElementById("PieChart");
@@ -188,15 +200,43 @@ var stackedLine = new Chart(ctxL, {
         }
     }
 });
+ this.getArticlePlusVente(ctx);
+  
+            console.log('---- test labels 2 ')
+            console.log(this.labels2)
+           
+        
+        },
+         methods: {
 
-    new Chart(ctx, {
-                type: this.type,
+                       async getArticlePlusVente(ctx){
+                            this.loading= true;
+               let art = await  axios.get('/getArticlePlusVente')
+                .then((response) => {
+                 // console.log('shit');
+                
+
+                    this.articles = response.data.articles;
+      
+                    for(var i=0;i<this.articles.length;i++){
+                         this.labels2[i] = this.articles[i].designation
+                      this.votes2[i]= this.articles[i].count
+                    
+                     
+                    }  
+                    this.loading = false
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+                  var stackedChart = await  new Chart(ctx, {
+                type: 'bar',
                 data: {
-                    labels: this.labels,
+                    labels: this.labels2,
                     datasets: [
                         {
-                            label: "# clients",
-                            data: this.votes,
+                            label: "# articles",
+                            data: this.votes2,
                             backgroundColor: [
                                 "rgba(255, 99, 132, 0.6)",
                                 "rgba(54, 162, 235, 0.6)",
@@ -230,8 +270,11 @@ var stackedLine = new Chart(ctxL, {
                 }
             }); 
             
+          },
+
         
-        }
+         },
+        
 
  
 

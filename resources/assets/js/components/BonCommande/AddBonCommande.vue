@@ -36,13 +36,7 @@
                 </div>
             </div> 
 
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Devis</label>
-                <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.reference_bc" disabled>
 
-                </div>
-            </div>
                  <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">Date </label>
                     <div class="col-sm-10">
@@ -66,6 +60,12 @@
                 
                 </div>
             </div> 
+            <div class="form-group row" v-if="TestConvertDevis">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Réf Devis</label>
+                <div class="col-sm-10">
+                <input type="text" readonly class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.fk_devis">
+                </div>
+            </div>
           
     </div>
     <div class="col-md-6 col-sm-12">
@@ -328,7 +328,7 @@
     export default{ 
         
           data: () => ({
-              
+                TestConvertDevis:false,
                 loading: false,
                bonCommande : { 
             id_bc:0,
@@ -526,6 +526,7 @@ methods: {
         this.getCommandes(this.$route.params.reference_d);
         this.getCompte(this.$route.params.id_compte);
         this.getContacts(this.$route.params.id_compte);
+        this.TestConvertDevis = true;
     }
     else{
 
@@ -824,7 +825,7 @@ methods: {
                     this.commandes= response.data.commandes;
                       for (let index = 0; index < this.commandes.length; index++) {
             console.log("compuuuuuted")
-            this.commandes[index].fk_document=this.fk_document_cmd;
+            this.commandes[index].fk_document=this.bonCommande.reference_bc;
                       }
                     // this.commande.fk_article= response.data.articles;
                 this.loading= false;
