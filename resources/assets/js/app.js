@@ -61,7 +61,12 @@ Vue.component('app-editdevis', require('./components/Devis/EditDevis.vue'));
 Vue.component('app-addfacture', require('./components/Facture/AddFacture.vue'));
 Vue.component('app-afffactures', require('./components/Facture/AffFactures.vue'));
 Vue.component('app-detailsfacture', require('./components/Facture/FactureDetails.vue'));
-Vue.component('app-Editfacture', require('./components/Facture/EditFacture.vue'));
+Vue.component('app-editfacture', require('./components/Facture/EditFacture.vue'));
+ /* Avoir Factures */
+ Vue.component('app-addavoirfacture', require('./components/AvoirFacture/AddAvoirFacture.vue'));
+ Vue.component('app-affavoirfactures', require('./components/AvoirFacture/AffAvoirFactures.vue'));
+ Vue.component('app-detailsavoirfacture', require('./components/AvoirFacture/AvoirFactureDetails.vue'));
+ Vue.component('app-editavoirfacture', require('./components/AvoirFacture/EditAvoirFacture.vue'));
 
 // afficher un nombre de phrase limité 
 /*Vue.filter('readMore', function (text, length, suffix) {

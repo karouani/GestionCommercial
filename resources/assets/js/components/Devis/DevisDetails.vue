@@ -21,10 +21,7 @@
         <a href="#"    @click="redirect_To_AddBonCommande(devi)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
     -->
         <a href="#"  v-b-modal.modalPrevent    class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
-        <a href="#"    @click="PdfDevis(devi.reference_d)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i> Imprimer</a>
-
-
- <b-modal id="modalPrevent"
+       <b-modal id="modalPrevent"
              ref="modal"
              title="+ convertir"
              @ok="handleOk"
@@ -37,7 +34,7 @@
                 <input type="text"  readonly class="form-control" id="inputPassword" placeholder="" v-model="devi.reference_d" disabled>
                 </div>
             </div>
-
+<br>
             <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
@@ -55,6 +52,10 @@
       </form>
 
     </b-modal>
+        <a href="#"    @click="PdfDevis(devi.reference_d)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i> Imprimer</a>
+
+
+ 
 
 
     

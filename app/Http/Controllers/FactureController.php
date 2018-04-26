@@ -10,6 +10,7 @@ use App\Article;
 use App\Mode_paiement;
 use App\Compte;
 use App\Tva;
+use DB;
 use Auth;
 use PDF;
 use Illuminate\Http\Request;
@@ -211,7 +212,7 @@ public function getBonLivraisonBL($id_bl){
                ->leftJoin('mode_paiements', 'factures.reference_f', '=', 'mode_paiements.fk_document')
                ->leftJoin('status', 'factures.fk_status_f', '=', 'status.id_status')
                ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
-               ->select('factures.*', 'comptes.nom_compte','status.*', 'macompagnies.*','mode_paiements.*','type_paiements.*')
+               ->select('factures.*', 'comptes.*','status.*', 'macompagnies.*','mode_paiements.*','type_paiements.*')
                ->where('id_facture', $id_facture)->get();
          return Response()->json(['facture' => $facture ]);
     }
@@ -269,6 +270,24 @@ public function getBonLivraisonBL($id_bl){
         $modePaiement = Mode_paiement::where('fk_document','=',$facture->reference_f)->delete(); 
         return Response()->json(['delete' => 'true']);
     }
+
+
+
+    public function getsum($fk_article){
+        $commande=Commande::leftJoin('articles', 'articles.id_article', '=', 'commandes.fk_article')
+   ->where('commandes.fk_article', '=', $fk_article)
+   ->where('commandes.fk_document','like', 'F%')
+   ->groupBy('commandes.fk_article')
+   ->get(['commandes.fk_article', DB::raw('sum(quantite_cmd) as value')])
+   ->sum('value');
+       // $commande=Commande::find($fk_article) ->SUM('quantite_cmd');
+       /* $article=Article::leftJoin('tvas', 'articles.fk_tva_applicable', '=', 'tvas.id_tva')
+        ->select('articles.*', 'tvas.taux_tva')
+        ->where('articles.id_article','=',$fk_article)->get();*/
+         return Response()->json(['commande' => $commande ]);
+      }
+
+
 
 
    

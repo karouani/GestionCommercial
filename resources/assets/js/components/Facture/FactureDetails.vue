@@ -361,7 +361,7 @@ updateStatusFacture(){
 
                     this.facture= response.data.facture[0];
                     this.facture.colorStatu=response.data.facture[0].colorStatu;
-                    console.log("color facture +++++++"+this.facture.colorStatu);
+                    console.log("color facture2222 +++++++"+this.facture.colorStatu);
 console.log(this.facture);
                   });     
         },
@@ -406,7 +406,9 @@ console.log(this.facture);
     },
        redirect_To_AddFactureAvoir(facture){
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
-                     this.$router.push({ name: 'addBonCommande', params: {id_facture: facture.id_facture, reference_f: facture.reference_f}});
+                   console.log("facture details=========>>>>>>")
+                   console.log(this.facture)
+                     this.$router.push({ name: 'addAvoirFacture', params: {facture: this.facture}});
 
             }, 
     },

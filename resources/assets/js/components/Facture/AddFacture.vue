@@ -643,7 +643,7 @@ countFactures(){
                     console.log(this.commandes);
                       for (let index = 0; index < this.commandes.length; index++) {
             console.log("compuuuuuted")
-            this.commandes[index].fk_document=this.fk_document_cmd;
+            this.commandes[index].fk_document=this.facture.reference_f;
                       }
                     // this.commande.fk_article= response.data.articles;
                 this.loading= false;
@@ -703,7 +703,7 @@ diffDate() {
     this.getCommandes(this.$route.params.bonCommande.reference_bc);
     this.getClients();
     this.getCompte(this.$route.params.bonCommande.id_compte);
-    this.facture.fk_bl = this.$route.params.bonCommande.objet_bc;
+    this.facture.fk_bl = this.$route.params.bonCommande.reference_bc;
     this.countFactures();
     this.getarticles();      
     
@@ -759,7 +759,7 @@ console.log('-------------------- test ------------------------')
         this.facture.conditions_reglements_f= this.$route.params.bonLivraison.conditions_reglements_bl;
         this.facture.notes_f= this.$route.params.bonLivraison.notes_bl;
         this.facture.fk_bl= this.$route.params.bonLivraison.reference_bl;
-        this.facture.adresse_f= this.$route.params.bonLivraison.adresse_facture_bc;
+        this.facture.adresse_f= this.$route.params.bonLivraison.adresse_facture_bl;
         this.facture.accompte_f= this.$route.params.bonLivraison.accompte_bl;
         this.compte.nom_compte= this.$route.params.bonLivraison.nom_compte;
         this.compte.id_compte= this.$route.params.bonLivraison.fk_compte_bl;

@@ -22,7 +22,11 @@ import EditDevis from './components/Devis/EditDevis.vue'
  import AffFactures from './components/Facture/AffFactures.vue'
  import FactureDetails from './components/Facture/FactureDetails.vue'
  import EditFacture from './components/Facture/EditFacture.vue'
-
+ //Avoir Factures
+ import AddAvoirFacture from './components/AvoirFacture/AddAvoirFacture.vue'
+ import AffAvoirFactures    from './components/AvoirFacture/AffAvoirFactures.vue'
+ import AvoirFactureDetails from './components/AvoirFacture/AvoirFactureDetails.vue'
+ import EditAvoirFacture from './components/AvoirFacture/EditAvoirFacture.vue'
 
 
 //Vue.use(VueRouter)
@@ -270,7 +274,36 @@ const  router = new VueRouter({
     component: EditFacture,
     name: "EditFacture",
 },       
-               
+                     // ----------------------------------------------------------  // AvoirFactures 
+// ajouter les Avoir Facture 
+{    
+    path:"/addAvoirFacture",
+    component: AddAvoirFacture,
+    name: "addAvoirFacture",
+},
+{    
+    path:"/getAvoirFactures",
+    component: AffAvoirFactures
+},
+{    
+    path:"/getAvoirFactures/:success",
+    component: AffAvoirFactures
+},  
+{    
+    path:"/AvoirFactureDetails",
+    component: AvoirFactureDetails,
+    name: "AvoirFactureDetails"
+},
+{
+    path:"/AvoirFactureDetails/:success/:id_af",
+    component: AvoirFactureDetails,
+
+},
+{    
+    path:"/EditAvoirFacture",
+    component: EditAvoirFacture,
+    name: "EditAvoirFacture",
+},        
         // ----------------------------------------------------------  // Bon Livraison
         {     
             path:"/addBonLivraison",

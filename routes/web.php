@@ -165,8 +165,23 @@ Route::post('/updateStatusBC','BonCommandeController@updateStatusBC');
         Route::get('/pdf_f/{reference_f}','FactureController@pdf_f');
         Route::get('/getFacturesCompte/{idCompte}','FactureController@getFacturesCompte');
 
-        
- 
+      
+        Route::get('/getsum/{fk_article}','FactureController@getsum');
+ //---------------------------------------------------------------------       
+
+                //AvoirFactures
+        // ajouter AvoirFactures,commande AvoirFactures, et mode paiement de AvoirFactures
+        Route::post('/addAvoirFacture','AvoirFactureController@addAvoirFacture')->name('addAvoirFacture');
+        Route::get('/countAvoirFactures','AvoirFactureController@countAvoirFactures');
+        Route::get('/getPrixArticle_af/{fk_article}','AvoirFactureController@getPrixArticle_af');
+        Route::get('/getAvoirFactures','AvoirFactureController@getAvoirFactures');
+        Route::get('/getAvoirFactureAF/{id_af}','AvoirFactureController@getAvoirFactureAF');
+        Route::post('/updateAvoirFacture','AvoirFactureController@updateAvoirFacture');
+        Route::delete('/deleteAvoirFacture/{id_af}','AvoirFactureController@deleteAvoirFacture');
+        Route::post('/updateStatusAvoirFacture','AvoirFactureController@updateStatusAvoirFacture');
+        Route::get('/pdf_af/{reference_af}','AvoirFactureController@pdf_af');
+        Route::get('/getAvoirFacturesCompte/{idCompte}','AvoirFactureController@getAvoirFacturesCompte');
+//----------------------------------------------------------------------
 
 // bon livraison 
 Route::post('/addBonLivraison','BonLivraisonController@addBonLivraison');
