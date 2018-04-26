@@ -834,7 +834,7 @@ methods: {
 
                 axios.get('/countBonCommandes')
                 .then((response) => {
- var today = new Date();
+                    var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
                     this.bonCommande.reference_bc='BC-'+year+'-'+response.data.count;

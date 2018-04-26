@@ -178,6 +178,7 @@ class BonLivraisonController extends Controller
 
 
 
+
         // ajouter les commandes de devis
     public function addCommandes_bl(Request $request)
     { 

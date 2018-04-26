@@ -494,6 +494,8 @@ methods: {
 
                 axios.get('/countBonLivraisons')
                 .then((response) => {
+                    console.log('---------- count ressp ')
+                    console.log(response)
                      var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
@@ -560,7 +562,6 @@ methods: {
   this.bonLivraison.date_bl = this.DataCourant();
 this.Testopen.testRefBC = true;
 this.bonLivraison.fk_bonCommande= this.$route.params.bonCommande.reference_bc;
-
 this.getTypePaiement();
 console.log('-------------------- test ------------------------')
       /* this.countBonLivraisons();
@@ -631,8 +632,8 @@ console.log('-------------------- test22222 ------------------------')
            // this.bonLivraison.adresse_bl=  this.compte.adresse_compte
             this.bonLivraison.fk_compte_bl = this.compte.id_compte;
             this.bonLivraison.fk_status_bl = "Brouillon"
-            this.bonLivraison.type_operation_bc = "vente";
-            
+            this.bonLivraison.type_operation_bl ="vente";
+
              console.log('-------------BonLivraisons---------------')
             console.log(this.bonLivraison)
             console.log('-------------Commandes---------------')

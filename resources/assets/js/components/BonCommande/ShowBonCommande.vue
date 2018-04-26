@@ -341,15 +341,14 @@ methods: {
         console.log('----- doc ')
             console.log(this.document);
             if(this.document ==="bonLivraison"){
-                this.redirect_To_AddBonLivraison();
+            this.$router.push({ name: 'addBonLivraison', params: {bonCommande :this.bonCommande}});
 
-            }
+
+            }else 
+            this.$router.push({ name: 'addFacture', params: {bonCommande :this.bonCommande}});
+
     },
-           redirect_To_AddBonLivraison(){
-                   //  this.$router.push('/ShowBonCommande/'+reference_bc);
-                     this.$router.push({ name: 'addBonLivraison', params: {bonCommande :this.bonCommande}});
-
-            }, 
+      
 
           PdfBonCommande(reference_bc){
                            

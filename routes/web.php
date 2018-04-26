@@ -196,6 +196,12 @@ Route::post('/updateStatusBL','BonLivraisonController@updateStatusBL');
 //pour facture
 Route::get('/getBonLivraisonBL/{id_bl}','FactureController@getBonLivraisonBL');
 
+
+
+//Dashboard 
+Route::get('/getArticlePlusVente','DashboardController@getArticlePlusVente');
+
+
 Auth::routes();
 
 
