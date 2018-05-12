@@ -346,7 +346,7 @@ class BonLivraisonController extends Controller
 
 
       if (isset($bonLivraison[0]->fk_bonCommande)) {
-        if(strpos($bonLivraison[0]->fk_bonCommande,"BC") === 0){
+        if(strpos($bonLivraison[0]->fk_bonCommande,"C") === 0){
        $objethtml = '<p style="margin-top: 50px;">Ref Bon Cammande  :'. $bonLivraison[0]->fk_bonCommande.'</p>';
         }
         else

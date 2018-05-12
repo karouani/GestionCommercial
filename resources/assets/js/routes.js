@@ -12,21 +12,67 @@ import AddCompagnie from './components/Compagnie/AddCompagnie.vue'
 import AffCompagnie from './components/Compagnie/AffCompagnie.vue'
 import EditCompagnie from './components/Compagnie/EditCompagnie.vue'
 import CompagnieDetails from './components/Compagnie/CompagnieDetails.vue'
+                /// -----------  Vente --------------------------
   //Devis
-import AddDevis from './components/Devis/AddDevis.vue'
-import AffDevis from './components/Devis/AffDevis.vue'
-import DevisDetails from './components/Devis/DevisDetails.vue'
-import EditDevis from './components/Devis/EditDevis.vue'
+import AddDevis from './components/Vente/Devis/AddDevis.vue'
+import AffDevis from './components/Vente/Devis/AffDevis.vue'
+import DevisDetails from './components/Vente/Devis/DevisDetails.vue'
+import EditDevis from './components/Vente/Devis/EditDevis.vue'
+
+
+// Bon de Commande
+import  AddBonCommande from './components/Vente/BonCommande/AddBonCommande.vue' 
+import  ShowBonCommandes from './components/Vente/BonCommande/ShowBonCommandes.vue' 
+import  ShowBonCommande from './components/Vente/BonCommande/ShowBonCommande.vue' 
+import  EditBonCommande from './components/Vente/BonCommande/EditBonCommande.vue' 
+
+// Bon de Livraison
+import  AddBonLivraison from './components/Vente/BonLivraison/AddBonLivraison.vue' 
+import  ShowBonLivraisons from './components/Vente/BonLivraison/ShowBonLivraisons.vue' 
+import  ShowBonLivraison from './components/Vente/BonLivraison/ShowBonLivraison.vue' 
+import  EditBonLivraison from './components/Vente/BonLivraison/EditBonLivraison.vue' 
  //Factures
- import AddFacture from './components/Facture/AddFacture.vue'
- import AffFactures from './components/Facture/AffFactures.vue'
- import FactureDetails from './components/Facture/FactureDetails.vue'
- import EditFacture from './components/Facture/EditFacture.vue'
+ import AddFacture from './components/Vente/Facture/AddFacture.vue'
+ import AffFactures from './components/Vente/Facture/AffFactures.vue'
+ import FactureDetails from './components/Vente/Facture/FactureDetails.vue'
+ import EditFacture from './components/Vente/Facture/EditFacture.vue'
  //Avoir Factures
- import AddAvoirFacture from './components/AvoirFacture/AddAvoirFacture.vue'
- import AffAvoirFactures    from './components/AvoirFacture/AffAvoirFactures.vue'
- import AvoirFactureDetails from './components/AvoirFacture/AvoirFactureDetails.vue'
- import EditAvoirFacture from './components/AvoirFacture/EditAvoirFacture.vue'
+ import AddAvoirFacture from './components/Vente/AvoirFacture/AddAvoirFacture.vue'
+ import AffAvoirFactures    from './components/Vente/AvoirFacture/AffAvoirFactures.vue'
+ import AvoirFactureDetails from './components/Vente/AvoirFacture/AvoirFactureDetails.vue'
+ import EditAvoirFacture from './components/Vente/AvoirFacture/EditAvoirFacture.vue'
+
+
+
+                    /// -----------  Achat --------------------------
+  //Devis
+  import AddDevisA from './components/Achat/Devis/AddDevis.vue'
+  import AffDevisA from './components/Achat/Devis/AffDevis.vue'
+  import DevisDetailsA from './components/Achat/Devis/DevisDetails.vue'
+  import EditDevisA from './components/Vente/Devis/EditDevis.vue'
+
+  // Bon de Commande
+  import  AddBonCommandeA from './components/Achat/BonCommande/AddBonCommande.vue' 
+  import  ShowBonCommandesA from './components/Achat/BonCommande/ShowBonCommandes.vue' 
+  import  ShowBonCommandeA from './components/Achat/BonCommande/ShowBonCommande.vue' 
+  import  EditBonCommandeA from './components/Achat/BonCommande/EditBonCommande.vue' 
+  
+  // Bon de reception
+  import  AddBonLivraisonA from './components/Achat/BonLivraison/AddBonLivraison.vue' 
+  import  ShowBonLivraisonsA from './components/Achat/BonLivraison/ShowBonLivraisons.vue' 
+  import  ShowBonLivraisonA from './components/Achat/BonLivraison/ShowBonLivraison.vue' 
+  import  EditBonLivraisonA from './components/Achat/BonLivraison/EditBonLivraison.vue' 
+   //Factures
+   import AddFactureA from './components/Achat/Facture/AddFacture.vue'
+   import AffFacturesA from './components/Achat/Facture/AffFactures.vue'
+   import FactureDetailsA from './components/Achat/Facture/FactureDetails.vue'
+   import EditFactureA from './components/Achat/Facture/EditFacture.vue'
+   //Avoir Factures
+   import AddAvoirFactureA from './components/Achat/AvoirFacture/AddAvoirFacture.vue'
+   import AffAvoirFacturesA    from './components/Achat/AvoirFacture/AffAvoirFactures.vue'
+   import AvoirFactureDetailsA from './components/Achat/AvoirFacture/AvoirFactureDetails.vue'
+   import EditAvoirFactureA from './components/Achat/AvoirFacture/EditAvoirFacture.vue'
+  
 
 
 //Vue.use(VueRouter)
@@ -47,17 +93,7 @@ import  EditCompte from './components/Compte/EditCompte.vue'
 
 
 
-// Bon de Commande
-import  AddBonCommande from './components/BonCommande/AddBonCommande.vue' 
-import  ShowBonCommandes from './components/BonCommande/ShowBonCommandes.vue' 
-import  ShowBonCommande from './components/BonCommande/ShowBonCommande.vue' 
-import  EditBonCommande from './components/BonCommande/EditBonCommande.vue' 
 
-// Bon de Livraison
-import  AddBonLivraison from './components/BonLivraison/AddBonLivraison.vue' 
-import  ShowBonLivraisons from './components/BonLivraison/ShowBonLivraisons.vue' 
-import  ShowBonLivraison from './components/BonLivraison/ShowBonLivraison.vue' 
-import  EditBonLivraison from './components/BonLivraison/EditBonLivraison.vue' 
 
 Vue.use(VueRouter) 
 
@@ -84,7 +120,7 @@ const  router = new VueRouter({
             path:"/addUsers",
             component: AddUsers,
             meta:{
-                SuperAdmin:true
+                TopAdmin:true,
             }
         },
       // route pour afficher les utilisateurs
@@ -116,24 +152,42 @@ const  router = new VueRouter({
 
         {    
             path:"/addCompagnie",
-            component: AddCompagnie
+            component: AddCompagnie,
+            SuperAdmin:true,
+            Admin:true
         },
         {    
             path:"/getCompagnies",
-            component: AffCompagnie
+            component: AffCompagnie,
+            meta:{
+            SuperAdmin:true,
+            Admin:true
+            }
         },
         {    
             path:"/getCompagnies/:success",
-            component: AffCompagnie
+            component: AffCompagnie,
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
         },
         {    
             path:"/EditCompagnie/:id_compagnie",
-            component: EditCompagnie
+            component: EditCompagnie,
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
         },
         {    
             path:"/CompagnieDetails",
             component: CompagnieDetails,
             name: "CompagnieDetails",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
         },
                    
 
@@ -142,12 +196,18 @@ const  router = new VueRouter({
             // afficher les articles 
          {     path:"/ShowArticles",
              component: ShowArticles,
-             
+                meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
          },
          // afficher les articles  avec add ou edit success
          {     path:"/ShowArticles/:success",
          component: ShowArticles,
-         
+                meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
           },
         // ajouter les articles 
          {     path:"/AddArticles",
@@ -155,13 +215,21 @@ const  router = new VueRouter({
         },
         // modifier un articles 
         {     path:"/EditArticles/:id_article",
-                component: EditArticles
+                component: EditArticles,
+                meta:{
+                    SuperAdmin:true,
+                    Admin:true
+                    }
         },
 
         // ----------------------------------------------------------  // parametres
         { 
             path:"/Parametres",
-                component: Parametres
+                component: Parametres,
+                meta:{
+                    SuperAdmin:true,
+                    Admin:true
+                    }
             
         },
 
@@ -171,29 +239,53 @@ const  router = new VueRouter({
             path:"/addDevis",
             component: AddDevis,
             name: "addDevis",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
         },
         {    
             path:"/getDevis",
-            component: AffDevis
+            component: AffDevis,
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
         },
         {    
             path:"/getDevis/:success",
-            component: AffDevis
+            component: AffDevis,
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
         },
         {    
             path:"/DevisDetails",
             component: DevisDetails,
-            name: "DevisDetails"
+            name: "DevisDetails",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
         },
         {
             path:"/DevisDetails/:success/:id_devis",
             component: DevisDetails,
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
 
         },
         {    
             path:"/EditDevis",
             component: EditDevis,
             name: "EditDevis",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
         },
 
 
@@ -201,19 +293,35 @@ const  router = new VueRouter({
 
          {     path:"/ShowComptes",
              component: ShowComptes,
-             name:"ShowComptes"
+             name:"ShowComptes",
+             meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
          },
          {     path:"/ShowCompte/:id_compte",
          component: ShowCompte,
+         meta:{
+            SuperAdmin:true,
+            Admin:true
+            }
          
          },
     
          {     path:"/AddCompte",
-                component: AddCompte
+                component: AddCompte,
+                meta:{
+                    SuperAdmin:true,
+                    Admin:true
+                    }
         },
    
         {     path:"/EditCompte/:id_compte",
-                component: EditCompte
+                component: EditCompte,
+                meta:{
+                    SuperAdmin:true,
+                    Admin:true
+                    }
         },
  
         // ----------------------------------------------------------  // condition facture
@@ -223,24 +331,44 @@ const  router = new VueRouter({
         path:"/addBonCommande",
         component: AddBonCommande,
         name: "addBonCommande",
+        meta:{
+            SuperAdmin:true,
+            Admin:true
+            }
         },
         {     
             path:"/addBonCommande/:id_devis",
             component: AddBonCommande,
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
             },
         {     
          path:"/ShowBonCommandes",
           component: ShowBonCommandes,
           name: "ShowBonCommandes",
+          meta:{
+            SuperAdmin:true,
+            Admin:true
+            }
          },
         {     
          path:"/ShowBonCommande/:reference_bc",
-         component: ShowBonCommande
+         component: ShowBonCommande,
+         meta:{
+            SuperAdmin:true,
+            Admin:true
+            }
             },
         {     
          path:"/EditBonCommande",
          component: EditBonCommande,
          name: "EditBonCommande",
+         meta:{
+            SuperAdmin:true,
+            Admin:true
+            }
         },  
         
         
@@ -250,6 +378,10 @@ const  router = new VueRouter({
     path:"/addFacture",
     component: AddFacture,
     name: "addFacture",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
 },
 {    
     path:"/getFactures",
@@ -273,6 +405,10 @@ const  router = new VueRouter({
     path:"/EditFacture",
     component: EditFacture,
     name: "EditFacture",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
 },       
                      // ----------------------------------------------------------  // AvoirFactures 
 // ajouter les Avoir Facture 
@@ -280,6 +416,10 @@ const  router = new VueRouter({
     path:"/addAvoirFacture",
     component: AddAvoirFacture,
     name: "addAvoirFacture",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
 },
 {    
     path:"/getAvoirFactures",
@@ -303,31 +443,282 @@ const  router = new VueRouter({
     path:"/EditAvoirFacture",
     component: EditAvoirFacture,
     name: "EditAvoirFacture",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
 },        
         // ----------------------------------------------------------  // Bon Livraison
         {     
             path:"/addBonLivraison",
             component: AddBonLivraison,
             name: "addBonLivraison",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
             },
             {     
                 path:"/addBonLivraison/:id_bonCommande",
                 component: AddBonLivraison,
+                meta:{
+                    SuperAdmin:true,
+                    Admin:true
+                    }
                 },
             {     
              path:"/ShowBonLivraisons",
               component: ShowBonLivraisons,
               name: "ShowBonLivraisons",
+              meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
              },
             {     
              path:"/ShowBonLivraison/:reference_bl",
-             component: ShowBonLivraison 
+             component: ShowBonLivraison,
+             meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
                 },
             {     
              path:"/EditBonLivraison",
              component: EditBonLivraison,
              name: "EditBonLivraison",
-            },      
+             meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+            }, 
+            
+            
+///----------------------------------  Achat ------------------------------------ ----------------- ----------------- 
+
+
+                  // ----------------------------------------------------------  // Devis 
+// ajouter les devis 
+        {    
+            path:"/addDevisA",
+            component: AddDevisA,
+            name: "addDevisA",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+        },
+        {    
+            path:"/getDevisA",
+            component: AffDevisA,
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+        },
+        {    
+            path:"/getDevisA/:success",
+            component: AffDevisA,
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+        },
+        {    
+            path:"/DevisDetailsA",
+            component: DevisDetailsA,
+            name: "DevisDetailsA",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+        },
+        {
+            path:"/DevisDetailsA/:success/:id_devis",
+            component: DevisDetailsA,
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+
+        },
+        {    
+            path:"/EditDevisA",
+            component: EditDevisA,
+            name: "EditDevisA",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+        },
+
+        // ----------------------------------------------------------  // Bon commande
+        {     
+            path:"/addBonCommandeA",
+            component: AddBonCommandeA,
+            name: "addBonCommandeA",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+            },
+            {     
+                path:"/addBonCommandeA/:id_devis",
+                component: AddBonCommandeA,
+                meta:{
+                    SuperAdmin:true,
+                    Admin:true
+                    }
+                },
+            {     
+            path:"/ShowBonCommandesA",
+            component: ShowBonCommandesA,
+            name: "ShowBonCommandesA",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+            },
+            {     
+            path:"/ShowBonCommandeA/:reference_bc",
+            component: ShowBonCommandeA,
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+                },
+            {     
+            path:"/EditBonCommandeA",
+            component: EditBonCommandeA,
+            name: "EditBonCommandeA",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+            },                 
+                        // ----------------------------------------------------------  // Bon Livraison
+        {     
+            path:"/addBonLivraisonA",
+            component: AddBonLivraisonA,
+            name: "addBonLivraisonA",
+            meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+            },
+            {     
+                path:"/addBonLivraisonA/:id_bonCommande",
+                component: AddBonLivraisonA,
+                meta:{
+                    SuperAdmin:true,
+                    Admin:true
+                    }
+                },
+            {     
+             path:"/ShowBonLivraisonsA",
+              component: ShowBonLivraisonsA,
+              name: "ShowBonLivraisonsA",
+              meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+             },
+            {     
+             path:"/ShowBonLivraisonA/:reference_bl",
+             component: ShowBonLivraisonA ,
+             meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+                },
+            {     
+             path:"/EditBonLivraisonA",
+             component: EditBonLivraisonA,
+             name: "EditBonLivraisonA",
+             meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
+            }, 
+                           // ----------------------------------------------------------  // Factures 
+// ajouter les factures 
+{    
+    path:"/addFactureA",
+    component: AddFactureA,
+    name: "addFactureA",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
+},
+{    
+    path:"/getFacturesA",
+    component: AffFacturesA
+},
+{    
+    path:"/getFacturesA/:success",
+    component: AffFacturesA
+},
+{    
+    path:"/FactureDetailsA",
+    component: FactureDetailsA,
+    name: "FactureDetailsA"
+},
+{
+    path:"/FactureDetailsA/:success/:id_facture",
+    component: FactureDetailsA,
+
+},
+{    
+    path:"/EditFactureA",
+    component: EditFactureA,
+    name: "EditFactureA",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
+},       
+
+                    // ----------------------------------------------------------  // AvoirFactures 
+// ajouter les Avoir Facture 
+{    
+    path:"/addAvoirFactureA",
+    component: AddAvoirFactureA,
+    name: "addAvoirFactureA",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
+},
+{    
+    path:"/getAvoirFacturesA",
+    component: AffAvoirFacturesA
+},
+{    
+    path:"/getAvoirFacturesA/:success",
+    component: AffAvoirFacturesA
+},  
+{    
+    path:"/AvoirFactureDetailsA",
+    component: AvoirFactureDetailsA,
+    name: "AvoirFactureDetailsA"
+},
+{
+    path:"/AvoirFactureDetailsA/:success/:id_af",
+    component: AvoirFactureDetailsA,
+
+},
+{    
+    path:"/EditAvoirFactureA",
+    component: EditAvoirFactureA,
+    name: "EditAvoirFactureA",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
+},    
+
+
     ],
    
 })

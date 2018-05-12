@@ -5,8 +5,12 @@ export default function (Vue){
            let authen  = await  axios.get('/getProfile')
             .then(response => {let test;
               if(response.data.user[0].role == 'Super Admin')
-              test = false;
-              else test = true;
+              test = "Super Admin";
+              else if(response.data.user[0].role == 'Admin')
+              test = "Admin";
+              else if(response.data.user[0].role == 'Expert Comptable')
+              test = "Expert Comptable";
+            //  else test = "";
               return test;
              // return false;
                
