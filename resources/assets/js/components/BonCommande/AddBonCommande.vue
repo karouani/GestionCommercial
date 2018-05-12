@@ -874,7 +874,7 @@ methods: {
                         var date_bc=this.bonCommande.date_bc
                         var dat = new Date(date_bc);
 
-                        var echeance= +this.bonCommande.echeance;
+                        var echeance= +this.echeance;
                         //console.log("echeance-------- "+echeance)
                                 if(typeof(echeance) === 'number'){
                             console.log("echeance is number            "+typeof(echeance) )

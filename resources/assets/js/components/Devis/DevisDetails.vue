@@ -34,11 +34,7 @@
                 <input type="text"  readonly class="form-control" id="inputPassword" placeholder="" v-model="devi.reference_d" disabled>
                 </div>
             </div>
-<<<<<<< HEAD
-<br>
-=======
                
->>>>>>> 84963394a1e7dd9126491ac646c853b1d4ea7701
             <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">

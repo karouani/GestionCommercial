@@ -316,7 +316,7 @@ class AvoirFactureController extends Controller
 
 
 
-        $objethtml = '<p style="margin-top: 50px;">Référence Bon de Livraison: '. $avoirFacture[0]->fk_f.'</p>';
+        $objethtml = '<p style="margin-top: 50px;">Référence Facture: '. $avoirFacture[0]->fk_f.'</p>';
         $commandesHtml ='<table border="1" style="padding: 3px 0px;" cellpadding="2">
         <thead>
                 <tr style="color:white; font-size: 10pt;background-color: black;">
@@ -499,12 +499,12 @@ $left_column = ' <table style="padding: 0px;padding-right:10px">
 <tr>
     <td>
     <span></span><br>
-    <b> '.$avoirFacture[0]->nom_societe_comp.' </b> <br><span> 
-    </span>'.$avoirFacture[0]->secteur_activite_comp.'<br><span> 
-    Tél: </span>'.$avoirFacture[0]->fix_comp.'<span>
-    /Fax: </span> '.$avoirFacture[0]->fax_comp.'<br><span> 
-    GSM: </span>'.$avoirFacture[0]->GSM_comp.'<br>
-    '.$avoirFacture[0]->adresse_comp.'<br>
+    <b> '.$avoirFacture[0]->nom_compte.' </b> <br><span> 
+    </span>'.$avoirFacture[0]->secteur_activite.'<br><span> 
+    Tél: </span>'.$avoirFacture[0]->fix.'<span>
+    /Fax: </span> '.$avoirFacture[0]->fax.'<br><span> 
+    GSM: </span>'.$avoirFacture[0]->portable.'<br>
+    '.$avoirFacture[0]->adresse_af.'<br>
     
     </td>
 
@@ -512,7 +512,7 @@ $left_column = ' <table style="padding: 0px;padding-right:10px">
 </table>
 <br><br>';
 $right_column = '<br> <br><br>
-<b>Adresse de facturation </b> <br>
+<b>Adresse de facture avoir : </b> <br>
 <table  cellpadding="3" style="padding: 0px;padding-right:10px">
 <tr>
 
@@ -522,8 +522,8 @@ $right_column = '<br> <br><br>
     border-top:1px solid black;
     ">
     
-    <b>'.$avoirFacture[0]->nom_compte.'</b><br>
-    <span> '.$avoirFacture[0]->adresse_af.'</span>
+    <b>'.$avoirFacture[0]->nom_societe_comp.'</b><br>
+    <span> '.$avoirFacture[0]->adresse_comp.'</span>
     
     </td>
 </tr>
@@ -573,12 +573,6 @@ style="
 border-right:1px solid black;
 border-bottom: 1px solid black;
 border-top: 1px solid black;
-"><h5> Code Client</h5></td>
-<td align="center"
-style="
-border-right:1px solid black;
-border-bottom: 1px solid black;
-border-top: 1px solid black;
 "><h5> Date validité</h5></td>
 <td align="center"
 style="
@@ -589,17 +583,13 @@ border-top: 1px solid black;
 "><h5>Réglement</h5></td>
 <td align="center"
 style="
+border-right:1px solid black;
 border-left:1px solid black;
 border-top: 1px solid black;
 "><h5>Date livraison</h5></td> 
 
 </tr>
 <tr>
-<td align="center"
-style="
-border-right:1px solid black;
-border-top: 1px solid black;
-"><span style="font-size: 8px;">'.$avoirFacture[0]->reference.'</span></td>
 <td align="center"
 style="
 border-right:1px solid black;
@@ -613,6 +603,7 @@ border-top: 1px solid black;
 "><span style="font-size: 8px;">'.$avoirFacture[0]->type_paiement.'</span></td>
 <td align="center"
 style="
+border-right:1px solid black;
 border-left:1px solid black;
 border-top: 1px solid black;
 "><span style="font-size: 8px;">'.$avoirFacture[0]->date_af.'</span></td> 
