@@ -43,6 +43,10 @@ Vue.component('app-content', require('./components/Contents.vue'));
 /* Users*/
 
 Vue.component('app-vue', require('./components/App.vue'));
+Vue.component('app-vue-comptable', require('./components/AppComptable.vue'));
+
+
+
 Vue.component('app-addusers', require('./components/User/AddUsers.vue'));
 Vue.component('app-affusers', require('./components/User/AffUsers.vue'));
 Vue.component('app-edituser', require('./components/User/EditUser.vue'));
@@ -53,20 +57,20 @@ Vue.component('app-affcompagnie', require('./components/Compagnie/AffCompagnie.v
 Vue.component('app-editcompagnie', require('./components/Compagnie/EditCompagnie.vue'));
 Vue.component('app-detailscompagnie', require('./components/Compagnie/CompagnieDetails.vue'));
 /* Devis  */
-Vue.component('app-adddevis', require('./components/Devis/AddDevis.vue'));
-Vue.component('app-affdevis', require('./components/Devis/AffDevis.vue'));
-Vue.component('app-detailsdevis', require('./components/Devis/DevisDetails.vue'));
-Vue.component('app-editdevis', require('./components/Devis/EditDevis.vue'));
+Vue.component('app-adddevis', require('./components/Vente/Devis/AddDevis.vue'));
+Vue.component('app-affdevis', require('./components/Vente/Devis/AffDevis.vue'));
+Vue.component('app-detailsdevis', require('./components/Vente/Devis/DevisDetails.vue'));
+Vue.component('app-editdevis', require('./components/Vente/Devis/EditDevis.vue'));
 /* Factures  */
-Vue.component('app-addfacture', require('./components/Facture/AddFacture.vue'));
-Vue.component('app-afffactures', require('./components/Facture/AffFactures.vue'));
-Vue.component('app-detailsfacture', require('./components/Facture/FactureDetails.vue'));
-Vue.component('app-editfacture', require('./components/Facture/EditFacture.vue'));
+Vue.component('app-addfacture', require('./components/Vente/Facture/AddFacture.vue'));
+Vue.component('app-afffactures', require('./components/Vente/Facture/AffFactures.vue'));
+Vue.component('app-detailsfacture', require('./components/Vente/Facture/FactureDetails.vue'));
+Vue.component('app-editfacture', require('./components/Vente/Facture/EditFacture.vue'));
  /* Avoir Factures */
- Vue.component('app-addavoirfacture', require('./components/AvoirFacture/AddAvoirFacture.vue'));
- Vue.component('app-affavoirfactures', require('./components/AvoirFacture/AffAvoirFactures.vue'));
- Vue.component('app-detailsavoirfacture', require('./components/AvoirFacture/AvoirFactureDetails.vue'));
- Vue.component('app-editavoirfacture', require('./components/AvoirFacture/EditAvoirFacture.vue'));
+ Vue.component('app-addavoirfacture', require('./components/Vente/AvoirFacture/AddAvoirFacture.vue'));
+ Vue.component('app-affavoirfactures', require('./components/Vente/AvoirFacture/AffAvoirFactures.vue'));
+ Vue.component('app-detailsavoirfacture', require('./components/Vente/AvoirFacture/AvoirFactureDetails.vue'));
+ Vue.component('app-editavoirfacture', require('./components/Vente/AvoirFacture/EditAvoirFacture.vue'));
 
 // afficher un nombre de phrase limité 
 /*Vue.filter('readMore', function (text, length, suffix) {
@@ -81,11 +85,11 @@ global.$ = jquery*/
 Router.beforeEach(
 
     (to,from,next) => {
-        if(to.matched.some(record => record.meta.SuperAdmin) ){
+        if(to.matched.some(record => record.meta.TopAdmin)){
             
             Promise.resolve(Vue.auth.getProfile()).then(function(value){
                
-                if(value){
+                if(value == "Admin" || value == "Expert Comptable"){
                     next({
                         path:'/'
                     })
@@ -95,7 +99,25 @@ Router.beforeEach(
         
         
 
-        }else next()
+        }else if(to.matched.some(record => record.meta.SuperAdmin) && to.matched.some(record => record.meta.Admin)){
+            
+            Promise.resolve(Vue.auth.getProfile()).then(function(value){
+               
+                if(value == "Expert Comptable"){
+                    next({
+                        path:'/'
+                    })
+                }
+                else next()
+            });
+        
+        
+
+        }
+        
+        
+        
+        else next()
     }
 )
 const app = new Vue({

@@ -22,9 +22,13 @@
         
     </head>
     <body class="sidebar-fixed header-fixed">
-       <div id="app">       
+       <div id="app">    
+       @if ( $role==="Super Admin" || $role==="Admin")   
          <app-vue></app-vue>
-       
+      @elseif ($role==="Expert Comptable")
+        <app-vue-comptable></app-vue-comptable>
+       @endif
+
          
        </div>
      <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>

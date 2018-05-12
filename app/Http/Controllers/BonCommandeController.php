@@ -599,7 +599,7 @@ style="
 border-right:1px solid black;
 
 border-bottom: 1px solid black;
-"><h2> <b> Bon De Commande</b></h2> </td>
+"><h2> <b> Commande</b></h2> </td>
 <td  align="center"
 style="width:70px;
 border-left:1px solid black;

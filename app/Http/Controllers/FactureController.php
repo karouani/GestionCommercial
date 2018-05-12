@@ -322,7 +322,7 @@ public function getBonLivraisonBL($id_bl){
         $objethtml = '<p style="margin-top: 50px;">Réf  Devis: '. $facture[0]->fk_bl.'</p>';
 
         }
-       else  if(strpos($facture[0]->fk_bl,"BC") === 0){
+       else  if(strpos($facture[0]->fk_bl,"C") === 0){
             $objethtml = '<p style="margin-top: 50px;">Réf Bon de Commande : '. $facture[0]->fk_bl.'</p>';
     
             }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Auth;
 class HomeController extends Controller
 {
     /**
@@ -22,8 +22,10 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('Gcommerce');
+    {      $role=  Auth::user()->role;
+       
+        return view('Gcommerce',['role' => $role]);
+        //return view('Gcommerce');
     }
 
     public function login()
