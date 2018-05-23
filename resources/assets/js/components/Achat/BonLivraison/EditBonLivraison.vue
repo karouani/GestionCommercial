@@ -8,7 +8,7 @@
     <div v-if="!loading" >
     <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonLivraisons'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonLivraisonsA'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div>    
 
@@ -59,7 +59,7 @@
             <label for="">{{compte.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonLivraison.adresse_bl"></textarea>
+            <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonLivraison.adresse_bl"></textarea>
             </div>
          </div>
         </div>
@@ -487,7 +487,7 @@ methods: {
       //this.error = this.post = null
       this.loading = true
             this.getTvas();
-            this.getClients();
+            this.getFournisseur();
             this.getCompte(this.$route.params.fk_compte_bl);
             this.showBonLivraison(this.$route.params.reference_bl);
             this.getCommandes(this.$route.params.reference_bl);
@@ -766,10 +766,10 @@ methods: {
                     console.log('handle server error from here');
             });
     },
-        // recuperer liste des clients
-    getClients(){
+        // recuperer liste des fournisseurs
+    getFournisseur(){
                 
-        axios.get('/getClients')
+        axios.get('/getFournisseur')
             .then((response) => {
                     this.comptes = response.data.comptes;
                   

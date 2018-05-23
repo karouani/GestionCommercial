@@ -9,7 +9,10 @@ use App\Statu;
 use App\Type_paiement;
 class ParametresController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     //----------------------------------------famille
     function addFamille(Request $request){
             $famille  = new  Famille_article();

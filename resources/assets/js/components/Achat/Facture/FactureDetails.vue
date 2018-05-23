@@ -20,7 +20,7 @@
         <a href="#"    @click="redirect_To_AddFactureAvoir(facture)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
         <a href="#"    @click="PdfFacture(facture.reference_f)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i> Imprimer</a>
 
-        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getFactures'">
+        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getFacturesA'">
         <i class="fas fa-long-arrow-alt-left fontsize"></i>
         </router-link>
         </div>

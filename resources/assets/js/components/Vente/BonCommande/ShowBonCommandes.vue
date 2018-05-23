@@ -360,7 +360,7 @@ import  Pagination from '../../Pagination.vue';
 
            countBonCommandes(){
 
-                axios.get('/countBonCommandes')
+                axios.get('/countBonCommandes',{params: { type_operation_bc: 'vente' } })
                 .then((response) => {
                      var today = new Date();
                     var yyyy = today.getFullYear();             
@@ -389,7 +389,7 @@ import  Pagination from '../../Pagination.vue';
                     this.getBonCommandes();}
                 else {
                      // console.log('test1');
-                axios.get('/searchBonCommande/'+this.search+'?page='+this.bonCommandes.current_page+'')
+                axios.get('/searchBonCommande/'+this.search+'?page='+this.bonCommandes.current_page+'',{params: { type_operation_bc: 'vente' } })
                 .then((response) => {
                   console.log('serchhhh ')
                   console.log(response.data.boncommandes)
@@ -411,7 +411,7 @@ import  Pagination from '../../Pagination.vue';
 
     },
           getBonCommandes(){
-               axios.get('/getBonCommandes?page='+this.bonCommandes.current_page+'')
+               axios.get('/getBonCommandes?page='+this.bonCommandes.current_page+'',{params: { type_operation_bc: 'vente' } })
                 .then((response) => {
                   this.loading = false;
                     this.bonCommandes = response.data.bonCommandes;

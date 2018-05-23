@@ -17,7 +17,32 @@ use Illuminate\Http\Request;
 
 class FactureController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function deleteNotification($reference_f){
+        Auth::user()->notifications()->where('data','like', '%' .$reference_f.' va'. '%')->delete();
+   
+    }
+
+    public function getAllFactures(){
+        $AllFactures = Facture::all();
+        return Response()->json(['AllFactures' => $AllFactures ]);
+    }
        // ajouter un facture
+       public function searchFactures($search_f,Request $request ){
+        $factures = Facture::leftJoin('comptes', 'factures.fk_compte_f', '=', 'comptes.id_compte')
+        ->where('type_operation_f','=',$request->type_operation_f)
+        ->where(function($query)use ($search_f)
+        {
+            $query->where('reference_f','like', '%' .$search_f . '%')
+            ->orWhere('comptes.nom_compte','like', '%' .$search_f . '%');
+        })->paginate(10);
+
+        return Response()->json(['factures' => $factures ]);
+     }
 
 
 
@@ -109,13 +134,16 @@ class FactureController extends Controller
         $reference_f = $facture->reference_f;
         $this->updateCommandes_f($request,$reference_f);
         $this->updateModePaiement_f($request,$reference_f);
+        $this->deleteNotification($request->factures['reference_f']);
 
         return Response()->json(['etat' => true]);
     }
 
       //compter le numero de reference facture
-      public function countFactures(){
-        $count = Facture::withTrashed()->where('type_operation_f','=','vente')->count();
+      public function countFactures(Request $request){
+        $count = Facture::withTrashed()
+        ->where('type_operation_f','=',$request->type_operation_f)
+        ->count();
         $count ++;
         return Response()->json(['count' => $count]);
     }
@@ -153,9 +181,10 @@ class FactureController extends Controller
     public function updateCommandes_f(Request $request , $reference_f){
 
         for($i=0;$i<count($request->suppCommandes);$i++){
+            if (isset($request->suppCommandes[$i]['id_cmd'])) {
          $commande = Commande::find($request->suppCommandes[$i]['id_cmd']);
          $commande->delete();
- 
+            }
          }
          for($i=0;$i<count($request->commandes);$i++){
              if (!isset($request->commandes[$i]['id_cmd'])) {
@@ -219,12 +248,13 @@ public function getBonLivraisonBL($id_bl){
          return Response()->json(['facture' => $facture ]);
     }
 
-    public function getFactures(){
+    public function getFactures(Request $request){
      
         $factures = Facture::leftJoin('comptes', 'factures.fk_compte_f', '=', 'comptes.id_compte')
         ->leftJoin('bonLivraisons','factures.fk_bl', '=', 'bonLivraisons.reference_bl')
         ->leftJoin('status', 'factures.fk_status_f', '=', 'status.id_status')
                     ->select('factures.*', 'comptes.nom_compte','status.*','bonLivraisons.*')
+                    ->where('type_operation_f','=',$request->type_operation_f)
                     ->paginate(10);
                    
                  return Response()->json(['factures' => $factures ]);

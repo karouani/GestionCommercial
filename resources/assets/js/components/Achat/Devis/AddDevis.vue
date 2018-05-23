@@ -55,7 +55,7 @@
             <label for="">{{compte.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="devi.adresse_d"></textarea>
+            <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="devi.adresse_d"></textarea>
             </div>
          </div>
         </div>
@@ -455,7 +455,7 @@ this.commande = {
                         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
 console.log(this.devi.total_lettre_d)    
-        this.devi.type_operation="vente";
+        this.devi.type_operation="achat";
         
         axios.post('/addDevis',{commandes:this.commandes,devis:this.devi,modePaiements:this.modePaiement})
         .then(response => {         
@@ -557,10 +557,10 @@ console.log(this.devi.total_lettre_d)
                     console.log('handle server error from here');
             });
     },
-        // recuperer liste des clients
-    getClients(){
+        // recuperer liste des fournisseurs
+    getFournisseur(){
                 
-        axios.get('/getClients')
+        axios.get('/getFournisseur')
             .then((response) => {
                     this.comptes = response.data.comptes;
                   
@@ -656,7 +656,7 @@ diffDate() {
             //this.countDevis();
             this.getTvas();
             this.getarticles();
-            this.getClients();
+            this.getFournisseur();
             this.getClient(this.$route.params.id_compte);
             this.getRemise(this.$route.params.id_compte);
             this.getStatus();

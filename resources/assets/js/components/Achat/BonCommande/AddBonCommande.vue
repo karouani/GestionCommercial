@@ -75,7 +75,7 @@
             <div class="form-group row">
             <div class="col-sm-10">
              <span>Adresse de livraison</span>
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_bc"></textarea>
+            <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_bc"></textarea>
             </div>
          </div>
         </div>
@@ -518,7 +518,7 @@ methods: {
        
        this.echeance = 'choix';
         this.getarticles();
-        this.getClients();
+        this.getFournisseur();
         this.getTvas();
         this.getTypePaiement();
         
@@ -547,7 +547,7 @@ methods: {
             this.getTvas();
             this.getarticles();
             this.getRemise(this.$route.params.id_compte);
-            this.getClients();
+            this.getFournisseur();
             this.getTypePaiement();
             this.getContacts(this.$route.params.id_compte);
 
@@ -580,7 +580,7 @@ methods: {
            // this.bonCommande.adresse_bc=  this.compte.adresse_compte
             this.bonCommande.fk_compte_bc = this.compte.id_compte;
             this.bonCommande.fk_status_bc = "Brouillon"
-            this.bonCommande.type_operation_bc = "vente";
+            this.bonCommande.type_operation_bc = "achat";
             
              console.log('-------------BonCommandes---------------')
             console.log(this.bonCommande)
@@ -749,10 +749,10 @@ methods: {
                     console.log('handle server error from here');
             });
     },
-        // recuperer liste des clients
-    getClients(){
+        // recuperer liste des fournisseurs
+    getFournisseur(){
                 
-        axios.get('/getClients')
+        axios.get('/getFournisseur')
             .then((response) => {
                     this.comptes = response.data.comptes;
                   this.loading= false;

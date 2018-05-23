@@ -57,7 +57,7 @@
             <label for="">{{compte.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="facture.adresse_f"></textarea>
+            <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="facture.adresse_f"></textarea>
             </div>
          </div>
         </div>
@@ -483,7 +483,7 @@ this.commande = {
                         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
 console.log(this.facture.total_lettre_f)    
-        this.facture.type_operation_f="vente";
+        this.facture.type_operation_f="achat";
         
         axios.post('/addFacture',{commandes:this.commandes,factures:this.facture,modePaiements:this.modePaiement})
         .then(response => {         
@@ -584,10 +584,10 @@ console.log(this.facture.total_lettre_f)
                     console.log('handle server error from here');
             });
     },
-        // recuperer liste des clients
-    getClients(){
+        // recuperer liste des fournisseurs
+    getFournisseur(){
                 
-        axios.get('/getClients')
+        axios.get('/getFournisseur')
             .then((response) => {
                     this.comptes = response.data.comptes;
                   
@@ -707,7 +707,7 @@ diffDate() {
     if(this.$route.params.bonCommande != null){
         this.countFactures();
     
-    this.getClients();
+    this.getFournisseur();
     this.getCompte(this.$route.params.bonCommande.id_compte);
     this.facture.fk_bl = this.$route.params.bonCommande.objet_bc;
     
@@ -777,7 +777,7 @@ console.log('-------------------- test ------------------------')
         
         this.echeance = 'choix';
         this.getarticles();
-        this.getClients();
+        this.getFournisseur();
         this.getTvas();
         this.getTypePaiement();
         this.getCommandes(this.$route.params.bonLivraison.reference_bl);
@@ -815,7 +815,7 @@ console.log('-------------------- test ------------------------')
 
         this.echeance = 'choix';
         this.getarticles();
-        this.getClients();
+        this.getFournisseur();
         this.getTvas();
         this.getTypePaiement();
         this.getCommandes(this.$route.params.devi.reference_d);
@@ -836,7 +836,7 @@ console.log('-------------------- test ------------------------')
            
             this.getTvas();
             this.getarticles();
-            this.getClients();
+            this.getFournisseur();
             this.getClient(this.$route.params.id_compte);
             this.getRemise(this.$route.params.id_compte);
             this.getStatus();

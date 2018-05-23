@@ -70,7 +70,7 @@
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
                 <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" >
-                    <option selected disabled>Choisir Client</option>
+                    <option selected disabled>Choisir Fournisseur</option>
                     <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
                 </select>                    
                 </div>
@@ -300,7 +300,7 @@ import  Pagination from '../../Pagination.vue';
             this.countBonCommandes()
             console.log(this.currentDate);
             console.log('test date ')
-            this.getClients();
+            this.getFournisseur();
           if( this.$route.params.success == "addsuccess"){
              
                         this.Testopen.testnotifAdd = true;
@@ -346,8 +346,8 @@ import  Pagination from '../../Pagination.vue';
                   window.open('/pdf/'+reference_bc,'_blank');
           },
 
-         getClients(){
-                axios.get('/getClients')
+         getFournisseur(){
+                axios.get('/getFournisseur')
                 .then((response) => {
                     this.comptes = response.data.comptes;
                     console.log(response.data.comptes);
@@ -360,12 +360,12 @@ import  Pagination from '../../Pagination.vue';
 
            countBonCommandes(){
 
-                axios.get('/countBonCommandes')
+                axios.get('/countBonCommandes',{params: { type_operation_bc: 'achat' } })
                 .then((response) => {
                      var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
-                    this.reference_bc='BC-'+year+'-'+response.data.count;
+                    this.reference_bc='BCA-'+year+'-'+response.data.count;
 
                     
                     /*this.commande.fk_document='D'+response.data.count;
@@ -389,7 +389,7 @@ import  Pagination from '../../Pagination.vue';
                     this.getBonCommandes();}
                 else {
                      // console.log('test1');
-                axios.get('/searchBonCommande/'+this.search+'?page='+this.bonCommandes.current_page+'')
+                axios.get('/searchBonCommande/'+this.search+'?page='+this.bonCommandes.current_page+'',{params: { type_operation_bc: 'achat' } })
                 .then((response) => {
                   console.log('serchhhh ')
                   console.log(response.data.boncommandes)
@@ -401,6 +401,7 @@ import  Pagination from '../../Pagination.vue';
                 });}
                     
           },
+          
 
             fetchData () {
       //this.error = this.post = null
@@ -411,7 +412,7 @@ import  Pagination from '../../Pagination.vue';
 
     },
           getBonCommandes(){
-               axios.get('/getBonCommandes?page='+this.bonCommandes.current_page+'')
+               axios.get('/getBonCommandes?page='+this.bonCommandes.current_page+'',{params: { type_operation_bc: 'achat' } })
                 .then((response) => {
                   this.loading = false;
                     this.bonCommandes = response.data.bonCommandes;

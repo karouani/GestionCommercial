@@ -153,6 +153,7 @@ watch:{
             console.log("testttt");
                 axios.get('/getCompagnies?page='+this.compagnies.current_page+'')
                     .then(response => {
+        console.log("test======="); console.log("testttt========");
                             // recuperé ensemble des compagnies sous format json
                             this.compagnies = response.data.compagnies;
                             this.loading = false

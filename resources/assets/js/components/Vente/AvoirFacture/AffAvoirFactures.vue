@@ -47,7 +47,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" @keyup.enter="searchDevis"  class="form-control" v-model="search" placeholder="recherche par Compte ou Reference  " aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="text" @keyup.enter="searchAvoirFactures"  class="form-control" v-model="search" placeholder="recherche par Compte ou Reference  " aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div> 
          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -336,7 +336,7 @@ import  Pagination from '../../Pagination.vue';
     },
 countAvoirFactures(){
 
-                axios.get('/countAvoirFactures')
+                axios.get('/countAvoirFactures',{params: { type_operation_af: 'vente' } })
                 .then((response) => {
 
                    var today = new Date();
@@ -349,7 +349,7 @@ countAvoirFactures(){
                 });
           },
           getAvoirFactures(){//type_status
-                axios.get('/getAvoirFactures?page='+this.avoirFactures.current_page+'')
+                axios.get('/getAvoirFactures?page='+this.avoirFactures.current_page+'',{params: { type_operation_af: 'vente' } })
                 .then((response) => {
                     this.loading = false;
                     this.avoirFactures = response.data.avoirFactures;
@@ -380,7 +380,7 @@ countAvoirFactures(){
                     console.log('handle server error from here');
                 });
           },
-           searchDevis(event){
+           searchAvoirFactures(event){
              console.log(this.search);
              this.avoirFactures.current_page=1;
              if(this.search === ""){
@@ -388,7 +388,7 @@ countAvoirFactures(){
                     this.getAvoirFactures();}
                 else {
                      // console.log('test1');
-                axios.get('/searchDevis/'+this.search+'?page='+this.avoirFactures.current_page+'')
+                axios.get('/searchAvoirFactures/'+this.search+'?page='+this.avoirFactures.current_page+'',{params: { type_operation_af: 'vente' } })
                 .then((response) => {
                   console.log('serchhhh ')
                   console.log(response.data.avoirFactures)

@@ -52,7 +52,7 @@
 
            <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
 
-     <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+     <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandesA'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
       
 
     </div>

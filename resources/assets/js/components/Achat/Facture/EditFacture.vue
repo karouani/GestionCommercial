@@ -12,7 +12,7 @@
 <div v-if="!loading">
      <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/getFactures'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/getFacturesA'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div>
 <div class=" container colBackround">
@@ -55,7 +55,7 @@
             <label for="">{{facture.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="facture.adresse_f"></textarea>
+            <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="facture.adresse_f"></textarea>
             </div>
          </div>
         </div>
@@ -498,7 +498,7 @@ this.commande = {
             this.getarticles();
        // console.log("++++++++++++++++"+this.facture.fk_compte_f);
           // this.getClient(this.facture.fk_compte_f)
-            this.getClients();
+            this.getFournisseur();
             console.log(this.facture.id_facture);
              
               
@@ -552,9 +552,9 @@ changeTVA(tvaa,commande){
                 console.log('handle server error from here');
         });
     },
- getClients(){
+ getFournisseur(){
                 
-        axios.get('/getClients')
+        axios.get('/getFournisseur')
             .then((response) => {
                     this.comptes = response.data.comptes;
                   

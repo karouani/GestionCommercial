@@ -67,7 +67,7 @@
             <div class="form-group row">
             <div class="col-sm-10">
              <span>Adresse de livraison</span>
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonLivraison.adresse_bl"></textarea>
+            <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonLivraison.adresse_bl"></textarea>
             </div>
          </div>
         </div>
@@ -538,7 +538,7 @@ methods: {
  if(this.$route.params.bonCommande != null){
      console.log('----------bon Commande a converti--------------')
      console.log(this.$route.params.bonCommande.reference_bc)
-    this.getClients();
+    this.getFournisseur();
     this.getCompte(this.$route.params.bonCommande.id_compte);
     this.bonLivraison.objet_bl = this.$route.params.bonCommande.objet_bc;
     this.countBonLivraisons();
@@ -604,7 +604,7 @@ this.TestConvertBC= true;
         this.bonLivraison.echeance = 'choix';
                 this.countBonLivraisons();
         this.getarticles();
-        this.getClients();
+        this.getFournisseur();
         this.getTvas();
         this.getTypePaiement();
         this.getCommandes(this.$route.params.devi.reference_d);
@@ -631,7 +631,7 @@ console.log('-------------------- test22222 ------------------------')
             this.getTvas();
             this.getarticles();
             this.getRemise(this.$route.params.id_compte);
-            this.getClients();
+            this.getFournisseur();
             this.getTypePaiement();
             this.getContacts(this.$route.params.id_compte);
 
@@ -662,7 +662,7 @@ console.log('-------------------- test22222 ------------------------')
            // this.bonLivraison.adresse_bl=  this.compte.adresse_compte
             this.bonLivraison.fk_compte_bl = this.compte.id_compte;
             this.bonLivraison.fk_status_bl = "Brouillon"
-            this.bonLivraison.type_operation_bl ="vente";
+            this.bonLivraison.type_operation_bl ="achat";
 
              console.log('-------------BonLivraisons---------------')
             console.log(this.bonLivraison)
@@ -829,10 +829,10 @@ console.log('-------------------- test22222 ------------------------')
                     console.log('handle server error from here');
             });
     },
-        // recuperer liste des clients
-    getClients(){
+        // recuperer liste des fournisseurs
+    getFournisseur(){
                 
-        axios.get('/getClients')
+        axios.get('/getFournisseur')
             .then((response) => {
                     this.comptes = response.data.comptes;
                   this.loading= false;

@@ -12,7 +12,7 @@
 <div v-if="!loading">
      <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/getDevis'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/getDevisA'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div>
 <div class=" container colBackround">
@@ -55,7 +55,7 @@
             <label for="">{{devi.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="devi.adresse_d"></textarea>
+            <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="devi.adresse_d"></textarea>
             </div>
          </div>
         </div>
@@ -498,7 +498,7 @@ this.commande = {
             this.getarticles();
        // console.log("++++++++++++++++"+this.devi.fk_compte_d);
           // this.getClient(this.devi.fk_compte_d)
-            this.getClients();
+            this.getFournisseur();
             console.log(this.devi.id_devis);
              
               
@@ -552,9 +552,9 @@ this.commande = {
                 console.log('handle server error from here');
         });
     },
- getClients(){
+ getFournisseur(){
                 
-        axios.get('/getClients')
+        axios.get('/getFournisseur')
             .then((response) => {
                     this.comptes = response.data.comptes;
                   

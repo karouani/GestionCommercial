@@ -19,10 +19,19 @@ class BonLivraisonController extends Controller
     public $template;
 
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    public function deleteNotification($reference_bl){
+        Auth::user()->notifications()->where('data','like', '%' .$reference_bl . '%')->delete();
+   
+    }
 
-
-
-
+    public function getAllBonLivraisons(){
+        $AllBonLivraisons = Bonlivraison::all();
+        return Response()->json(['AllBonLivraisons' => $AllBonLivraisons ]);
+    }
 
     
     public function updateStatusBL(Request $request){
@@ -105,7 +114,7 @@ class BonLivraisonController extends Controller
         'fk_user_bl' => Auth::user()->id
         ]);
         
-
+                $this->deleteNotification($request->bonLivraison['reference_bl']);
                 $this->updateCommandes_bl($request);
                 $this->updateModePaiement_bl($request);
                 return Response()->json(['etat' => true]);
@@ -115,9 +124,10 @@ class BonLivraisonController extends Controller
     function updateCommandes_bl($request){
 
         for($i=0;$i<count($request->suppBonLivraisons);$i++){
+            if (isset($request->suppBonLivraisons[$i]['id_cmd'])) {
             $commande = Commande::find($request->suppBonLivraisons[$i]['id_cmd']);
             $commande->delete();
-    
+            }
             }
 
             for($i=0;$i<count($request->commandes);$i++){
@@ -168,8 +178,10 @@ class BonLivraisonController extends Controller
 
 
 
-    public function countBonLivraisons(){
-        $count = Bonlivraison::withTrashed()->where('type_operation_bl','=','vente')->count();
+    public function countBonLivraisons(Request $request){
+        $count = Bonlivraison::withTrashed()
+        ->where('type_operation_bl','=',$request->type_operation_bl)
+        ->count();
        
         $count ++;
         return Response()->json(['count' => $count]);
@@ -254,11 +266,12 @@ class BonLivraisonController extends Controller
         return Response()->json(['bonLivraison' => $bonlivraison]);
      }
 
-         public function getBonLivraisons(){
+         public function getBonLivraisons(Request $request){
            
         $bonlivraisons = Bonlivraison::leftJoin('comptes', 'bonLivraisons.fk_compte_bl', '=', 'comptes.id_compte')
             ->leftJoin('status', 'bonLivraisons.fk_status_bl', '=', 'status.id_status')
             ->select('bonLivraisons.*', 'comptes.*','status.*')
+            ->where('type_operation_bl','=',$request->type_operation_bl)
             ->paginate(10);
            
          return Response()->json(['bonLivraisons' => $bonlivraisons ]);
@@ -275,16 +288,20 @@ class BonLivraisonController extends Controller
      
 
 
-      public function searchBonLivraison($search_BL){
+      public function searchBonLivraison($search_BL,Request $request){
         $bonlivraisons = Bonlivraison::leftJoin('comptes', 'bonLivraisons.fk_compte_bl', '=', 'comptes.id_compte')
         ->leftJoin('status', 'bonLivraisons.fk_status_bl', '=', 'status.id_status')
         ->select('bonLivraisons.*', 'comptes.nom_compte','status.*')
-        ->where('reference_bl','like', '%' .$search_BL . '%')
-        ->orWhere('comptes.nom_compte','like', '%' .$search_BL . '%')
-        ->paginate(10);
+        ->where('type_operation_bl','=',$request->type_operation_bl)
+        ->where(function($query)use ($search_BL)
+        {
+            $query->where('reference_bl','like', '%' .$search_BL . '%')
+            ->orWhere('comptes.nom_compte','like', '%' .$search_BL . '%');
+        })->paginate(10);
+
         return Response()->json(['bonlivraisons' => $bonlivraisons ]);
      }
-
+ 
     
      public function deleteBonLivraison($id_bl){
 

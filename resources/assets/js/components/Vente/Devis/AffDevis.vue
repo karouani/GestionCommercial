@@ -336,7 +336,7 @@ import  Pagination from '../../Pagination.vue';
     },
 countDevis(){
 
-                axios.get('/countDevis')
+                axios.get('/countDevis',{params: { type_operation: 'vente' } })
                 .then((response) => {
 
                    var today = new Date();
@@ -349,7 +349,7 @@ countDevis(){
                 });
           },
           getDevis(){//type_status
-                axios.get('/getDevis?page='+this.devis.current_page+'')
+                axios.get('/getDevis?page='+this.devis.current_page+'',{params: { type_operation: 'vente' } })
                 .then((response) => {
                     this.loading = false;
                     this.devis = response.data.devis;
@@ -388,7 +388,7 @@ countDevis(){
                     this.getDevis();}
                 else {
                      // console.log('test1');
-                axios.get('/searchDevis/'+this.search+'?page='+this.devis.current_page+'')
+                axios.get('/searchDevis/'+this.search+'?page='+this.devis.current_page+'',{params: { type_operation: 'vente' } })
                 .then((response) => {
                   console.log('serchhhh ')
                   console.log(response.data.devis)

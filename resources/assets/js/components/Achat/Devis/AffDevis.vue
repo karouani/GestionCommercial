@@ -133,8 +133,8 @@
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-3 col-form-label">compte: </label>
                     <div class="col-sm-9">
-                <select class="form-control custom-select " id="fk_compte" v-model="devi.fk_compte_d" v-on:change="getClients" >
-                    <option selected disabled>Choisir Client</option>
+                <select class="form-control custom-select " id="fk_compte" v-model="devi.fk_compte_d" v-on:change="getFournisseur" >
+                    <option selected disabled>Choisir Fournisseur</option>
 <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">
           {{compte.nom_compte}}
         </option>       
@@ -264,7 +264,7 @@ import  Pagination from '../../Pagination.vue';
                         console.log(this.currentDate); 
 
         this.getDevis();
-        this.getClients();
+        this.getFournisseur();
           this.countDevis();
           
            if(this.$route.params.success == "add"){
@@ -336,20 +336,20 @@ import  Pagination from '../../Pagination.vue';
     },
 countDevis(){
 
-                axios.get('/countDevis')
+                axios.get('/countDevis',{params: { type_operation: 'achat' } })
                 .then((response) => {
 
                    var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
-                    this.devi.reference_d='D-'+year+'-'+response.data.count;
+                    this.devi.reference_d='DA-'+year+'-'+response.data.count;
                 })
                 .catch(() => {
                     console.log('handle server error from here');
                 });
           },
           getDevis(){//type_status
-                axios.get('/getDevis?page='+this.devis.current_page+'')
+                axios.get('/getDevis?page='+this.devis.current_page+'',{params: { type_operation: 'achat' } })
                 .then((response) => {
                     this.loading = false;
                     this.devis = response.data.devis;
@@ -369,8 +369,8 @@ countDevis(){
                     console.log('handle server error from here');
                 });
           },
-          getClients(){
-                axios.get('/getClients')
+          getFournisseur(){
+                axios.get('/getFournisseur')
                 .then((response) => {
                     this.comptes = response.data.comptes;
                     //console.log(response.data.comptes);
@@ -388,7 +388,7 @@ countDevis(){
                     this.getDevis();}
                 else {
                      // console.log('test1');
-                axios.get('/searchDevis/'+this.search+'?page='+this.devis.current_page+'')
+                axios.get('/searchDevis/'+this.search+'?page='+this.devis.current_page+'',{params: { type_operation: 'achat' } })
                 .then((response) => {
                   console.log('serchhhh ')
                   console.log(response.data.devis)

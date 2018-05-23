@@ -18,6 +18,35 @@ use Illuminate\Http\Request;
 class AvoirFactureController extends Controller
 {
        // ajouter un facture
+       public function __construct()
+       {
+           $this->middleware('auth');
+       }
+       public function deleteNotification($reference_af){
+        Auth::user()->notifications()->where('data','like', '%' .$reference_af . '%')->delete();
+   
+    }
+       public function getAllAvoirFactures(){
+        $AllAvoirFactures = Avoir_Facture::all();
+        return Response()->json(['AllAvoirFactures' => $AllAvoirFactures ]);
+       }
+
+       public function searchAvoirFactures(Request $request,$search_AF){
+       
+        $avoirFactures = Avoir_Facture::leftJoin('comptes', 'avoir_factures.fk_compte_af', '=', 'comptes.id_compte')
+        ->leftJoin('factures','avoir_factures.fk_f', '=', 'factures.reference_f')
+        ->leftJoin('status', 'avoir_factures.fk_status_af', '=', 'status.id_status')
+        ->select('avoir_factures.*', 'comptes.nom_compte','status.*','factures.*')
+        ->where('type_operation_af','=',$request->type_operation_af)
+        ->where(function($query)use ($search_AF)
+        {
+            $query->where('reference_af','like', '%' .$search_AF . '%')
+            ->orWhere('comptes.nom_compte','like', '%' .$search_AF . '%');
+        })->paginate(10);
+                   
+                 return Response()->json(['avoirFactures' => $avoirFactures , 'type_operation_af'=> $request->type_operation_af]);
+              }
+
 
 
 
@@ -105,6 +134,8 @@ class AvoirFactureController extends Controller
 
         $avoirFacture->save();
         $reference_af = $avoirFacture->reference_af;
+
+        $this->deleteNotification($request->avoirFactures['reference_af']);
         $this->updateCommandes_af($request,$reference_af);
         $this->updateModePaiement_af($request,$reference_af);
 
@@ -112,8 +143,10 @@ class AvoirFactureController extends Controller
     }
 
       //compter le numero de reference avoirFacture
-      public function countAvoirFactures(){
-        $count = Avoir_facture::withTrashed()->where('type_operation_af','=','vente')->count();
+      public function countAvoirFactures(Request $request){
+        $count = Avoir_facture::withTrashed()
+        ->where('type_operation_af','=',$request->type_operation_af)
+        ->count();
         $count ++;
         return Response()->json(['count' => $count]);
     }
@@ -151,9 +184,10 @@ class AvoirFactureController extends Controller
     public function updateCommandes_af(Request $request , $reference_af){
 
         for($i=0;$i<count($request->suppCommandes);$i++){
+            if (isset($request->suppCommandes[$i]['id_cmd'])) {
          $commande = Commande::find($request->suppCommandes[$i]['id_cmd']);
          $commande->delete();
- 
+            }
          }
          for($i=0;$i<count($request->commandes);$i++){
              if (!isset($request->commandes[$i]['id_cmd'])) {
@@ -217,12 +251,13 @@ class AvoirFactureController extends Controller
          return Response()->json(['avoirFacture' => $avoirFacture ]);
     }
 
-    public function getAvoirFactures(){
+    public function getAvoirFactures(Request $request){
      
         $avoirFactures = Avoir_Facture::leftJoin('comptes', 'avoir_factures.fk_compte_af', '=', 'comptes.id_compte')
         ->leftJoin('factures','avoir_factures.fk_f', '=', 'factures.reference_f')
         ->leftJoin('status', 'avoir_factures.fk_status_af', '=', 'status.id_status')
-                    ->select('avoir_factures.*', 'comptes.nom_compte','status.*','factures.*')
+        ->select('avoir_factures.*', 'comptes.nom_compte','status.*','factures.*')
+        ->where('type_operation_af','=',$request->type_operation_af)
                     ->paginate(10);
                    
                  return Response()->json(['avoirFactures' => $avoirFactures ]);

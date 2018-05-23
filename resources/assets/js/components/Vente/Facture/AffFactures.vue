@@ -47,7 +47,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" @keyup.enter="searchDevis"  class="form-control" v-model="search" placeholder="recherche par Compte ou Reference  " aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="text" @keyup.enter="searchFacture"  class="form-control" v-model="search" placeholder="recherche par Compte ou Reference  " aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div> 
          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -336,7 +336,7 @@ import  Pagination from '../../Pagination.vue';
     },
 countFactures(){
 
-                axios.get('/countFactures')
+                axios.get('/countFactures',{params: { type_operation_f: 'vente' } })
                 .then((response) => {
 
                    var today = new Date();
@@ -349,7 +349,7 @@ countFactures(){
                 });
           },
           getFactures(){//type_status
-                axios.get('/getFactures?page='+this.factures.current_page+'')
+                axios.get('/getFactures?page='+this.factures.current_page+'',{params: { type_operation_f: 'vente' } })
                 .then((response) => {
                     this.loading = false;
                     this.factures = response.data.factures;
@@ -380,7 +380,7 @@ countFactures(){
                     console.log('handle server error from here');
                 });
           },
-           searchDevis(event){
+           searchFacture(event){
              console.log(this.search);
              this.factures.current_page=1;
              if(this.search === ""){
@@ -388,7 +388,7 @@ countFactures(){
                     this.getFactures();}
                 else {
                      // console.log('test1');
-                axios.get('/searchDevis/'+this.search+'?page='+this.factures.current_page+'')
+                axios.get('/searchFactures/'+this.search+'?page='+this.factures.current_page+'',{params: { type_operation_f: 'vente' } })
                 .then((response) => {
                   console.log('serchhhh ')
                   console.log(response.data.factures)

@@ -70,7 +70,7 @@
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
                 <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" >
-                    <option selected disabled>Choisir Client</option>
+                    <option selected disabled>Choisir Fournisseur</option>
                     <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
                 </select>                    
                 </div>
@@ -288,7 +288,7 @@ import  Pagination from '../../Pagination.vue';
             this.countBonLivraisons()
             console.log(this.currentDate);
             console.log('test date ')
-            this.getClients();
+            this.getFournisseur();
           if( this.$route.params.success == "addsuccess"){
              
                         this.Testopen.testnotifAdd = true;
@@ -350,8 +350,8 @@ import  Pagination from '../../Pagination.vue';
                   window.open('/pdfBL/'+reference_bl,'_blank');
           },
 
-         getClients(){
-                axios.get('/getClients')
+         getFournisseur(){
+                axios.get('/getFournisseur')
                 .then((response) => {
                     this.comptes = response.data.comptes;
                     console.log(response.data.comptes);
@@ -364,12 +364,12 @@ import  Pagination from '../../Pagination.vue';
 
            countBonLivraisons(){
 
-                axios.get('/countBonLivraisons')
+                axios.get('/countBonLivraisons',{params: { type_operation_bl: 'achat' } })
                 .then((response) => {
                      var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
-                    this.reference_bl='BL-'+year+'-'+response.data.count;
+                    this.reference_bl='BLA-'+year+'-'+response.data.count;
 
                     
                     /*this.commande.fk_document='D'+response.data.count;
@@ -393,11 +393,11 @@ import  Pagination from '../../Pagination.vue';
                     this.getBonLivraisons();}
                 else {
                      // console.log('test1');
-                axios.get('/searchBonLivraison/'+this.search+'?page='+this.bonLivraisons.current_page+'')
+                axios.get('/searchBonLivraison/'+this.search+'?page='+this.bonLivraisons.current_page+'',{params: { type_operation_bl: 'achat' } })
                 .then((response) => {
-                  console.log('serchhhh ')
-                  console.log(response.data.boncommandes)
-                    this.bonLivraisons = response.data.boncommandes;
+                 // console.log('serchhhh ')
+                 // console.log(response.data.boncommandes)
+                    this.bonLivraisons = response.data.bonlivraisons;
                   
                 })
                 .catch(() => {
@@ -415,7 +415,7 @@ import  Pagination from '../../Pagination.vue';
 
     },
           getBonLivraisons(){
-               axios.get('/getBonLivraisons?page='+this.bonLivraisons.current_page+'')
+               axios.get('/getBonLivraisons?page='+this.bonLivraisons.current_page+'',{params: { type_operation_bl: 'achat' } })
                 .then((response) => {
                   this.loading = false;
                     this.bonLivraisons = response.data.bonLivraisons;

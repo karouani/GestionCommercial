@@ -13,11 +13,31 @@ use Auth;
 use PDF;
 use Illuminate\Http\Request;
 
+use App\Notifications\RepliedToThread;
 
 
 class DevisController extends Controller
+
 {     
-    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    public function gettNotification(){
+        $reference_d = "D-2018-1";
+        $reference_d =$reference_d." va";
+       $notifss = Auth::user()->notifications()->where('data','like', '%' .$reference_d.'%')->get();
+        return Response()->json(['notifss' => $notifss ]);
+        
+    }
+
+    public function deleteNotification($reference_d){
+
+        $reference_t =$reference_d." va";
+        Auth::user()->notifications()->where('data','like', '%' .$reference_t.'%')->delete();
+   
+    }
+
     // partis pour afficher les devis d un compte exacte
           public function getDevisCompte($idCompte){
      
@@ -103,14 +123,18 @@ class DevisController extends Controller
 
         $devi->save();
         $reference_d = $devi->reference_d;
+
+        $this->deleteNotification($request->devis['reference_d']);
         $this->updateCommandes($request,$reference_d);
         $this->updateModePaiement($request,$reference_d);
 
         return Response()->json(['etat' => true]);
      }
         //compter le numero de reference devis
-    public function countDevis(){
-        $count = Devi::withTrashed()->count();
+    public function countDevis(Request $request){
+        $count = Devi::withTrashed()
+        ->where('type_operation','=',$request->type_operation)
+        ->count();
         $count ++;
         return Response()->json(['count' => $count]);
     }
@@ -148,9 +172,10 @@ class DevisController extends Controller
     public function updateCommandes(Request $request , $reference_d){
 
         for($i=0;$i<count($request->suppCommandes);$i++){
+            if (isset($request->suppCommandes[$i]['id_cmd'])) {
          $commande = Commande::find($request->suppCommandes[$i]['id_cmd']);
          $commande->delete();
- 
+            }
          }
          for($i=0;$i<count($request->commandes);$i++){
              if (!isset($request->commandes[$i]['id_cmd'])) {
@@ -187,7 +212,10 @@ class DevisController extends Controller
   
       }
 
-    
+    public function getAllDevis(){
+        $AllDevis = Devi::all();
+        return Response()->json(['AllDevis' => $AllDevis ]);
+    }
     public function getDevisD($id_devis){
      // $devi= Devi::find($id_devis);
       $devi= Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
@@ -199,11 +227,12 @@ class DevisController extends Controller
             ->where('id_devis', $id_devis)->get();
       return Response()->json(['devi' => $devi ]);
    }
-    public function getDevis(){
+    public function getDevis(Request $request){
      
 $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
 ->leftJoin('status', 'devis.fk_status_d', '=', 'status.id_status')
             ->select('devis.*', 'comptes.nom_compte','status.*')
+            ->where('type_operation','=',$request->type_operation)
             ->paginate(10);
            
          return Response()->json(['devis' => $devis ]);
@@ -263,10 +292,22 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
         return Response()->json(['commandes' => $commandes]);
 
      }
-     public function searchDevis($search_D){
-        $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')->where('reference_d','like', '%' .$search_D . '%')->orWhere('comptes.nom_compte','like', '%' .$search_D . '%')->paginate(10);
+     public function searchDevis($search_D,Request $request ){
+        $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
+        ->where('type_operation','=',$request->type_operation)
+        ->where(function($query)use ($search_D)
+        {
+            $query->where('reference_d','like', '%' .$search_D . '%')
+            ->orWhere('comptes.nom_compte','like', '%' .$search_D . '%');
+        })->paginate(10);
+
         return Response()->json(['devis' => $devis ]);
      }
+
+
+
+
+
      public function getPaiement($fk_document){
         $modePaiement= Mode_paiement::where('fk_document', $fk_document)->get();
         return Response()->json(['modePaiement' => $modePaiement ]);
