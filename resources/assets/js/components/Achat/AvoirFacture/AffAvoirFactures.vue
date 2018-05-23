@@ -47,7 +47,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" @keyup.enter="searchDevis"  class="form-control" v-model="search" placeholder="recherche par Compte ou Reference  " aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="text" @keyup.enter="searchAvoirFactures"  class="form-control" v-model="search" placeholder="recherche par Compte ou Reference  " aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div> 
          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -133,8 +133,8 @@
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-3 col-form-label">compte: </label>
                     <div class="col-sm-9">
-                <select class="form-control custom-select " id="fk_compte" v-model="avoirFacture.fk_compte_af" v-on:change="getClients" >
-                    <option selected disabled>Choisir Client</option>
+                <select class="form-control custom-select " id="fk_compte" v-model="avoirFacture.fk_compte_af" v-on:change="getFournisseur" >
+                    <option selected disabled>Choisir Fournisseur</option>
 <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">
           {{compte.nom_compte}}
         </option>       
@@ -264,7 +264,7 @@ import  Pagination from '../../Pagination.vue';
                         console.log(this.currentDate); 
 
         this.getAvoirFactures();
-        this.getClients();
+        this.getFournisseur();
           this.countAvoirFactures();
           
            if(this.$route.params.success == "add"){
@@ -336,20 +336,20 @@ import  Pagination from '../../Pagination.vue';
     },
 countAvoirFactures(){
 
-                axios.get('/countAvoirFactures')
+                axios.get('/countAvoirFactures',{params: { type_operation_bl: 'achat' } })
                 .then((response) => {
 
                    var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
-                    this.avoirFacture.reference_af='AF-'+year+'-'+response.data.count;
+                    this.avoirFacture.reference_af='AFA-'+year+'-'+response.data.count;
                 })
                 .catch(() => {
                     console.log('handle server error from here');
                 });
           },
           getAvoirFactures(){//type_status
-                axios.get('/getAvoirFactures?page='+this.avoirFactures.current_page+'')
+                axios.get('/getAvoirFactures?page='+this.avoirFactures.current_page+'',{params: { type_operation_af: 'achat' } })
                 .then((response) => {
                     this.loading = false;
                     this.avoirFactures = response.data.avoirFactures;
@@ -369,8 +369,8 @@ countAvoirFactures(){
                     console.log('handle server error from here');
                 });
           },
-          getClients(){
-                axios.get('/getClients')
+          getFournisseur(){
+                axios.get('/getFournisseur')
                 .then((response) => {
                     this.comptes = response.data.comptes;
                     //console.log(response.data.comptes);
@@ -380,7 +380,7 @@ countAvoirFactures(){
                     console.log('handle server error from here');
                 });
           },
-           searchDevis(event){
+           searchAvoirFactures(event){
              console.log(this.search);
              this.avoirFactures.current_page=1;
              if(this.search === ""){
@@ -388,7 +388,7 @@ countAvoirFactures(){
                     this.getAvoirFactures();}
                 else {
                      // console.log('test1');
-                axios.get('/searchDevis/'+this.search+'?page='+this.avoirFactures.current_page+'')
+                axios.get('/searchAvoirFactures/'+this.search+'?page='+this.avoirFactures.current_page+'',{params: { type_operation_af: 'achat' } })
                 .then((response) => {
                   console.log('serchhhh ')
                   console.log(response.data.avoirFactures)

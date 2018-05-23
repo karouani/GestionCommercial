@@ -6,9 +6,15 @@ use App\Macompagnie;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Contact;
+use Auth;
+
 
 class maCompagnieController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
            //ajouter compagnie
            public function store(Request $request){
             //dd($request);

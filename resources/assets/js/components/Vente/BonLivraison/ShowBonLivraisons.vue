@@ -364,7 +364,7 @@ import  Pagination from '../../Pagination.vue';
 
            countBonLivraisons(){
 
-                axios.get('/countBonLivraisons')
+                axios.get('/countBonLivraisons',{params: { type_operation_bl: 'vente' } })
                 .then((response) => {
                      var today = new Date();
                     var yyyy = today.getFullYear();             
@@ -393,11 +393,11 @@ import  Pagination from '../../Pagination.vue';
                     this.getBonLivraisons();}
                 else {
                      // console.log('test1');
-                axios.get('/searchBonLivraison/'+this.search+'?page='+this.bonLivraisons.current_page+'')
+                axios.get('/searchBonLivraison/'+this.search+'?page='+this.bonLivraisons.current_page+'',{params: { type_operation_bl: 'vente' } })
                 .then((response) => {
-                  console.log('serchhhh ')
-                  console.log(response.data.boncommandes)
-                    this.bonLivraisons = response.data.boncommandes;
+                 // console.log('serchhhh ')
+                 // console.log(response.data.boncommandes)
+                    this.bonLivraisons = response.data.bonlivraisons;
                   
                 })
                 .catch(() => {
@@ -415,7 +415,7 @@ import  Pagination from '../../Pagination.vue';
 
     },
           getBonLivraisons(){
-               axios.get('/getBonLivraisons?page='+this.bonLivraisons.current_page+'')
+               axios.get('/getBonLivraisons?page='+this.bonLivraisons.current_page+'',{params: { type_operation_bl: 'vente' } })
                 .then((response) => {
                   this.loading = false;
                     this.bonLivraisons = response.data.bonLivraisons;

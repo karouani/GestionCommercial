@@ -10,6 +10,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Storage;
+use Auth;
+use App\Notifications\RepliedToThread;
 class ArticleController extends Controller
 {
 
@@ -20,7 +22,11 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+ 
      public function getArticles(){
        // dd(Storage::disk('local')->delete('images/1521897359.png'));
      // dd( public_path('images/').'1521897359.png');
@@ -110,6 +116,9 @@ class ArticleController extends Controller
                 
                 $article->fk_tva_applicable = $request->fk_tva_applicable;
                 $article->fk_famille = $request->fk_famille;
+               
+                $user = Auth::user();
+                \Notification::send($user, new RepliedToThread($article));
                 $article->save();
    
                  return Response()->json(['etat' => true]);

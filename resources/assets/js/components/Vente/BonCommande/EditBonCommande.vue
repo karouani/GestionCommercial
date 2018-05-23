@@ -1,6 +1,9 @@
 
 <template>
 <div>
+            <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification error"/>
   <div class="loading" v-if="loading">
           <div class="lds-hourglass"></div>
 
@@ -34,7 +37,7 @@
             </div> 
 
             <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Devis</label>
+                <label for="inputPassword" class="col-sm-2 col-form-label">Bon Commande</label>
                 <div class="col-sm-10">
                 <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.reference_bc" disabled>
                 </div>
@@ -51,6 +54,17 @@
                 <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.objet_bc" >
                 </div>
             </div>
+           <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Contact: </label>
+                    <div class="col-sm-10">
+         <select class="form-control custom-select " id="fk_compte" v-model="bonCommande.fk_contact">
+                    <option selected disabled>Choisir un contact</option>
+                    <option v-for="contact of contacts" :key="contact.id_compte" :value="contact.id_contact"> {{contact.nom}}--{{contact.prenom}}</option>
+                </select>  
+
+                
+                </div>
+            </div> 
           
     </div>
     <div class="col-md-6 col-sm-12">
@@ -340,6 +354,7 @@
             accompte_bc: 0,
             montant_reste_bc: 0,
             adresse_facture_bc:"",
+            fk_contact:0,
               },
                 echeance:0,
                compte: { 
@@ -370,6 +385,7 @@
                     fk_compte : 0,
 
               },
+              contact:{},
               contacts : [],
            
               // objet test sur affichage , ajout , recherche
@@ -469,7 +485,24 @@
       
 
 methods: { 
-
+                getContacts:function(id_compte){
+                  axios.get('/getContacts/'+id_compte).then(
+                  response => {
+                       
+                    this.contacts= response.data.contacts;
+                    this.loading = false;
+             
+                  });   },
+                  getContact:function(id_contact){
+                  axios.get('/getContact/'+id_contact).then(
+                  response => {
+                       console.log('contactt--====')
+                       console.log(response.data.contact)
+                    this.contact.id_contact= response.data.contact.id_contact;
+                    
+                    this.loading = false;
+             
+                  });   },
  changeTVA(tvaa,commande){
         console.log(tvaa);
  
@@ -486,12 +519,16 @@ methods: {
  fetchData () {
       //this.error = this.post = null
       this.loading = true
+      console.log('refff-====')
+            console.log(this.$route.params.reference_bc)
+
             this.getTvas();
             this.getClients();
             this.getCompte(this.$route.params.fk_compte_bc);
             this.showBonCommande(this.$route.params.reference_bc);
             this.getCommandes(this.$route.params.reference_bc);
             this.getStatus();
+            this.getContacts(this.$route.params.id_compte);
            
             this.getarticles();
              
@@ -527,9 +564,10 @@ methods: {
                                 .then((response) => {
                                   
                                   this.echeance = 'choix';
-                                   console.log('------- date limit ------------')
-                                     console.log(this.bonCommande);
+                                 
                                     this.bonCommande = response.data.bonCommande[0];
+                                      console.log('------- date limit ------------')
+                                     console.log(response.data.bonCommande[0]);
                                     this.compte.id_compte = this.bonCommande.id_compte;
                                     this.compte.nom_compte = this.bonCommande.nom_compte;
                                    // this.compte.adresse_compte = this.bonCommande.adresse_bc;
@@ -547,6 +585,7 @@ methods: {
                                      this.modePaiement.date_paiement   =this.bonCommande.date_paiement
                                      this.modePaiement.fk_document =this.bonCommande.fk_document
                                      this.bonCommande.date_l=response.data.bonCommande[0].date_limit_bc;
+                                     this.getContact(this.bonCommande.fk_contact)
                                     
                                 })
                                 .catch(() => {
@@ -583,7 +622,7 @@ methods: {
             //this.bonCommande.adresse_bc=  this.compte.adresse_compte
             this.bonCommande.fk_compte_bc = this.compte.id_compte;
             console.log('verifie fk_document  : ')
-            console.log(this.commandes)
+            console.log(this.suppBonCommandes)
             console.log(this.modePaiement)
                   axios.post('/UpdateBonCommande',{commandes:this.commandes,bonCommande:this.bonCommande,modePaiements:this.modePaiement,suppBonCommandes: this.suppBonCommandes})
         .then(response => {         
@@ -687,7 +726,7 @@ methods: {
     },
         
         //Reference de devis
-    countDevis(){
+   /* countDevis(){
 
         axios.get('/countDevis')
             .then((response) => {
@@ -701,7 +740,7 @@ methods: {
             .catch(() => {
                     console.log('handle server error from here');
             });
-    },
+    },*/
         // recuperer tvas
     getTvas(){
                 
@@ -782,18 +821,13 @@ getarticles(){
                     this.compte= response.data.compte;
                     this.bonCommande.adresse_bc = this.compte.adresse_compte;
                     this.bonCommande.adresse_facture_bc = this.compte.adresse_compte;
+                     this.getContacts(this.compte.id_compte);
+
 
                   });
                   this.getRemise(id_compte);     
         },
-        getContacts:function(id_compte){
-                  axios.get('/getContacts/'+id_compte).then(
-                  response => {
-                       
-                    this.contacts= response.data.contacts;
-                     
-                  });     
-        },
+
         getCondtionFacture:function(id_compte){
                   axios.get('/getCFacture/'+id_compte).then(
                   response => {
@@ -890,7 +924,28 @@ computed:{
     TotalBonCommande(){
              let sum=0;
             let sum_tva=0;
+            let this1=this;
         for (let index = 0; index < this.commandes.length; index++) {
+
+         this.articles.forEach(function(article) {
+
+               console.log(article.quantite+" / "+this1.commandes[index].quantite_cmd)
+               if(article.id_article == this1.commandes[index].fk_article){
+                   if(article.quantite < this1.commandes[index].quantite_cmd){
+                     console.log('**** stock insuffisant  ***')
+                     this1.commandes[index].quantite_cmd = 0;
+                        this1.$notify({
+                                      group: 'foo',
+                                      title: 'error',
+                                      text: 'stock insuffisant!',
+                                      duration: 2000,
+                                    });
+                      }
+                     return 
+               }
+});
+
+
                 //total de prix de tt commandes
                                 this.commandes[index].totalHT  = this.precisionRound( (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd,2);
 

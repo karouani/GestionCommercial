@@ -55,7 +55,7 @@
             <label for="">{{compte.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="avoirFacture.adresse_af"></textarea>
+            <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="avoirFacture.adresse_af"></textarea>
             </div>
          </div>
         </div>
@@ -477,7 +477,7 @@ this.commande = {
                         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
 console.log(this.avoirFacture.total_lettre_af)    
-        this.avoirFacture.type_operation_af="vente";
+        this.avoirFacture.type_operation_af="achat";
         this.avoirFacture.fk_status_af="Brouillon"; 
 
         axios.post('/addAvoirFacture',{commandes:this.commandes,avoirFactures:this.avoirFacture,modePaiements:this.modePaiement})
@@ -579,10 +579,10 @@ console.log(this.avoirFacture.total_lettre_af)
                     console.log('handle server error from here');
             });
     },
-        // recuperer liste des clients
-    getClients(){
+        // recuperer liste des fournisseurs
+    getFournisseur(){
                 
-        axios.get('/getClients')
+        axios.get('/getFournisseur')
             .then((response) => {
                     this.comptes = response.data.comptes;
                   
@@ -732,7 +732,7 @@ diffDate() {
         
         this.echeance = 'choix';
         this.getarticles();
-        this.getClients();
+        this.getFournisseur();
         this.getTvas();
         this.getTypePaiement();
         this.getCommandes(this.$route.params.facture.reference_f);
@@ -750,7 +750,7 @@ diffDate() {
            
             this.getTvas();
             this.getarticles();
-            this.getClients();
+            this.getFournisseur();
             this.getClient(this.$route.params.id_compte);
             this.getRemise(this.$route.params.id_compte);
             this.getStatus();

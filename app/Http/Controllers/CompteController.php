@@ -211,6 +211,12 @@ class CompteController extends Controller
         return Response()->json(['contacts' => $contacts ]);
 
      }
+     public function getContact($id_contact){
+        $contact= Contact::where('id_contact', $id_contact)->get();
+       // $libelle_famille = DB::table('maCompagnies')->select('libelle_famille')->where('id_famille','=',$article->fk_famille)->get();      
+        return Response()->json(['contact' => $contact ]);
+
+     }
 
 
      public function getContactPaginate($fk_compte){
@@ -253,6 +259,15 @@ class CompteController extends Controller
         $listeClients = Compte::where('type_compte','=','Client')->get();
         return Response()->json(['comptes' => $listeClients ]);
      }
+     public function getFournisseur(){
+
+        $listeFournisseur = Compte::where('type_compte','=','Fournisseur')->get();
+        return Response()->json(['comptes' => $listeFournisseur ]);
+     }
+
+
+
+
      public function getClient($id_compte){
 
         $compte = Compte::find($id_compte);

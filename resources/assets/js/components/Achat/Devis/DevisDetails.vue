@@ -61,7 +61,7 @@
 
 
     
-        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getDevis'">
+        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getDevisA'">
         <i class="fas fa-long-arrow-alt-left fontsize"></i>
         </router-link>
         </div>

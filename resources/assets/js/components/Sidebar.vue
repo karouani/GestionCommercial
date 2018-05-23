@@ -9,7 +9,11 @@
                             <i class="fas fa-chart-line"></i> Dashboard
                         </router-link>
                     </li>            
-            
+                    <li class="nav-item">
+                      <router-link :to="'/getCompagnies'" class="nav-link active">
+                            <i class="fas fa-address-book"></i>Compagnie
+                        </router-link>
+                    </li>
                      
                    <li class="nav-item">
                       <router-link :to="'/ShowComptes'" class="nav-link active">

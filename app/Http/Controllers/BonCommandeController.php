@@ -12,11 +12,29 @@ use App\Compte;
 use App\Tva;
 use Auth;
 use PDF;
-
+use App\Notifications\RepliedToThread;
 class BonCommandeController extends Controller
 {
 
     public $template;
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+  
+    public function deleteNotification($reference_bc){
+        $reference_t =$reference_bc." va";
+        Auth::user()->notifications()->where('data','like', '%' .$reference_t . '%')->delete();
+   
+    }
+
+
+
+    public function getAllBoncommandes(){
+        $AllBoncommandes = Boncommande::all();
+        return Response()->json(['AllBoncommandes' => $AllBoncommandes ]);
+    }
+
 
     public function updateStatusBC(Request $request){
         //dd($request->id_devis);
@@ -49,7 +67,8 @@ class BonCommandeController extends Controller
                 $bonCommande->fk_status_bc = $request->bonCommande['fk_status_bc'];
                 $bonCommande->fk_compte_bc = $request->bonCommande['fk_compte_bc'];
                 $bonCommande->adresse_bc = $request->bonCommande['adresse_bc'];
-                
+                $bonCommande->fk_contact = $request->bonCommande['fk_contact'];
+
 
                 $bonCommande->total_ht_bc = $request->bonCommande['total_ht_bc'];
                 $bonCommande->remise_ht_bc = $request->bonCommande['remise_ht_bc'];
@@ -65,14 +84,15 @@ class BonCommandeController extends Controller
                 
                 $bonCommande->fk_user_bc = Auth::user()->id;
                 $bonCommande->save();
-
+            
                 $this->addCommandes_bc($request);
                 $this->addModePaiement_bc($request);
                  return Response()->json(['etat' => true]);
             
     }
     public function UpdateBonCommande(Request $request)
-    { 
+    {               
+
         $bonCommande = BonCommande::where('reference_bc',$request->bonCommande['reference_bc'])->update([
         'date_bc' => $request->bonCommande['date_bc'],
         'objet_bc' => $request->bonCommande['objet_bc'],
@@ -95,10 +115,12 @@ class BonCommandeController extends Controller
         'total_lettre' => $request->bonCommande['total_lettre'],
         'montant_reste_bc' => $request->bonCommande['montant_reste_bc'],
         'adresse_facture_bc' => $request->bonCommande['adresse_facture_bc'],
+        'fk_contact' => $request->bonCommande['fk_contact'],
+
         'fk_user_bc' => Auth::user()->id
         ]);
         
-
+                $this->deleteNotification($request->bonCommande['reference_bc']);
                 $this->updateCommandes_bc($request);
                 $this->updateModePaiement_bc($request);
                 return Response()->json(['etat' => true]);
@@ -108,9 +130,10 @@ class BonCommandeController extends Controller
     function updateCommandes_bc($request){
 
         for($i=0;$i<count($request->suppBonCommandes);$i++){
+            if (isset($request->suppBonCommandes[$i]['id_cmd'])) {
             $commande = Commande::find($request->suppBonCommandes[$i]['id_cmd']);
             $commande->delete();
-    
+             }
             }
 
             for($i=0;$i<count($request->commandes);$i++){
@@ -161,8 +184,10 @@ class BonCommandeController extends Controller
 
 
 
-    public function countBonCommandes(){
-        $count = Boncommande::withTrashed()->where('type_operation_bc','=','vente')->count();
+    public function countBonCommandes(Request $request){
+        $count = Boncommande::withTrashed()
+        ->where('type_operation_bc','=',$request->type_operation_bc)
+        ->count();
        
         $count ++;
         return Response()->json(['count' => $count]);
@@ -189,6 +214,14 @@ class BonCommandeController extends Controller
         
                 $commande->save();
            }
+           if($request->bonCommande['type_operation_bc'] === "vente"){
+            for($i=0;$i<count($request->commandes);$i++) {    
+          $article = Article::find($request->commandes[$i]['fk_article']);
+          $article->quantite -= $request->commandes[$i]['quantite_cmd'];
+          $article->save();
+      
+  }
+}
                 // return Response()->json(['etat' => true]);
             
     }
@@ -246,11 +279,12 @@ class BonCommandeController extends Controller
         return Response()->json(['bonCommande' => $boncommande]);
      }
 
-         public function getBonCommandes(){
-           
+         public function getBonCommandes(Request $request){
+            
         $boncommandes = Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
             ->leftJoin('status', 'bonCommandes.fk_status_bc', '=', 'status.id_status')
             ->select('bonCommandes.*', 'comptes.nom_compte','status.*')
+            ->where('type_operation_bc','=',$request->type_operation_bc)
             ->paginate(10);
            
          return Response()->json(['bonCommandes' => $boncommandes ]);
@@ -267,15 +301,26 @@ class BonCommandeController extends Controller
      
 
 
-      public function searchBonCommande($search_BC){
+      public function searchBonCommande(Request $request,$search_BC){
         $boncommandes = Boncommande::leftJoin('comptes', 'bonCommandes.fk_compte_bc', '=', 'comptes.id_compte')
         ->leftJoin('status', 'bonCommandes.fk_status_bc', '=', 'status.id_status')
         ->select('bonCommandes.*', 'comptes.nom_compte','status.*')
-        ->where('reference_bc','like', '%' .$search_BC . '%')
-        ->orWhere('comptes.nom_compte','like', '%' .$search_BC . '%')
-        ->paginate(10);
-        return Response()->json(['boncommandes' => $boncommandes ]);
+        ->where('type_operation_bc','=',$request->type_operation_bc)
+        ->where(function($query)use ($search_BC)
+        {
+            $query->where('reference_bc','like', '%' .$search_BC . '%')
+            ->orWhere('comptes.nom_compte','like', '%' .$search_BC . '%');
+        })->paginate(10);
+      
+        return Response()->json(['boncommandes' => $boncommandes,'search_BC' => $search_BC ]);
      }
+
+  
+
+
+
+
+
 
     
      public function deleteBonCommande($id_bc){
@@ -295,8 +340,17 @@ class BonCommandeController extends Controller
         ->leftJoin('mode_paiements', 'bonCommandes.reference_bc', '=', 'mode_paiements.fk_document')
         ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
         ->select('bonCommandes.*', 'comptes.*','macompagnies.*','mode_paiements.*','type_paiements.*','contacts.*')
-        ->where('reference_bc', $reference_bc)->where('contacts.type_contact','=','compte')->get();
+        ->where('reference_bc', $reference_bc)
+        ->where(function($query)
+        {
+            $query->where('contacts.type_contact','=','compte')
+            ->orwhere('contacts.type_contact','=','null');
+        })->get();
+        
          return Response()->json(['bonCommande' => $bonCommande ]);
+
+
+
       }
 
 

@@ -8,7 +8,7 @@
     <div v-if="!loading" >
     <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandesA'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div>    
 
@@ -51,6 +51,17 @@
                 <input type="text" class="form-control" id="inputPassword" placeholder="" v-model="bonCommande.objet_bc" >
                 </div>
             </div>
+         <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Contact: </label>
+                    <div class="col-sm-10">
+         <select class="form-control custom-select " id="fk_compte" v-model="bonCommande.fk_contact">
+                    <option selected disabled>Choisir un contact</option>
+                    <option v-for="contact of contacts" :key="contact.id_compte" :value="contact.id_contact"> {{contact.nom}}--{{contact.prenom}}</option>
+                </select>  
+
+                
+                </div>
+            </div> 
           
     </div>
     <div class="col-md-6 col-sm-12">
@@ -59,7 +70,7 @@
             <label for="">{{compte.nom_compte}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
-            <textarea placeholder="address client" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_bc"></textarea>
+            <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_bc"></textarea>
             </div>
          </div>
         </div>
@@ -318,7 +329,7 @@
             type_operation_bc:"",
             objet_bc:"",
             date_emission_bc:"",
-            remise_total_bc:"",
+            remise_total_bc:0,
             majoration_bc:"",
             date_limit_bc:"",
             introduction_bc:"",  
@@ -469,6 +480,17 @@
       
 
 methods: { 
+         getContact:function(id_contact){
+                  axios.get('/getContact/'+id_contact).then(
+                  response => {
+                       console.log('contactt--====')
+                       console.log(response.data.contact)
+                    this.contact.id_contact= response.data.contact.id_contact;
+                    
+                    this.loading = false;
+             
+                  });   },
+      
 
  changeTVA(tvaa,commande){
         console.log(tvaa);
@@ -486,10 +508,11 @@ methods: {
  fetchData () {
       //this.error = this.post = null
       this.loading = true
+      this.showBonCommande(this.$route.params.reference_bc);
             this.getTvas();
-            this.getClients();
+            this.getFournisseur();
             this.getCompte(this.$route.params.fk_compte_bc);
-            this.showBonCommande(this.$route.params.reference_bc);
+            
             this.getCommandes(this.$route.params.reference_bc);
             this.getStatus();
            
@@ -501,6 +524,7 @@ methods: {
            
             this.getRemise(this.$route.params.id_compte)
             this.getTypePaiement();
+             this.getContacts(this.$route.params.id_compte);
 
     },
 
@@ -527,9 +551,10 @@ methods: {
                                 .then((response) => {
                                   
                                   this.echeance = 'choix';
-                                   console.log('------- date limit ------------')
-                                     console.log(this.bonCommande);
+
                                     this.bonCommande = response.data.bonCommande[0];
+                                  console.log('------- date limit ------------')
+                                     console.log(reference_bc);
                                     this.compte.id_compte = this.bonCommande.id_compte;
                                     this.compte.nom_compte = this.bonCommande.nom_compte;
                                    // this.compte.adresse_compte = this.bonCommande.adresse_bc;
@@ -547,6 +572,7 @@ methods: {
                                      this.modePaiement.date_paiement   =this.bonCommande.date_paiement
                                      this.modePaiement.fk_document =this.bonCommande.fk_document
                                      this.bonCommande.date_l=response.data.bonCommande[0].date_limit_bc;
+                                     this.getContact(this.bonCommande.fk_contact)
                                     
                                 })
                                 .catch(() => {
@@ -751,22 +777,27 @@ getarticles(){
                         
         axios.get('/getRemise/'+id_compte)
             .then((response) => {
+
                 if(response.data.conditions_remise[0].remise==null){
                     this.bonCommande.remise_total_bc=0;
                 }
                 else
                     this.bonCommande.remise_total_bc=response.data.conditions_remise[0].remise;
-                  
-             
-            })
+                console.log('------ resmise -------')
+                console.log(this.bonCommande.remise_total_bc)
+                
+                 }
+
+            
+            )
             .catch(() => {
                     console.log('handle server error from here');
             });
     },
-        // recuperer liste des clients
-    getClients(){
+        // recuperer liste des fournisseurs
+    getFournisseur(){
                 
-        axios.get('/getClients')
+        axios.get('/getFournisseur')
             .then((response) => {
                     this.comptes = response.data.comptes;
                   
@@ -782,6 +813,7 @@ getarticles(){
                     this.compte= response.data.compte;
                     this.bonCommande.adresse_bc = this.compte.adresse_compte;
                     this.bonCommande.adresse_facture_bc = this.compte.adresse_compte;
+                    this.getContacts(this.compte.id_compte);
 
                   });
                   this.getRemise(id_compte);     
@@ -888,6 +920,7 @@ computed:{
     },
             
     TotalBonCommande(){
+        console.log('dkhel totaleee --========')
              let sum=0;
             let sum_tva=0;
         for (let index = 0; index < this.commandes.length; index++) {
@@ -947,7 +980,7 @@ computed:{
 watch:{
        'bonCommande.remise_total_bc':{
             handler: function(){
-                  
+                    console.log('watch =====================')
                     this.TotalBonCommande;
 
             },

@@ -1,6 +1,10 @@
 
 <template>
 <div>
+        <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification error"/>
+
 
     <div class="loading" v-if="loading">
           <div class="lds-hourglass"></div>
@@ -601,12 +605,11 @@ methods: {
 
 
     async addRow (commande) {
-        console.log("addrowwwwww")
-        console.log(this.fk_document_cmd)
-        console.log('--------')
+        console.log('=====commande ============')
+        console.log(commande)
+     
        var result = await this.getPrixArticle();
-       console.log('-----testtt commande ')
-       console.log(commande)
+
        var result2 = await this.commandes.push( {
              
                quantite_cmd:commande.quantite_cmd,
@@ -922,12 +925,32 @@ methods: {
     
 computed:{
     TotalBonCommande(){
+                 
         console.log('dacccccccccc')
             let sum=0;
             let sum_tva=0;
            
         for (let index = 0; index < this.commandes.length; index++) {
-       
+                   let this1=this;
+           this.articles.forEach(function(article) {
+               console.log(article.quantite+" / "+this1.commandes[index].quantite_cmd)
+               if(article.id_article == this1.commandes[index].fk_article){
+                   if(article.quantite < this1.commandes[index].quantite_cmd){
+                     console.log('**** stock insuffisant  ***')
+                     setTimeout(function(){ this1.commandes[index].quantite_cmd = 0; }, 1000);
+                     
+                        this1.$notify({
+                                      group: 'foo',
+                                      title: 'error',
+                                      text: 'stock insuffisant!',
+                                      duration: 2000,
+                                    });
+                      }
+                     return 
+               }
+});
+            console.log("quantité pour charque article")
+            console.log(this.commandes[index].quantite_cmd)
             this.commandes[index].totalHT  = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;
 
                 //total de prix de tt commandes
@@ -1003,7 +1026,7 @@ watch:{
     },
 commandes: {
             handler: function(){
-                     
+                     console.log('---=== watch commandes ======------')
                     this.TotalBonCommande;
             },
             deep : true

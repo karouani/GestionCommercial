@@ -40,6 +40,7 @@ Route::get('/getAllArticles','ArticleController@getAllArticles');
 
 
 
+
         //user
 //user 
 Route::post('/addUsers','Auth\RegisterController@store')->name('addUsers');
@@ -86,6 +87,8 @@ Route::post('/addDevis','DevisController@addDevis')->name('addDevis');
 Route::get('/countDevis','DevisController@countDevis');
 Route::get('/getPrixArticle/{fk_article}','DevisController@getPrixArticle');
 Route::get('/getDevis','DevisController@getDevis');
+Route::get('/getAllDevis','DevisController@getAllDevis');
+
 Route::get('/getDevisD/{id_devis}','DevisController@getDevisD');
 Route::get('/getCommandes/{fk_document}','DevisController@getCommandes');
 Route::get('/getPaiement/{fk_document}','DevisController@getPaiement');
@@ -97,6 +100,10 @@ Route::post('/updateStatusDevis','DevisController@updateStatusDevis');
 
 Route::get('/pdf_d/{reference_d}','DevisController@pdf_d');
 Route::get('/getDevisCompte/{idCompte}','DevisController@getDevisCompte');
+Route::get('/gettNotification','DevisController@gettNotification');
+
+
+
 
 
 //----------------------------------------------------------------------
@@ -111,17 +118,22 @@ Route::get('/countCompte','CompteController@countCompte');
      
     // compte: client recupere pour les commandes
 Route::get('/getClients','CompteController@getClients');
+Route::get('/getFournisseur','CompteController@getFournisseur');
 Route::get('/getClient/{id_compte}','CompteController@getClient');
+
 
 //contact 
 Route::post('/addContact','CompteController@addContact');
 Route::get('/updateContact','CompteController@updateContact');
 Route::get('/getContacts/{fk_compte}','CompteController@getContacts');
 Route::get('/getContactPaginate/{fk_compte}','CompteController@getContactPaginate');
+Route::get('/getContact/{id_contact}','CompteController@getContact');
+
 // condition facture
 Route::post('/addCFacture','CompteController@addCondtionFacture');
 Route::post('/updateCFacture','CompteController@updateCondtionFacture');
 Route::get('/getCFacture/{fk_compte}','CompteController@getCondtionFacture');
+
 
       // compte: remise recupere pour devis
 Route::get('/getRemise/{fk_compte}','CompteController@getRemise');
@@ -150,6 +162,10 @@ Route::post('/UpdateBonCommande','BonCommandeController@UpdateBonCommande');
 Route::get('/pdf/{reference_bc}','BonCommandeController@pdf');
 
 Route::post('/updateStatusBC','BonCommandeController@updateStatusBC');
+
+Route::get('/getAllBoncommandes','BonCommandeController@getAllBoncommandes');
+
+
  //---------------------------------------------------------------------       
 
                 //Factures
@@ -167,6 +183,13 @@ Route::post('/updateStatusBC','BonCommandeController@updateStatusBC');
 
       
         Route::get('/getsum/{fk_article}','FactureController@getsum');
+
+        Route::get('/searchFactures/{search_f}','FactureController@searchFactures');
+
+
+
+        Route::get('/getAllFactures','FactureController@getAllFactures');
+
  //---------------------------------------------------------------------       
 
                 //AvoirFactures
@@ -181,6 +204,9 @@ Route::post('/updateStatusBC','BonCommandeController@updateStatusBC');
         Route::post('/updateStatusAvoirFacture','AvoirFactureController@updateStatusAvoirFacture');
         Route::get('/pdf_af/{reference_af}','AvoirFactureController@pdf_af');
         Route::get('/getAvoirFacturesCompte/{idCompte}','AvoirFactureController@getAvoirFacturesCompte');
+        Route::get('/searchAvoirFactures/{search_AF}','AvoirFactureController@searchAvoirFactures');
+        Route::get('/getAllAvoirFactures','AvoirFactureController@getAllAvoirFactures');
+
 //----------------------------------------------------------------------
 
 // bon livraison 
@@ -206,6 +232,8 @@ Route::post('/UpdateBonLivraison','BonLivraisonController@UpdateBonLivraison');
 Route::get('/pdfBL/{reference_bl}','BonLivraisonController@pdf');
 
 Route::post('/updateStatusBL','BonLivraisonController@updateStatusBL');
+Route::get('/getAllBonLivraisons','BonLivraisonController@getAllBonLivraisons');
+
 
    
 //pour facture
@@ -216,6 +244,12 @@ Route::get('/getBonLivraisonBL/{id_bl}','FactureController@getBonLivraisonBL');
 //Dashboard 
 Route::get('/getArticlePlusVente','DashboardController@getArticlePlusVente');
 
+
+// notification 
+
+Route::get('/MarkNotifRead','NotificationController@MarkNotifRead');
+Route::get('/addNotification','NotificationController@addNotification');
+Route::get('/getNotifications','NotificationController@getNotifications');
 
 Auth::routes();
 

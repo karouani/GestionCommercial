@@ -12,7 +12,7 @@
             <a href="#"    @click="redirect_To_AddFacture(bonLivraison)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
            <a href="#"    @click="PdfBonLivraison(bonLivraison.reference_bl)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
 
-     <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonLivraisons'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+     <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonLivraisonsA'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
       
 
     </div>
