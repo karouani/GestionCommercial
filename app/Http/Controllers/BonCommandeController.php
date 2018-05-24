@@ -192,6 +192,11 @@ class BonCommandeController extends Controller
         $count ++;
         return Response()->json(['count' => $count]);
     }
+    public function countAllCommandes(Request $request){
+        $count = Boncommande::All()
+        ->count();
+        return Response()->json(['count' => $count]);
+    }
 
 
 

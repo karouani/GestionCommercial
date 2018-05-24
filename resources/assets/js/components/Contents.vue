@@ -7,60 +7,60 @@
      <div v-show="!loading" >
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
+                        <div class="card p-2">
+                            <div class=" card-body d-flex justify-content-between align-items-center">
                                 <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">54</span>
-                                    <span class="font-weight-light">Total Users</span>
+                                    <span class="h4 d-block font-weight-normal mb-2">{{nbrFactures}}</span>
+                                    <span class="font-weight-light">Factures</span>
                                 </div>
 
                                 <div class="h2 text-muted">
-                                    <i class="icon icon-people"></i>
+                                    <i class="far fa-file"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card p-4">
+                        <div class="card p-2">
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">$32,400</span>
-                                    <span class="font-weight-light">Income</span>
+                                    <span class="h4 d-block font-weight-normal mb-2">{{nbrBonCommande}}</span>
+                                    <span class="font-weight-light">Bon de Commandes</span>
                                 </div>
 
                                 <div class="h2 text-muted">
-                                    <i class="icon icon-wallet"></i>
+                                    <i class="far fa-file"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
+                        <div class="card p-2">
+                            <div class=" card-body d-flex justify-content-between align-items-center">
                                 <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">900</span>
-                                    <span class="font-weight-light">Downloads</span>
+                                    <span class="h4 d-block font-weight-normal mb-2">{{nbrBonlivraisons}}</span>
+                                    <span class="font-weight-light">Bon de livraison</span>
                                 </div>
 
                                 <div class="h2 text-muted">
-                                    <i class="icon icon-cloud-download"></i>
+                                    <i class="far fa-file"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card p-4">
+                        <div class="card p-2">
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">32s</span>
-                                    <span class="font-weight-light">Time</span>
+                                    <span class="h4 d-block font-weight-normal mb-2">{{nbrDevis}}</span>
+                                    <span class="font-weight-light">Devis</span>
                                 </div>
 
                                 <div class="h2 text-muted">
-                                    <i class="icon icon-clock"></i>
+                                   <i class="far fa-file"></i>
                                 </div>
                             </div>
                         </div>
@@ -107,6 +107,10 @@ import Chart from 'chart.js';
 
 export default {
 data: () => ({
+    nbrDevis: 0,
+    nbrBonCommande:0,
+    nbrBonlivraisons:0,
+    nbrFactures:0,
      loading: false,
     articles: [],
         labels2 :[],
@@ -121,6 +125,10 @@ data: () => ({
 
   },
    mounted () {
+       this.countAllDevis();
+       this.countAllBonCommandes();
+       this.countAllFactures();
+       this.countAllBonLivraisons();
      
     var ctx =    document.getElementById("myChart");
     var ctxL =    document.getElementById("myLine");
@@ -208,6 +216,45 @@ var stackedLine = new Chart(ctxL, {
         
         },
          methods: {
+             
+             
+
+            countAllFactures(){
+                 
+                 axios.get('/countAllFactures')
+                .then((response) => { 
+                        console.log("nombre facture ========= ")
+                        console.log(response.data.count)
+                        this.nbrFactures = response.data.count;
+                 });
+             },
+             countAllBonLivraisons(){
+                 
+                 axios.get('/countAllBonLivraisons')
+                .then((response) => { 
+                        console.log("nombre BonCommande ========= ")
+                        console.log(response.data.count)
+                        this.nbrBonlivraisons = response.data.count;
+                 });
+             },
+             countAllBonCommandes(){
+                 
+                 axios.get('/countAllCommandes')
+                .then((response) => { 
+                        console.log("nombre BonCommande ========= ")
+                        console.log(response.data.count)
+                        this.nbrBonCommande = response.data.count;
+                 });
+             },
+             countAllDevis(){
+                 
+                 axios.get('/countAllDevis')
+                .then((response) => { 
+                        console.log("nombre devis ========= ")
+                        console.log(response.data.count)
+                        this.nbrDevis = response.data.count;
+                 });
+             },
 
                        async getArticlePlusVente(ctx){
                             this.loading= true;
@@ -281,5 +328,41 @@ var stackedLine = new Chart(ctxL, {
 }
 </script>
 <style scoped>
+.widthcards{
 
+    width: 192px;
+
+}
+
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
 </style>

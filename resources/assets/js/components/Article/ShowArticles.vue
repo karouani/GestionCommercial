@@ -1,7 +1,9 @@
 <template>
     <div class="post" >
       <!-- au cas ajout bien passé afficher ce message -->   
-            
+                    <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification error"/>
            
     <div class="loading" v-if="loading">
            <div class="lds-hourglass"></div>
@@ -12,6 +14,9 @@
 
 <div v-if="!loading">
         <div class="row">
+                    <div class="col">
+    <router-link class="float-left btn btn-secondary" :to="'/ShowMouvements'" ><i class="fas fa-exchange-alt"></i> Mouvements </router-link>
+    </div>
         <div class="col">
     <router-link class="float-right btn btn-secondary" :to="'/AddArticles'" ><i class="fas fa-plus-circle"/> Ajouter </router-link>
     </div>
@@ -80,13 +85,51 @@
                                         <td  class="optionsWidth"> 
                                             <a href="#"    @click="getArticle(article)"  class="btn btn-primary"  ><i class="fas fa-eye d-inline-block"></i></a>
                                          <router-link class="btn btn-success " :to="'/EditArticles/'+article.id_article "><i class="fas fa-edit d-inline-block"></i></router-link>
-                                             <a @click="deleteArticle(article)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
+                                             <a @click="deleteArticle(article)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a>
+                                             <a style="background-color: bisque;color:black;" @click="getArticleMouvement(article)" v-b-modal.modalPreventM class="btn" ><i class="fas fa-exchange-alt"></i></a></td>
+                                 
                                     </tr>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     </div>
                                     </tbody>
                                 </table>
+
                             </div>
+                               <b-modal id="modalPreventM"
+                                            ref="modal"
+                                            title="<=> Mouvement"
+                                            @ok="addMouvement"
+                                            ok-title="Valider" >
+                                    <form @submit.stop.prevent="handleSubmit">
+                                    <div class="form-group row">
+                                                <label for="reference" class="col-sm-3 col-form-label">Quantité: </label>
+                                                    <div class="col-sm-9">
+                                                 <select class="form-control custom-select " id="fk_compte" v-model="mouvement.type_mouvement">
+                                                <option selected disabled>Choisir Operation</option>
+                                                 <option  value="entre">Entrée</option>
+                                                 <option  value="sortie">Sortie</option>
+                                                </select>
+                                                </div>
+                                    </div> 
+                                    <div class="form-group row">
+                                                <label for="reference" class="col-sm-3 col-form-label">Date: </label>
+                                                    <div class="col-sm-9">
+                                                    <input  type="date" v-model="currentDate" class="form-control" id="date" />
+                                                    </div>
+                                    </div>
+                                    <div class="form-group row">
+                                                <label for="reference" class="col-sm-3 col-form-label">Quantité: </label>
+                                                    <div class="col-sm-9">
+                                                    <input  type="number" v-model="mouvement.quantite_mouvement" class="form-control" id="date" />
+                                                </div>
+                                    </div> 
+
+
+
+                  
+                                        </form>
+
+                                    </b-modal>
                         </div>
                     </div>
                     <div>
@@ -156,6 +199,14 @@ import  Pagination from '../Pagination.vue';
          },
 
           data: () => ({
+              mouvement:{
+                  id_mouvement:0,
+                  type_mouvement:"",
+                  quantite_mouvement:"",
+                  date_mouvement:"",
+                  fk_article:0
+              },
+              currentDate : "",
                      loading: false,
       post: null,
       error: null,
@@ -208,6 +259,7 @@ import  Pagination from '../Pagination.vue';
                     fk_famille :"",
 
               },
+              
             
              
              
@@ -219,6 +271,7 @@ import  Pagination from '../Pagination.vue';
           
       },*/
         mounted(){
+            this.getDateCourant();
            
           if( this.$route.params.success == "addsuccess"){
              
@@ -251,6 +304,58 @@ import  Pagination from '../Pagination.vue';
 
 
       methods: {
+          addMouvement(evt){
+            
+              let nouveauQuantite= 0;
+              if(this.mouvement.type_mouvement == "entre"){
+                  nouveauQuantite = +this.article.quantite + +this.mouvement.quantite_mouvement;
+                  this.getarticles();
+                             
+              this.article.quantite = nouveauQuantite;
+              this.mouvement.fk_article = this.article.id_article;
+             axios.post('/updateArticle',this.article).then( response => {             
+                      this.getarticles();
+                  });
+              this.mouvement.date_mouvement = this.currentDate;
+              console.log("dateee : ")
+              console.log(this.mouvement.date_mouvement)
+
+             axios.post('/addMouvement',this.mouvement).then(response => {         
+                    console.log('mouvement  Bien ajouter !');
+             }); 
+              }
+              else if(this.article.quantite >= this.mouvement.quantite_mouvement){
+                  
+                   nouveauQuantite = +this.article.quantite - +this.mouvement.quantite_mouvement;
+
+              
+           
+              this.article.quantite = nouveauQuantite;
+              this.mouvement.fk_article = this.article.id_article;
+             axios.post('/updateArticle',this.article).then( response => {             
+                      this.getarticles();
+                  });
+              this.mouvement.date_mouvement = this.currentDate;
+              console.log("dateee : ")
+              console.log(this.mouvement.date_mouvement)
+
+             axios.post('/addMouvement',this.mouvement).then(response => {         
+                    console.log('mouvement  Bien ajouter !');
+             });     
+              console.log('nouveau quantité : '+nouveauQuantite);
+                console.log(" mouvement bien modifié !")}
+                  else { evt.preventDefault()
+                                     this.$notify({
+                                      group: 'foo',
+                                      title: 'error',
+                                      text: 'stock insuffisant!',
+                                      duration: 2000,
+                                    });
+            }
+          },
+          getArticleMouvement(article){
+              this.article  = article;
+          },
           notifArticle(){
               let this1 = this
                setTimeout(function () { this1.Testopen.testnotifAdd = false }, 1000);
@@ -344,6 +449,23 @@ import  Pagination from '../Pagination.vue';
                     this.modalShow = !this.modalShow
                   });         
         },
+        getDateCourant(){
+                        var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() +1; 
+            var yyyy = today.getFullYear();
+             if(dd<10) 
+                {
+                    dd='0'+dd;
+                } 
+
+                if(mm<10) 
+                {
+                    mm='0'+mm;
+                } 
+             this.currentDate  = yyyy+'-'+mm+'-'+dd;
+             console.log('date courant : '+this.currentDate)
+        }
                
       },
 
@@ -372,7 +494,7 @@ thead{
     background-color: #efefef;
 }
 .optionsWidth{
-width : 171px;
+width : 230px;
 
 }
  .btnMarge{

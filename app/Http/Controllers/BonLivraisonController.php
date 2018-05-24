@@ -187,6 +187,11 @@ class BonLivraisonController extends Controller
         return Response()->json(['count' => $count]);
     }
 
+    public function countAllBonLivraisons(Request $request){
+        $count = Bonlivraison::All()
+        ->count();
+        return Response()->json(['count' => $count]);
+    }
 
 
 

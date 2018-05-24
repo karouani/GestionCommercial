@@ -91,6 +91,9 @@ import  ShowComptes from './components/Compte/ShowComptes.vue'
 import  AddCompte from './components/Compte/AddCompte.vue' 
 import  EditCompte from './components/Compte/EditCompte.vue' 
 
+//mouvement 
+import  ShowMouvements from './components/Mouvement/ShowMouvements.vue' 
+
 
 
 
@@ -715,8 +718,21 @@ const  router = new VueRouter({
     meta:{
         SuperAdmin:true,
         Admin:true
-        }
-},    
+},
+        
+},   
+{    
+    path:"/ShowMouvements",
+    component: ShowMouvements,
+    name: "ShowMouvements",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+},
+        
+},
+
+
 
 
     ],

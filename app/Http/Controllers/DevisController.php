@@ -139,6 +139,12 @@ class DevisController extends Controller
         return Response()->json(['count' => $count]);
     }
 
+    public function countAllDevis(Request $request){
+        $count = Devi::All()
+        ->count();
+        return Response()->json(['count' => $count]);
+    }
+
 
     public function updateStatusDevis(Request $request){
   //dd($request->id_devis);
