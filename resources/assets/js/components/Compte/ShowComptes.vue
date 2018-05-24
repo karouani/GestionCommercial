@@ -11,11 +11,19 @@
     </div>
 
 <div v-if="!loading">
-     <div class="row">
+       <div class="text-center pull-right" >
+                  <div class=" btnMarge">
         <div class="col">
+    <!-- button pour afficher tous les users-->
     <router-link class="float-right btn btn-secondary" :to="'/AddCompte'" ><i class="fas fa-plus-circle"/> Ajouter </router-link>
+
+        </div>
+  
     </div>
-    </div>  
+    <h2>List des Comptes</h2>
+    <hr>   
+    </div>
+   
             <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
         <strong>Compte bien ajouter !</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -29,10 +37,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
-    
-    
-  
-    <hr>
+   
     <!-- formulaire pour Ajouter un article -->
    
    

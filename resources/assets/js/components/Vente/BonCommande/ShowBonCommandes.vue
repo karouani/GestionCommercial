@@ -1,7 +1,6 @@
 <template>
     <div class="post" >
       <!-- au cas ajout bien passé afficher ce message -->   
-       <h5>Commande </h5>      
    
     <div class="loading" v-if="loading">
           <div class="lds-hourglass"></div>
@@ -12,7 +11,18 @@
     </div>
 
 <div v-if="!loading">
-   
+      <div class="text-center pull-right" >
+                  <div class=" btnMarge">
+        <div class="col">
+    <!-- button pour afficher tous les users-->
+    <b-btn v-b-modal.modalPrevent class="float-right btn btn-primary" ><i class="fas fa-plus-circle"/> Ajouter</b-btn>
+
+        </div>
+  
+    </div>
+    <h2>Liste des Bons de Commandes</h2>
+    <hr>   
+    </div>
             <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
         <strong>Bon Commande bien ajouter !</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -27,18 +37,11 @@
         </button>
         </div>
     
-    
-  
-    <hr>
     <!-- formulaire pour Ajouter un article -->
 
   
    <div>
-    <div class="row">
-        <div class="col">
-    <b-btn v-b-modal.modalPrevent class="float-right btn btn-primary" ><i class="fas fa-plus-circle"/> Ajouter</b-btn>
-    </div>
-    </div>
+ 
     <!-- Main UI -->
     <div class="mt-3 mb-3">
      

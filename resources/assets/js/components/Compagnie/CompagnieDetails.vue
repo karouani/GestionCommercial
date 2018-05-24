@@ -8,11 +8,19 @@
     
 
 <div v-if="!loading">
-    <div class="row">
+    <div class="text-center pull-right" >
+                  <div class=" btnMarge">
         <div class="col">
+    <!-- button pour afficher tous les users-->
         <router-link class="btn btn-primary mb-3  float-right " :to="'/getCompagnies'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+
         </div>
-    </div>   
+  
+    </div>
+    <h2>Details Compagnie</h2>
+    <hr>   
+    </div>
+  
      <div class=" container colBackround">
 
 

@@ -14,6 +14,7 @@
         <router-link class="btn btn-primary mb-3  float-right " :to="'/getDevis'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div> 
+
 <div class=" container colBackround">
    
           <form   @submit.prevent="addDevis">

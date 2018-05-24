@@ -1,8 +1,7 @@
 <template>
     <div >
       <!-- au cas ajout bien passé afficher ce message -->   
-            
-       <h5>Devis</h5>    
+         
     <div class="loading" v-if="loading">
           <div class="lds-hourglass"></div>
     </div>
@@ -11,6 +10,20 @@
     </div>
 
 <div v-if="!loading">
+       <div class="text-center pull-right" >
+                  <div class=" btnMarge">
+        <div class="col">
+    <!-- button pour afficher tous les users-->
+              <b-btn v-b-modal.modalPrevent class="float-right btn btn-primary"><i class="fas fa-plus-circle"/> Ajouter</b-btn>
+
+        </div>
+  
+    </div>
+    <h2>List des Devis</h2>
+    <hr>   
+    </div>
+
+
     <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testAjout">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
@@ -24,13 +37,6 @@
   <strong>Devis Bien Modifier !</strong>
 </div>
 
-        <div class="row">
- <div class="col">
-    <!-- button pour afficher formulaire de l'ajout d un compagnie -->  
-              <b-btn v-b-modal.modalPrevent class="float-right btn btn-primary"><i class="fas fa-plus-circle"/> Ajouter</b-btn>
-        </div>
-        </div>
-    <hr>
     <!-- formulaire pour Ajouter un devi -->
    
    

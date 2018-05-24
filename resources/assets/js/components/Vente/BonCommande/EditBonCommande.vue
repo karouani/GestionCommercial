@@ -20,7 +20,7 @@
 <div class="row">
     <div class="col">
         <br>
-    <h5><i class="far fa-file"></i> Ajouter un bon de commande</h5>
+    <h5><i class="far fa-file"></i> Modifier un bon de commande</h5>
     </div>
 </div>
 <hr>

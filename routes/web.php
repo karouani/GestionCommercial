@@ -234,6 +234,13 @@ Route::get('/pdfBL/{reference_bl}','BonLivraisonController@pdf');
 Route::post('/updateStatusBL','BonLivraisonController@updateStatusBL');
 Route::get('/getAllBonLivraisons','BonLivraisonController@getAllBonLivraisons');
 
+//-------------------------------- charges 
+Route::post('/addCharge','ChargeController@addCharge');
+Route::get('/getCharges','ChargeController@getCharges');
+Route::post('/updateCharge','ChargeController@updateCharge');
+Route::delete('/deleteCharge/{id_charge}','ChargeController@deleteCharge');
+Route::get('/getCharge/{id_charge}','ChargeController@getCharge');
+Route::get('/searchCharges/{desig}','ChargeController@searchCharges');
 
    
 //pour facture

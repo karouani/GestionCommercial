@@ -3,18 +3,20 @@
  <div>
     
  <div>
-   
-     <div class="row">
-         <div class="text-center col-md-10">
-    <h2>Ajouter Compagnie</h2>
-</div>
-        <div class="col-md-2">
+      <div class="text-center pull-right" >
+                  <div class=" btnMarge">
+        <div class="col">
+    <!-- button pour afficher tous les users-->
         <router-link class="btn btn-primary mb-3  float-right " :to="'/getCompagnies'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
-        </div>
-      
 
-    </div>      
-<hr>
+        </div>
+  
+    </div>
+    <h2>Ajouter Compagnie</h2>
+    <hr>   
+    </div>
+   <div class=" container colBackround">
+<br>
 <div class="text-center">
     <h4>Informations Compagnie</h4>
 </div>
@@ -183,7 +185,7 @@
             </div>
      </div>
         <hr>
-     <h4>Ajouter Contacts</h4>
+     <h4 class="text-center">Ajouter Contacts</h4>
      <hr>
      <div class="row">
            <div class="card-body">
@@ -225,12 +227,13 @@
                             </div>
              </div>
      </div>
+     <hr>
      <button  class="btn btn-primary mr-20 btn-success">Enregister</button>
      
      </form>
-
+<br>
  </div>
-
+ </div>
   <!-- fin formulaire -->
  </div>
 </template>
@@ -379,6 +382,9 @@ a {
 
     font-size: 1.30rem;
 }
-
+.colBackround{
+    background-color: whitesmoke;
+    box-shadow: 1px 1px 3px 4px #d2cfcf;
+}
 
 </style>

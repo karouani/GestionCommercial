@@ -32,6 +32,12 @@
                             <i class="fab fa-product-hunt"></i> Article
                         </router-link>
                     </li>
+ 
+                    <li class="nav-item">
+                      <router-link :to="'/ShowCharges'" class="nav-link active">
+                            <i class="fas fa-copyright"></i> Charge
+                        </router-link>
+                    </li>
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle active">

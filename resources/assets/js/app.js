@@ -73,6 +73,10 @@ Vue.component('app-editfacture', require('./components/Vente/Facture/EditFacture
  Vue.component('app-affavoirfactures', require('./components/Vente/AvoirFacture/AffAvoirFactures.vue'));
  Vue.component('app-detailsavoirfacture', require('./components/Vente/AvoirFacture/AvoirFactureDetails.vue'));
  Vue.component('app-editavoirfacture', require('./components/Vente/AvoirFacture/EditAvoirFacture.vue'));
+/* charge */
+Vue.component('app-addcharge', require('./components/Charge/AddCharge.vue'));
+Vue.component('app-showcharges', require('./components/Charge/ShowCharges.vue'));
+Vue.component('app-editcharge', require('./components/Charge/EditCharge.vue'));
 
 // afficher un nombre de phrase limité 
 /*Vue.filter('readMore', function (text, length, suffix) {

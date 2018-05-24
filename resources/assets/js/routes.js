@@ -91,7 +91,10 @@ import  ShowComptes from './components/Compte/ShowComptes.vue'
 import  AddCompte from './components/Compte/AddCompte.vue' 
 import  EditCompte from './components/Compte/EditCompte.vue' 
 
-
+//Charges
+import  ShowCharges from './components/Charge/ShowCharges.vue' 
+import  AddCharge from './components/Charge/AddCharge.vue' 
+import  EditCharge from './components/Charge/EditCharge.vue' 
 
 
 
@@ -718,6 +721,38 @@ const  router = new VueRouter({
         }
 },    
 
+
+  // ----------------------------------------------------------  // Charges 
+            // afficher les Charges 
+            {     path:"/ShowCharges",
+            component: ShowCharges,
+               meta:{
+               SuperAdmin:true,
+               Admin:true
+               }
+        },
+        // afficher les Charges  avec add ou edit success
+        {     path:"/ShowCharges",
+        component: ShowCharges,
+        name: "ShowCharges",
+               meta:{
+               SuperAdmin:true,
+               Admin:true
+               }
+         },
+       // ajouter les Charges 
+        {     path:"/AddCharge",
+               component: AddCharge
+       },
+       // modifier un Charges 
+       {     path:"/EditCharge",
+               component: EditCharge,
+               name: "EditCharge",
+               meta:{
+                   SuperAdmin:true,
+                   Admin:true
+                   }
+       },
 
     ],
    

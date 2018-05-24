@@ -9,18 +9,20 @@
 
 <div v-if="!loading">
  <div>
-   
-     <div class="row">
-         <div class="text-center col-md-10">
-    <h2>Modifier Compagnie</h2>
-</div>
-        <div class="col-md-2">
+    <div class="text-center pull-right" >
+                  <div class=" btnMarge">
+        <div class="col">
+    <!-- button pour afficher tous les users-->
         <router-link class="btn btn-primary mb-3  float-right " :to="'/getCompagnies'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
-        </div>
-      
 
-    </div>      
-<hr>
+        </div>
+  
+    </div>
+    <h2>Modifier Compagnie</h2>
+    <hr>   
+    </div>
+     <div class=" container colBackround">
+<br>
 <div class="text-center">
     <h4>Informations Compagnie</h4>
 </div>
@@ -193,7 +195,7 @@
      </div>
        
      <hr>
-     <h4>Ajouter Contacts</h4>
+     <h4 class="text-center">Ajouter Contacts</h4>
      <hr>
      <div class="row">
            <div class="card-body">
@@ -237,14 +239,14 @@
      </div>
         <hr>
      <button  class="btn btn-primary mr-20 btn-success">Enregister</button>
-     
+  
      </form>
-
+   <br>
  </div>
 </div>
  </div>
   <!-- fin formulaire -->
-
+ </div>
 </template>
 
 <script>
@@ -483,7 +485,48 @@ a.last::before {
 }
 
 
+.card-header{
+    background-color: #cac8c8;
+}
+span{
+    color:#007ee4;
+}
+.fontsize{
 
+    font-size: 1.30rem;
+}
+a {
+  color: #999;
+  color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    
+}
+.colBackround{
+    background-color: whitesmoke;
+    box-shadow: 1px 1px 3px 4px #d2cfcf;
+}
+
+
+.colBackround2{
+    background-color: whitesmoke;
+    box-shadow: 1px 1px 3px 4px #d2cfcf;
+    padding-left: 20px;
+    /* margin-left: 0px; */
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    margin-top: 15px;
+
+}
+.colBackround3{
+padding-left: 20px;
+}
+.badgeSize{
+    font-size: 14px;
+}
 
     /*loading*/
 .lds-hourglass {
