@@ -95,6 +95,10 @@ import  EditCompte from './components/Compte/EditCompte.vue'
 import  ShowCharges from './components/Charge/ShowCharges.vue' 
 import  AddCharge from './components/Charge/AddCharge.vue' 
 import  EditCharge from './components/Charge/EditCharge.vue' 
+//mouvement 
+import  ShowMouvements from './components/Mouvement/ShowMouvements.vue' 
+
+
 
 
 
@@ -718,8 +722,21 @@ const  router = new VueRouter({
     meta:{
         SuperAdmin:true,
         Admin:true
-        }
-},    
+},
+        
+},   
+{    
+    path:"/ShowMouvements",
+    component: ShowMouvements,
+    name: "ShowMouvements",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+},
+        
+},
+
+
 
 
   // ----------------------------------------------------------  // Charges 

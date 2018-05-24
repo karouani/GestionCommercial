@@ -101,7 +101,7 @@ Route::post('/updateStatusDevis','DevisController@updateStatusDevis');
 Route::get('/pdf_d/{reference_d}','DevisController@pdf_d');
 Route::get('/getDevisCompte/{idCompte}','DevisController@getDevisCompte');
 Route::get('/gettNotification','DevisController@gettNotification');
-
+Route::get('/countAllDevis','DevisController@countAllDevis');
 
 
 
@@ -164,6 +164,9 @@ Route::get('/pdf/{reference_bc}','BonCommandeController@pdf');
 Route::post('/updateStatusBC','BonCommandeController@updateStatusBC');
 
 Route::get('/getAllBoncommandes','BonCommandeController@getAllBoncommandes');
+Route::get('/countAllCommandes','BonCommandeController@countAllCommandes');
+
+
 
 
  //---------------------------------------------------------------------       
@@ -189,6 +192,8 @@ Route::get('/getAllBoncommandes','BonCommandeController@getAllBoncommandes');
 
 
         Route::get('/getAllFactures','FactureController@getAllFactures');
+        Route::get('/countAllFactures','FactureController@countAllFactures');
+        
 
  //---------------------------------------------------------------------       
 
@@ -233,6 +238,7 @@ Route::get('/pdfBL/{reference_bl}','BonLivraisonController@pdf');
 
 Route::post('/updateStatusBL','BonLivraisonController@updateStatusBL');
 Route::get('/getAllBonLivraisons','BonLivraisonController@getAllBonLivraisons');
+Route::get('/countAllBonLivraisons','BonLivraisonController@countAllBonLivraisons');
 
 //-------------------------------- charges 
 Route::post('/addCharge','ChargeController@addCharge');
@@ -257,6 +263,15 @@ Route::get('/getArticlePlusVente','DashboardController@getArticlePlusVente');
 Route::get('/MarkNotifRead','NotificationController@MarkNotifRead');
 Route::get('/addNotification','NotificationController@addNotification');
 Route::get('/getNotifications','NotificationController@getNotifications');
+
+
+//mouvement 
+Route::get('/getMouvements','ArticleController@getMouvements');
+Route::post('/addMouvement','ArticleController@addMouvement');
+Route::delete('/deleteMouvement/{id_mouvement}','ArticleController@deleteMouvement');
+
+
+
 
 Auth::routes();
 

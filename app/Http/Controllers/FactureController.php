@@ -147,6 +147,11 @@ class FactureController extends Controller
         $count ++;
         return Response()->json(['count' => $count]);
     }
+    public function countAllFactures(Request $request){
+        $count = Facture::All()
+        ->count();
+        return Response()->json(['count' => $count]);
+    }
 
     
     public function updateStatusFacture(Request $request){

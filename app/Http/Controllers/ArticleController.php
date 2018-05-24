@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Article;
 use App\Famille_article;
 use App\Tva;
+use App\Mouvement;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 
@@ -210,4 +211,29 @@ class ArticleController extends Controller
     {
         //
     }
+    public function getMouvements(){
+         $listeMouvements = Mouvement::leftJoin('articles', 'articles.id_article', '=', 'mouvements.fk_article')
+         ->select('articles.designation','mouvements.*')
+         ->orderBy('created_at', 'desc')
+         ->paginate(10);
+         return Response()->json(['listeMouvements' => $listeMouvements ]);
+      }
+
+      function addMouvement(Request $request){
+        $mouvement  = new  Mouvement();
+        $mouvement->type_mouvement = $request->type_mouvement;
+        $mouvement->quantite_mouvement = $request->quantite_mouvement;
+        $mouvement->date_mouvement = $request->date_mouvement;
+        $mouvement->fk_article = $request->fk_article;
+        $mouvement->save();
+        return Response()->json(['etat' => true]);
+}
+
+public function deleteMouvement($id_mouvement){
+    // dd($id_article);
+     $mouvement = Mouvement::find($id_mouvement);
+     $mouvement->delete();
+     return Response()->json(['delete' => true]);
+ }
+
 }
