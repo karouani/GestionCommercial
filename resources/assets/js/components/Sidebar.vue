@@ -112,8 +112,25 @@
                            
                             
                         </ul>
-                    </li>                   
-              
+                    </li> 
+                     <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle active">
+                            <i class="fas fa-clipboard-list"></i> Bilan <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <router-link :to="'/BilanMois'" class="nav-link">
+                                    <i class="far fa-file"></i> Bilan Par Mois
+                                </router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link :to="'/BilanAnnee'" class="nav-link">
+                                    <i class="far fa-file"></i> Bilan Par Année
+                                </router-link>
+                            </li>
+                        </ul>
+                     </li>
                     
                  
                 </ul>
