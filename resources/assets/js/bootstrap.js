@@ -17,8 +17,8 @@ try {
    // require('./Chart.min');
     //require('bootstrap');
     require('bootstrap');
-    
-   
+
+
    // require( 'datatables.net-bs4' )();
 } catch (e) {}
 

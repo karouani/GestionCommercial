@@ -31,10 +31,8 @@
             <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
-         <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" @click="getCompte(compte.id_compte)" @change="getCompte(compte.id_compte)">
-                    <option selected disabled>Choisir Client</option>
-                    <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
-                </select>  
+    
+            <multiselect v-model="compte" :options="comptes" placeholder="Choisir un client" label="nom_compte" @input="getCompte(compte.id_compte)"></multiselect>
 
                 
                 </div>
@@ -932,7 +930,7 @@ computed:{
            
         for (let index = 0; index < this.commandes.length; index++) {
                    let this1=this;
-           this.articles.forEach(function(article) {
+         /*  this.articles.forEach(function(article) {
                console.log(article.quantite+" / "+this1.commandes[index].quantite_cmd)
                if(article.id_article == this1.commandes[index].fk_article){
                    if(article.quantite < this1.commandes[index].quantite_cmd){
@@ -948,7 +946,7 @@ computed:{
                       }
                      return 
                }
-});
+});*/
             console.log("quantité pour charque article")
             console.log(this.commandes[index].quantite_cmd)
             this.commandes[index].totalHT  = (+this.commandes[index].prix_ht + +this.commandes[index].majoration_cmd - this.commandes[index].remise_cmd)*this.commandes[index].quantite_cmd;

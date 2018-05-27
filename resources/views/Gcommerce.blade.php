@@ -17,6 +17,7 @@
         <!--   <link rel="stylesheet" href="{{asset('css/font-awesome/webfonts/fa-solid-900.woff2')}}">-->
           <link rel="stylesheet" href="{{asset('css/styles.css')}}">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
           
         
@@ -33,7 +34,10 @@
        </div>
      <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
     
-      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
      <script src="{{asset('js/carbon.js')}}"></script>
      <script src="{{asset('js/demo.js')}}"></script>
      <script src="{{asset('js/app.js')}}"></script>

@@ -1,5 +1,9 @@
 <template>
     <div >
+           
+             <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification success"/> 
       <!-- au cas ajout bien passé afficher ce message -->   
             <h5>Avoir facture</h5>
            
@@ -11,18 +15,7 @@
     </div>
 
 <div v-if="!loading">
-    <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testAjout">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>Avoir Facture Bien Ajouter !</strong>
-</div>
-  <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEdit">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>Avoir Facture Bien Modifier !</strong>
-</div>
+
 
         <div class="row">
  <div class="col">
@@ -133,12 +126,8 @@
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-3 col-form-label">compte: </label>
                     <div class="col-sm-9">
-                <select class="form-control custom-select " id="fk_compte" v-model="avoirFacture.fk_compte_af" v-on:change="getClients" >
-                    <option selected disabled>Choisir Client</option>
-<option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">
-          {{compte.nom_compte}}
-        </option>       
-                 </select>   
+            <multiselect v-model="compte" :options="comptes" placeholder="Choisir un client" label="nom_compte"></multiselect>
+
             </div>
                 
         </div>   
@@ -170,6 +159,25 @@ import  Pagination from '../../Pagination.vue';
          },
 
           data: () => ({
+                             compte: { 
+                    id_compte : 0,
+                    nom_compte : "",
+                    responsable : "",
+                    type_compte : "",
+                    categorie : "",
+                    raison_social : "",
+                    reference : "",
+                    fixe : "",
+                    portable : "",
+                    fax : "",
+                    email : "",
+                    site_web  : "",
+                    secteur_activite : "",
+                    taille : "",
+                    RC : "",
+                    adresse_compte:"",
+                    fk_compagnie : "",
+              },
                         fontStatu : {
                     white : "white",
                     size: "14px"
@@ -245,6 +253,23 @@ import  Pagination from '../../Pagination.vue';
              
       }),
       mounted(){
+               if( this.$route.params.success == "add"){
+                                   this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Avoir Facture bien ajouter!',
+                                      duration: 1500,
+                                    });
+        }
+        if( this.$route.params.success == "edit"){
+        
+                                               this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Avoir Facture bien modifier!',
+                                      duration: 1500,
+                                    });
+        }
          
          var today = new Date();
             var dd = today.getDate();
@@ -291,14 +316,7 @@ import  Pagination from '../../Pagination.vue';
  
   },
     updated(){
-        if( this.$route.params.success == "add"){
-          let that = this
-              setTimeout(function(){that.Testopen.testAjout = false;}, 2000);
-        }
-        if( this.$route.params.success == "edit"){
-         let that=this;
-              setTimeout(function(){that.Testopen.testEdit = false;}, 2000);
-        }
+ 
     },
 
       methods: {
@@ -308,7 +326,7 @@ import  Pagination from '../../Pagination.vue';
                   window.open('/pdf_af/'+reference_af,'_blank');
           },
     handleOk(){
-        this.$router.push({ name: 'addAvoirFacture', params: { id_compte: this.avoirFacture.fk_compte_af ,reference_af: this.avoirFacture.reference_af ,currentDate: this.currentDate }});
+        this.$router.push({ name: 'addAvoirFacture', params: { id_compte: this.compte.id_compte ,reference_af: this.avoirFacture.reference_af ,currentDate: this.currentDate }});
 
             },
              clearName(){

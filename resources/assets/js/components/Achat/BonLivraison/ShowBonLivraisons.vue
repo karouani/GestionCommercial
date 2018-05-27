@@ -1,5 +1,8 @@
 <template>
     <div class="post" >
+             <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification success"/>  
       <!-- au cas ajout bien passé afficher ce message -->   
             <h5>Bon de réception </h5>
    
@@ -69,10 +72,8 @@
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
-                <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" >
-                    <option selected disabled>Choisir Fournisseur</option>
-                    <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
-                </select>                    
+            <multiselect v-model="compte" :options="comptes" placeholder="Choisir un Fournisseur" label="nom_compte"></multiselect>
+                  
                 </div>
                 </div>      
       
@@ -291,11 +292,21 @@ import  Pagination from '../../Pagination.vue';
             this.getFournisseur();
           if( this.$route.params.success == "addsuccess"){
              
-                        this.Testopen.testnotifAdd = true;
+                                    this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Bon de Livraison bien ajouter!',
+                                      duration: 1500,
+                                    });
           }
                     if( this.$route.params.success == "editsuccess"){
              
-                        this.Testopen.testnotifEdit = true;
+                                    this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Bon de Livraison bien modifier!',
+                                      duration: 1500,
+                                    });
           }
         },
       updated(){

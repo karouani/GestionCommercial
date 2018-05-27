@@ -4,6 +4,9 @@
                     <notifications group="foo" 
       position="bottom right" 
       classes="vue-notification error"/>
+                          <notifications group="foo2" 
+      position="bottom right" 
+      classes="vue-notification success"/>
            
     <div class="loading" v-if="loading">
            <div class="lds-hourglass"></div>
@@ -24,9 +27,12 @@
         </div>
   
     </div>
-    <h2>List des Articles</h2>
+    
+        <center><h4>List des Articles</h4></center>
+
+    
     <hr>   
-    </div>
+    
  
             <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
         <strong>Article bien ajouter !</strong> 
@@ -193,6 +199,7 @@
                      :offset="4">
     </vue-pagination>
     </div>
+    </div>
     <!-- fin affiche -->
 
 </template>
@@ -282,11 +289,23 @@ import  Pagination from '../Pagination.vue';
            
           if( this.$route.params.success == "addsuccess"){
              
-                        this.Testopen.testnotifAdd = true;
+                        
+                            this.$notify({
+                                      group: 'foo2',
+                                      title: 'Succès',
+                                      text: 'Article bien ajouter!',
+                                      duration: 1500,
+                                    });
+
           }
                     if( this.$route.params.success == "editsuccess"){
              
-                        this.Testopen.testnotifEdit = true;
+                                                   this.$notify({
+                                      group: 'foo2',
+                                      title: 'Succès',
+                                      text: 'Article bien modifier!',
+                                      duration: 1500,
+                                    });
           }
         },
       updated(){

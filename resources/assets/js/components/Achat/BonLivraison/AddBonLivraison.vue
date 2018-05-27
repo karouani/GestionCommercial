@@ -112,10 +112,8 @@
                             <th>  <input class="form-control ThWidth"  type="text" v-model="commande.majoration_cmd" ></th> 
                             <th>  <input class="form-control ThWidth "  type="text" v-model="commande.prix_ht" ></th> 
                               <th>  <input  type="text" v-model="commande.fk_tva_cmd" disabled hidden>
-                             <select class="form-control ThWidth custom-select " id="fk_tva_cmd" v-model="commande.fk_tva_cmd" @change="changeTVA(commande.fk_tva_cmd,commande)" >
-                            <option selected>Choisir Tva</option>
-                            <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
-                            </select>
+            <multiselect v-model="compte" :options="comptes" placeholder="Choisir un Fournisseur" label="nom_compte" @input="getCompte(compte.id_compte)"></multiselect>
+
                             
                             </th> 
                             <th>  <input class="form-control ThWidth"  type="text" v-model="commande.totalHT" disabled>

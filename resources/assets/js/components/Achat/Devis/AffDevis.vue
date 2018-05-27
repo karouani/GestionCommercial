@@ -1,5 +1,8 @@
 <template>
     <div class="post" >
+     <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification success"/>  
       <!-- au cas ajout bien passé afficher ce message -->   
             
       <h5>Devis </h5>     
@@ -11,18 +14,7 @@
     </div>
 
 <div v-if="!loading">
-    <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testAjout">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>Devis Bien Ajouter !</strong>
-</div>
-  <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEdit">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>Devis Bien Modifier !</strong>
-</div>
+ 
 
         <div class="row">
  <div class="col">
@@ -133,12 +125,9 @@
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-3 col-form-label">compte: </label>
                     <div class="col-sm-9">
-                <select class="form-control custom-select " id="fk_compte" v-model="devi.fk_compte_d" v-on:change="getFournisseur" >
-                    <option selected disabled>Choisir Fournisseur</option>
-<option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">
-          {{compte.nom_compte}}
-        </option>       
-                 </select>   
+   
+                                   <multiselect v-model="compte" :options="comptes" placeholder="Choisir un fournisseur" label="nom_compte" @input="getFournisseur"></multiselect>
+  
             </div>
                 
         </div>   
@@ -214,6 +203,25 @@ import  Pagination from '../../Pagination.vue';
               },
                offset: 4,
                 currentDate:"",
+                             compte: { 
+                    id_compte : 0,
+                    nom_compte : "",
+                    responsable : "",
+                    type_compte : "",
+                    categorie : "",
+                    raison_social : "",
+                    reference : "",
+                    fixe : "",
+                    portable : "",
+                    fax : "",
+                    email : "",
+                    site_web  : "",
+                    secteur_activite : "",
+                    taille : "",
+                    RC : "",
+                    fk_compagnie : "",
+                    adresse_compte:""
+              },
               devi: { 
                     
             id_devis:0,
@@ -245,6 +253,22 @@ import  Pagination from '../../Pagination.vue';
              
       }),
       mounted(){
+                if( this.$route.params.success == "add"){
+                                   this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Devis bien ajouter!',
+                                      duration: 1500,
+                                    });
+        }
+        if( this.$route.params.success == "edit"){
+                                   this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Devis bien Modifier!',
+                                      duration: 1500,
+                                    });
+        }
          
          var today = new Date();
             var dd = today.getDate();
@@ -291,14 +315,7 @@ import  Pagination from '../../Pagination.vue';
  
   },
     updated(){
-        if( this.$route.params.success == "add"){
-          let that = this
-              setTimeout(function(){that.Testopen.testAjout = false;}, 2000);
-        }
-        if( this.$route.params.success == "edit"){
-         let that=this;
-              setTimeout(function(){that.Testopen.testEdit = false;}, 2000);
-        }
+  
     },
 
       methods: {
@@ -308,7 +325,7 @@ import  Pagination from '../../Pagination.vue';
                   window.open('/pdf_d/'+reference_d,'_blank');
           },
     handleOk(){
-        this.$router.push({ name: 'addDevisA', params: { id_compte: this.devi.fk_compte_d ,reference_d: this.devi.reference_d ,currentDate: this.currentDate }});
+        this.$router.push({ name: 'addDevisA', params: { id_compte: this.compte.id_compte ,reference_d: this.devi.reference_d ,currentDate: this.currentDate }});
 
             },
              clearName(){

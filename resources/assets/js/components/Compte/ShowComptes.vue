@@ -1,7 +1,9 @@
 <template>
     <div class="post" >
       <!-- au cas ajout bien passé afficher ce message -->   
-            
+                            <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification success"/> 
            
     <div class="loading" v-if="loading">
      <div class="lds-hourglass"></div>
@@ -191,11 +193,21 @@ import  Pagination from '../Pagination.vue';
            
           if( this.$route.params.success == "addsuccess"){
              
-                        this.Testopen.testnotifAdd = true;
+                           this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'compte bien ajouter!',
+                                      duration: 1500,
+                                    });
           }
                     if( this.$route.params.success == "editsuccess"){
              
-                        this.Testopen.testnotifEdit = true;
+                                  this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'compte bien modifier!',
+                                      duration: 1500,
+                                    });
           }
         },
       updated(){

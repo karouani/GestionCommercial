@@ -1,14 +1,16 @@
+
 <template>
   <div>
-      <h1>{{ninjas}}</h1>
+    <select >
+  <option>Mustard</option>
+  <option>Ketchup</option>
+  <option>Relish</option>
+</select>
+
   </div>
 </template>
+<!-- Latest compiled and minified CSS -->
 
-<script>
-     export default{
-         props: ['ninjas'],
-        data: () => ({
 
-            }),
-    }
-</script>   
+<!-- Latest compiled and minified JavaScript -->
+

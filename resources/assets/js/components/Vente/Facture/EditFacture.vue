@@ -29,10 +29,8 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Compte  </label>
                 <div class="col-sm-10">
-    <select class="form-control custom-select " id="id_compte" v-model="facture.fk_compte_f" @click="getClient(facture.fk_compte_f)" @change="getClient(facture.fk_compte_f)">
-                    <option selected disabled>Choisir Compte</option>
-                    <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">{{compte.nom_compte}}</option>
-                </select>
+                  <multiselect v-model="compte" :options="comptes" placeholder="Choisir un client" label="nom_compte" @input="getClient(compte.id_compte)"></multiselect>
+
                 </div>
             </div>
             <div class="form-group row">
@@ -488,7 +486,7 @@ this.commande = {
       //this.error = this.post = null
       this.loading = true
        console.log('----------------')
-  
+            this.getClient(this.$route.params.fk_compte_f);
             this.facture.id_facture = this.$route.params.id_facture;
             this.facture.reference_f = this.$route.params.reference_f;
  this.getFactureF(this.facture.id_facture);
