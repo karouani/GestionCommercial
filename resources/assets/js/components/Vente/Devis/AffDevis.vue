@@ -1,7 +1,9 @@
 <template>
     <div >
       <!-- au cas ajout bien passé afficher ce message -->   
-         
+                      <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification success"/> 
     <div class="loading" v-if="loading">
           <div class="lds-hourglass"></div>
     </div>
@@ -139,12 +141,9 @@
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-3 col-form-label">compte: </label>
                     <div class="col-sm-9">
-                <select class="form-control custom-select " id="fk_compte" v-model="devi.fk_compte_d" v-on:change="getClients" >
-                    <option selected disabled>Choisir Client</option>
-<option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">
-          {{compte.nom_compte}}
-        </option>       
-                 </select>   
+     
+            <multiselect v-model="compte" :options="comptes" placeholder="Choisir un client" label="nom_compte"></multiselect>
+ 
             </div>
                 
         </div>   
@@ -176,6 +175,25 @@ import  Pagination from '../../Pagination.vue';
          },
 
           data: () => ({
+               compte: { 
+                    id_compte : 0,
+                    nom_compte : "",
+                    responsable : "",
+                    type_compte : "",
+                    categorie : "",
+                    raison_social : "",
+                    reference : "",
+                    fixe : "",
+                    portable : "",
+                    fax : "",
+                    email : "",
+                    site_web  : "",
+                    secteur_activite : "",
+                    taille : "",
+                    RC : "",
+                    adresse_compte:"",
+                    fk_compagnie : "",
+              },
                         fontStatu : {
                     white : "white",
                     size: "14px"
@@ -251,6 +269,23 @@ import  Pagination from '../../Pagination.vue';
              
       }),
       mounted(){
+                       if( this.$route.params.success == "add"){
+                                   this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Devis bien ajouter!',
+                                      duration: 1500,
+                                    });
+        }
+        if( this.$route.params.success == "edit"){
+        
+                                               this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: ' Devis bien modifier!',
+                                      duration: 1500,
+                                    });
+        }
          
          var today = new Date();
             var dd = today.getDate();
@@ -297,14 +332,7 @@ import  Pagination from '../../Pagination.vue';
  
   },
     updated(){
-        if( this.$route.params.success == "add"){
-          let that = this
-              setTimeout(function(){that.Testopen.testAjout = false;}, 2000);
-        }
-        if( this.$route.params.success == "edit"){
-         let that=this;
-              setTimeout(function(){that.Testopen.testEdit = false;}, 2000);
-        }
+
     },
 
       methods: {
@@ -313,8 +341,10 @@ import  Pagination from '../../Pagination.vue';
                 //   window.location.href='/pdf/'+reference_bc
                   window.open('/pdf_d/'+reference_d,'_blank');
           },
-    handleOk(){
-        this.$router.push({ name: 'addDevis', params: { id_compte: this.devi.fk_compte_d ,reference_d: this.devi.reference_d ,currentDate: this.currentDate }});
+    handleOk(){console.log('testtttt ========')
+    console.log(this.compte.id_compte)
+    console.log('testtttt ========')
+        this.$router.push({ name: 'addDevis', params: { id_compte: this.compte.id_compte ,reference_d: this.devi.reference_d ,currentDate: this.currentDate }});
 
             },
              clearName(){
@@ -325,7 +355,7 @@ import  Pagination from '../../Pagination.vue';
             },
             redirect_To_EditDevis(devi){
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
-                     this.$router.push({ name: 'EditDevis', params: {id_devis: devi.id_devis, reference_d: devi.reference_d, fk_compte_d: devi.fk_compte_d}});
+                     this.$router.push({ name: 'EditDevis', params: {id_devis: devi.id_devis, reference_d: devi.reference_d, fk_compte_d: this.compte.id_compte}});
 
             },
                redirect_To_DevisDetails(devi){

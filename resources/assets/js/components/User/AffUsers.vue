@@ -1,5 +1,8 @@
 <template>
   <div>
+   <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification success"/> 
           <div class="loading" v-if="loading">
       Loading...
     </div>
@@ -119,7 +122,12 @@ import  Pagination from '../Pagination.vue';
    // remplire listes des articles aprés la creation complet de ce composant
     mounted(){
  if(this.$route.params.success == "add")
-            this.Testopen.testAjout =true;
+                                      this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'user bien ajouter!',
+                                      duration: 1500,
+                                    });
 
 
           this.getUsers();

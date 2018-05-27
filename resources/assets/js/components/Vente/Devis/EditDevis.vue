@@ -29,10 +29,9 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Compte  </label>
                 <div class="col-sm-10">
-    <select class="form-control custom-select " id="id_compte" v-model="devi.fk_compte_d" @click="getClient(devi.fk_compte_d)" @change="getClient(devi.fk_compte_d)">
-                    <option selected disabled>Choisir Compte</option>
-                    <option v-for="compte in comptes" :key="compte.id_compte" :value="compte.id_compte">{{compte.nom_compte}}</option>
-                </select>
+
+                 <multiselect v-model="compte" :options="comptes" placeholder="Choisir un client" label="nom_compte" @input="getClient(compte.id_compte)"></multiselect>
+
                 </div>
             </div>
             <div class="form-group row">
@@ -488,7 +487,8 @@ this.commande = {
       //this.error = this.post = null
       this.loading = true
        console.log('----------------')
-  
+       this.getClient(this.$route.params.fk_compte_d);
+         
             this.devi.id_devis = this.$route.params.id_devis;
             this.devi.reference_d = this.$route.params.reference_d;
  this.getDevisD(this.devi.id_devis);

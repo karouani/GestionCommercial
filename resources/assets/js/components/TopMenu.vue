@@ -30,7 +30,7 @@
                     <span class="badge badge-pill badge-danger">{{nbNotif}}</span>
                 </a>
 
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right" style="width: 200px;">
                 <ul class="list-group scroll">
                     <li   class="list-group-item"  v-for="(notification,index) of notifications" :key="index" ><i class="far fa-file" :style="[notification.read_at == null ? redColor : blueColor]" ></i> {{notification.data.data}}</li>
                 </ul>

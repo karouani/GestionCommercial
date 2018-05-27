@@ -1,7 +1,9 @@
 <template>
     <div class="post" >
       <!-- au cas ajout bien passé afficher ce message -->   
-   
+                <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification success"/> 
     <div class="loading" v-if="loading">
           <div class="lds-hourglass"></div>
 
@@ -57,6 +59,7 @@
       <form @submit.stop.prevent="handleSubmit">
 
 
+   
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">date: </label>
                     <div class="col-sm-10">
@@ -72,11 +75,10 @@
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
-                <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" >
-                    <option selected disabled>Choisir Client</option>
-                    <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
-                </select>                    
+            <multiselect v-model="compte" :options="comptes" placeholder="Choisir un client" label="nom_compte"></multiselect>
+                  
                 </div>
+             
                 </div>      
       
       </form>
@@ -87,15 +89,15 @@
     <!-- fin formulaire -->
     <!-- afficher les articles sous formes des cards  -->
 
-  
-
+    
 
     <div class="row" >
+
              <div class="card">
                         <div class="card-header bg-light">
                             <div class="row btnMarge">
  
-    <div class="col"  >
+    <div class="col"  > 
     <!-- button pour afficher formulaire de l'ajout d un article -->         
                 <div class="input-group">
             <div class="input-group-prepend">
@@ -174,16 +176,25 @@
 
 <script>
 
-
 import  Pagination from '../../Pagination.vue';
-
     export default{
          components:{
             'vue-pagination':Pagination,
-            
+           
          },
 
           data: () => ({
+               items: [
+          { value: '1', text: 'aa' + ' - ' + '1' },
+          { value: '2', text: 'ab' + ' - ' + '2' },
+          { value: '3', text: 'bc' + ' - ' + '3' },
+          { value: '4', text: 'cd' + ' - ' + '4' },
+          { value: '5', text: 'de' + ' - ' + '5' }
+        ],
+        item: {
+          value: '',
+          text: ''
+        },
               fontStatu : {
                     white : "white",
                     size: "14px"
@@ -306,11 +317,21 @@ import  Pagination from '../../Pagination.vue';
             this.getClients();
           if( this.$route.params.success == "addsuccess"){
              
-                        this.Testopen.testnotifAdd = true;
+                                       this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Bon de Commande bien ajouter!',
+                                      duration: 1500,
+                                    });
           }
                     if( this.$route.params.success == "editsuccess"){
              
-                        this.Testopen.testnotifEdit = true;
+                                    this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Bon de Commande bien modifier!',
+                                      duration: 1500,
+                                    });
           }
         },
       updated(){
@@ -342,6 +363,7 @@ import  Pagination from '../../Pagination.vue';
   },
 
       methods: {
+          
 
           PdfBonCommande(reference_bc){
                            
@@ -507,6 +529,7 @@ import  Pagination from '../../Pagination.vue';
     }
     
 </script>
+
 
 <style scoped>
  .btnMarge{

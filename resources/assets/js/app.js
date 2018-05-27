@@ -4,15 +4,22 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
 require('./bootstrap');
 window.Vue = require('vue');
 
 
+import BootstrapSelect from 'bootstrap-select'
+Vue.use(BootstrapSelect);
 
 //bootstrapvue 
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue);
 
+
+import Multiselect from 'vue-multiselect'
+  // register globally
+  Vue.component('multiselect', Multiselect)
 
 
 import swal from 'sweetalert2'

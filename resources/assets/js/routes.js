@@ -25,6 +25,7 @@ import  AddBonCommande from './components/Vente/BonCommande/AddBonCommande.vue'
 import  ShowBonCommandes from './components/Vente/BonCommande/ShowBonCommandes.vue' 
 import  ShowBonCommande from './components/Vente/BonCommande/ShowBonCommande.vue' 
 import  EditBonCommande from './components/Vente/BonCommande/EditBonCommande.vue' 
+import  testSelect from './components/Vente/BonCommande/test.vue' 
 
 // Bon de Livraison
 import  AddBonLivraison from './components/Vente/BonLivraison/AddBonLivraison.vue' 
@@ -49,7 +50,7 @@ import  EditBonLivraison from './components/Vente/BonLivraison/EditBonLivraison.
   import AddDevisA from './components/Achat/Devis/AddDevis.vue'
   import AffDevisA from './components/Achat/Devis/AffDevis.vue'
   import DevisDetailsA from './components/Achat/Devis/DevisDetails.vue'
-  import EditDevisA from './components/Vente/Devis/EditDevis.vue'
+  import EditDevisA from './components/Achat/Devis/EditDevis.vue'
 
   // Bon de Commande
   import  AddBonCommandeA from './components/Achat/BonCommande/AddBonCommande.vue' 
@@ -381,6 +382,16 @@ const  router = new VueRouter({
             Admin:true
             }
         },  
+        {     
+            path:"/testSelect",
+            component: testSelect,
+            name: "testSelect",
+            meta:{
+               SuperAdmin:true,
+               Admin:true
+               }
+           },
+        
         
         
                // ----------------------------------------------------------  // Factures 

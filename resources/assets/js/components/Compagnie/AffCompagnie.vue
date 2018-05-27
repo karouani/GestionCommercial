@@ -1,5 +1,8 @@
 <template>
   <div>
+                      <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification success"/> 
         <div class="loading" v-if="loading">
           <div class="lds-hourglass"></div>
     </div>
@@ -135,9 +138,19 @@ import  Pagination from '../Pagination.vue';
    // remplire listes des compagnies aprés la creation complet de ce composant
     mounted(){
         if(this.$route.params.success == "add")
-            this.Testopen.testAjout =true;
+                            this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Compagnie bien ajouter!',
+                                      duration: 1500,
+                                    });
    if(this.$route.params.success == "edit")
-            this.Testopen.testEdit =true; 
+                                this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Bon de livraison bien modifier!',
+                                      duration: 1500,
+                                    });
 
           
     },

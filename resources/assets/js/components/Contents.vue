@@ -116,7 +116,7 @@ data: () => ({
         labels2 :[],
         votes2:[],
         message: "Vue.js & Chart.js",
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: ["client1", "client2", "client3", "client4", "client5", "client6"],
         votes: [12, 19, 3, 5, 40, 70],
         type : "bar"
   }),
