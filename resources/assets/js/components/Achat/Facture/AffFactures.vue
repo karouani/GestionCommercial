@@ -4,7 +4,7 @@
                  <notifications group="foo" 
       position="bottom right" 
       classes="vue-notification success"/>  
-            <h5>Facture </h5>
+
     <div class="loading" v-if="loading">
           <div class="lds-hourglass"></div>
     </div>
@@ -13,15 +13,20 @@
     </div>
 
 <div v-if="!loading">
-  
+  <div class="text-center pull-right" >
+                  <div class=" btnMarge">
+        <div class="col">
+    <!-- button pour afficher tous les users-->
+    <b-btn v-b-modal.modalPrevent class="float-right btn btn-primary" ><i class="fas fa-plus-circle"/> Ajouter</b-btn>
 
-        <div class="row">
- <div class="col">
-    <!-- button pour afficher formulaire de l'ajout d un compagnie -->  
-              <b-btn v-b-modal.modalPrevent class="float-right btn btn-primary"><i class="fas fa-plus-circle"/> Ajouter</b-btn>
         </div>
-        </div>
-    <hr>
+  
+    </div>
+    <h2>List des Factures</h2>
+    <hr>   
+    </div>
+
+        
     <!-- formulaire pour Ajouter un facture -->
    
    

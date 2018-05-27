@@ -5,7 +5,6 @@
       classes="vue-notification success"/>  
       <!-- au cas ajout bien passé afficher ce message -->   
             
-      <h5>Devis </h5>     
     <div class="loading" v-if="loading">
           <div class="lds-hourglass"></div>
     </div>
@@ -14,15 +13,20 @@
     </div>
 
 <div v-if="!loading">
- 
-
-        <div class="row">
- <div class="col">
-    <!-- button pour afficher formulaire de l'ajout d un compagnie -->  
+    <div class="text-center pull-right" >
+                  <div class=" btnMarge">
+        <div class="col">
+    <!-- button pour afficher tous les users-->
               <b-btn v-b-modal.modalPrevent class="float-right btn btn-primary"><i class="fas fa-plus-circle"/> Ajouter</b-btn>
+
         </div>
-        </div>
-    <hr>
+  
+    </div>
+    <h2>List des Devis</h2>
+    <hr>   
+    </div>
+
+     
     <!-- formulaire pour Ajouter un devi -->
    
    

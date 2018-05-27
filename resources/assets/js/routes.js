@@ -602,8 +602,9 @@ const  router = new VueRouter({
                 }
             },
             {     
-            path:"/ShowBonCommandeA/:reference_bc",
+            path:"/ShowBonCommandeA",
             component: ShowBonCommandeA,
+            name: "ShowBonCommandeA",            
             meta:{
                 SuperAdmin:true,
                 Admin:true

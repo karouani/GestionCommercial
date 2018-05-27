@@ -4,7 +4,6 @@
       position="bottom right" 
       classes="vue-notification success"/>  
       <!-- au cas ajout bien passé afficher ce message -->   
-      <h5>Bon de commande </h5>       
    
     <div class="loading" v-if="loading">
           <div class="lds-hourglass"></div>
@@ -15,7 +14,18 @@
     </div>
 
 <div v-if="!loading">
-   
+   <div class="text-center pull-right" >
+                  <div class=" btnMarge">
+        <div class="col">
+    <!-- button pour afficher tous les users-->
+    <b-btn v-b-modal.modalPrevent class="float-right btn btn-primary" ><i class="fas fa-plus-circle"/> Ajouter</b-btn>
+
+        </div>
+  
+    </div>
+    <h2>List des Bons de commandes</h2>
+    <hr>   
+    </div>
             <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
         <strong>Bon Commande bien ajouter !</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -31,17 +41,12 @@
         </div>
     
     
-  
-    <hr>
+ 
     <!-- formulaire pour Ajouter un article -->
 
   
    <div>
-    <div class="row">
-        <div class="col">
-    <b-btn v-b-modal.modalPrevent class="float-right btn btn-primary" ><i class="fas fa-plus-circle"/> Ajouter</b-btn>
-    </div>
-    </div>
+  
     <!-- Main UI -->
     <div class="mt-3 mb-3">
      
@@ -141,7 +146,7 @@
                                         <td>{{bonCommande.nom_compte}} </td>  
                                        
                                         <td  class="optionsWidth"> 
-                                            <a href="#"    @click="redirect_To_ShowBonCommande(bonCommande.reference_bc)"  class="btn btn-primary" ><i class="fas fa-eye d-inline-block"></i></a>
+                                            <a href="#"    @click="redirect_To_ShowBonCommande(bonCommande)"  class="btn btn-primary" ><i class="fas fa-eye d-inline-block"></i></a>
                                             <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary" ><i class="far fa-file-pdf"></i></a>
                                             
 
@@ -475,10 +480,16 @@ import  Pagination from '../../Pagination.vue';
 })
 
         },
+    redirect_To_ShowBonCommande(boncommande){
+                           console.log("waaaaaaaaaaaaaaa")
+                            console.log(boncommande)
+                    this.$router.push({ name: 'ShowBonCommandeA', params: {reference_bc: boncommande.reference_bc}});
 
-                redirect_To_ShowBonCommande(reference_bc){
-                     this.$router.push('/ShowBonCommandeA/'+reference_bc);
+                    // this.$router.push('/DevisDetails/'+reference_d);
             },
+            /*    redirect_To_ShowBonCommande(reference_bc){
+                     this.$router.push('/ShowBonCommandeA/'+reference_bc);
+            },*/
             redirect_To_EditBonCommande(boncommande){
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
                      this.$router.push({ name: 'EditBonCommandeA', params: { reference_bc: boncommande.reference_bc, fk_compte_bc: boncommande.fk_compte_bc}});

@@ -358,7 +358,9 @@ methods: {
           },
     fetchData () { 
         this.loading = true
-        
+        console.log("reference *******************")
+        console.log(this.$route.params.reference_bc)
+        this.reference_bc=this.$route.params.reference_bc;
         this.getStatus();
             this.showBonCommande(this.$route.params.reference_bc);
              this.getCommandes(this.$route.params.reference_bc);
