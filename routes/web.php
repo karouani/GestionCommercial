@@ -252,7 +252,12 @@ Route::get('/searchCharges/{desig}','ChargeController@searchCharges');
 //pour facture
 Route::get('/getBonLivraisonBL/{id_bl}','FactureController@getBonLivraisonBL');
 
-
+//Bilan 
+Route::get('/BilanAnnee','BilanController@BilanAnnee');
+Route::get('/BilanCharge','BilanController@BilanCharge');
+Route::get('/verifie','BilanController@verifie');
+Route::get('/getBilan','BilanController@getBilan');
+Route::post('/addBilan','BilanController@addBilan');
 
 //Dashboard 
 Route::get('/getArticlePlusVente','DashboardController@getArticlePlusVente');

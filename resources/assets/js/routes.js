@@ -98,6 +98,10 @@ import  EditCharge from './components/Charge/EditCharge.vue'
 //mouvement 
 import  ShowMouvements from './components/Mouvement/ShowMouvements.vue' 
 
+// bilan
+import  BilanMois from './components/Bilan/BilanMois.vue' 
+import  BilanAnnee from './components/Bilan/BilanAnnee.vue' 
+
 
 
 
@@ -735,7 +739,26 @@ const  router = new VueRouter({
 },
         
 },
-
+//bilan
+{    
+    path:"/BilanMois",
+    component: BilanMois,
+    name: "BilanMois",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+},
+},
+{    
+    path:"/BilanAnnee",
+    component: BilanAnnee,
+    name: "BilanAnnee",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+},
+        
+},
 
 
 

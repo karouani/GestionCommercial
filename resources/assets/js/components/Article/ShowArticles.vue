@@ -13,20 +13,21 @@
     </div>
 
 <div v-if="!loading">
-        <div class="row">
+        <div class="row text-center">
                     <div class="col">
     <router-link class="float-left btn btn-secondary" :to="'/ShowMouvements'" ><i class="fas fa-exchange-alt"></i> Mouvements </router-link>
     </div>
+     <h2>Liste des Articles</h2>
         <div class="col">
     <!-- button pour afficher tous les users-->
     <router-link class="float-right btn btn-secondary" :to="'/AddArticles'" ><i class="fas fa-plus-circle"/> Ajouter </router-link>
 
         </div>
   
+    
     </div>
-    <h2>List des Articles</h2>
-    <hr>   
-    </div>
+     <hr> 
+   
  
             <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
         <strong>Article bien ajouter !</strong> 
@@ -194,7 +195,7 @@
     </vue-pagination>
     </div>
     <!-- fin affiche -->
-
+    </div>
 </template>
 
 <script>
