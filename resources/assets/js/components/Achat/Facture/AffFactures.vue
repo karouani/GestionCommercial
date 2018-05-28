@@ -324,10 +324,10 @@ import  Pagination from '../../Pagination.vue';
     PdfFactures(reference_f){
                            
                 //   window.location.href='/pdf/'+reference_bc
-                  window.open('/pdf_f/'+reference_f,'_blank');
+                  window.open('/pdf_f_a/'+reference_f,'_blank');
           },
     handleOk(){
-        this.$router.push({ name: 'addFactureA', params: { id_compte:  this.compte.id_compte ,reference_f: this.facture.reference_f ,currentDate: this.currentDate }});
+        this.$router.push({ name: 'addFactureA', params: { id_compte:  this.compte.id_compte ,fk_compagnie:this.compte.fk_compagnie ,reference_f: this.facture.reference_f ,currentDate: this.currentDate }});
 
             },
              clearName(){
@@ -355,7 +355,7 @@ import  Pagination from '../../Pagination.vue';
     },
 countFactures(){
 
-                axios.get('/countFactures',{params: { type_operation_bl: 'achat' } })
+                axios.get('/countFactures',{params: { type_operation_f: 'achat' } })
                 .then((response) => {
 
                    var today = new Date();

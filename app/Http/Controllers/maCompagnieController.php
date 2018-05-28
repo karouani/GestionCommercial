@@ -78,9 +78,9 @@ class maCompagnieController extends Controller
         
     }
     public function getCompagnie($id_compagnie){
-        //dd($id_compagnie);
         $compagnie = Macompagnie::find($id_compagnie);
-     
+       // dd($compagnie);
+
          return Response()->json(['compagnie' => $compagnie]);
       }
 

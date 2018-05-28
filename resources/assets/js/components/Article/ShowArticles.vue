@@ -29,17 +29,9 @@
   
     
     </div>
-<<<<<<< HEAD
      <hr> 
-   
-=======
     
-        <center><h4>List des Articles</h4></center>
-
     
-    <hr>   
-    
->>>>>>> 6ae6dc959b2658346cbb767a58f136d47bf66e12
  
             <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
         <strong>Article bien ajouter !</strong> 
@@ -208,7 +200,6 @@
     </div>
     </div>
     <!-- fin affiche -->
-    </div>
 </template>
 
 <script>

@@ -7,6 +7,7 @@ use App\Famille_article;
 use App\Tva;
 use App\Statu;
 use App\Type_paiement;
+use App\Solde_init;
 class ParametresController extends Controller
 {
     public function __construct()
@@ -110,5 +111,26 @@ function  getTypePaiement(){
      $typePaiment->delete();
      return Response()->json(['delete' => true]);
  }
+
+ //-------------------solde initial
+ function addSolde(Request $request){
+    $solde  = new  Solde_init();
+    $solde->solde_init = $request->solde_init;
+    $solde->save();
+    return Response()->json(['etat' => true]);
+}
+
+function  getSoldes(){
+$soldes = Solde_init::all();
+
+return Response()->json(['soldes' => $soldes ]);
+}
+
+public function deleteSolde($id_solde){
+// dd($id_article);
+$solde = Solde_init::find($id_solde);
+$solde->delete();
+return Response()->json(['delete' => true]);
+}
 
 }

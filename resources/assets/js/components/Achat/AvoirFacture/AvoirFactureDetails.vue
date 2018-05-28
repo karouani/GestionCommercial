@@ -337,7 +337,7 @@ updateStatusAvoirFacture(){
      PdfAvoirFacture(reference_af){
                            
                 //   window.location.href='/pdf/'+reference_bc
-                  window.open('/pdf_af/'+reference_af,'_blank');
+                  window.open('/pdf_af_a/'+reference_af,'_blank');
           },
                         fetchData () {
       //this.error = this.post = null

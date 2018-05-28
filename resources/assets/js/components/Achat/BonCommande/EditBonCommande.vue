@@ -65,7 +65,7 @@
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
-            <label for="">{{compte.nom_compte}} </label>
+            <label for="">{{bonCommande.nom_societe_comp}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
             <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="bonCommande.adresse_bc"></textarea>
@@ -809,8 +809,8 @@ getarticles(){
                   response => {
                        
                     this.compte= response.data.compte;
-                    this.bonCommande.adresse_bc = this.compte.adresse_compte;
-                    this.bonCommande.adresse_facture_bc = this.compte.adresse_compte;
+                   // this.bonCommande.adresse_bc = this.compte.adresse_compte;
+                   // this.bonCommande.adresse_facture_bc = this.compte.adresse_compte;
                     this.getContacts(this.compte.id_compte);
 
                   });

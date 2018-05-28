@@ -79,7 +79,12 @@ Route::delete('/deleteStatu/{id_status}','ParametresController@deleteStatu');
 Route::post('/addTypePaiement','ParametresController@addTypePaiement');
 Route::get('/getTypePaiement','ParametresController@getTypePaiement');
 Route::delete('/deleteTypePaiement/{id_type_paiement}','ParametresController@deleteTypePaiement');
- //---------------------------------------------------------------------       
+       //solde initial
+       Route::post('/addSolde','ParametresController@addSolde');
+       Route::get('/getSoldes','ParametresController@getSoldes');
+       Route::delete('/deleteSolde/{id_solde}','ParametresController@deleteSolde');
+          
+//---------------------------------------------------------------------       
 
                 //Devis
         // ajouter devis,commande devis, et mode paiement de devis
@@ -99,6 +104,7 @@ Route::get('/searchDevis/{search_D}','DevisController@searchDevis');
 Route::post('/updateStatusDevis','DevisController@updateStatusDevis');
 
 Route::get('/pdf_d/{reference_d}','DevisController@pdf_d');
+Route::get('/pdf_d_a/{reference_d}','DevisController@pdf_d_a');
 Route::get('/getDevisCompte/{idCompte}','DevisController@getDevisCompte');
 Route::get('/gettNotification','DevisController@gettNotification');
 Route::get('/countAllDevis','DevisController@countAllDevis');
@@ -160,6 +166,7 @@ Route::post('/UpdateBonCommande','BonCommandeController@UpdateBonCommande');
 
 
 Route::get('/pdf/{reference_bc}','BonCommandeController@pdf');
+Route::get('/pdf_a/{reference_bc}','BonCommandeController@pdf_a');
 
 Route::post('/updateStatusBC','BonCommandeController@updateStatusBC');
 
@@ -182,6 +189,7 @@ Route::get('/countAllCommandes','BonCommandeController@countAllCommandes');
         Route::delete('/deleteFacture/{id_facture}','FactureController@deleteFacture');
         Route::post('/updateStatusFacture','FactureController@updateStatusFacture');
         Route::get('/pdf_f/{reference_f}','FactureController@pdf_f');
+        Route::get('/pdf_f_a/{reference_f}','FactureController@pdf_f_a');
         Route::get('/getFacturesCompte/{idCompte}','FactureController@getFacturesCompte');
 
       
@@ -208,6 +216,7 @@ Route::get('/countAllCommandes','BonCommandeController@countAllCommandes');
         Route::delete('/deleteAvoirFacture/{id_af}','AvoirFactureController@deleteAvoirFacture');
         Route::post('/updateStatusAvoirFacture','AvoirFactureController@updateStatusAvoirFacture');
         Route::get('/pdf_af/{reference_af}','AvoirFactureController@pdf_af');
+        Route::get('/pdf_af_a/{reference_af}','AvoirFactureController@pdf_af_a');
         Route::get('/getAvoirFacturesCompte/{idCompte}','AvoirFactureController@getAvoirFacturesCompte');
         Route::get('/searchAvoirFactures/{search_AF}','AvoirFactureController@searchAvoirFactures');
         Route::get('/getAllAvoirFactures','AvoirFactureController@getAllAvoirFactures');
@@ -235,6 +244,7 @@ Route::post('/UpdateBonLivraison','BonLivraisonController@UpdateBonLivraison');
 
 
 Route::get('/pdfBL/{reference_bl}','BonLivraisonController@pdf');
+Route::get('/pdfBL_a/{reference_bl}','BonLivraisonController@pdf_a');
 
 Route::post('/updateStatusBL','BonLivraisonController@updateStatusBL');
 Route::get('/getAllBonLivraisons','BonLivraisonController@getAllBonLivraisons');
@@ -256,6 +266,9 @@ Route::get('/getBonLivraisonBL/{id_bl}','FactureController@getBonLivraisonBL');
 Route::get('/BilanAnnee','BilanController@BilanAnnee');
 Route::get('/BilanCharge','BilanController@BilanCharge');
 Route::get('/verifie','BilanController@verifie');
+Route::get('/verifieSize','BilanController@verifieSize');
+Route::get('/solde','BilanController@solde');
+Route::get('/getChargeMois','BilanController@getChargeMois');
 Route::get('/getBilan','BilanController@getBilan');
 Route::post('/addBilan','BilanController@addBilan');
 

@@ -3,10 +3,11 @@
            <div class="row">
                <div class="col-3">
                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <button @click="testAffich.testfamille = true;testAffich.testTVA = false;testAffich.testStatus = false;testAffich.testTypePaiement = false" class="btn btn-primary mb-3 shadawButton">Famille article </button>
-                <button @click="testAffich.testTVA = true;testAffich.testfamille = false;testAffich.testStatus = false;testAffich.testTypePaiement = false" class="btn btn-primary mb-3 shadawButton">TVA </button>
-                <button @click="testAffich.testStatus = true;testAffich.testfamille = false;testAffich.testTVA=false;testAffich.testTypePaiement = false" class="btn btn-primary mb-3 shadawButton ">Statut </button>
-                <button @click="testAffich.testTypePaiement = true;testAffich.testfamille = false;testAffich.testTVA=false;testAffich.testStatus = false" class="btn btn-primary mb-3 shadawButton ">Type paiement</button>
+                <button @click="testAffich.testfamille = true;testAffich.testSolde =false;testAffich.testTVA = false;testAffich.testStatus = false;testAffich.testTypePaiement = false" class="btn btn-primary mb-3 shadawButton">Famille article </button>
+                <button @click="testAffich.testTVA = true;testAffich.testSolde =false;testAffich.testfamille = false;testAffich.testStatus = false;testAffich.testTypePaiement = false" class="btn btn-primary mb-3 shadawButton">TVA </button>
+                <button @click="testAffich.testStatus = true;testAffich.testSolde =false;testAffich.testfamille = false;testAffich.testTVA=false;testAffich.testTypePaiement = false" class="btn btn-primary mb-3 shadawButton ">Statut </button>
+                <button @click="testAffich.testTypePaiement = true;testAffich.testSolde =false;testAffich.testfamille = false;testAffich.testTVA=false;testAffich.testStatus = false" class="btn btn-primary mb-3 shadawButton ">Type paiement</button>
+                <button @click="testAffich.testSolde = true;testAffich.testTypePaiement = false;testAffich.testfamille = false;testAffich.testTVA=false;testAffich.testStatus = false" class="btn btn-primary mb-3 shadawButton ">Solde Initial</button>
                 </div>
                </div>
                 <div class="col">
@@ -114,6 +115,33 @@
                        </table>
                      </div>  
                      </div>
+
+
+                      <div v-if="testAffich.testSolde"> 
+                    <div class="row">
+                        <div class="col">
+                    <input v-model="solde.solde_init"  type="text"  placeholder="Entrez Solde initial">
+                    </div>
+                    <div class="col" v-if="add==true">
+                     <button @click="addSolde" class="btn btn-success">Ajouter </button>
+                     </div>
+                   </div>             
+                    <div class="row">
+                       <table class="table table-bordered tableau">
+                        <thead>
+                            <tr>
+                            <th>Solde initial</th>
+                            </tr>
+                        </thead>
+                        <tbody>                     
+                            <tr v-for="solde in soldes" :key="solde.id_solde">
+                            <th>{{solde.solde_init}}</th>      
+                            <th v-if="add==false"><a @click="deleteSolde(solde)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                            </tr>
+                        </tbody>
+                       </table>
+                     </div>  
+                     </div>
                 </div>
             </div>        
 
@@ -134,6 +162,7 @@
             testTVA:false,
             testStatus:false,
             testTypePaiement:false,
+            testSolde:false,
         },
         famille_article:{
             id_famille : 0,
@@ -158,6 +187,12 @@
             type_paiement: "",
           },
           typePaiements: [],
+          solde:{
+              id_solde:0,
+              solde_init:"",
+          },
+          soldes:[],
+          add:false,
           }),
     
         
@@ -166,6 +201,7 @@
                 this.getTvas();
                 this.getStatus();
                 this.getTypePaiement();
+                this.getSoldes();
           },
         methods:{
                 //-------------------------------------- famille
@@ -344,6 +380,61 @@
                         this.$swal(
                         'Supprimé!',
                         'Votre Type paiement a été supprimé',
+                        'success'
+                        )
+                        }
+                        })
+                        },
+
+
+                //------------------solde
+
+                     addSolde(){
+                  axios.post('/addSolde',this.solde).then(response => {     
+                      this.getSoldes();    
+                    console.log('famille Bien ajouter !');
+                  });
+            },
+ 
+        getSoldes(){
+                axios.get('/getSoldes')
+                .then((response) => {
+                  console.log('shit');
+                    this.soldes = response.data.soldes;
+                  console.log(this.soldes.length)  
+                  if(this.soldes.length !=0){
+                      this.add=false;
+                  }
+                  else{
+                      this.add=true;
+                  }
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },
+                       deleteSolde(solde){
+
+
+                        this.$swal({
+                        title: 'Etes-vous sur?',
+                        text: "Vous ne serez pas capable de revenir a cela!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Oui, supprimez-le!'
+                                                }).then((result) => {
+                        if (result.value) {
+                            axios.delete('/deleteSolde/'+solde.id_solde).then(
+                                        response => {
+                                
+                                            this.getSoldes();
+                                        });
+                        this.$swal(
+                        'Supprimé!',
+                        'Votre categorie a été supprimé',
                         'success'
                         )
                         }

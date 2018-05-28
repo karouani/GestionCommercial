@@ -74,10 +74,35 @@
                                       </tr>
                                        </tbody>
                                 </table> 
+                                 <vue-pagination  :pagination="charges"
+                     @paginate="this.getChargeMois()"
+                     :offset="4">
+                                 </vue-pagination>
+                            </div>
+
+                                </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="row" >
+             <div class="card">
+
+                        <div class="card-body">
+
                                 <div v-if="moisS != ''">
                                     <div v-if="anneeS != ''">
-                                        <table class="table table-bordered">
+                                         <div class="table-responsive" >
 
+                                        <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                          <th>Type</th>
+                                          <th>Calcul</th>
+                                        </tr>
+                                        </thead>
                                       <tr>
                                           <th>Total Charges</th>
                                           
@@ -140,10 +165,11 @@
                                     </div>
                                 </table>
                               
-
+                                         </div>
 
  <form   @submit.prevent="addBilan">
                                 <table class="table table-bordered">  
+                                    <thead>
                                           <tr>
                                           <th>Debit</th>
                                           <th>Crédit</th>
@@ -152,7 +178,7 @@
                                           <th>Etat</th>
 
                                           </tr> 
-                                          
+                                    </thead>    
                                            <tr>
                                           
                                           <th> {{totalSortie}}</th>
@@ -176,25 +202,18 @@
                             </div>
 
                               </div>
-                                </div>
-
-
-                        </div>
+             </div>
+             </div>
                     </div>
                     <div>
               
            
             </div>
     </div>
-    <!--
-    <vue-pagination  :pagination="charges"
-                     @paginate="getCharges()"
-                     :offset="4">
-    </vue-pagination>
-    -->
+    
     </div>
     <!-- fin affiche -->
-    </div>
+   
 </template>
 
 <script>
@@ -302,7 +321,6 @@ import  Pagination from '../Pagination.vue';
             this.currentDate  = yyyy+'-'+mm+'-'+dd;
                        console.log("current date ******************")
                        console.log(this.currentDate); 
-
         
         
         },
@@ -315,31 +333,28 @@ import  Pagination from '../Pagination.vue';
 
 
       methods: {
-        
-          searchCharges(event){
-             console.log(this.search);
-             this.charges.current_page=1;
-             if(this.search === ""){
-                //console.log('test2');
-                    this.getCharges();}
-                else {
-                     // console.log('test1');
-                axios.get('/searchCharges/'+this.search+'?page='+this.charges.current_page+'')
+        getChargeMois(){
+                axios.get('/getCharges?page='+this.charges.current_page+'',{params:{mois:this.moisS,annee:this.anneeS}})
                 .then((response) => {
-                  
-                    this.charges = response.data.charges;
+                  console.log('shiiiiiiiiiiit');
+                  console.log(response.data.charges)
+                   // this.charges = response.data.charges;
+                   
+this.loading = false
                   
                 })
                 .catch(() => {
                     console.log('handle server error from here');
-                });}
-                    
+                });
           },
+       
 
             fetchData () {
       //this.error = this.post = null
       this.loading = true
+    //this.getChargeMois();
       this.BilanCharge();
+
    
     },
           BilanCharge(){
@@ -350,9 +365,15 @@ import  Pagination from '../Pagination.vue';
                   
                     this.charges = response.data.charges;
                     this.totalMois=response.data.totalMois[0].total;
-                    this.totalAchat=response.data.totalAchat[0].totalA;
+                    let totalAchatF=response.data.totalAchat[0].totalA;
+                    let totalAchatFAvoir=response.data.totalAchatAvoir[0].totalAA;
+                    this.totalAchat=totalAchatF - totalAchatFAvoir;
+
                     this.totalSortie=this.totalMois+this.totalAchat;
-                    this.totalVente=response.data.totalVente[0].totalV;
+                    let totalVenteF=response.data.totalVente[0].totalV;
+                    let totalVenteFAvoir=response.data.totalVenteAvoir[0].totalVA;
+
+                    this.totalVente=totalVenteF - totalVenteFAvoir;
                     this.difference=this.totalVente - this.totalSortie;
 
                     let tvaA= response.data.totalAchat[0].tvaA;
@@ -362,11 +383,13 @@ import  Pagination from '../Pagination.vue';
                     this.diffTVA=this.tvaVente - this.tvaAchat;
                     
                     this.benifice=this.difference - this.diffTVA;
-this.soldeDepart=0;
-                    this.etat=this.soldeDepart + this.difference;
-
+//this.soldeDepart=0;
+                    this.etat=+this.soldeDepart + +this.difference;
+this.getChargeMois();
                      this.verifiee();
-                     this.verifieeP();
+                    // this.verifieeP();
+                     this.verifieSize();
+                     
 this.loading = false
                   
                 })
@@ -395,15 +418,56 @@ this.loading = false
                 });
 
            },  
+        getSolde(){
+                axios.get('/solde')
+                    .then((response) => {
+                                                    console.log("sooooooooooooooolde")
+
+                        console.log(response.data.solde)
+                        this.solde = response.data.solde[0];
+                      
+                            this.soldeDepart=this.solde.solde_init;
+                            console.log(this.soldeDepart)
+                      
+              
+            })
+        },
+        verifieSize(){
+            
+            axios.get('/verifieSize')
+                    .then((response) => {
+                        console.log('verifie size')
+                        console.log(response.data.verifie)
+                        this.verifie = response.data.verifie;
+                        if(this.verifie === 0){
+                            console.log("teeeeestppppppppppppppp")
+                            this.getSolde();
+                            this.testP=true;
+                        }
+                        else if(this.verifie != 0){
+                            this.verifieeP();
+                            this.testP=false;
+                          
+                        }
+              
+            })
+        },
 
             verifieeP(){
                 let moisP=this.moisS - 1;
+                let annee;
                 if(moisP<10) 
                 {
                     moisP='0'+moisP;
+                    annee=this.anneeS;
+                }
+                if(this.moisS == 1) 
+                {
+                    moisP='12';
+                    annee=this.anneeS - 1;
                 }
                console.log(moisP)
-                axios.get('/verifie',{params:{mois:moisP,annee:this.anneeS}})
+                axios.get('/verifie',{params:{mois:moisP,annee:annee}})
                     .then((response) => {
                         console.log('verifie add')
                         console.log(response.data.verifie)
@@ -413,10 +477,11 @@ this.loading = false
                             this.testP = true;
                         }
                         else{
+                             console.log("siiiiiiiiiiiiiiiiiiiiiii")
                             this.soldeDepart=response.data.verifie[0].etat_b;
                             this.testP=false;
                           
-}
+                        }
               
 })
            }, 
@@ -523,6 +588,9 @@ table{
 }
 th{
         width: 200px;
+}
+.card{
+    width:100%;
 }
 
 

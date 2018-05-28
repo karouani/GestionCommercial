@@ -49,7 +49,7 @@
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
-            <label for="">{{compte.nom_compte}} </label>
+            <label for="">{{compagnie.nom_societe_comp}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
             <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="devi.adresse_d"></textarea>
@@ -464,6 +464,18 @@ console.log(this.devi.total_lettre_d)
             
     },
     
+     getCompagnie(fk_compagnie){
+                  axios.get('/getCompagnie/'+fk_compagnie).then(
+                  response => {
+                       
+                    this.compagnie= response.data.compagnie;
+                    this.devi.adresse_d = this.compagnie.adresse_comp;
+                   // this.bonCommande.adresse_facture_bc = this.compagnie.adresse_comp;
+                   // this.getContacts(this.compte.id_compte);
+                   // console.log(this.compte)
+                  });
+                 // this.getRemise(id_compte);     
+        },
         // Taux de tva
   changeTVA(tvaa,commande){
         console.log(tvaa);
@@ -656,6 +668,8 @@ diffDate() {
             this.getFournisseur();
             this.getClient(this.$route.params.id_compte);
             this.getRemise(this.$route.params.id_compte);
+            this.getCompagnie(this.$route.params.fk_compagnie)
+
             this.getStatus();
             this.getTypePaiement();
 

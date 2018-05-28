@@ -359,7 +359,7 @@ import  Pagination from '../../Pagination.vue';
           PdfBonCommande(reference_bc){
                            
                 //   window.location.href='/pdf/'+reference_bc
-                  window.open('/pdf/'+reference_bc,'_blank');
+                  window.open('/pdf_a/'+reference_bc,'_blank');
           },
 
          getFournisseur(){
@@ -483,7 +483,7 @@ import  Pagination from '../../Pagination.vue';
     redirect_To_ShowBonCommande(boncommande){
                            console.log("waaaaaaaaaaaaaaa")
                             console.log(boncommande)
-                    this.$router.push({ name: 'ShowBonCommandeA', params: {reference_bc: boncommande.reference_bc}});
+                    this.$router.push({ name: 'ShowBonCommandeA', params: {bonCommande: boncommande}});
 
                     // this.$router.push('/DevisDetails/'+reference_d);
             },
@@ -498,7 +498,7 @@ import  Pagination from '../../Pagination.vue';
 
             
             handleOk(){
-                    this.$router.push({ name: 'addBonCommandeA', params: { id_compte: this.compte.id_compte ,reference_bc: this.reference_bc, currentDate: this.currentDate  }});
+                    this.$router.push({ name: 'addBonCommandeA', params: { id_compte: this.compte.id_compte,fk_compagnie:this.compte.fk_compagnie ,reference_bc: this.reference_bc, currentDate: this.currentDate  }});
 
             },
             

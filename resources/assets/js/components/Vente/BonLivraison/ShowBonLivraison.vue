@@ -274,7 +274,7 @@ methods: {
           PdfBonLivraison(reference_bl){
                            
                 //   window.location.href='/pdf/'+reference_bl
-                  window.open('/pdf/'+reference_bl,'_blank');
+                  window.open('/pdfBL/'+reference_bl,'_blank');
           },
     fetchData () { 
         this.loading = true

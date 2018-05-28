@@ -94,7 +94,7 @@
           
     </div>
     <div class="col-md-6 col-sm-12">
-        
+        Client :
         <div class="container  infoClient">
             <label class="compte" for="">{{devi.nom_compte}} </label>
             <div class="form-group row">

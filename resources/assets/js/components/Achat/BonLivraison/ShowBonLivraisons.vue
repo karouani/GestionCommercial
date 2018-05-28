@@ -362,7 +362,7 @@ import  Pagination from '../../Pagination.vue';
           PdfBonLivraison(reference_bl){
                            
                 //   window.location.href='/pdf/'+reference_bl
-                  window.open('/pdfBL/'+reference_bl,'_blank');
+                  window.open('/pdfBL_a/'+reference_bl,'_blank');
           },
 
          getFournisseur(){
@@ -494,7 +494,7 @@ import  Pagination from '../../Pagination.vue';
 
             
             handleOk(){
-                    this.$router.push({ name: 'addBonLivraisonA', params: { id_compte: this.compte.id_compte ,reference_bl: this.reference_bl, currentDate: this.currentDate  }});
+                    this.$router.push({ name: 'addBonLivraisonA', params: { id_compte: this.compte.id_compte ,fk_compagnie:this.compte.fk_compagnie ,reference_bl: this.reference_bl, currentDate: this.currentDate  }});
 
             },
             

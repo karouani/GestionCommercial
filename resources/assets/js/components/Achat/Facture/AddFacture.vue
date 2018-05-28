@@ -11,7 +11,7 @@
 <div v-if="!loading">
      <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/getFactures'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/getFacturesA'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div> 
 <div class=" container colBackround">
@@ -51,7 +51,7 @@
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
-            <label for="">{{compte.nom_compte}} </label>
+            <label for="">{{compagnie.nom_societe_comp}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
             <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="facture.adresse_f"></textarea>
@@ -350,7 +350,7 @@
                 id_type_paiement:0,
                 type_paiement:"",
             },
-           
+           compagnie:{},
             index:0,
             // total de prix de tt les commandes
             total_prix:0,
@@ -411,6 +411,18 @@ methods: {
                     console.log(this.compte)
                   });
                
+        },
+        getCompagnie(fk_compagnie){
+                  axios.get('/getCompagnie/'+fk_compagnie).then(
+                  response => {
+                       
+                    this.compagnie= response.data.compagnie;
+                    this.facture.adresse_f = this.compagnie.adresse_comp;
+                    //this.bonCommande.adresse_facture_bc = this.compagnie.adresse_comp;
+                   // this.getContacts(this.compte.id_compte);
+                   // console.log(this.compte)
+                  });
+                 // this.getRemise(id_compte);     
         },
     DataCourant(){
             var today = new Date();
@@ -778,6 +790,7 @@ console.log('-------------------- test ------------------------')
         this.getTvas();
         this.getTypePaiement();
         this.getCommandes(this.$route.params.bonLivraison.reference_bl);
+        //this.getCompagnie(this.$route.params.fk_compagnie);
            this.TestConvert = true
            this. TestConvertBL = true
     }
@@ -838,6 +851,7 @@ console.log('-------------------- test ------------------------')
             this.getRemise(this.$route.params.id_compte);
             this.getStatus();
             this.getTypePaiement();
+            this.getCompagnie(this.$route.params.fk_compagnie);
 
     }
 },

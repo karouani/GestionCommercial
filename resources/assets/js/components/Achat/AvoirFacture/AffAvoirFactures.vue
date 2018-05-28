@@ -332,7 +332,7 @@ import  Pagination from '../../Pagination.vue';
     PdfAvoirFactures(reference_af){
                            
                 //   window.location.href='/pdf/'+reference_bc
-                  window.open('/pdf_af/'+reference_af,'_blank');
+                  window.open('/pdf_af_a/'+reference_af,'_blank');
           },
     handleOk(){
         this.$router.push({ name: 'addAvoirFactureA', params: { id_compte:  this.compte.id_compte ,reference_af: this.avoirFacture.reference_af ,currentDate: this.currentDate }});
@@ -363,7 +363,7 @@ import  Pagination from '../../Pagination.vue';
     },
 countAvoirFactures(){
 
-                axios.get('/countAvoirFactures',{params: { type_operation_bl: 'achat' } })
+                axios.get('/countAvoirFactures',{params: { type_operation_af: 'achat' } })
                 .then((response) => {
 
                    var today = new Date();

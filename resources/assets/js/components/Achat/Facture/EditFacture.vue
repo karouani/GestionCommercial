@@ -49,7 +49,7 @@
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
-            <label for="">{{facture.nom_compte}} </label>
+            <label for="">{{facture.nom_societe_comp}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
             <textarea placeholder="address fournisseur" class="AdressClient" name="" id="" cols="50" rows="4" v-model="facture.adresse_f"></textarea>

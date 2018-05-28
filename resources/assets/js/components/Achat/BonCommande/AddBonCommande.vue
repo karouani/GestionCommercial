@@ -8,7 +8,7 @@
      <div v-if="!loading" >
     <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandesA'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div>     
 
@@ -69,7 +69,7 @@
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
-            <label for="">{{compte.nom_compte}} </label>
+            <label for="">{{compagnie.nom_societe_comp}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
              <span>Adresse de livraison</span>
@@ -520,7 +520,7 @@ methods: {
         this.getTvas();
         this.getTypePaiement();
         
-     
+       // this.getCompagnie(this.$route.params.fk_compagnie)
         this.getCommandes(this.$route.params.reference_d);
         this.getCompte(this.$route.params.id_compte);
         this.getContacts(this.$route.params.id_compte);
@@ -539,6 +539,9 @@ methods: {
             this.bonCommande.date_bc = this.$route.params.currentDate
             //this.commande.fk_document=this.$route.params.reference_bc
             this.modePaiement.fk_document=this.$route.params.reference_bc
+            console.log("compaaaaaagniiiiiiiie")
+            this.getCompagnie(this.$route.params.fk_compagnie)
+            console.log(this.$route.params.fk_compagnie)
             this.getCompte(this.$route.params.id_compte);
             this.getCondtionFacture(this.$route.params.id_compte); 
             this.getStatus();
@@ -764,12 +767,25 @@ methods: {
                   response => {
                        
                     this.compte= response.data.compte;
-                    this.bonCommande.adresse_bc = this.compte.adresse_compte;
-                    this.bonCommande.adresse_facture_bc = this.compte.adresse_compte;
+                   // this.bonCommande.adresse_bc = this.compte.adresse_compte;
+                   // this.bonCommande.adresse_facture_bc = this.compte.adresse_compte;
                     this.getContacts(this.compte.id_compte);
                     console.log(this.compte)
                   });
                   this.getRemise(id_compte);     
+        },
+
+        getCompagnie(fk_compagnie){
+                  axios.get('/getCompagnie/'+fk_compagnie).then(
+                  response => {
+                       
+                    this.compagnie= response.data.compagnie;
+                    this.bonCommande.adresse_bc = this.compagnie.adresse_comp;
+                    this.bonCommande.adresse_facture_bc = this.compagnie.adresse_comp;
+                   // this.getContacts(this.compte.id_compte);
+                   // console.log(this.compte)
+                  });
+                 // this.getRemise(id_compte);     
         },
         getCondtionFacture:function(id_compte){
                   axios.get('/getCFacture/'+id_compte).then(

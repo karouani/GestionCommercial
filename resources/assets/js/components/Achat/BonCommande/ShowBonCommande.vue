@@ -88,7 +88,7 @@
             </div>
         <span>Adresse de livraison  :</span> <br>
         <div class="container  infoClient">
-            <label for="">{{bonCommande.nom_compte}} </label>
+            <label for="">  {{bonCommande.nom_societe_comp}} </label>
             <div class="form-group row">
             <div class="col-sm-10 col-form-label">
             <label>{{bonCommande.adresse_bc}}</label>
@@ -98,7 +98,7 @@
         </div>
         <span>Adresse de facturation  :</span> <br>
         <div class="container  infoClient">
-            <label for="">{{bonCommande.nom_compte}} </label>
+            <label for="">  {{bonCommande.nom_societe_comp}} </label>
             <div class="form-group row">
             <div class="col-sm-10 col-form-label">
             <label>{{bonCommande.adresse_facture_bc}}</label>
@@ -113,10 +113,11 @@
     <div class="col-md-6 col-sm-12">
         <span>Fournisseur :</span> <br>
         <div class="container  infoClient">
-            <label for="">{{bonCommande.nom_societe_comp}} </label>
+            <label for="">{{bonCommande.nom_compte}}
+             </label>
             <div class="form-group row">
             <div class="col-sm-10 col-form-label">
-            <label>{{bonCommande.adresse_comp}}</label>
+            <label>{{bonCommande.adresse_compte}}</label>
 
             </div>
          </div>
@@ -354,14 +355,16 @@ methods: {
           PdfBonCommande(reference_bc){
                            
                 //   window.location.href='/pdf/'+reference_bc
-                  window.open('/pdf/'+reference_bc,'_blank');
+                  window.open('/pdf_a/'+reference_bc,'_blank');
           },
     fetchData () { 
         this.loading = true
-        
+        console.log("yeeeeeeeeeeeeeees")
+        console.log(this.$route.params.bonCommande.reference_bc)
+        this.reference_bc=this.$route.params.bonCommande.reference_bc
         this.getStatus();
-            this.showBonCommande(this.$route.params.reference_bc);
-             this.getCommandes(this.$route.params.reference_bc);
+            this.showBonCommande(this.$route.params.bonCommande.reference_bc);
+             this.getCommandes(this.$route.params.bonCommande.reference_bc);
     },
 
     
@@ -401,13 +404,13 @@ methods: {
     },
 
         showBonCommande(reference_bc){
-
+                             
             axios.get('/showBonCommande/'+reference_bc)
                                 .then((response) => {
                                    
                                     this.bonCommande = response.data.bonCommande[0];
                                     console.log("recup Bon Commande")
-                                    console.log(this.bonCommande)
+                                    console.log(response.data.bonCommande)
                                 })
                                 .catch(() => {
                                         console.log('handle server error from here');

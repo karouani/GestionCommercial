@@ -93,9 +93,9 @@
           
     </div>
     <div class="col-md-6 col-sm-12">
-        
+        Client :
         <div class="container  infoClient">
-            <label class="compte" for="">{{devi.nom_compte}} </label>
+            <label class="compte" for="">{{devi.nom_societe_comp}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
             {{devi.adresse_d}}
@@ -379,7 +379,7 @@ updateStatusDevis(){
      PdfDevis(reference_d){
                            
                 //   window.location.href='/pdf/'+reference_bc
-                  window.open('/pdf_d/'+reference_d,'_blank');
+                  window.open('/pdf_d_a/'+reference_d,'_blank');
           },
                         fetchData () {
       this.loading = true

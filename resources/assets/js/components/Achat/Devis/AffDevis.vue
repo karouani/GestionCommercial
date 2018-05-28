@@ -326,10 +326,10 @@ import  Pagination from '../../Pagination.vue';
     PdfDevis(reference_d){
                            
                 //   window.location.href='/pdf/'+reference_bc
-                  window.open('/pdf_d/'+reference_d,'_blank');
+                  window.open('/pdf_d_a/'+reference_d,'_blank');
           },
     handleOk(){
-        this.$router.push({ name: 'addDevisA', params: { id_compte: this.compte.id_compte ,reference_d: this.devi.reference_d ,currentDate: this.currentDate }});
+        this.$router.push({ name: 'addDevisA', params: { id_compte: this.compte.id_compte ,fk_compagnie:this.compte.fk_compagnie ,reference_d: this.devi.reference_d ,currentDate: this.currentDate }});
 
             },
              clearName(){

@@ -47,14 +47,17 @@
                 <label for="inputPassword" class="col-sm-12 col-form-label">Validité : {{facture.date_limit_f}}  </label>
             </div>
             <div class="top form-group row">
-                <label for="inputPassword" class="col-sm-12 col-form-label">Vendeur : {{facture.nom_societe}}  </label>
+                <label for="inputPassword" class="col-sm-12 col-form-label">Acheteur : {{facture.nom_societe_comp}}  </label>
+            </div>
+            <div class="top form-group row">
+                <label for="inputPassword" class="col-sm-12 col-form-label">Vendeur : {{facture.nom_compte}}  </label>
             </div>
           
     </div>
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
-            <label class="compte" for="">{{facture.nom_compte}} </label>
+            <label class="compte" for="">{{facture.nom_societe_comp}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
             {{facture.adresse_f}}
@@ -337,7 +340,7 @@ updateStatusFacture(){
      PdfFacture(reference_f){
                            
                 //   window.location.href='/pdf/'+reference_bc
-                  window.open('/pdf_f/'+reference_f,'_blank');
+                  window.open('/pdf_f_a/'+reference_f,'_blank');
           },
                         fetchData () {
       //this.error = this.post = null

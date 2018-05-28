@@ -52,7 +52,7 @@
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
-            <label for="">{{bonLivraison.nom_compte}} </label>
+            <label for="">{{bonLivraison.nom_societe_comp}} </label>
             <div class="form-group row">
             <div class="col-sm-10 col-form-label">
             <label>{{bonLivraison.adresse_bl}}</label>
@@ -274,7 +274,7 @@ methods: {
           PdfBonLivraison(reference_bl){
                            
                 //   window.location.href='/pdf/'+reference_bl
-                  window.open('/pdf/'+reference_bl,'_blank');
+                  window.open('/pdfBL_a/'+reference_bl,'_blank');
           },
     fetchData () { 
         this.loading = true

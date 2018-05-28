@@ -58,14 +58,38 @@
                                          <td>{{m}} - {{anneeS}} </td>
                                    
                                     
-                                          <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
                                             
-                                            <td> {{bilan.debit_b}} </td> 
-                                            <td> {{bilan.credit_b}} </td> 
-                                            <td> {{bilan.difference_b}} </td>
-                                            <td> {{bilan.solde_depart_b}} </td>
-                                            <td> {{bilan.etat_b}} </td>
-                                        </div>
+                                            <td>
+                                           <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
+                                                    {{bilan.debit_b}}
+                                           </div>
+                                    
+                                                     </td> 
+                                            <td>
+                                            <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">                                              
+                                                 {{bilan.credit_b}}
+                                                 
+                                            </div>
+                                                 </td> 
+                                            <td> 
+                                                <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
+                                     
+                                                {{bilan.difference_b}} 
+                                                </div>
+                                                </td>
+                                            <td>
+                                             <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
+                                             
+                                                 {{bilan.solde_depart_b}}
+                                             </div>
+                                                  </td>
+                                            <td>
+                                              <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
+                                            
+                                                 {{bilan.etat_b}}
+                                              </div>
+                                                  </td>
+                                   
                                                
                                     </tr>
                                   
@@ -247,10 +271,7 @@ import  Pagination from '../Pagination.vue';
                   console.log(response.data.bilanA[0].credit_b);
                   
                     this.bilanAnnee = response.data.bilanA;
-                                    console.log(this.bilanAnnee[0].credit_b);
-
-                  
-//this.loading = false
+                   
                   
                 })
                 .catch(() => {

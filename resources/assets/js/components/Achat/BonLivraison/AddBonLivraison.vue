@@ -63,7 +63,7 @@
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
-            <label for="">{{compte.nom_compte}} </label>
+            <label for="">{{compagnie.nom_societe_comp}} </label>
             <div class="form-group row">
             <div class="col-sm-10">
              <span>Adresse de livraison</span>
@@ -369,6 +369,7 @@
                     adresse_compte:"",
                     fk_compagnie : "",
               },
+              compagnie:{},
               condition_facture : { 
                     id_condition : 0,
                     devise: "",
@@ -563,6 +564,10 @@ methods: {
   this.bonLivraison.date_bl = this.DataCourant();
 this.Testopen.testRefBC = true;
 this.bonLivraison.fk_bonCommande= this.$route.params.bonCommande.reference_bc;
+console.log("compaaaaaaaaa")
+console.log(this.$route.params.fk_compagnie)
+this.fk_compagnie=this.$route.params.fk_compagnie;
+       // this.getCompagnie(this.$route.params.fk_compagnie)
 
 this.getTypePaiement();
 console.log('-------------------- test ------------------------')
@@ -605,6 +610,8 @@ this.TestConvertBC= true;
         this.getFournisseur();
         this.getTvas();
         this.getTypePaiement();
+                //this.getCompagnie(this.$route.params.fk_compagnie)
+
         this.getCommandes(this.$route.params.devi.reference_d);
         this.TestConvert= true;
         this.TestConvertD= true;
@@ -632,6 +639,10 @@ console.log('-------------------- test22222 ------------------------')
             this.getFournisseur();
             this.getTypePaiement();
             this.getContacts(this.$route.params.id_compte);
+            console.log("compaaaaaaaaa")
+console.log(this.$route.params.fk_compagnie)
+            this.getCompagnie(this.$route.params.fk_compagnie)
+
 
          
           
@@ -839,13 +850,31 @@ console.log('-------------------- test22222 ------------------------')
                     console.log('handle server error from here');
         });
     },
+    getCompagnie(fk_compagnie){
+         console.log("test gettttttt")
+                  axios.get('/getCompagnie/'+fk_compagnie)
+                  .then((response) => {
+                      console.log(response)
+
+                    this.compagnie= response.data.compagnie;
+                    this.bonLivraison.adresse_bl = this.compagnie.adresse_comp;
+                   // this.bonCommande.adresse_facture_bc = this.compagnie.adresse_comp;
+                   // this.getContacts(this.compte.id_compte);
+                   // console.log(this.compte)
+                  })
+                    .catch(() => {
+                    console.log('handle server error from here');
+        });
+                 // this.getRemise(id_compte);     
+        },
+
      getCompte:function(id_compte){
                   axios.get('/getCompte/'+id_compte).then(
                   response => {
                        
                     this.compte= response.data.compte;
-                    this.bonLivraison.adresse_bl = this.compte.adresse_compte;
-                    this.bonLivraison.adresse_facture_bl = this.compte.adresse_compte;
+                   // this.bonLivraison.adresse_bl = this.compte.adresse_compte;
+                   // this.bonLivraison.adresse_facture_bl = this.compte.adresse_compte;
                     console.log(this.compte)
                   });
                   this.getRemise(id_compte);     
