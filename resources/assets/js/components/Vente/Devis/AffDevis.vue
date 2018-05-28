@@ -26,18 +26,7 @@
     </div>
 
 
-    <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testAjout">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>Devis Bien Ajouter !</strong>
-</div>
-  <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEdit">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>Devis Bien Modifier !</strong>
-</div>
+   
 
     <!-- formulaire pour Ajouter un devi -->
    
@@ -355,7 +344,7 @@ import  Pagination from '../../Pagination.vue';
             },
             redirect_To_EditDevis(devi){
                    //  this.$router.push('/ShowBonCommande/'+reference_bc);
-                     this.$router.push({ name: 'EditDevis', params: {id_devis: devi.id_devis, reference_d: devi.reference_d, fk_compte_d: this.compte.id_compte}});
+                     this.$router.push({ name: 'EditDevis', params: {id_devis: devi.id_devis, reference_d: devi.reference_d, fk_compte_d: devi.fk_compte_d}});
 
             },
                redirect_To_DevisDetails(devi){

@@ -86,7 +86,6 @@
                                     <th>Article</th>
                                     <th>Qté</th>
                                     <th>Remise</th>
-                                    <th>Maj</th>
                                     <th>Prix HT</th>
                                     <th>TVA</th>
                                     <th>Total HT</th>
@@ -109,7 +108,6 @@
                             </th> 
                             <th><input class="form-control ThWidth"  type="text" v-model="commande.quantite_cmd" ></th>
                             <th>  <input class="form-control ThWidth"  type="text" v-model="commande.remise_cmd" ></th> 
-                            <th>  <input class="form-control ThWidth"  type="text" v-model="commande.majoration_cmd" ></th> 
                             <th>  <input class="form-control ThWidth "  type="text" v-model="commande.prix_ht" ></th> 
                               <th>  <input  type="text" v-model="commande.fk_tva_cmd" disabled hidden>
             <multiselect v-model="compte" :options="comptes" placeholder="Choisir un Fournisseur" label="nom_compte" @input="getCompte(compte.id_compte)"></multiselect>
@@ -131,10 +129,8 @@
      </div>
     <div class="row">
                                             <div class="col-sm-4"> 
-                                                <select class="custom-select " id="fk_article" v-model="commande.fk_article" >
-                                                 <option selected disabled>Choisir Article</option>
-                                                <option v-for="article in articles" :key="article.id_article" :value="article.id_article">{{article.reference_art}}--{{article.designation}}</option>
-                                                </select>                                                                     
+                                               <multiselect  :hide-selected="true" v-model="article" :options="articles" placeholder="Choisir un article" label="designation"  track-by="designation" @input="getPrixArticle()"></multiselect>
+                                                                  
                                             </div>
                                             <div class="col-sm-6">
                                             <a  @click="addRow(commande)" class="btn btn-success"  ><i class="fas fa-plus-circle"></i> Ajouter un article </a>
@@ -311,6 +307,21 @@
     export default{ 
         
           data: () => ({
+                           article: { 
+                    id_article :0,
+                    reference_art :"",
+                    type_art :"",
+                    designation :"",
+                    description :"",
+                    prix_ht_achat :"",
+                    prix_ht_vente :"",
+                    unite :"",
+                    quantite :"",
+                    quantite_min :"",
+                    photo_art :'',
+                    fk_tva_applicable :"",
+                    fk_famille :"",
+              },
                 TestConvert:false,
                 TestConvertD:false,
                 TestConvertBC:false,
@@ -472,6 +483,9 @@
              
       }),
         created () {
+        if(this.$route.params.bonCommande.reference_bc== undefined){
+             this.$router.push('/ShowBonLivraisonsA');
+        }
     // fetch the data when the view is created and the data is
     // already being observed
     this.fetchData()
@@ -804,6 +818,7 @@ console.log(this.$route.params.fk_compagnie)
    getPrixArticle(){
        // console.log('-------- articles ');
          //  console.log();
+          this.commande.fk_article = this.article.id_article;
          let this1=this;
            this.articles.forEach(function(article) {
                console.log('**** article ***') 

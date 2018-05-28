@@ -271,6 +271,10 @@ Route::get('/solde','BilanController@solde');
 Route::get('/getChargeMois','BilanController@getChargeMois');
 Route::get('/getBilan','BilanController@getBilan');
 Route::post('/addBilan','BilanController@addBilan');
+Route::get('/getEtatCheque','BilanController@getEtatCheque');
+Route::get('/getEtatChequeAchat','BilanController@getEtatChequeAchat');
+Route::get('/getEtatChequeCharge','BilanController@getEtatChequeCharge');
+
 
 //Dashboard 
 Route::get('/getArticlePlusVente','DashboardController@getArticlePlusVente');

@@ -75,13 +75,7 @@
                                        <td  class="optionsWidth"> 
                                             <a href="#"    @click="redirect_To_FactureDetails(facture)"  class="btn btn-primary" ><i class="fas fa-eye d-inline-block"></i></a>
                                             <a href="#"    @click="PdfFactures(facture.reference_f)"  class="btn btn-secondary" ><i class="far fa-file-pdf"></i></a>
-<!--
-                                         <router-link class="btn btn-success " :to="'/EditFacture/'+facture.id_facture ">
-                                         -->
-                               <a href="#"    @click="redirect_To_EditFacture(facture)"  class="btn btn-success" >
-
-                                         <i class="fas fa-edit d-inline-block"></i></a>
-                                             <a @click="deleteFacture(facture)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
+                                            </td>                                 
                                     </tr>
                                    
                                     </tbody>

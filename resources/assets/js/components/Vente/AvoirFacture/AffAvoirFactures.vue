@@ -28,18 +28,7 @@
     <hr>   
     </div>
 
-    <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testAjout">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>Avoir Facture Bien Ajouter !</strong>
-</div>
-  <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEdit">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>Avoir Facture Bien Modifier !</strong>
-</div>
+  
 
      
     <!-- afficher les avoirFactures sous formes des cards  -->

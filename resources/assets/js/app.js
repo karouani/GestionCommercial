@@ -9,8 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 
-import BootstrapSelect from 'bootstrap-select'
-Vue.use(BootstrapSelect);
+
 
 //bootstrapvue 
 import BootstrapVue from 'bootstrap-vue'

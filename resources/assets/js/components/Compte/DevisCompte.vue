@@ -79,10 +79,7 @@
 <!--
                                          <router-link class="btn btn-success " :to="'/EditDevis/'+devi.id_devis ">
                                          -->
-                               <a href="#"    @click="redirect_To_EditDevis(devi)"  class="btn btn-success" >
-
-                                         <i class="fas fa-edit d-inline-block"></i></a>
-                                             <a @click="deleteDevis(devi)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
+   </td>                                 
                                     </tr>
                                    
                                     </tbody>

@@ -25,19 +25,7 @@
     <h2>Liste des Bons de Livraisons</h2>
     <hr>   
     </div>
-            <div v-if="Testopen.testnotifAdd" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
-        <strong>Bon Livraison bien ajouter !</strong> 
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-
-        <div v-if="Testopen.testnotifEdit" class="alert alert-success alert-dismissible fade show notifArticle" role="alert">
-        <strong>Bon Livraison bien modifier !</strong> 
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
+    
   
   
    <div>
@@ -72,10 +60,8 @@
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
                     <div class="col-sm-10">
-                <select class="form-control custom-select " id="fk_compte" v-model="compte.id_compte" >
-                    <option selected disabled>Choisir Client</option>
-                    <option v-for="compte of comptes" :key="compte.id_compte" :value="compte.id_compte"> {{compte.nom_compte}} </option>
-                </select>                    
+            <multiselect v-model="compte" :options="comptes" placeholder="Choisir un client" label="nom_compte"></multiselect>
+                   
                 </div>
                 </div>      
       
