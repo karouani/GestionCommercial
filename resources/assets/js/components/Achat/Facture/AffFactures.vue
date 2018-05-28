@@ -355,7 +355,7 @@ import  Pagination from '../../Pagination.vue';
     },
 countFactures(){
 
-                axios.get('/countFactures',{params: { type_operation_bl: 'achat' } })
+                axios.get('/countFactures',{params: { type_operation_f: 'achat' } })
                 .then((response) => {
 
                    var today = new Date();

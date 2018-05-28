@@ -31,7 +31,7 @@
                 <label for="inputPassword" class="col-sm-2 col-form-label">Compte  </label>
                 <div class="col-sm-10">
            
-                            <multiselect v-model="compte" :options="comptes" placeholder="Choisir un client" label="nom_compte" @input="getClient(compte.id_compte)"></multiselect>
+                            <multiselect  v-model="compte" :options="comptes" placeholder="Choisir un client" label="nom_compte" @input="getClient(compte.id_compte)"></multiselect>
 
                 </div>
             </div>
@@ -73,7 +73,7 @@
                                     <th>Article</th>
                                     <th>Quantite</th>
                                     <th>Remise</th>
-                                    <th>majoration</th>
+                                    
                                     <th>Prix HT</th>
                                     <th>TVA</th>
                                     <th>Total HT</th>
@@ -95,7 +95,7 @@
                             </th> 
                             <th><input class="mr-4"  type="text" v-model="commande.quantite_cmd" ></th>
                             <th>  <input class="form-control"  type="text" v-model="commande.remise_cmd" ></th> 
-                            <th>  <input class="form-control"  type="text" v-model="commande.majoration_cmd" ></th> 
+                            
                             <th>  <input class="form-control"  type="text" v-model="commande.prix_ht" ></th> 
                             
                             <th> 
@@ -103,7 +103,7 @@
                     <option selected>Choisir Tva</option>
                     <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
                     </select>
-                                                             {{commande.fk_tva_cmd}}
+                                
 
                             </th> 
                             <th>  <input class="form-control"  type="text" v-model="commande.total_ht_cmd" disabled></th>
@@ -116,10 +116,9 @@
      </div>
            <div class="row">
                                             <div class="col-sm-4"> 
-                                                <select class="custom-select " id="fk_article" v-model="commande.fk_article" @change=" getPrixArticle()">
-                                                 <option  disabled selected>Séléctionner un Article</option>
-                                                <option v-for="article in articles" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
-                                                </select>                                                                     
+      
+                                               <multiselect  :hide-selected="true" v-model="article" :options="articles" placeholder="Choisir un article" label="designation"  track-by="designation" @input="getPrixArticle()"></multiselect>
+                                                                    
                                             </div>
                                             <div class="col-sm-6">
                                             <a  @click="addRow(commande)" class="btn btn-success"  ><i class="fas fa-plus-circle"></i> Ajouter un article </a>
@@ -291,6 +290,21 @@
     export default{ 
         
           data: () => ({
+                   article: { 
+                    id_article :0,
+                    reference_art :"",
+                    type_art :"",
+                    designation :"",
+                    description :"",
+                    prix_ht_achat :"",
+                    prix_ht_vente :"",
+                    unite :"",
+                    quantite :"",
+                    quantite_min :"",
+                    photo_art :'',
+                    fk_tva_applicable :"",
+                    fk_famille :"",
+              },
             loading: false,
             error: null,
               // objet test sur affichage , ajout , recherche
@@ -523,7 +537,9 @@ console.log(this.devi.total_lettre_d)
     },
         // recuperer des infos sur un article
     getPrixArticle(){
-
+        console.log('articllllle ')
+        console.log(this.article)
+            this.commande.fk_article = this.article.id_article;
            let this1=this;
            this.articles.forEach(function(article) {
                if(article.id_article == this1.commande.fk_article){
@@ -729,6 +745,9 @@ computed:{
    }      
 },
      created () {
+         if(this.$route.params.id_compte == undefined){
+             this.$router.push('/getDevis');
+        }
     // fetch the data when the view is created and the data is
     // already being observed
     this.fetchData()
@@ -791,6 +810,8 @@ watch:{
 },
 
     mounted(){
+        
+       
  console.log('----------------')
             console.log(this.$route.params.id_compte + " / "+ this.$route.params.reference_d+
             " / " + this.$route.params.currentDate)

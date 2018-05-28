@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Charge;
 use App\Facture;
 use App\Bilan;
+use App\Type_paiement;
 use Illuminate\Support\Facades\DB;
 
 class BilanController extends Controller
@@ -112,5 +113,69 @@ public function verifie(Request $request){
                    $bilan->save();
                     return Response()->json(['etat' => true]);
                
+       }
+       public function getEtatChequeAchat(Request $request){
+        $etatCheque = Facture::select('factures.montant_reste_f','mode_paiements.*')
+        ->leftJoin('mode_paiements', 'mode_paiements.fk_document', '=', 'factures.reference_f')
+        ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
+        ->where('type_paiements.type_paiement','=','cheque')
+        ->where('mode_paiements.date_paiement','like',$request->anneeCheque.'-%')
+        ->where('factures.type_operation_f','=','achat')
+        ->where('mode_paiements.reference_paiement','like','%'.$request->searchAchat.'%')
+       /* ->where(function($query)use ($request)
+        {
+            $query->where('factures.type_operation_f','=','achat')
+            ->orWhere('mode_paiements.reference_paiement','like',$request->searchAchat.'-%');
+        })*/
+        ->groupBy('factures.reference_f')
+        ->paginate(10);
+        return Response()->json(['etatCheque' => $etatCheque ]);
+       }
+
+        public function getEtatChequeCharge(Request $request){
+          $charges = Charge::select('charges.*')
+          ->where('charges.mode_paiement_ch','=','cheque')
+          ->where('charges.date_limit_ch','like',$request->anneeCheque.'-%')
+          ->where('charges.reference_ch','like','%'.$request->searchCharge.'%')
+          ->paginate(10);
+          return Response()->json(['charges' => $charges ]);
+        }
+       public function getEtatCheque(Request $request){
+        
+        $etatCheque = Facture::select('factures.montant_reste_f','mode_paiements.*')
+        ->leftJoin('mode_paiements', 'mode_paiements.fk_document', '=', 'factures.reference_f')
+        ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
+        ->where('type_paiements.type_paiement','=','cheque')
+        ->where('mode_paiements.date_paiement','like',$request->anneeCheque.'-%')
+        
+       // ->where('factures.date_limit_f','like',$request->annee.'-'.$request->mois.'-%')
+        ->where('factures.type_operation_f','=','achat')
+        ->groupBy('factures.reference_f')
+        ->paginate(10);
+      
+                    
+        $totalAchats = Facture::select(DB::raw("SUM(factures.montant_reste_f) as total"))
+        ->leftJoin('mode_paiements', 'mode_paiements.fk_document', '=', 'factures.reference_f')
+        ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
+        ->where('type_paiements.type_paiement','=','cheque')
+        ->where('mode_paiements.date_paiement','like',$request->anneeCheque.'-%')
+       // ->where('factures.date_limit_f','like',$request->annee.'-'.$request->mois.'-%')
+        ->where('factures.type_operation_f','=','achat')
+        ->groupBy('factures.reference_f')
+        ->get();
+       
+          $charges = Charge::select('charges.*')
+          ->where('charges.mode_paiement_ch','=','cheque')
+          ->where('charges.date_limit_ch','like',$request->anneeCheque.'-%')
+          ->paginate(10);
+
+          $totalCharge = Charge::select(DB::raw("SUM(charges.montant_ttc_ch) as total"))
+          ->where('charges.mode_paiement_ch','=','cheque')
+          ->where('charges.date_limit_ch','like',$request->anneeCheque.'-%')
+          ->get();
+          //dd($charges);
+        //  return Response()->json(['charges' => $charges ]);
+     
+        return Response()->json(['etatCheque' => $etatCheque,'charges' => $charges ,'totalAchats' => $totalAchats,'totalCharge' => $totalCharge]);
        }
 }

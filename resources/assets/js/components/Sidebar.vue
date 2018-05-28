@@ -129,6 +129,11 @@
                                     <i class="far fa-file"></i> Bilan Par Année
                                 </router-link>
                             </li>
+                            <li class="nav-item">
+                                <router-link :to="'/EtatCheque'" class="nav-link">
+                                    <i class="far fa-file"></i> Etat de chèque
+                                </router-link>
+                            </li>
                         </ul>
                      </li>
                     

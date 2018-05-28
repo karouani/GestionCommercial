@@ -258,6 +258,10 @@ Route::get('/BilanCharge','BilanController@BilanCharge');
 Route::get('/verifie','BilanController@verifie');
 Route::get('/getBilan','BilanController@getBilan');
 Route::post('/addBilan','BilanController@addBilan');
+Route::get('/getEtatCheque','BilanController@getEtatCheque');
+Route::get('/getEtatChequeAchat','BilanController@getEtatChequeAchat');
+Route::get('/getEtatChequeCharge','BilanController@getEtatChequeCharge');
+
 
 //Dashboard 
 Route::get('/getArticlePlusVente','DashboardController@getArticlePlusVente');

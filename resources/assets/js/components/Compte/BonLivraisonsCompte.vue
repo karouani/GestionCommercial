@@ -80,10 +80,7 @@
                                             <a href="#"    @click="redirect_To_ShowBonLivraison(bonLivraison.reference_bl)"  class="btn btn-primary" ><i class="fas fa-eye d-inline-block"></i></a>
                                             <a href="#"    @click="PdfBonLivraison(bonLivraison.reference_bl)"  class="btn btn-secondary" ><i class="far fa-file-pdf"></i></a>
                                             
-
-                                     <a href="#"  @click="redirect_To_EditBonLivraison(bonLivraison)" class="btn btn-success"><i class="fas fa-edit d-inline-block"></i></a>                                
-
-                                             <a href="#"  @click="deleteBonLivraison(bonLivraison)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
+                                        </td>                           
                                     </tr>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     </div>

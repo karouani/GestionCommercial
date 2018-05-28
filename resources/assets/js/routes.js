@@ -102,6 +102,7 @@ import  ShowMouvements from './components/Mouvement/ShowMouvements.vue'
 // bilan
 import  BilanMois from './components/Bilan/BilanMois.vue' 
 import  BilanAnnee from './components/Bilan/BilanAnnee.vue' 
+import  EtatCheque from './components/Bilan/EtatCheque.vue' 
 
 
 
@@ -769,8 +770,17 @@ const  router = new VueRouter({
         SuperAdmin:true,
         Admin:true
 },
+
         
 },
+{    
+    path:"/EtatCheque",
+    component: EtatCheque,
+    name: "EtatCheque",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+},},
 
 
 

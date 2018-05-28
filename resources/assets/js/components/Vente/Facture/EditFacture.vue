@@ -71,7 +71,6 @@
                                     <th>Article</th>
                                     <th>Quantite</th>
                                     <th>Remise</th>
-                                    <th>majoration</th>
                                     <th>Prix HT</th>
                                     <th>TVA</th>
                                     <th>Total HT</th>
@@ -94,7 +93,6 @@
                            
                             <th><input class="mr-4"  type="text" v-model="commande.quantite_cmd" ></th>
                             <th>  <input class="form-control"  type="text" v-model="commande.remise_cmd" ></th> 
-                            <th>  <input class="form-control"  type="text" v-model="commande.majoration_cmd" ></th> 
                             <th>  <input class="form-control"  type="text" v-model="commande.prix_ht" ></th> 
                             
                             <th> 
@@ -121,10 +119,8 @@
      </div>
         <div class="row">
                                             <div class="col-sm-4"> 
-                                                <select class="custom-select " id="fk_article" v-model="commande.fk_article" @change=" getPrixArticle()">
-                                                 <option selected>Choisir Article</option>
-                                                <option v-for="article in articles" :key="article.id_article" :value="article.id_article">{{article.designation}}</option>
-                                                </select>                                                                     
+                                               <multiselect  :hide-selected="true" v-model="article" :options="articles" placeholder="Choisir un article" label="designation"  track-by="designation" @input="getPrixArticle()"></multiselect>
+                                                                    
                                             </div>
                                             <div class="col-sm-6">
                                             <a  @click="addRow(commande)" class="btn btn-success"  ><i class="fas fa-plus-circle"></i> Ajouter un article </a>
@@ -303,6 +299,21 @@
     export default{ 
         
           data: () => ({
+                           article: { 
+                    id_article :0,
+                    reference_art :"",
+                    type_art :"",
+                    designation :"",
+                    description :"",
+                    prix_ht_achat :"",
+                    prix_ht_vente :"",
+                    unite :"",
+                    quantite :"",
+                    quantite_min :"",
+                    photo_art :'',
+                    fk_tva_applicable :"",
+                    fk_famille :"",
+              },
                                 loading: false,
 error: null,
               // objet test sur affichage , ajout , recherche
@@ -609,7 +620,7 @@ changeTVA(tvaa,commande){
 
         // recuperer des infos sur un article
     getPrixArticle(){
-           
+            this.commande.fk_article = this.article.id_article;
            let this1=this;
            this.articles.forEach(function(article) {
                if(article.id_article == this1.commande.fk_article){
@@ -785,6 +796,9 @@ computed:{
 },
 
             created () {
+          if(this.$route.params.fk_compte_f== undefined){
+             this.$router.push('/getFactures');
+        }
     // fetch the data when the view is created and the data is
     // already being observed
     this.fetchData()

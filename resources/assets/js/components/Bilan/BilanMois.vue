@@ -164,7 +164,7 @@
                                           </tr>
                                 </table>
                     <div v-if="test == true">
-                         <div v-if="testP == false">
+                         <div v-if="testP == true">
                      <button  class="btn mb-3 float-right btn-success">Enregister</button>
                     </div>
                                              <div v-if="testP == true">

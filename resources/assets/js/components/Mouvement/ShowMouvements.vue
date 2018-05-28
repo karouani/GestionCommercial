@@ -1,6 +1,26 @@
 <template>
-	<div>
+	<div><div class="row">
+        <div class="col">
         <h3>Mouvements</h3>
+        </div>
+        <div class="col">
+                     <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="text" @keyup.enter="getEtatCheque"  class="form-control" v-model="articleMouvement" placeholder="recherche par article " aria-label="Username" aria-describedby="basic-addon1" >
+            </div>
+        </div>
+         <div class="col">
+                     <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="number" @keyup.enter="getEtatCheque"  class="form-control" v-model="anneeMouvement" placeholder="recherche par année " aria-label="Username" aria-describedby="basic-addon1" >
+            </div>
+        </div>
+    </div>
+       
         <hr>
                 <notifications group="foo" 
       position="bottom right" 
@@ -54,6 +74,8 @@
 		data() {
             
 			return {
+                articleMouvement:"",
+                anneeMouvement:"",
                 spinnerName: "bubbles",
 				mouvements: [],
 			}
