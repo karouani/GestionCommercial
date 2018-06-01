@@ -23,7 +23,7 @@
         </div>
   
     </div>
-    <h2>List des Bons de commandes</h2>
+    <h3>List des Bons de commandes</h3>
     <hr>   
     </div>
         

@@ -134,9 +134,14 @@
                                     <i class="far fa-file"></i> Etat de chèque
                                 </router-link>
                             </li>
+ 
                         </ul>
                      </li>
-                    
+                    <li class="nav-item">
+                      <router-link :to="'/ShowHistoriques'" class="nav-link active">
+                            <i class="fas fa-history"></i> Historiques
+                        </router-link>
+                    </li>
                  
                 </ul>
             </nav>
@@ -144,6 +149,8 @@
 </template>
 <style scoped>
 
-
+.sidebar{
+    margin-top:45px;
+}
 
 </style>

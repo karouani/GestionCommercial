@@ -498,7 +498,7 @@
              
       }),
         created () {
-          if(this.$route.params.id_devis== undefined){
+          if(this.$route.params.reference_bc== undefined &&  this.$route.params.id_devis==undefined){
              this.$router.push('/ShowBonCommandes');
         }
     // fetch the data when the view is created and the data is
@@ -606,7 +606,7 @@ methods: {
             
                 axios.post('/addBonCommande',{commandes:this.commandes,bonCommande:this.bonCommande,modePaiements:this.modePaiement})
         .then(response => {         
-                  console.log("bonCommande Bien ajouter ")
+                  console.log("bonCommande Bien ajouter")
                // this.$router.push('/');
                this.$router.push({ name: 'ShowBonCommandes', params: { success: "addsuccess"  }});
         })
@@ -849,8 +849,9 @@ methods: {
         },
         countBonCommandes(){
 
-                axios.get('/countBonCommandes')
+                axios.get('/countBonCommandes',{params: { type_operation_bc: 'vente' } })
                 .then((response) => {
+                    console.log("count Bon commande "+response.data.count)
                     var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
@@ -867,6 +868,7 @@ methods: {
                 .catch(() => {
                     console.log('handle server error from here');
                 });
+                
           },
          getTypePaiement(){
                             axios.get('/getTypePaiement')

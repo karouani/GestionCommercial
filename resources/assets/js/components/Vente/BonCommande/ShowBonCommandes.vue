@@ -22,7 +22,7 @@
         </div>
   
     </div>
-    <h2>Liste des Bons de Commandes</h2>
+    <h3>Liste des Bons de Commandes</h3>
     <hr>   
     </div>
       
@@ -379,11 +379,6 @@ import  Pagination from '../../Pagination.vue';
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
                     this.reference_bc='C-'+year+'-'+response.data.count;
-
-                    
-                    /*this.commande.fk_document='D'+response.data.count;
-                    this.modePaiement.fk_document='D'+response.data.count;*/
-
                   
                 })
                 .catch(() => {

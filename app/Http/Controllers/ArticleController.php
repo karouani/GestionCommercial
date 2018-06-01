@@ -211,10 +211,12 @@ class ArticleController extends Controller
     {
         //
     }
-    public function getMouvements(){
+    public function getMouvements(Request $request){
          $listeMouvements = Mouvement::leftJoin('articles', 'articles.id_article', '=', 'mouvements.fk_article')
          ->select('articles.designation','mouvements.*')
-         ->orderBy('created_at', 'desc')
+         ->where('mouvements.created_at','like','%'.$request->anneeMouvement.'%')
+         ->where('articles.designation','like','%'.$request->articleMouvement.'%')
+         ->orderBy('mouvements.created_at', 'desc')
          ->paginate(10);
          return Response()->json(['listeMouvements' => $listeMouvements ]);
       }

@@ -17,7 +17,7 @@
                  
         <div class="col-4">
             <div class="row">
-            <h2>Etat de chèque</h2>
+            <h3>Etat de chèque</h3>
             </div>
             <div class="row">
                 <div class="input-group">
@@ -80,7 +80,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" @keyup.enter="getEtatChequeAchat"  class="form-control" v-model="searchAchat" placeholder="recherche par nom du Compte ou responsable " aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="text" @keyup.enter="getEtatChequeAchat"  class="form-control" v-model="searchAchat" placeholder="recherche par N°cheque" aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div> 
         
@@ -140,7 +140,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" @keyup.enter="getEtatChequeCharge"  class="form-control" v-model="searchCharge" placeholder="recherche par nom du Compte ou responsable " aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="text" @keyup.enter="getEtatChequeCharge"  class="form-control" v-model="searchCharge" placeholder="recherche par N°cheque " aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div> 
         

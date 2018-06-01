@@ -22,7 +22,7 @@
         </div>
   
     </div>
-    <h2>Liste des Factures d'Avoir</h2>
+    <h3>Liste des Factures d'Avoir</h3>
     <hr>   
     </div>
  
@@ -297,6 +297,9 @@ import  Pagination from '../../Pagination.vue';
     
       },
            created () {
+                     if(this.$route.params.reference_af == undefined){
+             this.$router.push('/getAvoirFacturesA');
+        }
     // fetch the data when the view is created and the data is
     // already being observed
     this.fetchData()

@@ -526,11 +526,12 @@ this.commande = {
         },  
 
     getPaiement(reference_af){
-        //console.log("referennnce")
+        console.log("paiemnet =================================")
         
      axios.get('/getPaiement/'+reference_af).then(
                   response => {
-                         //console.log(response.data.modePaiement);
+                      console.log("ooook =================================")
+                         console.log(reference_af);
 
                     this.modePaiement= response.data.modePaiement[0];
 

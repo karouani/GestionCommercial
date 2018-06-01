@@ -8,7 +8,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" @keyup.enter="getEtatCheque"  class="form-control" v-model="articleMouvement" placeholder="recherche par article " aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="text" @keyup.enter="reset"  class="form-control" v-model="articleMouvement" placeholder="recherche par article " aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div>
          <div class="col">
@@ -16,7 +16,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
             </div>
-            <input type="number" @keyup.enter="getEtatCheque"  class="form-control" v-model="anneeMouvement" placeholder="recherche par année " aria-label="Username" aria-describedby="basic-addon1" >
+            <input type="number" @keyup.enter="reset"  class="form-control" v-model="anneeMouvement" placeholder="recherche par année " aria-label="Username" aria-describedby="basic-addon1" >
             </div>
         </div>
     </div>
@@ -81,8 +81,10 @@
 			}
 		},
 		methods: {
+
             reset(){
         this.mouvements = [];
+
                 
                     this.$nextTick(() => {
                     this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
@@ -115,7 +117,7 @@
                 //this.mouvements = [];
                 console.log(this.mouvements.length)
 				let limit = this.mouvements.length / 10 + 1;
-				axios.get('/getMouvements', { params: { page: limit } }).then(response => {
+				axios.get('/getMouvements', { params: { page: limit ,articleMouvement: this.articleMouvement ,anneeMouvement: this.anneeMouvement } }).then(response => {
 					this.loadMore($state, response);
 				});
 			},

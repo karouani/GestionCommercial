@@ -627,7 +627,7 @@ console.log(this.avoirFacture.total_lettre_af)
 },
 countAvoirFactures(){
 
-                axios.get('/countAvoirFactures')
+                axios.get('/countAvoirFactures',{params: { type_operation_bc: 'vente' } })
                 .then((response) => {
 
                    var today = new Date();
@@ -833,8 +833,8 @@ computed:{
    }      
 },
      created () {
-      if(this.$route.params.id_compte== undefined){
-             this.$router.push('/getAvoirFactures');
+       if(this.$route.params.reference_af == undefined && this.$route.params.facture == undefined){
+             this.$router.push('/getAvoirFacturesA');
         }
     // fetch the data when the view is created and the data is
     // already being observed

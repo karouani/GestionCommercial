@@ -24,7 +24,7 @@
         </div>
   
     </div>
-    <h2>Liste des Factures d'Avoir</h2>
+    <h3>Liste des Factures d'Avoir</h3>
     <hr>   
     </div>
 

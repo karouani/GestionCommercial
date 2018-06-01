@@ -1,5 +1,8 @@
 <template>
         <div>
+                     <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification error"/> 
            <div class="row">
                <div class="col-3">
                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -82,7 +85,7 @@
                         <tbody>                     
                             <tr v-for="statu in status" :key="statu.id_status">
                             <th>{{statu.type_status}}</th>      
-                            <th><a @click="deleteStatu(statu)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                            <th v-if="statu.type_status != 'validé' && statu.type_status != 'annulée'" ><a @click="deleteStatu(statu)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                             </tr>
                         </tbody>
                        </table>
@@ -109,7 +112,7 @@
                         <tbody>                     
                             <tr v-for="typePaiement in typePaiements" :key="typePaiement.id_type_paiement">
                             <th>{{typePaiement.type_paiement}}</th>      
-                            <th><a @click="deleteTypePaiement(typePaiement)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                            <th v-if="typePaiement.type_paiement != 'cheque'"><a @click="deleteTypePaiement(typePaiement)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                             </tr>
                         </tbody>
                        </table>
@@ -300,14 +303,23 @@
                         },
                         //-------------------------------------- status
             addStatu(){
+             if(this.typePaiement.type_paiement.toLowerCase().indexOf("validé")> -1 || this.typePaiement.type_paiement.toLowerCase().indexOf("annulée")> -1 ){
+                                 this.$notify({
+                                      group: 'foo',
+                                      title: 'error',
+                                      text: 'statut déja exist',
+                                      duration: 1500,
+                                    });
+               } else {
                 console.log('-------- color ')
                 console.log(this.colorStatu);
                 axios.post('/addStatu',this.statu).then(response => {     
                     this.getStatus();
                     console.log('status Bien ajouter !');
-                  });
+                  });}
             },
             getStatus(){
+                
                 axios.get('/getStatus')
                 .then((response) => {
                   console.log(response.data);
@@ -348,10 +360,19 @@
 
 // type paiement
                         addTypePaiement(){
+                           if(this.typePaiement.type_paiement.toLowerCase().indexOf("cheque")> -1 || this.typePaiement.type_paiement.toLowerCase().indexOf("chèque")> -1 || this.typePaiement.type_paiement.toLowerCase().indexOf("chéque")> -1 ){
+                                 this.$notify({
+                                      group: 'foo',
+                                      title: 'error',
+                                      text: 'cheque déja exist',
+                                      duration: 1500,
+                                    });
+                           } else {
+                           console.log('type paiement : '+this.typePaiement.type_paiement);
                                 axios.post('/addTypePaiement',this.typePaiement).then(response => {     
                             this.getTypePaiement();
                             console.log('Type Paiement Bien ajouter !');
-                                });
+                                });}
                         },
                         getTypePaiement(){
                             axios.get('/getTypePaiement')

@@ -71,6 +71,10 @@ class ChargeController extends Controller
          //dd($charges);
          return Response()->json(['charges' => $charges ]);
     }
+    public function getAllCharges(){
+        $AllCharges = Charge::all();
+        return Response()->json(['AllCharges' => $AllCharges ]);
+       }
 
     public function getcharge($id_charge){
         $charge = Charge::find($id_charge);

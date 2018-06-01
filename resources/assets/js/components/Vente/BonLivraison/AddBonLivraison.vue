@@ -482,8 +482,8 @@
              
       }),
         created () {
-                      if(this.$route.params.bonCommande.id_compte== undefined){
-             this.$router.push('/ShowBonLivraisons');
+        if(this.$route.params.reference_bl== undefined && this.$route.params.bonCommande == undefined && this.$route.params.devi == undefined){
+             this.$router.push('/ShowBonLivraisonsA');
         }
     // fetch the data when the view is created and the data is
     // already being observed
@@ -508,7 +508,7 @@ methods: {
     },
                countBonLivraisons(){
 
-                axios.get('/countBonLivraisons')
+                 axios.get('/countBonLivraisons',{params: { type_operation_bl: 'vente' } })
                 .then((response) => {
                     console.log('---------- count ressp ')
                     console.log(response)

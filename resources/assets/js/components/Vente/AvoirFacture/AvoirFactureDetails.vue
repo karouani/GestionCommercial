@@ -17,7 +17,7 @@
 </div>
      <div class="row">
         <div class="col">
-        <a href="#"    @click="redirect_To_AddAvoirFacture(avoirFacture)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
+        <a href="#"  style="background-color:#c1b6ca;"    @click="redirect_To_AddAvoirFacture(avoirFacture)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
         <a href="#"    @click="PdfAvoirFacture(avoirFacture.reference_af)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i> Imprimer</a>
 
         <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getAvoirFactures'">
@@ -54,7 +54,7 @@
     <div class="col-md-6 col-sm-12">
         
         <div class="container  infoClient">
-            <label class="compte" for="">{{avoirFacture.nom_compte}} </label>
+            <label class="" for=""><b>{{avoirFacture.nom_compte}}</b></label>
             <div class="form-group row">
             <div class="col-sm-10">
             {{avoirFacture.adresse_af}}
@@ -79,24 +79,24 @@
 
   <div>     
         
-                     <table class="table table-bordered tableau">
+                     <table class="table table-bordered">
                             <thead>
-                          <tr class="heade">
+                          <tr class="trHead">
                             <th>Article</th>
                             <th>Quantite</th>
                             <th>Remise</th>
-                            <th>majoration</th>
+                           
                             <th>Prix HT</th>
                             <th>TVA</th>
                             <th>Total HT</th>
                           </tr>                           
                         </thead>
-                         <tbody class="boby-table">
+                         <tbody>
                           <tr v-for="(commande,index) in commandes" :key="index" >
                             <th> {{commande.designation}}</th>
                             <th>{{commande.quantite_cmd}}</th>
                             <th>{{commande.remise_cmd}}</th>
-                            <th> {{commande.majoration_cmd}}</th>
+                          
                             <th>{{commande.prix_ht}}</th>
                             <th>{{commande.taux_tva}} </th> 
                             <th>{{commande.total_ht_cmd}} </th> 
@@ -118,13 +118,13 @@
             </div>
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
-                <div class="col-sm-8 cam">
+                <div class="col-sm-8 col-form-label ">
                 {{avoirFacture.date_limit_af}}
                 </div>
             </div>
             <div class="form-group row">
                     <label for="type_paiement" class="col-sm-4 col-form-label" > Type Paiement </label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 col-form-label ">
                 {{avoirFacture.type_paiement}}
                    
                 </div>
@@ -155,7 +155,7 @@
     <div class="col-md-6 col-sm-12">
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Total HT </label>
-            <div class="col-sm-8 cal">
+            <div class="col-sm-8 cal col-form-label">
             {{avoirFacture.total_ht_af}}
             </div>
          </div>
@@ -163,37 +163,37 @@
        
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Remise Total (montant) </label>
-            <div class="col-sm-8 cal">
+            <div class="col-sm-8 cal col-form-label">
             {{avoirFacture.remise_ht_af}}
             </div>
          </div>
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label"> Montant Net HT  </label>
-            <div class="col-sm-8 cal">
+            <div class="col-sm-8 cal col-form-label">
             {{avoirFacture.montant_net_af}}
             </div>
          </div>
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">TVA (Montant) </label>
-            <div class="col-sm-8 cal">
+            <div class="col-sm-8 cal col-form-label">
             {{avoirFacture.tva_montant_af}}
             </div>
          </div>
           <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Montant TTC (Montant) </label>
-            <div class="col-sm-8 cal">
+            <div class="col-sm-8 cal col-form-label">
             {{avoirFacture.montant_ttc_af}}
             </div>
          </div>
          <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Acompte </label>
-            <div class="col-sm-8 cal">
+            <div class="col-sm-8 cal col-form-label">
             {{avoirFacture.accompte_af}}
             </div>
          </div>
          <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label" style="padding-right: 0px;">Net à payer (Montant) </label>
-            <div class="col-sm-8 cal" >
+            <div class="col-sm-8 cal col-form-label" >
             {{avoirFacture.montant_reste_af}}
             </div>
          </div>
@@ -518,7 +518,7 @@ a.last::before {
 }
 
 .table td, .table th {
-    border: 0px solid #ddd;
+    border: 1px solid #ddd;
     padding: 8px;
 }
 
@@ -589,5 +589,10 @@ padding-left: 120px;
   100% {
     transform: rotate(1800deg);
   }
+}
+.trHead{
+
+    background-color: #d8e9f5;
+
 }
 </style>

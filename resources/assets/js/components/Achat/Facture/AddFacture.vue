@@ -574,7 +574,7 @@ console.log(this.facture.total_lettre_f)
            let this1=this;
            this.articles.forEach(function(article) {
                if(article.id_article == this1.commande.fk_article){
-                   this1.commande.prix_ht = article.prix_ht_vente;
+                   this1.commande.prix_ht = article.prix_ht_achat;
                    this1.commande.fk_tva_cmd = article.fk_tva_applicable
                    this1.commande.designation = article.designation;
                    this1.commande.description_article = article.description;
@@ -643,7 +643,7 @@ console.log(this.facture.total_lettre_f)
 },
 countFactures(){
 
-                axios.get('/countFactures')
+                axios.get('/countFactures',{params: { type_operation_f: 'achat' } })
                 .then((response) => {
 
                    var today = new Date();
@@ -932,7 +932,9 @@ computed:{
    }      
 },
      created () {
-       if(this.$route.params.id_compte== undefined){
+            console.log('les routes')
+            console.log(this.$route.params)
+                if(this.$route.params.reference_f == undefined && this.$route.params.bonCommande == undefined && this.$route.params.devi == undefined && this.$route.params.bonLivraison == undefined){
              this.$router.push('/getFacturesA');
         }
     // fetch the data when the view is created and the data is

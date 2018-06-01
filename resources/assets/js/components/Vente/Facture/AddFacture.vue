@@ -632,7 +632,7 @@ console.log(this.facture.total_lettre_f)
 },
 countFactures(){
 
-                axios.get('/countFactures')
+              axios.get('/countFactures',{params: { type_operation_f: 'vente' } })
                 .then((response) => {
 
                    var today = new Date();
@@ -918,8 +918,12 @@ computed:{
 
    }      
 },
-     created () {
+   /*  created () {
                                   if(this.$route.params.id_compte== undefined){
+             this.$router.push('/getFactures');
+        }*/
+                created () {
+        if(this.$route.params.reference_f == undefined && this.$route.params.bonCommande == undefined && this.$route.params.devi == undefined && this.$route.params.bonLivraison == undefined){
              this.$router.push('/getFactures');
         }
     // fetch the data when the view is created and the data is

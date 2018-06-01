@@ -160,7 +160,14 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="(contact,index) in contacts" :key="index">
-                                        <th><input type="text" class="form-control" id="civilite"  v-model="contact.civilite"></th>
+                                         <th> 
+                                            <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="contact.civilite" >
+                                            <option selected>Choisir une civilite</option>
+                                            <option value="Mr">Mr</option>
+                                            <option value="Md">Md</option>
+                                            </select>
+                                        </th>
+                                       
                                         <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
                                         <th><input type="text" class="form-control" id="nom"  v-model="contact.nom"></th>
 
@@ -170,7 +177,12 @@
                                         <th><input type="text" class="form-control" id="mobile" v-model="contact.mobile"></th> 
                                             <th><a @click="spliceContact(index)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                                         </tr>
-                                        <th><input type="text" class="form-control" id="civilite"  v-model="contact.civilite"></th>
+                                         <th> 
+                                            <select      style="width: 70px;" class="form-control custom-select " id="exampleFormControlSelect1" v-model="contact.civilite" >
+                                            <option selected value="Mr">Mr</option>
+                                            <option value="Md">Md</option>
+                                            </select>
+                                        </th>
                                         <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
                                         <th><input type="text" class="form-control" id="prenom"  v-model="contact.nom"></th>
                                         <th><input type="text" class="form-control" id="fonction" v-model="contact.fonction" ></th>
@@ -205,7 +217,7 @@
                 <label for="delai_paiement" class="col-sm-4">delai_paiement</label>
                 <div class="col-sm-8">
                 
-                    <input class="form-control" type="date" value="2011-08-19" id="delai_paiement" v-model="condition_facture.delai_paiement">
+                    <input class="form-control" type="text"  id="delai_paiement" v-model="condition_facture.delai_paiement">
                     </div>
                 
                 </div>

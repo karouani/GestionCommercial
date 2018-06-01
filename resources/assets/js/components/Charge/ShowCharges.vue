@@ -22,7 +22,7 @@
         </div>
   
     </div>
-    <h2>Liste des Charges</h2>
+    <h3>Liste des Charges</h3>
     <hr>   
     </div> 
 

@@ -98,6 +98,8 @@ import  AddCharge from './components/Charge/AddCharge.vue'
 import  EditCharge from './components/Charge/EditCharge.vue' 
 //mouvement 
 import  ShowMouvements from './components/Mouvement/ShowMouvements.vue' 
+//historique 
+import  ShowHistoriques from './components/Historique/ShowHistoriques.vue' 
 
 // bilan
 import  BilanMois from './components/Bilan/BilanMois.vue' 
@@ -750,6 +752,18 @@ const  router = new VueRouter({
         SuperAdmin:true,
         Admin:true
 },
+
+        
+},
+{    
+    path:"/ShowHistoriques",
+    component: ShowHistoriques,
+    name: "ShowHistoriques",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+},
+
         
 },
 //bilan
@@ -804,7 +818,11 @@ const  router = new VueRouter({
          },
        // ajouter les Charges 
         {     path:"/AddCharge",
-               component: AddCharge
+               component: AddCharge,
+               meta:{
+                SuperAdmin:true,
+                Admin:true
+                }
        },
        // modifier un Charges 
        {     path:"/EditCharge",

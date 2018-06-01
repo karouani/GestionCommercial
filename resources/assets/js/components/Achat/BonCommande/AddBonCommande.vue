@@ -322,6 +322,7 @@
     export default{ 
         
           data: () => ({
+              compagnie:{},
                            article: { 
                     id_article :0,
                     reference_art :"",
@@ -494,7 +495,9 @@
              
       }),
         created () {
-         if(this.$route.params.id_devis== undefined){
+            console.log("les routes")
+           console.log(this.$route.params);
+         if(this.$route.params.reference_bc== undefined && this.$route.params.id_compte==undefined){
              this.$router.push('/ShowBonCommandesA');
         }
     // fetch the data when the view is created and the data is
@@ -736,7 +739,7 @@ methods: {
                console.log('**** article ***') 
                console.log(article) 
                if(article.id_article == this1.commande.fk_article){
-                   this1.commande.prix_ht = article.prix_ht_vente;
+                   this1.commande.prix_ht = article.prix_ht_achat;
                    this1.commande.fk_tva_cmd = article.fk_tva_applicable
                    this1.commande.designation = article.designation;
                    this1.commande.description_article = article.description;
@@ -862,7 +865,7 @@ methods: {
         },
         countBonCommandes(){
 
-                axios.get('/countBonCommandes')
+                axios.get('/countBonCommandes',{params: { type_operation_bc: 'achat' } })
                 .then((response) => {
                     var today = new Date();
                     var yyyy = today.getFullYear();             

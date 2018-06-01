@@ -483,7 +483,9 @@
              
       }),
         created () {
-        if(this.$route.params.bonCommande.reference_bc== undefined){
+            console.log('les routes ')
+            console.log(this.$route.params)
+        if(this.$route.params.reference_bl== undefined && this.$route.params.bonCommande == undefined && this.$route.params.devi == undefined){
              this.$router.push('/ShowBonLivraisonsA');
         }
     // fetch the data when the view is created and the data is
@@ -509,7 +511,7 @@ methods: {
     },
                countBonLivraisons(){
 
-                axios.get('/countBonLivraisons')
+                axios.get('/countBonLivraisons',{params: { type_operation_bl: 'achat' } })
                 .then((response) => {
                     console.log('---------- count ressp ')
                     console.log(response)
@@ -824,7 +826,7 @@ console.log(this.$route.params.fk_compagnie)
                console.log('**** article ***') 
                console.log(article) 
                if(article.id_article == this1.commande.fk_article){
-                   this1.commande.prix_ht = article.prix_ht_vente;
+                   this1.commande.prix_ht = article.prix_ht_achat;
                    this1.commande.fk_tva_cmd = article.fk_tva_applicable
                    this1.commande.designation = article.designation;
                    this1.commande.description_article = article.description;
