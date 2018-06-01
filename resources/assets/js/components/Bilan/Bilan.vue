@@ -13,7 +13,7 @@
 <div v-if="!loading">
             <div class="text-center pull-right" >
           
-    <h2>Bilan Par Mois</h2>
+    <h2>Bilan Par Annee</h2>
     <hr>   
     </div> 
 
@@ -25,103 +25,82 @@
 
                         <div class="card-body">
                             <div class="form-group row">
-                        <label for="stagiaire" class="col-sm-4" >mois :</label>
+                        <label for="stagiaire" class="col-sm-4" >Annee :</label>
                         <div class="col-sm-8">
     
-                            <select class="form-control custom-select " id="fk_compte" v-model="moisS" @change="BilanCharge" >
+                            <select class="form-control custom-select " id="fk_compte" v-model="anneeS" @change="getBilan" >
                                         <option value="" selected disabled>Choisir mois</option>
-                                        <option v-for="(m,index) of mois" :key="index" :value="m"> {{m}} </option>
+                                        <option v-for="(a,index) of annee" :key="index" :value="a"> {{a}} </option>
                             </select>  
 
                         
                                 </div>
                             </div>
-                            <h4>Bilan de mois : {{this.moisS}}</h4>
+                            <h4>Bilan d'Année : {{this.anneeS}}</h4>
                             <div class="table-responsive" >
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
                                        
-                                        <th>Nom Fournisseur</th>
-                                        <th>date</th>
-                                     <th>montant</th>
+                                        <th>mois</th>
+                                        <th>débit</th>
+                                        <th>crédit</th>
+                                        <th>difference</th>
+                                        <th>solde depart</th>
+                                        <th>etat</th>
                                     </tr>
                                     </thead>
                                     <tbody >
-                                    <tr  v-for="(charge,index) of charges" :key="index" >
+                                           
+                                    <tr v-for="(m,index) of mois" :key="index" v-if="anneeS != ''">
                                       
-                                        
-                                         <td>{{charge.nom_fournisseur_ch}} </td>
-                                           <td>{{charge.date_limit_ch}} </td>
                                        
-                                         <td>{{charge.montant_ttc_ch}} </td>
-                                      </tr>
-                                       </tbody>
-                                </table> 
-                                <div v-if="moisS != ''">
-                                        <table class="table table-bordered">
-
-                                      <tr>
-                                          <th>Total Charges</th>
-                                          
-                                          <th> {{totalMois}}</th>
-                                          </tr>
+                                         <td>{{m}} - {{anneeS}} </td>
+                                   
                                     
-                                     <tr>
-
-                                          <th>Total achat</th>
-                                          
-                                          <th> {{totalAchat}}</th>
-                                          </tr>  
-                                </table> 
-                                         <table class="table table-bordered">  
-                                          <tr>
-                                          <th>Total Sortie</th>
-                                          
-                                          <th> {{totalSortie}}</th>
-                                          </tr> 
-                                          
-                                           <tr>
-                                          <th>Total Vente</th>
-                                          
-                                          <th> {{totalVente}}</th>
-                                          </tr>
-                                          
-                                          <tr>
-                                          <th>Difference</th>
-                                          
-                                          <th> {{difference}}</th>
-                                          </tr>
-                                          </table> 
-                                           <table class="table table-bordered">
-                                          <tr>
-                                          <th>TVA Achat</th>
-                                          
-                                          <th> {{tvaAchat}}</th>
-                                          </tr>
-                                          
-                                          <tr>
-                                          <th>TVA Vente</th>
-                                          
-                                          <th> {{tvaVente}}</th>
-                                          </tr>
-                                          
-                                          <tr>
-                                          <th>Différence TVA</th>
-                                          
-                                          <th> {{diffTVA}}</th>
-                                          </tr>
-                                          </table> 
-                                           <table class="table table-bordered">
-                                          <tr>
-                                          <th>Revenu Net</th>
-                                         
-                                          <th> {{benifice}}</th>
-                                          </tr>
+                                            
+                                            <td>
+                                           <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
+                                                    {{bilan.debit_b}}
+                                           </div>
+                                    
+                                                     </td> 
+                                            <td>
+                                            <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">                                              
+                                                 {{bilan.credit_b}}
+                                                 
+                                            </div>
+                                                 </td> 
+                                            <td> 
+                                                <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
+                                     
+                                                {{bilan.difference_b}} 
+                                                </div>
+                                                </td>
+                                            <td>
+                                             <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
+                                             
+                                                 {{bilan.solde_depart_b}}
+                                             </div>
+                                                  </td>
+                                            <td>
+                                              <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
+                                            
+                                                 {{bilan.etat_b}}
+                                              </div>
+                                                  </td>
+                                   
+                                               
+                                    </tr>
+                                  
+                                
+                                    
+                                
                                           
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     </div>
-                                </table>
+                                     </tbody>
+                                </table> 
                                 </div>
                             </div>
                         </div>
@@ -137,7 +116,6 @@
                      :offset="4">
     </vue-pagination>
     -->
-    </div>
     <!-- fin affiche -->
     </div>
 </template>
@@ -156,7 +134,9 @@ import  Pagination from '../Pagination.vue';
       error: null,
              modalShow: false,
              mois:['01','02','03','04','05','06','07','08','09','10','11','12'],
-              //search
+             annee:['2016','2017','2018'],
+ //mois:[1,2,3,4,5,6,7,8,9,10,11,12],
+             //search
               search : '',
               //name file 
               nameFile : "Choose file",
@@ -201,14 +181,14 @@ import  Pagination from '../Pagination.vue';
                     date_diff:"",
 
               },
-             
+             anneeS:"",
              moisS:"",
-             total:0,
+             bilanAnnee:[],
 
-             totalMois:0,
-             totalAchat:0,
-             totalSortie:0,
-             totalVente:0,
+             totalCharges:[],
+             totalAchat:[],
+             totalSortie:[],
+             totalVente:[],
              difference:0,
 
              tvaAchat:0,
@@ -216,7 +196,7 @@ import  Pagination from '../Pagination.vue';
              diffTVA:0,
 
              benifice:0,
-             
+            
       }),
    
         mounted(){
@@ -243,9 +223,7 @@ import  Pagination from '../Pagination.vue';
         
         
         },
-      updated(){
-         
-      },
+
         created () {
     // fetch the data when the view is created and the data is
     // already being observed
@@ -281,37 +259,99 @@ import  Pagination from '../Pagination.vue';
 
             fetchData () {
       //this.error = this.post = null
-      this.loading = true
-      this.BilanCharge();
-   
+     // this.loading = true
+     // this.BilanAnnee();
+   this.getBilan();
     },
-          BilanCharge(){
-                axios.get('/BilanCharge',{params:{mois:this.moisS}})
-                .then((response) => {
-                  console.log('shiiiiiiiiiiit');
-                  console.log(response.data.totalMois[0].total);
-                  
-                    this.charges = response.data.charges;
-                    this.totalMois=response.data.totalMois[0].total;
-                    this.totalAchat=response.data.totalAchat[0].totalA;
-                    this.totalSortie=this.totalMois+this.totalAchat;
-                    this.totalVente=response.data.totalVente[0].totalV;
-                    this.difference=this.totalVente - this.totalSortie;
 
-                    let tvaA= response.data.totalAchat[0].tvaA;
-                    let tvaC=response.data.totalMois[0].tvaC;
-                    this.tvaAchat= tvaA + tvaC;
-                    this.tvaVente=response.data.totalVente[0].tvaV;
-                    this.diffTVA=this.tvaVente - this.tvaAchat;
-                    
-                    this.benifice=this.difference - this.diffTVA;
-this.loading = false
+    getBilan(){
+                axios.get('/getBilan',{params:{annee:this.anneeS}})
+ .then((response) => {
+                  console.log('shiiiiiiiiiiit');
+                  console.log(response.data.bilanA);
+                  
+                    this.bilanAnnee = response.data.bilanA;
+                   
                   
                 })
                 .catch(() => {
                     console.log('handle server error from here');
                 });
-          },
+    },
+         /* BilanAnnee(){
+                axios.get('/BilanAnnee')
+                .then((response) => {
+                  console.log('shiiiiiiiiiiit');
+                //  console.log(response.data.totalCharge);
+                        this.totalVente=response.data.totalVente;
+
+                        this.totalCharges=response.data.totalCharge;
+                        //console.log(this.totalCharges)
+                        this.totalAchat=response.data.totalAchat;
+                             let this1=this;
+                             let this2=this;
+                             let this0=this;
+                                         let mois=[1,2,3,4,5,6,7,8,9,10,11,12];
+         for(i=0;i<mois.length;i++){
+           this.totalCharges.forEach(function(totalCharge) {
+               console.log("waaaaaaaaaaaaaaaaaa3")
+               this1.totalAchat.forEach(function(totalAchat) {
+                   console.log("waaaaaaaaaaaaaaaaa")
+                   console.log(mois[0])
+
+                  
+                   
+               if(totalCharge.month === mois[i] || totalAchat.month === mois[i]){
+                   console.log('yeeeeeeeeeeeeeeeeeeeeeeees')
+                                  this2.totalSortie=totalCharge.total+totalAchat.totalA;
+                console.log(totalCharge)
+
+                console.log(totalAchat)
+               } 
+               if(totalAchat.length === 0){
+                   console.log('nooooooooooooooooooo')
+                        console.log(totalCharge)
+
+                        console.log(totalAchat)
+                                  this2.totalSortie=totalCharge.total;
+
+               }
+             //  console.log("wiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+
+                   })
+                                    console.log(this2.totalSortie)
+
+           })
+          
+         }     
+                 /*
+                    for(i=0;i<this.totalCharges.length;i++){
+                        console.log(this.totalCharges[i].month)
+                        for(j=0;j<this.totalAchat.length;j++){
+                            console.log(this.totalAchat[j].month)
+                            if(this.totalCharges[i].month === this.totalAchat[j].month){
+                                this.totalSortie=this.totalCharges[i].total+this.totalAchat[j].totalA;
+                            }
+                        }
+                    }
+                    */
+                    //this.totalSortie=this.totalCharges+this.totalAchat;
+                  /*  this.difference=this.totalVente - this.totalSortie;
+
+                    let tvaA= response.data.totalAchat.tvaA;
+                    let tvaC=response.data.totalMois.tvaC;
+                    this.tvaAchat= tvaA + tvaC;
+                    this.tvaVente=response.data.totalVente.tvaV;
+                    this.diffTVA=this.tvaVente - this.tvaAchat;
+                    
+                    this.benifice=this.difference - this.diffTVA;*/
+/*this.loading = false
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+          },*/
 
                
       },

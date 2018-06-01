@@ -28,7 +28,7 @@
                         <label for="stagiaire" class="col-sm-4" >Annee :</label>
                         <div class="col-sm-8">
     
-                            <select class="form-control custom-select " id="fk_compte" v-model="anneeS" @change="getBilan" >
+                            <select class="form-control custom-select " id="fk_compte" v-model="anneeS" @change="Bilan" >
                                         <option value="" selected disabled>Choisir mois</option>
                                         <option v-for="(a,index) of annee" :key="index" :value="a"> {{a}} </option>
                             </select>  
@@ -60,34 +60,36 @@
                                     
                                             
                                             <td>
-                                           <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
-                                                    {{bilan.debit_b}}
+                                                
+                                           <div v-for="sortie of sorties" :key="sortie.index">
+                                              
+                                                    {{sortie}}
                                            </div>
                                     
                                                      </td> 
                                             <td>
-                                            <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">                                              
-                                                 {{bilan.credit_b}}
+                                            <div v-for="(vente,index) of totalVente" :key="index" v-if="vente.month === m">                                              
+                                                 {{vente.totalV}}
                                                  
-                                            </div>
+                                            </div> 
                                                  </td> 
                                             <td> 
-                                                <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
+                                                <div v-for="(diff,index) of difference" :key="index" >
                                      
-                                                {{bilan.difference_b}} 
-                                                </div>
+                                                {{diff}} 
+                                                </div>  
                                                 </td>
                                             <td>
-                                             <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
+                                             <div v-for="(solde,index) of soldeDepart" :key="index" >
                                              
-                                                 {{bilan.solde_depart_b}}
-                                             </div>
+                                                 {{solde}}
+                                             </div>  
                                                   </td>
                                             <td>
-                                              <div v-for="(bilan,index) of bilanAnnee" :key="index" v-if="bilan.mois_b === m">
+                                             <div v-for="(et,index) of etat" :key="index" >
                                             
-                                                 {{bilan.etat_b}}
-                                              </div>
+                                                 {{et}}
+                                              </div>  
                                                   </td>
                                    
                                                
@@ -133,9 +135,9 @@ import  Pagination from '../Pagination.vue';
       post: null,
       error: null,
              modalShow: false,
-             mois:['01','02','03','04','05','06','07','08','09','10','11','12'],
-             annee:['2017','2018'],
- //mois:[1,2,3,4,5,6,7,8,9,10,11,12],
+            // mois:['01','02','03','04','05','06','07','08','09','10','11','12'],
+             annee:['2016','2017','2018'],
+ mois:[1,2,3,4,5,6,7,8,9,10,11,12],
              //search
               search : '',
               //name file 
@@ -145,58 +147,23 @@ import  Pagination from '../Pagination.vue';
                 testnotifAdd : false,
              
               },
-                charges:{
-                      
-                        total: 0,
-                        per_page: 2,
-                        from: 1,
-                        to: 0,
-                        current_page: 1,
-                        data: [],
-
-              },
+              
                 offset: 4,
                 currentDate:"",
 
-              charge: { 
-                    
-                    id_charge :0,
-                    num_facture_ch:"",
-                    date_facture_ch:"",
-                    nom_fournisseur_ch:"",
-                    designation_ch:"",
-                    montant_ht_ch:"",
-                    taux_tva_ch:"",
-                    tva_ch:"",
-                    montant_ttc_ch:"",
-                    mode_paiement_ch:"",
-                    reference_ch:"",
-                    date_paiement_ch:"",
-                    support_ch:"",
-                    objet_ch:"",
-                    type_delai_ch:"",
-                    date_limit_ch:"",
-
-
-                    date_diff:"",
-
-              },
+            
              anneeS:"",
              moisS:"",
-             bilanAnnee:[],
 
-             totalCharges:[],
-             totalAchat:[],
-             totalSortie:[],
+  
+             sorties:[],
              totalVente:[],
-             difference:0,
+             difference:[],
+             etat:[],
+             soldeDepart:[],
 
-             tvaAchat:0,
-             tvaVente:0,
-             diffTVA:0,
+  
 
-             benifice:0,
-            
       }),
    
         mounted(){
@@ -237,38 +204,41 @@ import  Pagination from '../Pagination.vue';
 
       methods: {
         
-          searchCharges(event){
-             console.log(this.search);
-             this.charges.current_page=1;
-             if(this.search === ""){
-                //console.log('test2');
-                    this.getCharges();}
-                else {
-                     // console.log('test1');
-                axios.get('/searchCharges/'+this.search+'?page='+this.charges.current_page+'')
-                .then((response) => {
-                  
-                    this.charges = response.data.charges;
-                  
-                })
-                .catch(() => {
-                    console.log('handle server error from here');
-                });}
-                    
-          },
+ 
 
             fetchData () {
       //this.error = this.post = null
      // this.loading = true
-     // this.BilanAnnee();
-   this.getBilan();
+      //this.BilanAnnee();
+ //this.Bilan(this.annee);
+   //this.getBilan();
+    },
+       Bilan(){
+                axios.get('/Bilan/'+this.anneeS)
+ .then((response) => {
+                  console.log('shiiiiiiiiiiit');
+                  console.log(response.data.sortie);
+                  
+                    this.sorties = response.data.sortie;
+                    this.totalVente = response.data.totalVente;
+                    this.difference = response.data.difference;
+                    this.soldeDepart = response.data.soldeDepart;
+                    this.etat = response.data.etat;
+                   
+                  
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
     },
 
-    getBilan(){
+
+
+  /*  getBilan(){
                 axios.get('/getBilan',{params:{annee:this.anneeS}})
  .then((response) => {
                   console.log('shiiiiiiiiiiit');
-                  console.log(response.data.bilanA[0].credit_b);
+                  console.log(response.data.bilanA);
                   
                     this.bilanAnnee = response.data.bilanA;
                    
@@ -277,9 +247,11 @@ import  Pagination from '../Pagination.vue';
                 .catch(() => {
                     console.log('handle server error from here');
                 });
-    },
-         /* BilanAnnee(){
-                axios.get('/BilanAnnee')
+    },*/
+          BilanAnnee(){
+             
+
+                axios.get('/BilanAnnee',{params: {annee:this.anneeS}})
                 .then((response) => {
                   console.log('shiiiiiiiiiiit');
                 //  console.log(response.data.totalCharge);
@@ -292,38 +264,81 @@ import  Pagination from '../Pagination.vue';
                              let this2=this;
                              let this0=this;
                                          let mois=[1,2,3,4,5,6,7,8,9,10,11,12];
-         for(i=0;i<mois.length;i++){
-           this.totalCharges.forEach(function(totalCharge) {
-               console.log("waaaaaaaaaaaaaaaaaa3")
-               this1.totalAchat.forEach(function(totalAchat) {
-                   console.log("waaaaaaaaaaaaaaaaa")
-                   console.log(mois[0])
+       
 
-                  
+     for(let k=0;k<this.totalCharges.length;k++){ 
+         for(let p=0;p<this.totalVente.length;p++){
+                      //  console.log(this.totalCharges[k].month)
+                        for(let j=0;j<this.totalAchat.length;j++){
+          /* this.totalCharges.forEach(function(totalCharge) {
+               //console.log("waaaaaaaaaaaaaaaaaa3")
+               this1.totalAchat.forEach(function(totalAchat) {*/
+                  // console.log("waaaaaaaaaaaaaaaaa")
+                   for(let i=0;i<mois.length;i++){
+
                    
-               if(totalCharge.month === mois[i] || totalAchat.month === mois[i]){
+               if(this.totalCharges[k].month === mois[i] || this.totalAchat[j].month === mois[i]){
                    console.log('yeeeeeeeeeeeeeeeeeeeeeeees')
-                                  this2.totalSortie=totalCharge.total+totalAchat.totalA;
-                console.log(totalCharge)
+                     console.log(mois[i])
+                                             this.totalVente[p].totalV=this.totalVente[p].totalV;
 
-                console.log(totalAchat)
+                   // this.totalSortie[i].month=mois[i];
+                    this.totalSortie[i]=this.totalCharges[k].total + this.totalAchat[j].totalA;
+                    this.difference[i]=this.totalVente[p].totalV + this.totalSortie[i];
+               // console.log(this.totalSortie[i].month)
+                console.log(this.totalSortie[i])
+                console.log(this.difference[i])
+               // console.log(totalAchat)
+               }  
+               
+            /*   else if(this.totalCharges[k].month === mois[i] && this.totalAchat[j].month != mois[i]){
+                   console.log('nooooooooooooooooooooooo')
+                                                          console.log(mois[i])
+                                                          //console.log(this.totalCharges[k].month)
+                                             this.totalVente[p].totalV=this.totalVente[p].totalV;
+
+                     this.totalSortie[i]=this.totalCharges[k].total;
+                                   this.difference[i]=this.totalVente[p].totalV + this.totalSortie[i];
+
+                console.log(this.totalSortie[i])
+
+               // console.log(totalAchat)
+                }
+                else if(this.totalCharges[k].month != mois[i] && this.totalAchat[j].month === mois[i]){
+                   console.log('yep')
+                                                          console.log(mois[i])
+                                                          //console.log(this.totalCharges[k].month)
+                                             this.totalVente[p].totalV=this.totalVente[p].totalV;
+
+                     this.totalSortie[i]=this.totalAchat[j].totalA;
+                                   this.difference[i]=this.totalVente[p].totalV + this.totalSortie[i];
+
+                console.log(this.totalSortie[i])
+
+               // console.log(totalAchat)
+                } */
+                
                } 
-               if(totalAchat.length === 0){
+                   }
+         }
+                   }
+                                   // console.log(this2.totalSortie)
+
+            /*   if(totalAchat.length === 0){
                    console.log('nooooooooooooooooooo')
                         console.log(totalCharge)
 
                         console.log(totalAchat)
                                   this2.totalSortie=totalCharge.total;
 
-               }
+               }*/
              //  console.log("wiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
 
-                   })
-                                    console.log(this2.totalSortie)
+                 /*  })
 
-           })
+           })*/
           
-         }     
+             
                  /*
                     for(i=0;i<this.totalCharges.length;i++){
                         console.log(this.totalCharges[i].month)
@@ -354,12 +369,14 @@ import  Pagination from '../Pagination.vue';
           },*/
 
                
-      },
+      })
 
  
 
+},
+
+      }
     }
-    
 </script>
 
 <style scoped>

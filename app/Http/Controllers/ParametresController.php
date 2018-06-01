@@ -116,6 +116,7 @@ function  getTypePaiement(){
  function addSolde(Request $request){
     $solde  = new  Solde_init();
     $solde->solde_init = $request->solde_init;
+    $solde->annee_init = $request->annee_init;
     $solde->save();
     return Response()->json(['etat' => true]);
 }

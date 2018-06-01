@@ -17,9 +17,7 @@
     <hr>   
     </div> 
 
-   
-
-    <div class="row" >
+   <div class="row" >
              <div class="card">
                         
 
@@ -48,11 +46,33 @@
                         
                                 </div>
                             </div>
+
+                        </div>
+             </div>
+   </div>
+
+<div class="row" >
+             <div class="card">
+                        
+
+                        <div class="card-body">
                             <div v-if="moisS != ''">
                                     <div v-if="anneeS != ''">
-                            <h4>Bilan de mois : {{this.moisS}} - {{this.anneeS}}</h4>
+                            <h4 >Bilan de mois :<strong style="font-weight:bold"> {{this.moisS}} - {{this.anneeS}}</strong></h4>
                                     </div>
                             </div>
+
+                        </div>
+             </div>
+</div>
+
+    <div class="row" >
+             <div class="card">
+                        
+
+                        <div class="card-body">
+                          <h5 style="font-weight:bold">Charges :</h5>
+                          
                             <div class="table-responsive" >
                                 <table class="table table-bordered">
                                     <thead>
@@ -74,10 +94,10 @@
                                       </tr>
                                        </tbody>
                                 </table> 
-                                 <vue-pagination  :pagination="charges"
-                     @paginate="this.getChargeMois()"
+                       <!--          <vue-pagination  :pagination="charges"
+                     @paginate="getChargeMois()"
                      :offset="4">
-                                 </vue-pagination>
+                                 </vue-pagination>-->
                             </div>
 
                                 </div>
@@ -92,8 +112,7 @@
 
                         <div class="card-body">
 
-                                <div v-if="moisS != ''">
-                                    <div v-if="anneeS != ''">
+                                <h5 style="font-weight:bold">Perts ET Profits :</h5>
                                          <div class="table-responsive" >
 
                                         <table class="table table-bordered">
@@ -103,20 +122,20 @@
                                           <th>Calcul</th>
                                         </tr>
                                         </thead>
-                                      <tr>
+                                      <tr  v-if="moisS != '' && anneeS != ''">
                                           <th>Total Charges</th>
                                           
                                           <th> {{totalMois}}</th>
                                           </tr>
                                     
-                                     <tr>
+                                     <tr v-if="moisS != '' && anneeS != ''">
 
                                           <th>Total achat</th>
                                           
                                           <th> {{totalAchat}}</th>
                                           </tr>  
                                 </table> 
-                                         <table class="table table-bordered">  
+                                         <table class="table table-bordered" v-if="moisS != '' && anneeS != ''">  
                                           <tr>
                                           <th>Total Sortie</th>
                                           
@@ -135,7 +154,7 @@
                                           <th> {{difference}}</th>
                                           </tr>
                                           </table> 
-                                           <table class="table table-bordered">
+                                           <table class="table table-bordered" v-if="moisS != '' && anneeS != ''">
                                           <tr>
                                           <th>TVA Achat</th>
                                           
@@ -154,7 +173,7 @@
                                           <th> {{diffTVA}}</th>
                                           </tr>
                                           </table> 
-                                           <table class="table table-bordered">
+                                           <table class="table table-bordered" v-if="moisS != '' && anneeS != ''">
                                           <tr>
                                           <th>Revenu Net</th>
                                          
@@ -167,6 +186,16 @@
                               
                                          </div>
 
+
+             </div>
+             </div>
+                    </div>
+
+                    <div class="row" >
+             <div class="card">
+
+                        <div class="card-body">
+                            <h5 style="font-weight:bold">Etat de Banque :</h5>
  <form   @submit.prevent="addBilan">
                                 <table class="table table-bordered">  
                                     <thead>
@@ -178,8 +207,9 @@
                                           <th>Etat</th>
 
                                           </tr> 
-                                    </thead>    
-                                           <tr>
+                                    </thead>  
+                                  
+                                           <tr v-if="moisS != '' && anneeS != ''">
                                           
                                           <th> {{totalSortie}}</th>
                                           <th> {{totalVente}}</th>
@@ -188,21 +218,23 @@
                                            <th> {{etat}}</th>
 
                                           </tr>
+                                   
                                 </table>
+                                 <div v-if="moisS != ''">
+                                    <div v-if="anneeS != ''">
                     <div v-if="test == true">
-                         <div v-if="testP == true">
+                         <div v-if="testP == false">
                      <button  class="btn mb-3 float-right btn-success">Enregister</button>
                     </div>
-                                             <div v-if="testP == true">
-                                                 il faut enregistrer le mois precedent
+                                             <div v-if="testP == true" class="msg">
+                                                 il faut enregistrer le mois précédent !!
                                              </div>
 
                     </div>
+                                    </div>
+                                 </div>
  </form>
-                            </div>
-
-                              </div>
-             </div>
+                        </div>
              </div>
                     </div>
                     <div>
@@ -275,7 +307,7 @@ import  Pagination from '../Pagination.vue';
                     date_diff:"",
 
               },
-             annee:['2017','2018'],
+             annee:['2016','2017','2018'],
              anneeS:"",
 
              moisS:"",
@@ -302,6 +334,7 @@ import  Pagination from '../Pagination.vue';
       }),
    
         mounted(){
+            
             console.log("moisSSSSSSSS")
             console.log(this.moisS)
              var today = new Date();
@@ -321,8 +354,9 @@ import  Pagination from '../Pagination.vue';
             this.currentDate  = yyyy+'-'+mm+'-'+dd;
                        console.log("current date ******************")
                        console.log(this.currentDate); 
-        
-        
+    
+                       //   console.log(this.annee)
+
         },
     
         created () {
@@ -385,7 +419,7 @@ this.loading = false
                     this.benifice=this.difference - this.diffTVA;
 //this.soldeDepart=0;
                     this.etat=+this.soldeDepart + +this.difference;
-this.getChargeMois();
+                    this.getChargeMois();
                      this.verifiee();
                     // this.verifieeP();
                      this.verifieSize();
@@ -445,6 +479,8 @@ this.loading = false
                             this.testP=true;
                         }
                         else if(this.verifie != 0){
+                                                        console.log("count verifie !=0")
+
                             this.verifieeP();
                             this.testP=false;
                           
@@ -467,6 +503,7 @@ this.loading = false
                     annee=this.anneeS - 1;
                 }
                console.log(moisP)
+               console.log(annee)
                 axios.get('/verifie',{params:{mois:moisP,annee:annee}})
                     .then((response) => {
                         console.log('verifie add')
@@ -479,9 +516,11 @@ this.loading = false
                         else{
                              console.log("siiiiiiiiiiiiiiiiiiiiiii")
                             this.soldeDepart=response.data.verifie[0].etat_b;
+                            this.etat=+this.soldeDepart+ +this.difference;
                             this.testP=false;
                           
                         }
+
               
 })
            }, 
@@ -593,7 +632,11 @@ th{
     width:100%;
 }
 
-
+.msg{
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
 
 
 

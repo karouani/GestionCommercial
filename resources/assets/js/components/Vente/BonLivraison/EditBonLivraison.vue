@@ -503,7 +503,7 @@ methods: {
             this.getCompte(this.$route.params.fk_compte_bl);
             this.showBonLivraison(this.$route.params.reference_bl);
             this.getCommandes(this.$route.params.reference_bl);
-            this.getStatus();
+            //this.getStatus();
            
             this.getarticles();
              

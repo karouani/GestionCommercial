@@ -65,32 +65,234 @@ class BilanController extends Controller
         return Response()->json(['charges' => $charges,'totalMois' => $totalMois,'totalAchat' => $totalAchat,'totalAchatAvoir'=>$totalAchatAvoir,'totalVente' => $totalVente,'totalVenteAvoir'=>$totalVenteAvoir]);
     }
 
-  /*  public function BilanAnnee(Request $request){
+    public function BilanA(Request $request){
         // dd($mois);
        
        // for($i=0;$i<$mois.length;$i++) { 
        // DB::raw('YEAR(created_at) year, MONTH(created_at) month'))
          $totalCharge = Charge::select( DB::raw('SUM(charges.montant_ttc_ch) as total,MONTH(date_limit_ch) month'))
-        // where('charges.date_limit_ch','like','%-'.$mois.'-%')
+         ->where('charges.date_limit_ch','like',$request->annee.'-%')
          ->groupBy('month')
          ->get();
       //  }
         
       $totalAchat = Facture::select(DB::raw("SUM(factures.montant_ttc_f) as totalA, SUM(factures.tva_montant_f) as tvaA, MONTH(factures.date_limit_f) month"))
-      //->where('factures.date_limit_f','like','%-03-%')
+      ->where('factures.date_limit_f','like',$request->annee.'-%')
       ->where('factures.type_operation_f','=','achat')
       ->groupBy('month')     
       ->get();
 
      
       $totalVente = Facture::select(DB::raw("SUM(factures.montant_ttc_f) as totalV , SUM(factures.tva_montant_f) as tvaV , MONTH(factures.date_limit_f) month"))
-        //->where('factures.date_limit_f','like','%-'.$request->mois.'-%')
+        ->where('factures.date_limit_f','like',$request->annee.'-%')
         ->where('factures.type_operation_f','=','vente')
         ->groupBy('month')
         ->get();
+       // dd($totalCharge);
         return Response()->json(['totalCharge' => $totalCharge,'totalAchat' => $totalAchat,'totalVente' => $totalVente]);
      }
-*/
+
+
+     public function BilanAnnee($annee){
+   // dd($mois);
+   
+   // for($i=0;$i<$mois.length;$i++) { 
+   // DB::raw('YEAR(created_at) year, MONTH(created_at) month'))
+   $totalCharge = Charge::select( DB::raw('SUM(charges.montant_ttc_ch) as total,MONTH(charges.date_paiement_ch) month'))
+   ->where('charges.date_paiement_ch','like',$annee.'-%')
+   ->groupBy('month')
+   ->get();
+   //dd($totalCharge);
+//  }
+//  dd($totalCharge);
+$totalAchat = Facture::leftJoin('status', 'factures.fk_status_f', '=', 'status.id_status')
+->leftJoin('mode_paiements', 'factures.reference_f', '=', 'mode_paiements.fk_document')
+->select(DB::raw("SUM(factures.montant_ttc_f) as totalA, SUM(factures.tva_montant_f) as tvaA, MONTH(factures.date_limit_f) month"),'status.type_status','mode_paiements.date_paiement')
+->where('mode_paiements.date_paiement','like',$annee.'-%')
+->where('status.type_status','=','validé')
+->where('factures.type_operation_f','=','achat')
+->groupBy('month')     
+->get();
+//dd($totalAchat);
+$totalVente = Facture::leftJoin('status', 'factures.fk_status_f', '=', 'status.id_status')
+->leftJoin('mode_paiements', 'factures.reference_f', '=', 'mode_paiements.fk_document')
+->select(DB::raw("SUM(factures.montant_ttc_f) as totalV, SUM(factures.tva_montant_f) as tvaV, MONTH(factures.date_limit_f) month"),'status.type_status','mode_paiements.date_paiement')
+->where('mode_paiements.date_paiement','like',$annee.'-%')
+->where('status.type_status','=','validé')
+->where('factures.type_operation_f','=','vente')
+->groupBy('month')
+->get();
+
+$totalAchatAvoir = Avoir_facture::leftJoin('status', 'avoir_factures.fk_status_af', '=', 'status.id_status')
+->leftJoin('mode_paiements', 'avoir_factures.reference_af', '=', 'mode_paiements.fk_document')
+->select(DB::raw("SUM(avoir_factures.montant_ttc_af) as totalAA, SUM(avoir_factures.tva_montant_af) as tvaAA , MONTH(avoir_factures.date_limit_af) month"),'status.type_status','mode_paiements.date_paiement')
+->where('mode_paiements.date_paiement','like',$annee.'-%')
+      ->where('status.type_status','=','validé')
+      ->where('avoir_factures.type_operation_af','=','achat')
+      ->groupBy('month')
+      ->get();
+
+$totalVenteAvoir = Avoir_facture::leftJoin('status', 'avoir_factures.fk_status_af', '=', 'status.id_status')
+->leftJoin('mode_paiements', 'avoir_factures.reference_af', '=', 'mode_paiements.fk_document')
+->select(DB::raw("SUM(avoir_factures.montant_ttc_af) as totalVA, SUM(avoir_factures.tva_montant_af) as tvaVA , MONTH(avoir_factures.date_limit_af) month"),'status.type_status','mode_paiements.date_paiement')
+->where('mode_paiements.date_paiement','like',$annee.'-%')
+      ->where('status.type_status','=','validé')
+      ->where('avoir_factures.type_operation_af','=','vente')
+      ->groupBy('month')
+      ->get();
+      //->groupBy('charges.date_limit_ch')
+
+$solde=Solde_init::where('solde_inits.annee_init','=',$annee)
+->get();  
+//dd($solde);
+
+dd($totalAchat);
+$mois=[1,2,3,4,5,6,7,8,9,10,11,12];
+$sortie=array();
+$test =0;
+for($k=0;$k<count($mois);$k++){
+
+for($i=0;$i<count($totalCharge);$i++){
+ 
+  for($j=0;$j<count($totalAchat);$j++){
+
+  $test++;
+  //dd($mois[$k]);
+ // dd($totalCharge[$i]->month);
+
+  if($totalCharge[$i]->month === $mois[$k] && $totalAchat[$j]->month === $mois[$k]){
+    $sortie[$mois[$k]]=$totalCharge[$i]->total + $totalAchat[$j]->totalA;
+
+   // dd($sortie[$mois[$k]]);
+   // $test++;
+   //dd($sortie[$mois[$k]].'i: '.$i.' j: '.$j);
+   //break 2;
+   
+  } 
+  else if($totalCharge[$i]->month === $mois[$k] && $totalAchat[$j]->month != $mois[$k]){
+    $sortie[$mois[$k]]=$totalCharge[$i]->total;
+   // $test++;
+   // if($k == 2){
+     // dd( $sortie[$mois[$k]]);
+      //dd($totalCharge[$i]->month .'==='. $mois[$k].' &&'. $totalAchat[$j]->month.' === '.$mois[$k]);
+    //}
+  // break 2;
+  }
+  //prooooooooooooooob
+ /* else if($totalCharge[$i]->month !=$mois[$k] && $totalAchat[$j]->month === $mois[$k]){
+    $sortie[$mois[$k]]=$totalAchat[$j]->totalA;
+   // if($k == 4){
+    //  dd($totalCharge[$i]->month .'==='. $mois[$k].' &&'. $totalAchat[$j]->month.' === '.$mois[$k]);
+    //}
+   // dd($sortie[$mois[$k]].'i: '.$i.' j: '.$j);
+   
+    //break 2;
+  
+  }*/
+  else {
+    if(!isset($sortie[$mois[$k]])){
+      $sortie[$mois[$k]]=0;
+    }
+  }
+   // $sortie[$mois[$k]]=0;
+   // if($k == 4){
+    //  dd($totalCharge[$i]->month .'==='. $mois[$k].' &&'. $totalAchat[$j]->month.' === '.$mois[$k]);
+    //}
+   // dd($sortie[$mois[$k]].'i: '.$i.' j: '.$j);
+   
+   // break 2;
+  
+  
+
+}
+}              }
+//dd($sortie);
+//dd(count($totalAchat));
+//dd($test);
+$sortieS=array();
+for($i=1;$i<13;$i++){
+for($j=0;$j<count($totalAchatAvoir);$j++){
+  if($totalAchatAvoir[$j]->month === $i ){
+    $sortieS[$i]= $sortie[$i] - $totalAchatAvoir[$j]->totalAA;
+
+   break;
+   
+  } 
+    else {
+      $sortieS[$i] = $sortie[$i];
+    }
+
+}
+}
+$entreeE=array();
+for($i=1;$i<13;$i++){
+for($k=0;$k<count($totalVenteAvoir);$k++){
+  
+  for($j=0;$j<count($totalVente);$j++){  
+  if($totalVente[$j]->month === $i && $totalVenteAvoir[$k]->month === $i ){
+    $entreeE[$i]=$totalVente[$j]->totalV - $totalVenteAvoir[$k]->totalVA;
+
+   break 2;
+   
+  } 
+  else if($totalVente[$j]->month != $i && $totalVenteAvoir[$k]->month === $i ){
+    $entreeE[$i]=$totalVenteAvoir[$k]->totalVA;
+
+   //break;
+   
+  } 
+  else if($totalVente[$j]->month === $i && $totalVenteAvoir[$k]->month != $i ){
+    $entreeE[$i]=$totalVenteAvoir[$k]->totalVA;
+
+   //break;
+   
+  } 
+    else {
+      if(!isset($entreeE[$i])){
+      $entreeE[$i] = 0;
+      }
+    }
+
+}
+}
+}
+//dd($sortieS);
+$difference=array();
+for($i=1;$i<13;$i++){
+    $difference[$i]=$entreeE[$i] - $sortieS[$i];
+
+
+
+}
+dd($sortie);
+//dd($difference);
+
+$soldeDepart=array();
+$etat=array();
+for($i=1;$i<13;$i++){
+if($i === 1 ){
+ // dd($solde);
+  $soldeDepart[$i]=$solde[0]->solde_init;
+  $etat[$i]=$soldeDepart[$i] + $difference[$i];
+  
+}
+else{
+  $soldeDepart[$i]=$etat[$i-1];
+  $etat[$i]=$soldeDepart[$i] + $difference[$i];
+}
+
+}
+//dd($etat);
+dd($entreeE);
+//dd(implode(" ",$difference));
+ // dd($sortie[0].'-'.$totalVente[0]->totalV.'-'.$difference[0].'-'.$soldeDepart[0].'-'.$etat[0]);
+  return Response()->json(['sortieS' => $sortieS,'entreeE' => $entreeE,'difference' => $difference,'soldeDepart' => $soldeDepart,'etat' => $etat]);
+
+ 
+    }
+
+
+
 public function verifie(Request $request){
   // dd($request->annee);
  
@@ -137,6 +339,145 @@ public function verifie(Request $request){
      //dd($verifie);
      return Response()->json(['bilanA' => $bilanA]);
    }
+
+
+   public function Bilan($annee){
+    // dd($mois);
+   
+   // for($i=0;$i<$mois.length;$i++) { 
+   // DB::raw('YEAR(created_at) year, MONTH(created_at) month'))
+     $totalCharge = Charge::select( DB::raw('SUM(charges.montant_ttc_ch) as total,MONTH(charges.date_paiement_ch) month, YEAR(charges.date_paiement_ch) year'))
+     ->where('charges.date_paiement_ch','like','%2018%')
+     ->groupBy('month','year')
+     ->get();
+     //dd($totalCharge);
+  //  }
+ //  dd($totalCharge);
+  $totalAchat = Facture::select(DB::raw("SUM(factures.montant_ttc_f) as totalA, SUM(factures.tva_montant_f) as tvaA, MONTH(factures.date_limit_f) month, YEAR(factures.date_limit_f) year"))
+  ->where('factures.date_limit_f','like',$annee.'-%')
+  ->where('factures.type_operation_f','=','achat')
+  ->groupBy('month','year')     
+  ->get();
+//dd($totalAchat);
+$totalVente = Facture::select(DB::raw("SUM(factures.montant_ttc_f) as totalV , SUM(factures.tva_montant_f) as tvaV , MONTH(factures.date_limit_f) month, YEAR(factures.date_limit_f) year"))
+->where('factures.date_limit_f','like',$annee.'-%')
+->where('factures.type_operation_f','=','vente')
+->groupBy('month','year')
+->get();
+
+
+$solde=Solde_init::select('solde_init')
+->where('solde_init.annee_init','like',$annee.'-%')
+->get();  
+
+$mois=[1,2,3,4,5,6,7,8,9,10,11,12];
+$sortie=array();
+$test =0;
+for($k=0;$k<count($mois);$k++){
+ 
+  for($i=0;$i<count($totalCharge);$i++){
+   
+  for($j=0;$j<count($totalAchat);$j++){
+    $test++;
+    //dd($mois[$k]);
+   // dd($totalCharge[$i]->month);
+
+    if($totalCharge[$i]->month === $mois[$k] && $totalAchat[$j]->month === $mois[$k]){
+      $sortie[$mois[$k]]=$totalCharge[$i]->total + $totalAchat[$j]->totalA;
+  
+     // dd($sortie[$mois[$k]]);
+     // $test++;
+     //dd($sortie[$mois[$k]].'i: '.$i.' j: '.$j);
+     break 2;
+     
+    } 
+    else if($totalCharge[$i]->month === $mois[$k] && $totalAchat[$j]->month != $mois[$k]){
+      $sortie[$mois[$k]]=$totalCharge[$i]->total;
+     // $test++;
+     // if($k == 2){
+       // dd( $sortie[$mois[$k]]);
+        //dd($totalCharge[$i]->month .'==='. $mois[$k].' &&'. $totalAchat[$j]->month.' === '.$mois[$k]);
+      //}
+    // break 2;
+    }
+    else if($totalCharge[$i]->month !=$mois[$k] && $totalAchat[$j]->month === $mois[$k]){
+      $sortie[$mois[$k]]=$totalAchat[$j]->totalA;
+     // if($k == 4){
+      //  dd($totalCharge[$i]->month .'==='. $mois[$k].' &&'. $totalAchat[$j]->month.' === '.$mois[$k]);
+      //}
+     // dd($sortie[$mois[$k]].'i: '.$i.' j: '.$j);
+     
+     // break 2;
+    
+    }
+    else {
+      if(!isset($sortie[$mois[$k]])){
+        $sortie[$mois[$k]]=0;
+      }
+    }
+     // $sortie[$mois[$k]]=0;
+     // if($k == 4){
+      //  dd($totalCharge[$i]->month .'==='. $mois[$k].' &&'. $totalAchat[$j]->month.' === '.$mois[$k]);
+      //}
+     // dd($sortie[$mois[$k]].'i: '.$i.' j: '.$j);
+     
+     // break 2;
+    
+    
+  
+  }
+}              }
+//dd(count($totalAchat));
+//dd($test);
+//dd($sortie);
+$difference=array();
+for($i=1;$i<13;$i++){
+  for($j=0;$j<count($totalVente);$j++){
+    if($totalVente[$j]->month === $i ){
+      $difference[$i]=$totalVente[$j]->totalV - $sortie[$i];
+  
+     break;
+     
+    } 
+      else {
+        $difference[$i] = $sortie[$i];
+      }
+ 
+  }
+}
+//dd($totalVente);
+//dd($difference);
+
+$soldeDepart=array();
+$etat=array();
+for($i=1;$i<13;$i++){
+  if($i === 1 ){
+   // dd($solde);
+    $soldeDepart[$i]=$solde[0]->solde_init;
+    $etat[$i]=$soldeDepart[$i] + $difference[$i];
+    
+  }
+  else{
+    $soldeDepart[$i]=$etat[$i-1];
+    $etat[$i]=$soldeDepart[$i] + $difference[$i];
+  }
+
+}
+//dd($etat);
+//dd($totalVente);
+//dd(implode(" ",$difference));
+   // dd($sortie[0].'-'.$totalVente[0]->totalV.'-'.$difference[0].'-'.$soldeDepart[0].'-'.$etat[0]);
+    return Response()->json(['sortie' => $sortie,'totalVente' => $totalVente,'difference' => $difference,'soldeDepart' => $soldeDepart,'etat' => $etat]);
+ }
+
+
+
+
+
+
+
+
+
 
 
        public function addBilan(Request $request)

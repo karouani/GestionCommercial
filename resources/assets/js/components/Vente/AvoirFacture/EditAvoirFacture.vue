@@ -501,7 +501,7 @@ this.commande = {
             this.avoirFacture.id_af = this.$route.params.id_af;
             this.avoirFacture.reference_af = this.$route.params.reference_af;
  this.getAvoirFactureAF(this.avoirFacture.id_af);
-            this.getStatus();
+            //this.getStatus();
             //this.countFacture();
             this.getTvas();
             this.getarticles();
@@ -555,7 +555,7 @@ changeTVA(tvaa,commande){
         axios.get('/getStatus')
         .then((response) => {
                 this.status= response.data.status;
-                 this.avoirFacture.fk_status_af="Brouillon"; 
+                // this.avoirFacture.fk_status_af="Brouillon"; 
         })
         .catch(() => {
                 console.log('handle server error from here');

@@ -16,6 +16,7 @@ class CreateSoldeInitsTable extends Migration
         Schema::create('solde_inits', function (Blueprint $table) {
             $table->increments('id_solde');
             $table->double('solde_init');
+            $table->integer('annee_init');
 
             $table->softDeletes();
             $table->timestamps();

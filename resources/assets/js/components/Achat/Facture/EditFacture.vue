@@ -500,7 +500,7 @@ this.commande = {
             this.facture.id_facture = this.$route.params.id_facture;
             this.facture.reference_f = this.$route.params.reference_f;
  this.getFactureF(this.facture.id_facture);
-            this.getStatus();
+            //this.getStatus();
             //this.countFacture();
             this.getTvas();
             this.getarticles();

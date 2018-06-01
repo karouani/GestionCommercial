@@ -503,7 +503,7 @@ this.commande = {
             this.devi.id_devis = this.$route.params.id_devis;
             this.devi.reference_d = this.$route.params.reference_d;
  this.getDevisD(this.devi.id_devis);
-            this.getStatus();
+            //this.getStatus();
             //this.countDevis();
             this.getTvas();
             this.getarticles();

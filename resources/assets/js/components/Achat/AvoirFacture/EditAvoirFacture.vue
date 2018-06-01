@@ -501,7 +501,7 @@ this.commande = {
             this.avoirFacture.id_af = this.$route.params.id_af;
             this.avoirFacture.reference_af = this.$route.params.reference_af;
  this.getAvoirFactureAF(this.avoirFacture.id_af);
-            this.getStatus();
+            //this.getStatus();
             //this.countFacture();
             this.getTvas();
             this.getarticles();

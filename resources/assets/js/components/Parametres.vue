@@ -121,8 +121,9 @@
                     <div class="row">
                         <div class="col">
                     <input v-model="solde.solde_init"  type="text"  placeholder="Entrez Solde initial">
+                    <input v-model="solde.annee_init"  type="text"  placeholder="Entrez Annee initial">
                     </div>
-                    <div class="col" v-if="add==true">
+                    <div class="col">
                      <button @click="addSolde" class="btn btn-success">Ajouter </button>
                      </div>
                    </div>             
@@ -131,12 +132,14 @@
                         <thead>
                             <tr>
                             <th>Solde initial</th>
+                            <th>Annee </th>
                             </tr>
                         </thead>
                         <tbody>                     
                             <tr v-for="solde in soldes" :key="solde.id_solde">
                             <th>{{solde.solde_init}}</th>      
-                            <th v-if="add==false"><a @click="deleteSolde(solde)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
+                            <th>{{solde.annee_init}}</th>      
+                            <th ><a @click="deleteSolde(solde)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></th>
                             </tr>
                         </tbody>
                        </table>

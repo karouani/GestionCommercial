@@ -263,7 +263,7 @@ Route::get('/searchCharges/{desig}','ChargeController@searchCharges');
 Route::get('/getBonLivraisonBL/{id_bl}','FactureController@getBonLivraisonBL');
 
 //Bilan 
-Route::get('/BilanAnnee','BilanController@BilanAnnee');
+Route::get('/BilanAnnee/{annee}','BilanController@BilanAnnee');
 Route::get('/BilanCharge','BilanController@BilanCharge');
 Route::get('/verifie','BilanController@verifie');
 Route::get('/verifieSize','BilanController@verifieSize');
@@ -274,6 +274,10 @@ Route::post('/addBilan','BilanController@addBilan');
 Route::get('/getEtatCheque','BilanController@getEtatCheque');
 Route::get('/getEtatChequeAchat','BilanController@getEtatChequeAchat');
 Route::get('/getEtatChequeCharge','BilanController@getEtatChequeCharge');
+
+
+
+Route::get('/Bilan/{annee}','BilanController@Bilan');
 
 
 //Dashboard 

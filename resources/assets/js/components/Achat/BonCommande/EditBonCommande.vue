@@ -526,7 +526,7 @@ methods: {
             this.getCompte(this.$route.params.fk_compte_bc);
             
             this.getCommandes(this.$route.params.reference_bc);
-            this.getStatus();
+            //this.getStatus();
            
             this.getarticles();
              
