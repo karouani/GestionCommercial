@@ -9,7 +9,7 @@
     <div v-if="!loading" >
     <div class="row">
         <div class="col">
-          <a href="#"  v-b-modal.modalPrevent    class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
+          <a href="#"  v-b-modal.modalPrevent  style="background-color:#c1b6ca;"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
 
 
  <b-modal id="modalPrevent"
@@ -50,10 +50,11 @@
 
               
 
-           <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
+           <a href="#"    @click="PdfBonCommande(bonCommande.reference_bc)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"> Imprimer</i></a>
 
-     <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonCommandes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
-      
+              <router-link class="btn btn-primary mb-3 retour float-right " :to="'/ShowBonCommandes'">
+        <i class="fas fa-long-arrow-alt-left fontsize"></i>
+        </router-link>
 
     </div>
     </div>
@@ -158,7 +159,7 @@
                                     <th>Article</th>
                                     <th>Quantite</th>
                                     <th>Remise</th>
-                                    <th>majoration</th>
+                                  
                                     <th>Prix HT</th>
                                     <th>TVA</th>
                                     <th>Total HT</th>
@@ -171,7 +172,7 @@
                             </th>   
                             <th>  <label>{{commande.quantite_cmd}}</label></th>
                             <th>  <label>{{commande.remise_cmd}}</label></th> 
-                            <th>  <label>{{commande.majoration_cmd}}</label></th> 
+                           
                             <th> <label>{{commande.prix_ht}}</label></th> 
                                              <th>  
                             <label>{{commande.taux_tva}}</label>
@@ -196,37 +197,37 @@
 <div class="row">
     <div class="col-md-6 col-sm-12">
         
-            <div class="form-group row">
+            <div class="form-group2 row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Total en lettre</label>
                 <div class="col-sm-8 col-form-label ">
                 <label>{{bonCommande.total_lettre}}</label>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group2 row">
                 <label for="inputPassword" class="col-sm-4 col-form-label">Date Limit</label>
                 <div class="col-sm-8 col-form-label ">
                 <label>{{bonCommande.date_limit_bc}}</label>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group2 row">
                     <label for="type_paiement" class="col-sm-4 col-form-label" > Type Paiement </label>
                 <div class="col-sm-8 col-form-label">
                 <label>{{bonCommande.type_paiement}}</label>
                 </div>
             </div>
-                <div class="form-group row">
+                <div class="form-group2 row">
                     <label for="reference_paiement"  class="col-sm-4 col-form-label" >Reference Paiement </label>
                     <div class="col-sm-8 col-form-label">
                     <label>{{bonCommande.reference_paiement}}</label>
                     </div>
                 </div> 
-                 <div class="form-group row">
+                 <div class="form-group2 row">
                     <label for="date_paiement"  class="col-sm-4 col-form-label" >Date Paiement </label>
                     <div class="col-sm-8 col-form-label">
                     <label>{{bonCommande.date_paiement}}</label>
                     </div>
                 </div>  
-                <div class="form-group row">
+                <div class="form-group2 row">
                     <label for="reference_paiement"  class="col-sm-4 col-form-label" >Remise Total </label>
                     <div class="col-sm-8 col-form-label">
                     <label>{{bonCommande.remise_total_bc}}</label>
@@ -237,47 +238,47 @@
                                  
     </div>
     <div class="col-md-6 col-sm-12">
-          <div class="form-group row">
+          <div class="form-group2 row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Total HT </label>
-            <div class="col-sm-8 col-form-label">
+            <div class="col-sm-8 cal col-form-label">
             <label>{{bonCommande.total_ht_bc}}</label>
             </div>
          </div>
    
        
-          <div class="form-group row">
+          <div class="form-group2 row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Remise Total (montant) </label>
-            <div class="col-sm-8 col-form-label">
+            <div class="col-sm-8 cal col-form-label">
             <label>{{bonCommande.remise_total_bc}}</label>
             </div>
          </div>
-          <div class="form-group row">
+          <div class="form-group2 row">
             <label for="staticEmail" class="col-sm-4 col-form-label"> Montant Net HT  </label>
-            <div class="col-sm-8 col-form-label">
+            <div class="col-sm-8 cal col-form-label">
                 <label>{{bonCommande.montant_net_bc}}</label>
             </div>
          </div>
-          <div class="form-group row">
+          <div class="form-group2 row">
             <label for="staticEmail" class="col-sm-4 col-form-label">TVA (Montant) </label>
-            <div class="col-sm-8 col-form-label">
+            <div class="col-sm-8 cal col-form-label">
                 <label>{{bonCommande.tva_montant_bc}}</label>
             </div>
          </div>
-          <div class="form-group row">
+          <div class="form-group2 row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Montant TTC (Montant) </label>
-            <div class="col-sm-8 col-form-label">
+            <div class="col-sm-8 cal col-form-label">
                 <label>{{bonCommande.montant_ttc_bc}}</label>
             </div>
          </div>
-         <div class="form-group row">
+         <div class="form-group2 row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Acompte </label>
-            <div class="col-sm-8 col-form-label">
+            <div class="col-sm-8 cal col-form-label">
                 <label>{{bonCommande.accompte_bc}}</label>
             </div>
          </div>
-         <div class="form-group row">
+         <div class="form-group2 row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Montant Reste (Montant) </label>
-            <div class="col-sm-8 col-form-label">
+            <div class="col-sm-8 cal col-form-label">
                 <label>{{bonCommande.montant_reste_bc}}</label>
             </div>
          </div>
@@ -288,7 +289,7 @@
 <br>
 <div class="row">
   <div class="col">
-                <div class="form-group row">
+                <div class="form-group2 row">
             <label for="staticEmail" class="col-sm-2 col-form-label">Notes </label>
             <div class="col-sm-10 col-form-label">
             <label>{{bonCommande.notes_bc}}</label>
@@ -299,7 +300,7 @@
 <br>
 <div class="row">
    <div class="col">
-          <div class="form-group row">
+          <div class="form-group2 row">
             <label for="staticEmail" class="col-sm-2 col-form-label">Conditions </label>
             <div class="col-sm-10 col-form-label">
             <label>{{bonCommande.conditions_reglements_bc}}</label>
@@ -513,10 +514,7 @@ a.last::before {
 .calculePadding{
     padding-left: 50%;
 }
-.fontsize{
 
-    font-size: 1.30rem;
-}
 
 .lds-hourglass {
   display: inline-block;
@@ -584,6 +582,21 @@ a.last::before {
 
 .refresh{
 background-color: #eaeacd 
+}
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
+}
+.form-group2{
+    margin-bottom:0rem;
+}
+.table td, .table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+.cal{
+padding-right: 0px;
+padding-left: 120px;
 }
 </style>
 

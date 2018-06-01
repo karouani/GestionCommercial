@@ -31,7 +31,11 @@ class BonCommandeController extends Controller
 
 
     public function getAllBoncommandes(){
-        $AllBoncommandes = Boncommande::all();
+        $AllBoncommandes = Boncommande::leftJoin('status', 'status.id_status', '=', 'bonCommandes.fk_status_bc')
+        ->select('bonCommandes.*')
+        ->whereNotIn('status.type_status', ['validé','annulée'])
+        ->orWhere('status.type_status','=',null)
+        ->get();
         return Response()->json(['AllBoncommandes' => $AllBoncommandes ]);
     }
 
@@ -219,14 +223,14 @@ class BonCommandeController extends Controller
         
                 $commande->save();
            }
-           if($request->bonCommande['type_operation_bc'] === "vente"){
+     /*      if($request->bonCommande['type_operation_bc'] === "vente"){
             for($i=0;$i<count($request->commandes);$i++) {    
           $article = Article::find($request->commandes[$i]['fk_article']);
           $article->quantite -= $request->commandes[$i]['quantite_cmd'];
           $article->save();
       
   }
-}
+}*/
                 // return Response()->json(['etat' => true]);
             
     }
@@ -290,6 +294,8 @@ class BonCommandeController extends Controller
             ->leftJoin('status', 'bonCommandes.fk_status_bc', '=', 'status.id_status')
             ->select('bonCommandes.*', 'comptes.nom_compte','status.*')
             ->where('type_operation_bc','=',$request->type_operation_bc)
+            ->orderBy('bonCommandes.created_at', 'desc')
+           // ->orderBy('bonCommandes.created_at', 'desc')
             ->paginate(10);
            
          return Response()->json(['bonCommandes' => $boncommandes ]);
@@ -315,7 +321,8 @@ class BonCommandeController extends Controller
         {
             $query->where('reference_bc','like', '%' .$search_BC . '%')
             ->orWhere('comptes.nom_compte','like', '%' .$search_BC . '%');
-        })->paginate(10);
+        })->orderBy('bonCommandes.created_at', 'desc')
+        ->paginate(10);
       
         return Response()->json(['boncommandes' => $boncommandes,'search_BC' => $search_BC ]);
      }

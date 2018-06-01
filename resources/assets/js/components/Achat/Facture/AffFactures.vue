@@ -22,7 +22,7 @@
         </div>
   
     </div>
-    <h2>List des Factures</h2>
+    <h3>List des Factures</h3>
     <hr>   
     </div>
 

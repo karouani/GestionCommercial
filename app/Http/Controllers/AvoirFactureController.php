@@ -14,6 +14,7 @@ use DB;
 use Auth;
 use PDF;
 use Illuminate\Http\Request;
+use App\Historique_operation;
 
 class AvoirFactureController extends Controller
 {
@@ -22,12 +23,27 @@ class AvoirFactureController extends Controller
        {
            $this->middleware('auth');
        }
+
+       public function addHistorique($type_operation,$operation_user){
+
+        $historique = new Historique_operation();   
+        $historique->email_user = Auth::user()->email;
+        $historique->operation_user = $operation_user;
+        $historique->nom_document = $type_operation;
+        $historique->save();
+
+
+   }
        public function deleteNotification($reference_af){
         Auth::user()->notifications()->where('data','like', '%' .$reference_af . '%')->delete();
    
     }
        public function getAllAvoirFactures(){
-        $AllAvoirFactures = Avoir_Facture::all();
+        $AllAvoirFactures = Avoir_Facture::leftJoin('status', 'status.id_status', '=', 'avoir_factures.fk_status_af')
+        ->select('avoir_factures.*')
+        ->whereNotIn('status.type_status', ['validé','annulée'])
+        ->orWhere('status.type_status','=',null)
+        ->get();
         return Response()->json(['AllAvoirFactures' => $AllAvoirFactures ]);
        }
 
@@ -42,7 +58,8 @@ class AvoirFactureController extends Controller
         {
             $query->where('reference_af','like', '%' .$search_AF . '%')
             ->orWhere('comptes.nom_compte','like', '%' .$search_AF . '%');
-        })->paginate(10);
+        })->orderBy('avoir_factures.created_at', 'desc')
+        ->paginate(10);
                    
                  return Response()->json(['avoirFactures' => $avoirFactures , 'type_operation_af'=> $request->type_operation_af]);
               }
@@ -96,7 +113,11 @@ class AvoirFactureController extends Controller
                    $avoirFacture->montant_reste_af = $request->avoirFactures['montant_reste_af'];
    
                    $avoirFacture->save();
-   
+
+                   $operation_user = "Ajouter ".$request->avoirFactures['reference_af'];
+                   $type_operation = $request->avoirFactures['type_operation_af'];
+                   $this->addHistorique($type_operation,$operation_user);
+
                    $this->addCommandes_af($request);
                    $this->addModePaiement_af($request);
                     return Response()->json(['etat' => true]);
@@ -133,7 +154,12 @@ class AvoirFactureController extends Controller
                 $avoirFacture->montant_reste_af = $request->avoirFactures['montant_reste_af'];
 
         $avoirFacture->save();
+
+
         $reference_af = $avoirFacture->reference_af;
+        $operation_user = "modifier ".$request->avoirFactures['reference_af'];
+        $type_operation = $request->avoirFactures['type_operation_af'];
+        $this->addHistorique($type_operation,$operation_user);
 
         $this->deleteNotification($request->avoirFactures['reference_af']);
         $this->updateCommandes_af($request,$reference_af);
@@ -258,6 +284,7 @@ class AvoirFactureController extends Controller
         ->leftJoin('status', 'avoir_factures.fk_status_af', '=', 'status.id_status')
         ->select('avoir_factures.*', 'comptes.nom_compte','status.*','factures.*')
         ->where('type_operation_af','=',$request->type_operation_af)
+        ->orderBy('avoir_factures.created_at', 'desc')
                     ->paginate(10);
                    
                  return Response()->json(['avoirFactures' => $avoirFactures ]);
@@ -303,6 +330,13 @@ class AvoirFactureController extends Controller
         $commande = Commande::where('fk_document','=',$avoirFacture->reference_af);  
         $commande->delete();   
         $modePaiement = Mode_paiement::where('fk_document','=',$avoirFacture->reference_af)->delete(); 
+ 
+        
+        
+        $operation_user = "supprimer ".$avoirFacture->reference_af;
+        $type_operation = $avoirFacture->type_operation_af;
+        $this->addHistorique($type_operation,$operation_user);
+
         return Response()->json(['delete' => 'true']);
     }
 

@@ -21,7 +21,7 @@
         </div>
   
     </div>
-    <h2>List des Compagnies</h2>
+    <h3>List des Compagnies</h3>
     <hr>   
     </div>   
        
@@ -43,7 +43,7 @@
     <div class="row">
         <div class="col-auto" v-for="compagnie of compagnies.data" :key="compagnie.id_compagnie" >
             <div class="card widthCard"  >
-            <img v-if="compagnie.logo_comp != ''" class="card-img-top" :src="'storage/images/'+compagnie.logo_comp" alt="Card image cap" width="100px" height="100px">
+            <img v-if="compagnie.logo_comp != ''" class="card-img-top imagecolor" :src="'storage/images/'+compagnie.logo_comp" alt="Card image cap" width="100px" height="100px">
             <img v-if="compagnie.logo_comp === ''" class="card-img-top" :src="'storage/images/compagnie0.jpg'" alt="Card image cap" width="100px" height="100px">
 
             <div class="card-body">
@@ -60,12 +60,12 @@
                 
                 <div> 
                     
-                <a href="#"  class="btn btn-primary" @click="redirect_to_CompagnieDetails(compagnie)"  ><i class="fas fa-eye d-inline-block"></i></a>
+                <a   class="btn btn-primary" @click="redirect_to_CompagnieDetails(compagnie)"  ><i class="fas fa-eye d-inline-block"></i></a>
 
                  <router-link :to="'/EditCompagnie/'+compagnie.id_compagnie">
-                    <a href="#" class="btn btn-success "><i class="fas fa-edit d-inline-block"></i></a>
+                    <a  class="btn btn-success "><i class="fas fa-edit d-inline-block"></i></a>
                  </router-link>
-                    <a href="#" class="btn btn-danger " @click="deleteCompagnie(compagnie)"><i class="fas fa-trash-alt d-inline-block"></i></a>
+                    <a class="btn btn-danger " @click="deleteCompagnie(compagnie)"><i class="fas fa-trash-alt d-inline-block"></i></a>
                 </div>
             </div>
             </div>
@@ -329,5 +329,8 @@ a.last::before {
   100% {
     transform: rotate(1800deg);
   }
+}
+.imagecolor {
+    background-color:#fff3f3;
 }
 </style>

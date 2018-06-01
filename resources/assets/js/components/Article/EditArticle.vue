@@ -28,10 +28,6 @@
                 <textarea placeholder="Description article"  name="" id="description" class="form-control" rows="4" v-model="article.description"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="description"> description </label>
-                    <input type="text" class="form-control" id="description" v-model="article.description" >
-                </div>
-                <div class="form-group">
                     <label for="prix_ht_achat"> prix ht achat </label>
                     <input type="text" class="form-control" id="prix_ht_achat" v-model="article.prix_ht_achat" >
                 </div>

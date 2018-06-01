@@ -6,7 +6,7 @@
     </div>
 
 <div>
-    <nav class="navbar page-header">
+    <nav class="navbar page-header topcolor">
         <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
             <i class="fa fa-bars"></i>
         </a>
@@ -110,6 +110,7 @@
     boncommandes:[],
     avoirFactures:[],
     bonLivraisons:[],
+    Charges:[],
     currentDate:"",
         }),
         
@@ -167,7 +168,7 @@
                  const response5 = await  this.getAllBonLivraisons()
                  const response6 = await  this.getAllFactures() 
                  const response7 = await  this.getAllAvoirFactures() 
-
+                 const response8 = await this.getAllCharges();
                  
 
                   
@@ -389,6 +390,45 @@
                     });
                     return response66;
         },
+        async getAllCharges(){
+           
+             const response77 = await axios.get('/getAllCharges')
+                    .then((response) => {      
+                              
+                        this.Charges = response.data.AllCharges;
+                        let that=this
+                        let test = 0;
+                        this.Charges.forEach(function(Charge) {
+
+                            test = 0;
+                            that.notifications.forEach(function(notif) { 
+        
+                                if(notif.data.data.indexOf(Charge.num_facture_ch+" va") > -1){
+                                
+                                test =1;
+                                }
+                            })
+                            if(test == 0){
+                                        if(that.getDifferenceDate(Charge.date_limit_ch)<2){
+                                            
+                                                    axios.get('/addNotification',{params: {reference_d: Charge.num_facture_ch} })
+                                                    .then((response) => {
+                                                    console.log('notif bien ajouter ')
+                                                    that.getNotifications()
+                                                    })
+                                                    .catch(() => {
+                                                        console.log('handle server error from here');
+                                                    });
+                                        }
+                                }
+                        })
+                        
+                })
+                    .catch(() => {
+                        console.log('handle server error from here');
+                    });
+                    return response77;
+        },
 
 
 
@@ -480,6 +520,14 @@ created(){
   overflow-y: scroll;
 }
 
-
+.topcolor{
+background: #b8ebfd;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #FFFFFF, #6DD5FA, #b8ebfd);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #FFFFFF, #6DD5FA,#b8ebfd); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+height:46px;
+}
+a {
+    color: black;
+}
 
 </style>

@@ -78,10 +78,17 @@
                             </div> 
                         </div>
                      </div>
-                     <div class="col-md-6">
+                      <div class="col-md-6">
                         <div class="card p-4">
                             <div class="card-body d-flex justify-content-between align-items-center">
-                                <canvas id="myLine"></canvas>
+                                <canvas id="myChartClient"></canvas>
+                            </div> 
+                        </div>
+                     </div>
+                     <div class="col-md-12">
+                        <div class="card p-4">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <canvas style="display: block;width: 864px;height: 328px;" id="myLine"></canvas>
                             </div> 
                         </div>
                      </div>                     
@@ -113,8 +120,14 @@ data: () => ({
     nbrFactures:0,
      loading: false,
     articles: [],
+    listeClient:[],
+    MontantFactureVenteAchat:[],
         labels2 :[],
         votes2:[],
+        labels3 :[],
+        votes3:[],
+        labels4 :[],
+        votes4:[],
         message: "Vue.js & Chart.js",
         labels: ["client1", "client2", "client3", "client4", "client5", "client6"],
         votes: [12, 19, 3, 5, 40, 70],
@@ -132,9 +145,10 @@ data: () => ({
      
     var ctx =    document.getElementById("myChart");
     var ctxL =    document.getElementById("myLine");
-    var ctxP =    document.getElementById("PieChart");
-    
-    var myPieChart = new Chart(ctxP ,{
+    //var ctxP =    document.getElementById("PieChart");
+     var ctxClient=    document.getElementById("myChartClient");
+      var ctxVenteAchat=    document.getElementById("PieChart");
+   /* var myPieChart = new Chart(ctxP ,{
     type: 'pie',
     data: {
                 labels: this.labels,
@@ -169,7 +183,7 @@ data: () => ({
             }]
         }
     }
-});
+});*/
 
 
 var stackedLine = new Chart(ctxL, {
@@ -209,7 +223,8 @@ var stackedLine = new Chart(ctxL, {
     }
 });
  this.getArticlePlusVente(ctx);
-  
+  this.getClientPlusVente(ctxClient)
+  this.getMontantFactureVenteAchat(ctxVenteAchat)
             console.log('---- test labels 2 ')
             console.log(this.labels2)
            
@@ -318,8 +333,130 @@ var stackedLine = new Chart(ctxL, {
             }); 
             
           },
+ async getClientPlusVente(ctxClient){
+                            this.loading= true;
+               let art = await  axios.get('/getClientPlusVente')
+                .then((response) => {
+                 // console.log('shit');
+                
 
-        
+                    this.listeClient = response.data.listeClient;
+      
+                    for(var i=0;i<this.listeClient.length;i++){
+                         this.labels3[i] = this.listeClient[i].nom_compte
+                      this.votes3[i]= this.listeClient[i].total
+                    
+                     
+                    }  
+                    this.loading = false
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+                  var stackedChart = await  new Chart(ctxClient, {
+                type: 'bar',
+                data: {
+                    labels: this.labels3,
+                    datasets: [
+                        {
+                            label: "# Clients",
+                            data: this.votes3,
+                            backgroundColor: [
+                                "rgba(255, 99, 132, 0.6)",
+                                "rgba(54, 162, 235, 0.6)",
+                                "rgba(255, 206, 86, 0.6)",
+                                "rgba(75, 192, 192, 0.6)",
+                                "rgba(153, 102, 255, 0.6)",
+                                "rgba(255, 159, 64, 0.6)"
+                            ],
+                            borderColor: [
+                                "rgba(255,99,132,1)",
+                                "rgba(54, 162, 235, 1)",
+                                "rgba(255, 206, 86, 1)",
+                                "rgba(75, 192, 192, 1)",
+                                "rgba(153, 102, 255, 1)",
+                                "rgba(255, 159, 64, 1)"
+                            ],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
+                    }
+                }
+            }); 
+            
+          },
+        async getMontantFactureVenteAchat(ctxVenteAchat){
+                            this.loading= true;
+               let art = await  axios.get('/getMontantFactureVenteAchat')
+                .then((response) => {
+                 // console.log('shit');
+                
+
+                    this.MontantFactureVenteAchat = response.data.MontantFactureVenteAchat;
+      
+                    for(var i=0;i<this.MontantFactureVenteAchat.length;i++){
+                         this.labels4[i] = this.MontantFactureVenteAchat[i].type_operation_f
+                      this.votes4[i]= this.MontantFactureVenteAchat[i].total
+                    
+                     
+                    }  
+                    this.loading = false
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+                  var stackedChart = await  new Chart(ctxVenteAchat, {
+                type: 'pie',
+                data: {
+                    labels: this.labels4,
+                    datasets: [
+                        {
+                            label: "# Clients",
+                            data: this.votes4,
+                            backgroundColor: [
+                                "rgba(255, 99, 132, 0.6)",
+                                "rgba(54, 162, 235, 0.6)",
+                                "rgba(255, 206, 86, 0.6)",
+                                "rgba(75, 192, 192, 0.6)",
+                                "rgba(153, 102, 255, 0.6)",
+                                "rgba(255, 159, 64, 0.6)"
+                            ],
+                            borderColor: [
+                                "rgba(255,99,132,1)",
+                                "rgba(54, 162, 235, 1)",
+                                "rgba(255, 206, 86, 1)",
+                                "rgba(75, 192, 192, 1)",
+                                "rgba(153, 102, 255, 1)",
+                                "rgba(255, 159, 64, 1)"
+                            ],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
+                    }
+                }
+            }); 
+            
+          },
          },
         
 

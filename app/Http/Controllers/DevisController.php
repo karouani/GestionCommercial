@@ -219,7 +219,11 @@ class DevisController extends Controller
       }
 
     public function getAllDevis(){
-        $AllDevis = Devi::all();
+        $AllDevis = Devi::leftJoin('status', 'status.id_status', '=', 'devis.fk_status_d')
+        ->select('devis.*')
+        ->whereNotIn('status.type_status', ['validé','annulée'])
+        ->orWhere('status.type_status','=',null)
+        ->get();
         return Response()->json(['AllDevis' => $AllDevis ]);
     }
     public function getDevisD($id_devis){
@@ -239,6 +243,7 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
 ->leftJoin('status', 'devis.fk_status_d', '=', 'status.id_status')
             ->select('devis.*', 'comptes.nom_compte','status.*')
             ->where('type_operation','=',$request->type_operation)
+            ->orderBy('devis.created_at', 'desc')
             ->paginate(10);
            
          return Response()->json(['devis' => $devis ]);
@@ -305,7 +310,8 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
         {
             $query->where('reference_d','like', '%' .$search_D . '%')
             ->orWhere('comptes.nom_compte','like', '%' .$search_D . '%');
-        })->paginate(10);
+        })->orderBy('devis.created_at', 'desc')
+        ->paginate(10);
 
         return Response()->json(['devis' => $devis ]);
      }

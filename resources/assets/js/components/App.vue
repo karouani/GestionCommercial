@@ -54,3 +54,9 @@ export default {
 }
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style scoped>
+.content{
+  margin-top: 40px;
+}
+
+</style>

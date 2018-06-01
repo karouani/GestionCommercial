@@ -940,7 +940,7 @@ computed:{
             let this1=this;
         for (let index = 0; index < this.commandes.length; index++) {
 
-         this.articles.forEach(function(article) {
+    /*     this.articles.forEach(function(article) {
 
                console.log(article.quantite+" / "+this1.commandes[index].quantite_cmd)
                if(article.id_article == this1.commandes[index].fk_article){
@@ -956,7 +956,7 @@ computed:{
                       }
                      return 
                }
-});
+});*/
 
 
                 //total de prix de tt commandes

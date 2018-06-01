@@ -20,7 +20,7 @@
                     <div class="col">
     <router-link class="float-left btn btn-secondary" :to="'/ShowMouvements'" ><i class="fas fa-exchange-alt"></i> Mouvements </router-link>
     </div>
-     <h2>Liste des Articles</h2>
+     <h3>Liste des Articles</h3>
         <div class="col">
     <!-- button pour afficher tous les users-->
     <router-link class="float-right btn btn-secondary" :to="'/AddArticles'" ><i class="fas fa-plus-circle"/> Ajouter </router-link>

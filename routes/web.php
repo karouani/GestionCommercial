@@ -257,6 +257,8 @@ Route::post('/updateCharge','ChargeController@updateCharge');
 Route::delete('/deleteCharge/{id_charge}','ChargeController@deleteCharge');
 Route::get('/getCharge/{id_charge}','ChargeController@getCharge');
 Route::get('/searchCharges/{desig}','ChargeController@searchCharges');
+Route::get('/getAllCharges','ChargeController@getAllCharges');
+
 
    
 //pour facture
@@ -278,6 +280,10 @@ Route::get('/getEtatChequeCharge','BilanController@getEtatChequeCharge');
 
 //Dashboard 
 Route::get('/getArticlePlusVente','DashboardController@getArticlePlusVente');
+Route::get('/getClientPlusVente','DashboardController@getClientPlusVente');
+Route::get('/getMontantFactureVenteAchat','DashboardController@getMontantFactureVenteAchat');
+
+
 
 
 // notification 
@@ -292,7 +298,9 @@ Route::get('/getMouvements','ArticleController@getMouvements');
 Route::post('/addMouvement','ArticleController@addMouvement');
 Route::delete('/deleteMouvement/{id_mouvement}','ArticleController@deleteMouvement');
 
-
+//historique
+Route::get('/getHistoriques','HistoriqueController@getHistoriques');
+Route::delete('/deleteHistorique/{id_historique_operation}','HistoriqueController@deleteHistorique');
 
 
 Auth::routes();

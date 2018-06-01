@@ -23,7 +23,7 @@
         </div>
   
     </div>
-    <h2>List des Bons de réception</h2>
+    <h3>List des Bons de réception</h3>
     <hr>   
     </div>
            
@@ -482,6 +482,7 @@ import  Pagination from '../../Pagination.vue';
 
             
             handleOk(){
+                console.log('reference_bl'+this.reference_bl)
                     this.$router.push({ name: 'addBonLivraisonA', params: { id_compte: this.compte.id_compte ,fk_compagnie:this.compte.fk_compagnie ,reference_bl: this.reference_bl, currentDate: this.currentDate  }});
 
             },

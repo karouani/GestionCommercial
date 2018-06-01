@@ -751,7 +751,7 @@ methods: {
                console.log('**** article ***') 
                console.log(article) 
                if(article.id_article == this1.commande.fk_article){
-                   this1.commande.prix_ht = article.prix_ht_vente;
+                   this1.commande.prix_ht = article.prix_ht_achat;
                    this1.commande.fk_tva_cmd = article.fk_tva_applicable
                    this1.commande.designation = article.designation;
                    this1.commande.description_article = article.description;

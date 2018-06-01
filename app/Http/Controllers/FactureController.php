@@ -14,7 +14,7 @@ use DB;
 use Auth;
 use PDF;
 use Illuminate\Http\Request;
-
+use App\Historique_operation;
 class FactureController extends Controller
 {
     public function __construct()
@@ -28,7 +28,11 @@ class FactureController extends Controller
     }
 
     public function getAllFactures(){
-        $AllFactures = Facture::all();
+        $AllFactures = Facture::leftJoin('status', 'status.id_status', '=', 'factures.fk_status_f')
+        ->select('factures.*')
+        ->whereNotIn('status.type_status', ['validé','annulée'])
+        ->orWhere('status.type_status','=',null)
+        ->get();
         return Response()->json(['AllFactures' => $AllFactures ]);
     }
        // ajouter un facture
@@ -39,7 +43,8 @@ class FactureController extends Controller
         {
             $query->where('reference_f','like', '%' .$search_f . '%')
             ->orWhere('comptes.nom_compte','like', '%' .$search_f . '%');
-        })->paginate(10);
+        })->orderBy('factures.created_at', 'desc')
+        ->paginate(10);
 
         return Response()->json(['factures' => $factures ]);
      }
@@ -94,13 +99,25 @@ class FactureController extends Controller
                    $facture->fk_bl= $request->factures['fk_bl'];
                    }
                    $facture->save();
-   
+                   $operation_user = "Ajouter ".$request->factures['reference_f'];
+                   $type_operation = $request->factures['type_operation_f'];
+                   $this->addHistorique($type_operation,$operation_user);
                    $this->addCommandes_f($request);
                    $this->addModePaiement_f($request);
                     return Response()->json(['etat' => true]);
                
        }
+       
+       public function addHistorique($type_operation,$operation_user){
 
+            $historique = new Historique_operation();   
+            $historique->email_user = Auth::user()->email;
+            $historique->operation_user = $operation_user;
+            $historique->nom_document = $type_operation;
+            $historique->save();
+
+
+       }
        public function updateFacture(Request $request){
 
         $facture = Facture::find($request->factures['id_facture']);
@@ -131,6 +148,11 @@ class FactureController extends Controller
                 $facture->montant_reste_f = $request->factures['montant_reste_f'];
 
         $facture->save();
+        $operation_user = "Modifier ".$request->factures['reference_f'];
+
+        $type_operation = $request->factures['type_operation_f'];
+        $this->addHistorique($type_operation,$operation_user);
+
         $reference_f = $facture->reference_f;
         $this->updateCommandes_f($request,$reference_f);
         $this->updateModePaiement_f($request,$reference_f);
@@ -260,6 +282,7 @@ public function getBonLivraisonBL($id_bl){
         ->leftJoin('status', 'factures.fk_status_f', '=', 'status.id_status')
                     ->select('factures.*', 'comptes.nom_compte','status.*','bonLivraisons.*')
                     ->where('type_operation_f','=',$request->type_operation_f)
+                    ->orderBy('factures.created_at', 'desc')
                     ->paginate(10);
                    
                  return Response()->json(['factures' => $factures ]);
@@ -305,6 +328,11 @@ public function getBonLivraisonBL($id_bl){
         $commande = Commande::where('fk_document','=',$facture->reference_f);  
         $commande->delete();   
         $modePaiement = Mode_paiement::where('fk_document','=',$facture->reference_f)->delete(); 
+        $operation_user = "supprimer ".$facture->reference_f;
+        
+        $type_operation = $facture->type_operation_f;
+        $this->addHistorique($type_operation,$operation_user);
+        
         return Response()->json(['delete' => 'true']);
     }
 

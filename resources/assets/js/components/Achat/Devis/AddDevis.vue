@@ -98,7 +98,7 @@
                     <option selected>Choisir Tva</option>
                     <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
                     </select>
-                                                             {{commande.fk_tva_cmd}}
+                                                            
 
                             </th> 
                             <th>  <input class="form-control"  type="text" v-model="commande.total_ht_cmd" disabled></th>
@@ -547,7 +547,7 @@ console.log(this.devi.total_lettre_d)
            let this1=this;
            this.articles.forEach(function(article) {
                if(article.id_article == this1.commande.fk_article){
-                   this1.commande.prix_ht = article.prix_ht_vente;
+                   this1.commande.prix_ht = article.prix_ht_achat;
                    this1.commande.fk_tva_cmd = article.fk_tva_applicable
                    this1.commande.designation = article.designation;
                    this1.commande.description_article = article.description;

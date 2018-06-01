@@ -29,7 +29,11 @@ class BonLivraisonController extends Controller
     }
 
     public function getAllBonLivraisons(){
-        $AllBonLivraisons = Bonlivraison::all();
+        $AllBonLivraisons = Bonlivraison::leftJoin('status', 'status.id_status', '=', 'bonLivraisons.fk_status_bl')
+        ->select('bonLivraisons.*')
+        ->whereNotIn('status.type_status', ['validé','annulée'])
+        ->orWhere('status.type_status','=',null)
+        ->get();
         return Response()->json(['AllBonLivraisons' => $AllBonLivraisons ]);
     }
 
@@ -277,6 +281,7 @@ class BonLivraisonController extends Controller
             ->leftJoin('status', 'bonLivraisons.fk_status_bl', '=', 'status.id_status')
             ->select('bonLivraisons.*', 'comptes.*','status.*')
             ->where('type_operation_bl','=',$request->type_operation_bl)
+            ->orderBy('bonLivraisons.created_at', 'desc')
             ->paginate(10);
            
          return Response()->json(['bonLivraisons' => $bonlivraisons ]);
@@ -302,7 +307,8 @@ class BonLivraisonController extends Controller
         {
             $query->where('reference_bl','like', '%' .$search_BL . '%')
             ->orWhere('comptes.nom_compte','like', '%' .$search_BL . '%');
-        })->paginate(10);
+        })->orderBy('bonLivraisons.created_at', 'desc')
+        ->paginate(10);
 
         return Response()->json(['bonlivraisons' => $bonlivraisons ]);
      }

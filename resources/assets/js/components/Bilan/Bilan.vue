@@ -13,7 +13,7 @@
 <div v-if="!loading">
             <div class="text-center pull-right" >
           
-    <h2>Bilan Par Mois</h2>
+    <h3>Bilan Par Mois</h3>
     <hr>   
     </div> 
 
