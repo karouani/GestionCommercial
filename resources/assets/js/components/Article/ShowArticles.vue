@@ -152,8 +152,9 @@
                  <div class="row" v-if="modalShow">
                       
                          <div class="col">
+                             <div>
                    <span>Designation : </span>{{article.designation}}
-                        <hr>
+                    <hr>
                    <span>Type : </span>{{article.type_art}} 
                    <hr>
                    <span>Description : </span>{{article.description}}
@@ -162,7 +163,7 @@
                    <hr>
                    <span>Prix ht vente : </span>{{article.prix_ht_vente}}
                    </div>
-                    
+                    </div>
                    <div class="col">
                    <span>Unite :  </span>{{article.unite}}
                    <hr>
