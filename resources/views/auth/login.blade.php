@@ -14,7 +14,7 @@
                 <div class="wrap-login100">
                         <div class="login100-form-title" style="background-image: url(login2/images/bg-01.jpg);">
                             <span style="font-size:25px"class="login100-form-title-1">
-                                    Gestion commercial
+                                    Gestion commerciale
                                 </span>   
                         </div>
 

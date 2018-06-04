@@ -37,7 +37,7 @@
                
 
             <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-2 col-form-label">compte: </label>
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Document: </label>
                     <div class="col-sm-10">
          <select class="form-control custom-select" id="fk_compte" v-model="document" >
                    <option value="bonCommande">Bon de Commande</option>
