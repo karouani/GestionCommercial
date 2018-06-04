@@ -191,12 +191,12 @@
              </div>
                     </div>
 
-                    <div class="row" >
+                <!--    <div class="row" >
              <div class="card">
 
                         <div class="card-body">
                             <h5 style="font-weight:bold">Etat de Banque :</h5>
- <form   @submit.prevent="addBilan">
+ 
                                 <table class="table table-bordered">  
                                     <thead>
                                           <tr>
@@ -223,9 +223,7 @@
                                  <div v-if="moisS != ''">
                                     <div v-if="anneeS != ''">
                     <div v-if="test == true">
-                         <div v-if="testP == false">
-                     <button  class="btn mb-3 float-right btn-success">Enregister</button>
-                    </div>
+                      
                                              <div v-if="testP == true" class="msg">
                                                  il faut enregistrer le mois précédent !!
                                              </div>
@@ -233,10 +231,10 @@
                     </div>
                                     </div>
                                  </div>
- </form>
+
                         </div>
              </div>
-                    </div>
+                    </div> -->
                     <div>
               
            

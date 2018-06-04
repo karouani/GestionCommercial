@@ -279,7 +279,7 @@ Route::get('/getEtatChequeCharge','BilanController@getEtatChequeCharge');
 
 
 
-Route::get('/Bilan/{annee}','BilanController@Bilan');
+Route::get('/PDF_b/{annee}','BilanController@PDF_b');
 
 
 //Dashboard 

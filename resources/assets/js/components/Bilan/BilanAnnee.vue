@@ -12,8 +12,10 @@
 
 <div v-if="!loading">
             <div class="text-center pull-right" >
-          
-    <h3>Bilan Par Annee</h3>
+                <div v-if="anneeS !=''">
+                  <a href="#"    @click="Pdf_b()"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
+                </div>
+    <h3>Bilan Par Année</h3>
     <hr>   
     </div> 
 
@@ -29,7 +31,7 @@
                         <div class="col-sm-8">
     
                             <select class="form-control custom-select " id="fk_compte" v-model="anneeS" @change="Bilan" >
-                                        <option value="" selected disabled>Choisir mois</option>
+                                        <option value="" selected disabled>Choisir année</option>
                                         <option v-for="(a,index) of annee" :key="index" :value="a"> {{a}} </option>
                             </select>  
 
@@ -52,7 +54,7 @@
                                     </thead>
                                     <tbody >
                                            
-                                    <tr v-for="(m,index) of mois" :key="index" v-if="anneeS != ''">
+                                    <tr v-for="(m,i) of moisA" :key="i" v-if="anneeS != ''">
                                       
                                        
                                          <td>{{m}} - {{anneeS}} </td>
@@ -61,32 +63,31 @@
                                             
                                             <td>
                                                 
-                                           <div v-for="sortie of sorties" :key="sortie.index">
-                                              
+                                           <div v-for="(sortie,index) of sorties" :key="index" v-if="i == index">
                                                     {{sortie}}
                                            </div>
                                     
                                                      </td> 
                                             <td>
-                                            <div v-for="(vente,index) of totalVente" :key="index" v-if="vente.month === m">                                              
-                                                 {{vente.totalV}}
+                                            <div v-for="(entre,index) of entres" :key="index" v-if="i == index">                                              
+                                                 {{entre}}
                                                  
                                             </div> 
                                                  </td> 
                                             <td> 
-                                                <div v-for="(diff,index) of difference" :key="index" >
+                                                <div v-for="(diff,index) of difference" :key="index" v-if="i == index">
                                      
                                                 {{diff}} 
                                                 </div>  
                                                 </td>
                                             <td>
-                                             <div v-for="(solde,index) of soldeDepart" :key="index" >
+                                             <div v-for="(solde,index) of soldeDepart" :key="index" v-if="i == index">
                                              
                                                  {{solde}}
                                              </div>  
                                                   </td>
                                             <td>
-                                             <div v-for="(et,index) of etat" :key="index" >
+                                             <div v-for="(et,index) of etat" :key="index" v-if="i == index">
                                             
                                                  {{et}}
                                               </div>  
@@ -137,7 +138,8 @@ import  Pagination from '../Pagination.vue';
              modalShow: false,
             // mois:['01','02','03','04','05','06','07','08','09','10','11','12'],
              annee:['2016','2017','2018'],
- mois:[1,2,3,4,5,6,7,8,9,10,11,12],
+ //mois:[1,2,3,4,5,6,7,8,9,10,11,12],
+ 
              //search
               search : '',
               //name file 
@@ -155,12 +157,13 @@ import  Pagination from '../Pagination.vue';
              anneeS:"",
              moisS:"",
 
-  
+           //  mois:[],
              sorties:[],
-             totalVente:[],
+             entres:[],
              difference:[],
              etat:[],
              soldeDepart:[],
+             moisA:[],
 
   
 
@@ -214,13 +217,14 @@ import  Pagination from '../Pagination.vue';
    //this.getBilan();
     },
        Bilan(){
-                axios.get('/Bilan/'+this.anneeS)
+                axios.get('/BilanAnnee/'+this.anneeS)
  .then((response) => {
                   console.log('shiiiiiiiiiiit');
-                  console.log(response.data.sortie);
+                  console.log(response.data.moisA);
                   
-                    this.sorties = response.data.sortie;
-                    this.totalVente = response.data.totalVente;
+                    this.moisA = response.data.moisA;
+                    this.sorties = response.data.sortieS;
+                    this.entres = response.data.entreeE;
                     this.difference = response.data.difference;
                     this.soldeDepart = response.data.soldeDepart;
                     this.etat = response.data.etat;
@@ -232,7 +236,11 @@ import  Pagination from '../Pagination.vue';
                 });
     },
 
-
+  Pdf_b(){
+                           
+                //   window.location.href='/pdf/'+reference_bc
+                  window.open('/PDF_b/'+this.anneeS,'_blank');
+          },
 
   /*  getBilan(){
                 axios.get('/getBilan',{params:{annee:this.anneeS}})
@@ -248,7 +256,7 @@ import  Pagination from '../Pagination.vue';
                     console.log('handle server error from here');
                 });
     },*/
-          BilanAnnee(){
+         /* BilanAnnee(){
              
 
                 axios.get('/BilanAnnee',{params: {annee:this.anneeS}})
@@ -274,7 +282,7 @@ import  Pagination from '../Pagination.vue';
                //console.log("waaaaaaaaaaaaaaaaaa3")
                this1.totalAchat.forEach(function(totalAchat) {*/
                   // console.log("waaaaaaaaaaaaaaaaa")
-                   for(let i=0;i<mois.length;i++){
+                  /* for(let i=0;i<mois.length;i++){
 
                    
                if(this.totalCharges[k].month === mois[i] || this.totalAchat[j].month === mois[i]){
@@ -289,7 +297,7 @@ import  Pagination from '../Pagination.vue';
                 console.log(this.totalSortie[i])
                 console.log(this.difference[i])
                // console.log(totalAchat)
-               }  
+               }  */
                
             /*   else if(this.totalCharges[k].month === mois[i] && this.totalAchat[j].month != mois[i]){
                    console.log('nooooooooooooooooooooooo')
@@ -316,12 +324,12 @@ import  Pagination from '../Pagination.vue';
                 console.log(this.totalSortie[i])
 
                // console.log(totalAchat)
-                } */
+                } 
                 
                } 
                    }
          }
-                   }
+     }*/
                                    // console.log(this2.totalSortie)
 
             /*   if(totalAchat.length === 0){
@@ -366,14 +374,14 @@ import  Pagination from '../Pagination.vue';
                 .catch(() => {
                     console.log('handle server error from here');
                 });
-          },*/
+          },
 
                
       })
 
  
 
-},
+          },*/
 
       }
     }
