@@ -64,7 +64,7 @@
 
                         <div class="container-login100-form-btn">
                                 <button type="submit" class="login100-form-btn">
-                                    {{ __('Login') }}
+                                    {{ __('Connexion') }}
                                 </button>
                         </div>
                     </form>

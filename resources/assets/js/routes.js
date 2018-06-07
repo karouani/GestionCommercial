@@ -103,6 +103,8 @@ import  EditCompte from './components/Compte/EditCompte.vue'
 import  ShowCharges from './components/Charge/ShowCharges.vue' 
 import  AddCharge from './components/Charge/AddCharge.vue' 
 import  EditCharge from './components/Charge/EditCharge.vue' 
+import  CopieCharge from './components/Charge/CopieCharge.vue' 
+
 //mouvement 
 import  ShowMouvements from './components/Mouvement/ShowMouvements.vue' 
 //historique 
@@ -176,8 +178,9 @@ const  router = new VueRouter({
         {    
             path:"/addCompagnie",
             component: AddCompagnie,
+            meta:{
             SuperAdmin:true,
-            Admin:true
+            Admin:true}
         },
         {    
             path:"/getCompagnies",
@@ -918,6 +921,15 @@ const  router = new VueRouter({
                    Admin:true
                    }
        },
+       {     path:"/CopieCharge",
+       component: CopieCharge,
+       name: "CopieCharge",
+       meta:{
+           SuperAdmin:true,
+           Admin:true
+           }
+},
+
 
     ],
    

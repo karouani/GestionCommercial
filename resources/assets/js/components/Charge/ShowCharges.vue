@@ -87,7 +87,9 @@
                                         <td  class="optionsWidth"> 
                                             <a href="#"    @click="getCharge(charge)"  class="btn btn-primary"  ><i class="fas fa-eye d-inline-block"></i></a>
                                          <a @click="EditCharge(charge)" class="btn btn-success"><i class="fas fa-edit d-inline-block"></i></a>
-                                             <a @click="deleteCharge(charge)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a></td>                                 
+                                             <a @click="deleteCharge(charge)" class="btn btn-danger"><i class="fas fa-trash-alt d-inline-block"></i></a>                                
+                                              <a @click="CopieCharge(charge)" class="btn btn-info"><i class="far fa-copy"></i></a></td>                                 
+
                                     </tr>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     </div>
@@ -333,6 +335,10 @@ EditCharge(charge){
                      this.$router.push({ name: 'EditCharge', params: { charge:charge}});
 
 },
+CopieCharge(charge){
+                     this.$router.push({ name: 'CopieCharge', params: { charge:charge}});
+
+},
 
 
              deleteCharge:function(charge){
@@ -389,6 +395,7 @@ thead{
 }
 .optionsWidth{
 width : 171px;
+min-width: 216px;
 
 }
  .btnMarge{

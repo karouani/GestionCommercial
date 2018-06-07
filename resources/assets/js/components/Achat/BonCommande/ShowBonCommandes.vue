@@ -542,7 +542,7 @@ thead{
 }
 .optionsWidth{
 width : 230px;
-
+ min-width: 230px;
 }
  .btnMarge{
      padding-bottom: 10px;

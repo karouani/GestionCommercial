@@ -114,7 +114,7 @@
                                             ok-title="Valider" >
                                     <form @submit.stop.prevent="handleSubmit">
                                     <div class="form-group row">
-                                                <label for="reference" class="col-sm-3 col-form-label">Quantité: </label>
+                                                <label for="reference" class="col-sm-3 col-form-label">operation: </label>
                                                     <div class="col-sm-9">
                                                  <select class="form-control custom-select " id="fk_compte" v-model="mouvement.type_mouvement">
                                                 <option selected disabled>Choisir Operation</option>

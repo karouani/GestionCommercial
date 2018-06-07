@@ -86,6 +86,11 @@
                         </div>
                      </div>
                      <div class="col-md-12">
+                             
+                            <select class="form-control custom-select " id="fk_compte" v-model="anneeS" @change="Bilan(testt)" >
+                                        <option value="" selected disabled>Choisir année</option>
+                                        <option v-for="(a,index) of annee" :key="index" :value="a"> {{a}} </option>
+                            </select> 
                         <div class="card p-4">
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <canvas style="display: block;width: 864px;height: 328px;" id="myLine"></canvas>
@@ -128,6 +133,11 @@ data: () => ({
         votes3:[],
         labels4 :[],
         votes4:[],
+        moisA:[],
+        etat:[],
+        testt :"",
+         annee:['2016','2017','2018'],
+        anneeS:"2018",
         message: "Vue.js & Chart.js",
         labels: ["client1", "client2", "client3", "client4", "client5", "client6"],
         votes: [12, 19, 3, 5, 40, 70],
@@ -142,12 +152,13 @@ data: () => ({
        this.countAllBonCommandes();
        this.countAllFactures();
        this.countAllBonLivraisons();
-     
+       
     var ctx =    document.getElementById("myChart");
     var ctxL =    document.getElementById("myLine");
     //var ctxP =    document.getElementById("PieChart");
      var ctxClient=    document.getElementById("myChartClient");
       var ctxVenteAchat=    document.getElementById("PieChart");
+      this.testt =ctxL;
    /* var myPieChart = new Chart(ctxP ,{
     type: 'pie',
     data: {
@@ -186,51 +197,22 @@ data: () => ({
 });*/
 
 
-var stackedLine = new Chart(ctxL, {
-    type: 'line',
-    data: {
-        labels: this.labels,
-                    datasets: [
-                        {
-                            label: "# articles",
-                            data: this.votes,
-                            backgroundColor: [
-                                "rgba(255, 99, 132, 0.6)",
-                                "rgba(54, 162, 235, 0.6)",
-                                "rgba(255, 206, 86, 0.6)",
-                                "rgba(75, 192, 192, 0.6)",
-                                "rgba(153, 102, 255, 0.6)",
-                                "rgba(255, 159, 64, 0.6)"
-                            ],
-                            borderColor: [
-                                "rgba(255,99,132,1)",
-                                "rgba(54, 162, 235, 1)",
-                                "rgba(255, 206, 86, 1)",
-                                "rgba(75, 192, 192, 1)",
-                                "rgba(153, 102, 255, 1)",
-                                "rgba(255, 159, 64, 1)"
-                            ],
-                            borderWidth: 1
-                        }
-                    ] 
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                stacked: true
-            }]
-        }
-    }
-});
+
  this.getArticlePlusVente(ctx);
   this.getClientPlusVente(ctxClient)
   this.getMontantFactureVenteAchat(ctxVenteAchat)
+
+   this.Bilan(ctxL);
             console.log('---- test labels 2 ')
             console.log(this.labels2)
            
         
         },
          methods: {
+
+                   Bilan(){
+     
+    },
              
              
 
@@ -426,6 +408,72 @@ var stackedLine = new Chart(ctxL, {
                             backgroundColor: [
                                 "rgba(255, 99, 132, 0.6)",
                                 "rgba(54, 162, 235, 0.6)",
+                                "rgba(255, 206, 86, 0.6)",
+                                "rgba(75, 192, 192, 0.6)",
+                                "rgba(153, 102, 255, 0.6)",
+                                "rgba(255, 159, 64, 0.6)"
+                            ],
+                            borderColor: [
+                                "rgba(255,99,132,1)",
+                                "rgba(54, 162, 235, 1)",
+                                "rgba(255, 206, 86, 1)",
+                                "rgba(75, 192, 192, 1)",
+                                "rgba(153, 102, 255, 1)",
+                                "rgba(255, 159, 64, 1)"
+                            ],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
+                    }
+                }
+            }); 
+            
+          },
+
+           async Bilan(ctxL){
+                         //   this.loading= true;
+               let art = await   axios.get('/BilanAnnee/'+this.anneeS)
+ .then((response) => {
+                  console.log('shiiiiiiiiiiit');
+                  console.log(response.data.moisA);
+                  console.log('testtttttttt')
+                    this.moisA = Object.values(response.data.moisA);
+                    this.etat = Object.values(response.data.etat);
+                    console.log('-----============')
+                   // console.log(this.moisA)
+                    for(let i=0;i<this.moisA.length;i++){
+                        //console.log("les mois ")
+                        console.log(this.moisA[i]+" : "+this.etat[i]);
+                    }
+                   
+                  console.log("kkkk")
+                })
+                .catch(() => {
+                    console.log('handle server error from here');
+                });
+
+                  var stackedChart = await  new Chart(ctxL, {
+                type: 'line',
+                data: {
+                    labels: this.moisA,
+                    datasets: [
+                        {
+                            label: "# Bilan Par année ",
+                            data: this.etat,
+                            backgroundColor: [
+                                "rgba(54, 162, 235, 0.6)",
+                                "rgba(255, 99, 132, 0.6)",
+                                
                                 "rgba(255, 206, 86, 0.6)",
                                 "rgba(75, 192, 192, 0.6)",
                                 "rgba(153, 102, 255, 0.6)",

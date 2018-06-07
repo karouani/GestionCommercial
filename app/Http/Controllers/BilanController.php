@@ -123,7 +123,7 @@ $totalVente = Facture::leftJoin('status', 'factures.fk_status_f', '=', 'status.i
 ->where('factures.type_operation_f','=','vente')
 ->groupBy('month')
 ->get();
-
+//dd($totalVente);
 $totalAchatAvoir = Avoir_facture::leftJoin('status', 'avoir_factures.fk_status_af', '=', 'status.id_status')
 ->leftJoin('mode_paiements', 'avoir_factures.reference_af', '=', 'mode_paiements.fk_document')
 ->select(DB::raw("SUM(avoir_factures.montant_ttc_af) as totalAA, SUM(avoir_factures.tva_montant_af) as tvaAA , MONTH(mode_paiements.date_paiement) month"),'status.type_status','mode_paiements.date_paiement')
@@ -266,7 +266,7 @@ for($i=1;$i<13;$i++){
 for($j=0;$j<count($totalAchatAvoir);$j++){
   if($totalAchatAvoir[$j]->month === $i ){
     $sortieS[$i]= $sortie[$i] - $totalAchatAvoir[$j]->totalAA;
-
+  
    break;
    
   } 
@@ -300,13 +300,16 @@ for($i=1;$i<13;$i++){
 
 }
 }
+//dd($totalVente);
 //dd($vente);
 $entreeE=array();
 for($i=1;$i<13;$i++){
   if(count($totalVenteAvoir)==0){
     $entreeE[$i] = $vente[$i];
   }
+  
 for($k=0;$k<count($totalVenteAvoir);$k++){
+  
   
   if($i ===  $totalVenteAvoir[$k]->month  ){
     $entreeE[$i]=$vente[$i] - $totalVenteAvoir[$k]->totalVA;

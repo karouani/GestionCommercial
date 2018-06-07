@@ -67,7 +67,7 @@ class ChargeController extends Controller
 
     public function getCharges(){
        
-         $charges = Charge::paginate(10);
+         $charges = Charge::orderBy('charges.created_at', 'desc')->paginate(10);
          //dd($charges);
          return Response()->json(['charges' => $charges ]);
     }
