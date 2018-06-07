@@ -238,14 +238,23 @@ class DevisController extends Controller
       return Response()->json(['devi' => $devi ]);
    }
     public function getDevis(Request $request){
-     
+  /*   
 $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
 ->leftJoin('status', 'devis.fk_status_d', '=', 'status.id_status')
             ->select('devis.*', 'comptes.nom_compte','status.*')
             ->where('type_operation','=',$request->type_operation)
             ->orderBy('devis.created_at', 'desc')
             ->paginate(10);
-           
+          */ 
+          $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
+->leftJoin('status', 'devis.fk_status_d', '=', 'status.id_status')
+            ->select('devis.*', 'comptes.nom_compte','status.*')
+            ->where('devis.type_operation','=',$request->type_operation)
+            ->where('devis.date_d','like',$request->anneeDevis.'-%')
+            
+            ->orderBy('devis.created_at', 'desc')
+            ->paginate(10);
+           // dd($devis);
          return Response()->json(['devis' => $devis ]);
       }
 
@@ -306,6 +315,7 @@ $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte'
      public function searchDevis($search_D,Request $request ){
         $devis = Devi::leftJoin('comptes', 'devis.fk_compte_d', '=', 'comptes.id_compte')
         ->where('type_operation','=',$request->type_operation)
+        ->where('date_d','like',$request->anneeDevis.'-%')
         ->where(function($query)use ($search_D)
         {
             $query->where('reference_d','like', '%' .$search_D . '%')

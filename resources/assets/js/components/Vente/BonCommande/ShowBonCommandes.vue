@@ -84,7 +84,14 @@
              <div class="card">
                         <div class="card-header bg-light">
                             <div class="row btnMarge">
- 
+ <div class="col">
+                <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="number" @keyup.enter="getBonCommandes"  class="form-control" v-model="anneeBC" placeholder="recherche par année " aria-label="Username" aria-describedby="basic-addon1" >
+            </div>  
+                                </div>  
     <div class="col"  > 
     <!-- button pour afficher formulaire de l'ajout d un article -->         
                 <div class="input-group">
@@ -284,12 +291,14 @@ import  Pagination from '../../Pagination.vue';
       
               },
             
-             
+             anneeBC:"",
              
       }),
  
    
         mounted(){
+                                       this.anneeBC = new Date().getFullYear();
+
             var today = new Date();
             var dd = today.getDate();
             var mm = today.getMonth() +1; 
@@ -411,7 +420,7 @@ import  Pagination from '../../Pagination.vue';
                     this.getBonCommandes();}
                 else {
                      // console.log('test1');
-                axios.get('/searchBonCommande/'+this.search+'?page='+this.bonCommandes.current_page+'',{params: { type_operation_bc: 'vente' } })
+                axios.get('/searchBonCommande/'+this.search+'?page='+this.bonCommandes.current_page+'',{params: { type_operation_bc: 'vente',anneeBC:this.anneeBC } })
                 .then((response) => {
                   console.log('serchhhh ')
                   console.log(response.data.boncommandes)
@@ -427,13 +436,15 @@ import  Pagination from '../../Pagination.vue';
             fetchData () {
       //this.error = this.post = null
       this.loading = true
+                                 this.anneeBC = new Date().getFullYear();
+
       // replace `getPost` with your data fetching util / API wrapper
   console.log("getBC mazal ")
    this.getBonCommandes();
 
     },
           getBonCommandes(){
-               axios.get('/getBonCommandes?page='+this.bonCommandes.current_page+'',{params: { type_operation_bc: 'vente' } })
+               axios.get('/getBonCommandes?page='+this.bonCommandes.current_page+'',{params: { type_operation_bc: 'vente',anneeBC:this.anneeBC } })
                 .then((response) => {
                   this.loading = false;
                     this.bonCommandes = response.data.bonCommandes;

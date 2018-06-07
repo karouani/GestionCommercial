@@ -31,6 +31,14 @@
              <div class="card">
                         <div class="card-header bg-light">
                             <div class="row btnMarge">
+                                    <div class="col">
+                <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="number" @keyup.enter="getAvoirFactures"  class="form-control" v-model="anneeAF" placeholder="recherche par année " aria-label="Username" aria-describedby="basic-addon1" >
+            </div>  
+                                </div> 
   <div class="col"  >
     <!-- button pour afficher formulaire de l'ajout d un article -->         
                 <div class="input-group">
@@ -250,9 +258,12 @@ import  Pagination from '../../Pagination.vue';
               },
             
              comptes:[],
+             anneeAF:"",
              
       }),
       mounted(){
+                  this.anneeAF = new Date().getFullYear();
+
                   if( this.$route.params.success == "add"){
                                    this.$notify({
                                       group: 'foo',
@@ -360,6 +371,8 @@ import  Pagination from '../../Pagination.vue';
                    fetchData () {
       //this.error = this.post = null
       this.loading = true
+                  this.anneeAF = new Date().getFullYear();
+
       // replace `getPost` with your data fetching util / API wrapper
    this.getAvoirFactures();
 
@@ -379,7 +392,7 @@ countAvoirFactures(){
                 });
           },
           getAvoirFactures(){//type_status
-                axios.get('/getAvoirFactures?page='+this.avoirFactures.current_page+'',{params: { type_operation_af: 'achat' } })
+                axios.get('/getAvoirFactures?page='+this.avoirFactures.current_page+'',{params: { type_operation_af: 'achat',anneeAF:this.anneeAF } })
                 .then((response) => {
                     this.loading = false;
                     this.avoirFactures = response.data.avoirFactures;
@@ -418,7 +431,7 @@ countAvoirFactures(){
                     this.getAvoirFactures();}
                 else {
                      // console.log('test1');
-                axios.get('/searchAvoirFactures/'+this.search+'?page='+this.avoirFactures.current_page+'',{params: { type_operation_af: 'achat' } })
+                axios.get('/searchAvoirFactures/'+this.search+'?page='+this.avoirFactures.current_page+'',{params: { type_operation_af: 'achat',anneeAF:this.anneeAF } })
                 .then((response) => {
                   console.log('serchhhh ')
                   console.log(response.data.avoirFactures)

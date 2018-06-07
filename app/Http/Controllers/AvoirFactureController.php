@@ -54,6 +54,7 @@ class AvoirFactureController extends Controller
         ->leftJoin('status', 'avoir_factures.fk_status_af', '=', 'status.id_status')
         ->select('avoir_factures.*', 'comptes.nom_compte','status.*','factures.*')
         ->where('type_operation_af','=',$request->type_operation_af)
+        ->where('date_af','like',$request->anneeAF.'-%')
         ->where(function($query)use ($search_AF)
         {
             $query->where('reference_af','like', '%' .$search_AF . '%')
@@ -284,6 +285,7 @@ class AvoirFactureController extends Controller
         ->leftJoin('status', 'avoir_factures.fk_status_af', '=', 'status.id_status')
         ->select('avoir_factures.*', 'comptes.nom_compte','status.*','factures.*')
         ->where('type_operation_af','=',$request->type_operation_af)
+        ->where('date_af','like',$request->anneeAF.'-%')
         ->orderBy('avoir_factures.created_at', 'desc')
                     ->paginate(10);
                    

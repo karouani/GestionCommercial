@@ -294,6 +294,7 @@ class BonCommandeController extends Controller
             ->leftJoin('status', 'bonCommandes.fk_status_bc', '=', 'status.id_status')
             ->select('bonCommandes.*', 'comptes.nom_compte','status.*')
             ->where('type_operation_bc','=',$request->type_operation_bc)
+            ->where('date_bc','like',$request->anneeBC.'-%')
             ->orderBy('bonCommandes.created_at', 'desc')
            // ->orderBy('bonCommandes.created_at', 'desc')
             ->paginate(10);
@@ -317,6 +318,7 @@ class BonCommandeController extends Controller
         ->leftJoin('status', 'bonCommandes.fk_status_bc', '=', 'status.id_status')
         ->select('bonCommandes.*', 'comptes.nom_compte','status.*')
         ->where('type_operation_bc','=',$request->type_operation_bc)
+        ->where('date_bc','like',$request->anneeBC.'-%')
         ->where(function($query)use ($search_BC)
         {
             $query->where('reference_bc','like', '%' .$search_BC . '%')

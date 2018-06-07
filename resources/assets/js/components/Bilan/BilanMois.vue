@@ -23,29 +23,26 @@
 
                         <div class="card-body">
                             <div class="form-group row">
-                        <label for="stagiaire" class="col-sm-4" >Mois :</label>
-                        <div class="col-sm-8">
-    
-                            <select class="form-control custom-select " id="fk_compte" v-model="moisS" @change="BilanCharge" >
-                                        <option value="" selected disabled>Choisir mois</option>
-                                        <option v-for="(m,index) of mois" :key="index" :value="m"> {{m}} </option>
-                            </select>  
-
-                        
+                       
+                        <div class="col">
+                <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="number" @keyup.enter="BilanCharge"  class="form-control" v-model="moisS" placeholder="entrée le mois " aria-label="Username" aria-describedby="basic-addon1" >
+            </div>  
                                 </div>
-                            </div>
-                              <div class="form-group row">
-                        <label for="stagiaire" class="col-sm-4" >Année :</label>
-                        <div class="col-sm-8">
-    
-                            <select class="form-control custom-select " id="fk_compte" v-model="anneeS" @change="BilanCharge" >
-                                        <option value="" selected disabled>Choisir année</option>
-                                        <option v-for="(a,index) of annee" :key="index" :value="a"> {{a}} </option>
-                            </select>  
-
-                        
+                            
+                             
+                        <div class="col">
+                <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="number" @keyup.enter="BilanCharge"  class="form-control" v-model="anneeS" placeholder="entrée l'année " aria-label="Username" aria-describedby="basic-addon1" >
+            </div>  
                                 </div>
-                            </div>
+                           </div>
 
                         </div>
              </div>
@@ -58,7 +55,7 @@
                         <div class="card-body">
                             <div v-if="moisS != ''">
                                     <div v-if="anneeS != ''">
-                            <h4 >Bilan de mois :<strong style="font-weight:bold"> {{this.moisS}} - {{this.anneeS}}</strong></h4>
+                            <h4 >Bilan de mois :<strong style="font-weight:bold"> {{this.mois}} - {{this.annee}}</strong></h4>
                                     </div>
                             </div>
 
@@ -259,7 +256,7 @@ import  Pagination from '../Pagination.vue';
       post: null,
       error: null,
              modalShow: false,
-             mois:['01','02','03','04','05','06','07','08','09','10','11','12'],
+            // mois:['01','02','03','04','05','06','07','08','09','10','11','12'],
               //search
               search : '',
               //name file 
@@ -305,9 +302,9 @@ import  Pagination from '../Pagination.vue';
                     date_diff:"",
 
               },
-             annee:['2016','2017','2018'],
+             annee:"",
              anneeS:"",
-
+mois:"",
              moisS:"",
              total:0,
 
@@ -332,7 +329,10 @@ import  Pagination from '../Pagination.vue';
       }),
    
         mounted(){
-            
+                  this.anneeS = new Date().getFullYear();
+                        this.moisS = new Date().getMonth()+1;
+this.annee=this.anneeS;
+this.mois=this.moisS;
             console.log("moisSSSSSSSS")
             console.log(this.moisS)
              var today = new Date();
@@ -382,6 +382,10 @@ this.loading = false
        
 
             fetchData () {
+                this.anneeS = new Date().getFullYear();
+                        this.moisS = new Date().getMonth()+1;
+this.annee=this.anneeS;
+this.mois=this.moisS;
       //this.error = this.post = null
       this.loading = true
     //this.getChargeMois();
@@ -390,7 +394,19 @@ this.loading = false
    
     },
           BilanCharge(){
-                axios.get('/BilanCharge',{params:{mois:this.moisS,annee:this.anneeS}})
+
+                if(this.anneeS == ''){
+     this.anneeS = new Date().getFullYear();
+}
+  else if(this.moisS == ''){
+     this.moisS = new Date().getMonth()+1;
+}
+let mm=this.moisS;
+if(mm<10) 
+                {
+                    mm='0'+mm;
+                } 
+                axios.get('/BilanCharge',{params:{mois:mm,annee:this.anneeS}})
                 .then((response) => {
                   console.log('shiiiiiiiiiiit');
                   console.log(response.data.totalMois[0].total);
@@ -417,6 +433,10 @@ this.loading = false
                     this.benifice=this.difference - this.diffTVA;
 //this.soldeDepart=0;
                     this.etat=+this.soldeDepart + +this.difference;
+
+
+                    this.annee=this.anneeS;
+this.mois=this.moisS;
                     this.getChargeMois();
                      this.verifiee();
                     // this.verifieeP();

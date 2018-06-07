@@ -39,6 +39,7 @@ class FactureController extends Controller
        public function searchFactures($search_f,Request $request ){
         $factures = Facture::leftJoin('comptes', 'factures.fk_compte_f', '=', 'comptes.id_compte')
         ->where('type_operation_f','=',$request->type_operation_f)
+        ->where('date_f','like',$request->anneeF.'-%')
         ->where(function($query)use ($search_f)
         {
             $query->where('reference_f','like', '%' .$search_f . '%')
@@ -282,6 +283,7 @@ public function getBonLivraisonBL($id_bl){
         ->leftJoin('status', 'factures.fk_status_f', '=', 'status.id_status')
                     ->select('factures.*', 'comptes.nom_compte','status.*','bonLivraisons.*')
                     ->where('type_operation_f','=',$request->type_operation_f)
+                    ->where('date_f','like',$request->anneeF.'-%')
                     ->orderBy('factures.created_at', 'desc')
                     ->paginate(10);
                    

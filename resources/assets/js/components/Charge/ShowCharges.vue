@@ -32,7 +32,14 @@
              <div class="card">
                         <div class="card-header bg-light">
                             <div class="row btnMarge">
- 
+ <div class="col">
+                <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="number" @keyup.enter="getCharges"  class="form-control" v-model="anneeC" placeholder="recherche par année " aria-label="Username" aria-describedby="basic-addon1" >
+            </div>  
+                                </div> 
     <div class="col"  >
     <!-- button pour afficher formulaire de l'ajout d un Charge -->         
                 <div class="input-group">
@@ -217,12 +224,14 @@ import  Pagination from '../Pagination.vue';
                     date_diff:"",
 
               },
-            
+            anneeC:"",
              
              
       }),
    
         mounted(){
+                  this.anneeC = new Date().getFullYear();
+
              var today = new Date();
             var dd = today.getDate();
             var mm = today.getMonth()+1; 
@@ -289,7 +298,7 @@ import  Pagination from '../Pagination.vue';
                     this.getCharges();}
                 else {
                      // console.log('test1');
-                axios.get('/searchCharges/'+this.search+'?page='+this.charges.current_page+'')
+                axios.get('/searchCharges/'+this.search+'?page='+this.charges.current_page+'',{params: {anneeC:this.anneeC }})
                 .then((response) => {
                   
                     this.charges = response.data.charges;
@@ -304,11 +313,13 @@ import  Pagination from '../Pagination.vue';
             fetchData () {
       //this.error = this.post = null
       this.loading = true
+                  this.anneeC = new Date().getFullYear();
+
       this.getCharges();
    
     },
           getCharges(){
-                axios.get('/getCharges?page='+this.charges.current_page+'')
+                axios.get('/getCharges?page='+this.charges.current_page+'',{params: {anneeC:this.anneeC }})
                 .then((response) => {
                   console.log('shiiiiiiiiiiit');
                   console.log(response.data.charges)

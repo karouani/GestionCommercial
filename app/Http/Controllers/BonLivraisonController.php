@@ -281,6 +281,7 @@ class BonLivraisonController extends Controller
             ->leftJoin('status', 'bonLivraisons.fk_status_bl', '=', 'status.id_status')
             ->select('bonLivraisons.*', 'comptes.*','status.*')
             ->where('type_operation_bl','=',$request->type_operation_bl)
+            ->where('date_bl','like',$request->anneeBL.'-%')
             ->orderBy('bonLivraisons.created_at', 'desc')
             ->paginate(10);
            
@@ -303,6 +304,7 @@ class BonLivraisonController extends Controller
         ->leftJoin('status', 'bonLivraisons.fk_status_bl', '=', 'status.id_status')
         ->select('bonLivraisons.*', 'comptes.nom_compte','status.*')
         ->where('type_operation_bl','=',$request->type_operation_bl)
+        ->where('date_bl','like',$request->anneeBL.'-%')
         ->where(function($query)use ($search_BL)
         {
             $query->where('reference_bl','like', '%' .$search_BL . '%')

@@ -22,7 +22,9 @@
         </div>
   
     </div>
+    
     <h3>Liste des Devis</h3>
+
     <hr>   
     </div>
 
@@ -36,7 +38,15 @@
     <div class="row" >
              <div class="card">
                         <div class="card-header bg-light">
-                            <div class="row btnMarge">
+                            <div class="row">
+                                <div class="col">
+                <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="number" @keyup.enter="getDevis"  class="form-control" v-model="anneeDevis" placeholder="recherche par année " aria-label="Username" aria-describedby="basic-addon1" >
+            </div>  
+                                </div>       
   <div class="col"  >
     <!-- button pour afficher formulaire de l'ajout d un article -->         
                 <div class="input-group">
@@ -256,9 +266,12 @@ import  Pagination from '../../Pagination.vue';
               },
             
              comptes:[],
+             anneeDevis:"",
              
       }),
       mounted(){
+                      this.anneeDevis = new Date().getFullYear();
+
                 if( this.$route.params.success == "add"){
                                    this.$notify({
                                       group: 'foo',
@@ -362,6 +375,8 @@ import  Pagination from '../../Pagination.vue';
                    fetchData () {
       //this.error = this.post = null
       this.loading = true
+           this.anneeDevis = new Date().getFullYear();
+
       // replace `getPost` with your data fetching util / API wrapper
    this.getDevis();
 
@@ -381,7 +396,7 @@ countDevis(){
                 });
           },
           getDevis(){//type_status
-                axios.get('/getDevis?page='+this.devis.current_page+'',{params: { type_operation: 'achat' } })
+                axios.get('/getDevis?page='+this.devis.current_page+'',{params: { type_operation: 'achat',anneeDevis:this.anneeDevis } })
                 .then((response) => {
                     this.loading = false;
                     this.devis = response.data.devis;
@@ -420,7 +435,7 @@ countDevis(){
                     this.getDevis();}
                 else {
                      // console.log('test1');
-                axios.get('/searchDevis/'+this.search+'?page='+this.devis.current_page+'',{params: { type_operation: 'achat' } })
+                axios.get('/searchDevis/'+this.search+'?page='+this.devis.current_page+'',{params: { type_operation: 'achat',anneeDevis:this.anneeDevis } })
                 .then((response) => {
                   console.log('serchhhh ')
                   console.log(response.data.devis)

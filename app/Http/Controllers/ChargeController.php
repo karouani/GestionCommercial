@@ -65,9 +65,10 @@ class ChargeController extends Controller
                  return Response()->json(['etat' => true]);
     }
 
-    public function getCharges(){
+    public function getCharges(Request $request){
        
-         $charges = Charge::orderBy('charges.created_at', 'desc')->paginate(10);
+         $charges = Charge::where('date_facture_ch','like',$request->anneeC.'-%')
+         ->orderBy('charges.created_at', 'desc')->paginate(10);
          //dd($charges);
          return Response()->json(['charges' => $charges ]);
     }
@@ -83,8 +84,9 @@ class ChargeController extends Controller
     }
 
     
-    public function searchCharges($desig){
-      $listeCharges = Charge::where('designation_ch','like', '%' .$desig . '%')->paginate(10);
+    public function searchCharges($desig,Request $request){
+      $listeCharges = Charge::where('date_facture_ch','like',$request->anneeC.'-%')
+      ->where('designation_ch','like', '%' .$desig . '%')->paginate(10);
       //dd($listeCharges);
       return Response()->json(['charges' => $listeCharges ]);
     }
