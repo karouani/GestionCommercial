@@ -1131,6 +1131,9 @@ commandes: {
 
             'bonLivraison.date_bl':{
             handler: function(){
+                         let referenceBL = this.bonLivraison.reference_bl.split("-");
+         referenceBL[1] = this.bonLivraison.date_bl.split("-")[0];
+         this.bonLivraison.reference_bl = 'BLA-'+referenceBL[1]+'-'+referenceBL[2];
                 this.echeance;
                     this.diff;
 

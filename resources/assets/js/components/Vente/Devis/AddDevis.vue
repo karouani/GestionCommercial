@@ -473,7 +473,7 @@ console.log(this.devi.total_lettre_d)
         
         axios.post('/addDevis',{commandes:this.commandes,devis:this.devi,modePaiements:this.modePaiement})
         .then(response => {         
-                this.$router.push('/getDevis/add');
+                this.$router.push({name:'getDevis',params:{success:"add"}});
         })
         .catch(() => {
                 console.log('handle server error from here');
@@ -753,6 +753,7 @@ computed:{
     this.fetchData()
   },
 watch:{
+          
     'devi.remise_total_d':{
             handler: function(){
                     this.TotalDevis;
@@ -792,6 +793,12 @@ watch:{
 
             'devi.date_d':{
             handler: function(){
+          console.log("current date")
+          console.log(this.devi.date_d)
+         let referenceDevis = this.devi.reference_d.split("-");
+         referenceDevis[1] = this.devi.date_d.split("-")[0];
+         this.devi.reference_d = 'D-'+referenceDevis[1]+'-'+referenceDevis[2];
+         console.log(this.devi.reference_d)
                 this.echeancee;
                     this.diff;
 

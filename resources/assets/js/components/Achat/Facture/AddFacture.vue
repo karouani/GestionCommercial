@@ -984,7 +984,13 @@ watch:{
     },
 
             'facture.date_f':{
-            handler: function(){
+   handler: function(){
+          console.log("current date")
+         
+         let referenceFacture = this.facture.reference_f.split("-");
+         referenceFacture[1] = this.facture.date_f.split("-")[0];
+         this.facture.reference_f = 'FA-'+referenceFacture[1]+'-'+referenceFacture[2];
+         console.log(this.facture.reference_f)
                 this.echeancee;
                     this.diff;
 

@@ -1050,7 +1050,10 @@ commandes: {
 
             'bonCommande.date_bc':{
             handler: function(){
-                this.echeancee;
+                         let referenceBC = this.bonCommande.reference_bc.split("-");
+         referenceBC[1] = this.bonCommande.date_bc.split("-")[0];
+         this.bonCommande.reference_bc = 'BCA-'+referenceBC[1]+'-'+referenceBC[2];
+                 this.echeancee;
                     this.diff;
 
             }

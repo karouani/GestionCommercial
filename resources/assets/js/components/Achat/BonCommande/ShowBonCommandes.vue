@@ -59,7 +59,7 @@
                 <div class="form-group row">
                     <label for="reference" class="col-sm-2 col-form-label">Référence: </label>
                     <div class="col-sm-10">
-                    <b-form-input  type="text" v-model="reference_bc" class="form-control" id="date" placeholder="" disabled/>
+                    <b-form-input  type="text" v-model="bonCommande.reference_bc" class="form-control" id="date" placeholder="" disabled/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -180,6 +180,8 @@ import  Pagination from '../../Pagination.vue';
          },
 
           data: () => ({
+             nbrBCs:0,
+               year:"",
               fontStatu : {
                     white : "white",
                     size: "14px"
@@ -344,6 +346,14 @@ import  Pagination from '../../Pagination.vue';
     this.fetchData()
   },
   watch: {
+                       'currentDate': function(){
+      console.log("current date")
+  var today = new Date(this.currentDate);
+                    var yyyy = today.getFullYear();             
+                    this.year  = yyyy;
+                     this.bonCommande.reference_bc='BCA-'+this.year+'-'+this.nbrBCs;
+
+     },
     // call again the method if the route changes
     '$route': 'fetchData',
   
@@ -383,7 +393,9 @@ import  Pagination from '../../Pagination.vue';
                      var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
-                    this.reference_bc='BCA-'+year+'-'+response.data.count;
+                    this.nbrBCs = response.data.count;
+                    this.bonCommande.reference_bc='BCA-'+year+'-'+this.nbrBCs;
+                   
 
                     
                     /*this.commande.fk_document='D'+response.data.count;
@@ -500,7 +512,7 @@ import  Pagination from '../../Pagination.vue';
 
             
             handleOk(){
-                    this.$router.push({ name: 'addBonCommandeA', params: { id_compte: this.compte.id_compte,fk_compagnie:this.compte.fk_compagnie ,reference_bc: this.reference_bc, currentDate: this.currentDate  }});
+                    this.$router.push({ name: 'addBonCommandeA', params: { id_compte: this.compte.id_compte,fk_compagnie:this.compte.fk_compagnie ,reference_bc: this.bonCommande.reference_bc, currentDate: this.currentDate  }});
 
             },
             

@@ -54,7 +54,7 @@
                 <div class="form-group row">
                     <label for="reference" class="col-sm-2 col-form-label">Référence: </label>
                     <div class="col-sm-10">
-                    <b-form-input  type="text" v-model="reference_bl" class="form-control" id="date" placeholder="" disabled/>
+                    <b-form-input  type="text" v-model="bonLivraison.reference_bl" class="form-control" id="date" placeholder="" disabled/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -176,6 +176,8 @@ import  Pagination from '../../Pagination.vue';
          },
 
           data: () => ({
+               nbrBLs:0,
+               year:"",
               fontStatu : {
                     white : "white",
                     size: "14px"
@@ -328,6 +330,14 @@ import  Pagination from '../../Pagination.vue';
     this.fetchData()
   },
   watch: {
+                 'currentDate': function(){
+      console.log("current date")
+  var today = new Date(this.currentDate);
+                    var yyyy = today.getFullYear();             
+                    this.year  = yyyy;
+                     this.bonLivraison.reference_bl='BL-'+this.year+'-'+this.nbrBLs;
+
+     },
     // call again the method if the route changes
     '$route': 'fetchData',
   
@@ -383,7 +393,8 @@ import  Pagination from '../../Pagination.vue';
                      var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
-                    this.reference_bl='BL-'+year+'-'+response.data.count;
+                     this.nbrBLs = response.data.count;
+                    this.bonLivraison.reference_bl='BL-'+year+'-'+this.nbrBLs;
 
                     
                     /*this.commande.fk_document='D'+response.data.count;
@@ -494,7 +505,7 @@ import  Pagination from '../../Pagination.vue';
             
             handleOk(){
                 console.log('id compte : '+this.compte.id_compte);
-                    this.$router.push({ name: 'addBonLivraison', params: { id_compte: this.compte.id_compte ,reference_bl: this.reference_bl, currentDate: this.currentDate  }});
+                    this.$router.push({ name: 'addBonLivraison', params: { id_compte: this.compte.id_compte ,reference_bl: this.bonLivraison.reference_bl, currentDate: this.currentDate  }});
 
             },
             

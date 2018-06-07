@@ -270,14 +270,7 @@ const  router = new VueRouter({
                 Admin:true
                 }
         },
-        {    
-            path:"/getDevis",
-            component: AffDevis,
-            meta:{
-                SuperAdmin:true,
-                Admin:true
-                }
-        },
+
         {    
             path:"/getDevis",
             component: AffDevis,

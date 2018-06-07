@@ -798,11 +798,17 @@ watch:{
 
             'devi.date_d':{
             handler: function(){
+          console.log("current date")
+          console.log(this.devi.date_d)
+         let referenceDevis = this.devi.reference_d.split("-");
+         referenceDevis[1] = this.devi.date_d.split("-")[0];
+         this.devi.reference_d = 'DA-'+referenceDevis[1]+'-'+referenceDevis[2];
+         console.log(this.devi.reference_d)
                 this.echeancee;
                     this.diff;
 
-            }
-    },
+            }},
+    
     'devi.date_limit_d':{
         handler: function(){
                 this.echeancee;
