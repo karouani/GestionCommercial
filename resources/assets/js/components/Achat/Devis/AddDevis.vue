@@ -11,7 +11,7 @@
 <div v-if="!loading">
      <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/getDevis'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3 retour  float-right " :to="'/getDevis'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div> 
 <div class=" container colBackround">
@@ -883,7 +883,10 @@ a.last::before {
 .AdressClient{
     width: 121%;
 }
-
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
+}
 .noteCondition{
     width: 77%;
 }

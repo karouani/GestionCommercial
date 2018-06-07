@@ -99,34 +99,40 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>reference</th>
-                                        <th>date Bon livraison</th>
-                                        <th>date limit</th>
+                                        <th>Référence</th>
+                                        <th>Nom Société</th>                                      
+                                        <th>Date Bon livraison</th>
+                                        <th>Date limit</th>
+                                        <th>Statut</th> 
                                         <th>Montant TTC</th>
-                                        <th>Statut</th>
-                                        <th>nom societe</th>
-                                        <th>options</th>
+                                        <th>Net à payer</th>
+                                        <th>Options</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr  v-for="bonLivraison of bonLivraisons.data" :key="bonLivraison.id_bl" >
+    
                                         <td>{{bonLivraison.reference_bl}}</td>
+                                        <td>{{bonLivraison.nom_compte}} </td>  
                                         <td>{{bonLivraison.date_bl}}</td>
                                         <td>{{bonLivraison.date_limit_bl}}
+                                                 <div v-if="bonLivraison.type_status !='validé' && bonLivraison.type_status !='annulée'"> 
+                                          
                                              <span v-if="bonLivraison.date_diff > 0" style="color:#83ea0cf7">
                                             (+{{bonLivraison.date_diff}})
                                             </span>
                                             <span v-if="bonLivraison.date_diff <= 0" style="color:red">
                                             ({{bonLivraison.date_diff}})
                                             </span>
+                                                 </div>
                                         </td>
-                                        <td>{{bonLivraison.montant_ttc_bl}} </td>  
                                               <td v-if="bonLivraison.fk_status_bl == 'Brouillon'">
                                             
                                              <span class="badge badge-pill" style="background-color:rgb(170, 170, 170);color:white;font-size:14px"> <b>{{bonLivraison.fk_status_bl}} </b></span> </td>
                                          <td  v-else>   
                                              <span class="badge badge-pill" :style="{'background-color': bonLivraison.colorStatu ,'color':fontStatu.white , 'font-size':fontStatu.size}"> <b>{{bonLivraison.type_status}} </b></span> </td>
-                                        <td>{{bonLivraison.nom_compte}} </td>  
+                                        <td>{{bonLivraison.montant_ttc_bl}} </td>  
+                                        <td>{{bonLivraison.montant_reste_bl}} </td>  
                                        
                                         <td  class="optionsWidth"> 
                                             <a href="#"    @click="redirect_To_ShowBonLivraison(bonLivraison.reference_bl)"  class="btn btn-primary" ><i class="fas fa-eye d-inline-block"></i></a>
@@ -296,6 +302,15 @@ import  Pagination from '../../Pagination.vue';
                                       duration: 1500,
                                     });
           }
+          if( this.$route.params.success == "editStatusuccess"){
+        
+                                               this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Statut bien modifier!',
+                                      duration: 1500,
+                                    });
+        }
         },
       updated(){
           if( this.$route.params.success == "addsuccess"){

@@ -63,7 +63,7 @@
 <div class="row">
     <div class="col">
         <br>
-    <h5><i class="far fa-file"></i> Information sur le bon de commande</h5>
+    <h5><i class="far fa-file"></i> Information sur le bon de commande : <strong>{{bonCommande.reference_bc}}</strong></h5>
     </div>
 </div>
 <hr>
@@ -135,13 +135,13 @@
         </div>
                <div class="form-group row">
                  <div class="col-sm-4"> 
-                <select class="form-control custom-select " id="fk_status_d"  v-model="bonCommande.fk_status_bc" >
+                <select class="form-control custom-select " id="fk_status_d"  v-model="bonCommande.fk_status_bc" @change="getStatu()">
                     <option value="Brouillon">Brouillon</option>
                     <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
                 </select>
                  </div>
                  <div class="col-sm-2"> 
-                <a href="#" @click="updateStatusBC()"  class="btn btn-info refresh" style="font-size:10px"><i class="fa fa-undo"></i></a>                                
+                    <a href="#" @click="updateStatusBC()"  class="btn btn-secondary badge badge-pill" style="background-color:black" :style="{'background-color': bonCommande.colorStatu ,'color':fontStatu.white , 'font-size':fontStatu.size}"><i class="fa fa-undo"></i></a>                                
                  </div>
         </div>
     </div>
@@ -322,12 +322,21 @@
     export default{ 
         
           data: () => ({
+               fontStatu : {
+                    white : "white",
+                    size: "14px",
+              },
+              
               loading: false,
               bonCommandes : [],
             bonCommande : {},
                 commandes : [],
                 status : [],
-                document :""
+                document :"",
+                statu :{
+              type_status:"",
+              colorStatu:"",
+            },
 
                
       }),
@@ -391,12 +400,21 @@ methods: {
                 console.log('handle server error from here');
         });
     },
-    getStatu(devi){
-                
-        axios.get('/getStatu/'+devi.fk_status_d)
+    getStatu(){
+                        console.log(this.bonCommande.fk_status_bc)
+
+        axios.get('/getStatu/'+this.bonCommande.fk_status_bc)
             .then((response) => {
+
                     this.statu = response.data.statu;
                  // this.devi.fk_status_d=response.data.statu.adresse_compte;
+                                     console.log(" bncmd +++++++"+this.statu.type_status);
+
+                  console.log("color   "+response.data.statu.colorStatu)
+
+                     this.bonCommande.colorStatu=response.data.statu.colorStatu;
+                                       console.log("color   "+this.bonCommande.colorStatu)
+
             })
             .catch(() => {
                     console.log('handle server error from here');
@@ -409,6 +427,10 @@ methods: {
                                 .then((response) => {
                                    
                                     this.bonCommande = response.data.bonCommande[0];
+                                     this.bonCommande.colorStatu=response.data.bonCommande[0].colorStatu;
+console.log(" bncmd +++++++"+this.bonCommande);
+                    console.log("color facture2222 +++++++"+this.bonCommande.colorStatu);
+
                                     console.log("recup Bon Commande")
                                     console.log(response.data.bonCommande)
                                 })

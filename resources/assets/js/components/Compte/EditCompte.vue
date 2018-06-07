@@ -1,12 +1,13 @@
 <template>
     <div>
-    <div class="row">
+                <div class="text-center pull-right" >
+
+                  <div class=" btnMarge">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowComptes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/ShowComptes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div>   
-        <div class="text-center pull-right" >
-    <h2>Ajouter Compte</h2>
+    <h2>Modifier Compte</h2>
     <hr>   
     </div>
 
@@ -19,20 +20,20 @@
                 <label for="exampleFormControlSelect1" class="col-sm-4">Nom Compagnie</label>
                 <div class="col-sm-8">
                 <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="compte.fk_compagnie" required>
-                    <option selected>Choisir une Compagnie</option>
+                    <option selected disabled>Choisir une Compagnie</option>
                     <option v-for="compagnie in compagnies" :key="compagnie.id_compagnie" :value="compagnie.id_compagnie">{{compagnie.nom_societe_comp}}</option>
                 </select>
                 </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="nom_compte" class="col-sm-4"> Nom_compte</label>
+                    <label for="nom_compte" class="col-sm-4"> Nom Compte</label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" id="nom_compte"  v-model="compte.nom_compte">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="responsable" class="col-sm-4" > Responsable</label>
+                    <label for="responsable" class="col-sm-4" > Résponsable</label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" id="responsable"  v-model="compte.responsable">
                     </div>
@@ -42,26 +43,26 @@
                 <label for="type_compte" class="col-sm-4" >Famille</label>
                 <div class="col-sm-8">
                 <select class="form-control custom-select " id="type_compte" v-model="compte.type_compte" @change="getcountCompte(compte.type_compte)">
-                    <option selected>Choisir Type du Compte</option>
+                    <option selected disabled>Choisir une Famille</option>
                     <option value="Client">Client</option>
                     <option value="Fournisseur">Fournisseur</option>                   
                 </select>
                 </div>
                 </div>
                 <div class="form-group row ">
-                    <label for="categorie" class="col-sm-4" > Categorie </label>
+                    <label for="categorie" class="col-sm-4" > Catégorie </label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" id="categorie" v-model="compte.categorie" >
                     </div>
                 </div>
                 <div class="form-group row ">
-                    <label for="raison_social" class="col-sm-4" > Raison_social </label>
+                    <label for="raison_social" class="col-sm-4" > Raison Social </label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" id="raison_social" v-model="compte.raison_social" >
                     </div>
                 </div>
                 <div class="form-group row ">
-                    <label for="reference" class="col-sm-4" > Reference </label>
+                    <label for="reference" class="col-sm-4" > Référence </label>
                     <div class="col-sm-8">
                     <input type="text" readonly class="form-control" id="reference" v-model="compte.reference">
                     </div>
@@ -101,13 +102,13 @@
                     </div>
                 </div>
                 <div class="form-group row ">
-                    <label for="site_web" class="col-sm-4" > Site_web </label>
+                    <label for="site_web" class="col-sm-4" > Site Web </label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" id="site_web" v-model="compte.site_web">
                     </div>
                 </div>
                 <div class="form-group row ">
-                    <label for="secteur_activite" class="col-sm-4" > Secteur_activite </label>
+                    <label for="secteur_activite" class="col-sm-4" > Secteur Activité </label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" id="secteur_activite" v-model="compte.secteur_activite">
                     </div>
@@ -148,22 +149,23 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>civilite</th>
-                                        <th>prenom</th>
-                                        <th>nom</th>                                       
-                                        <th>fonction</th>
-                                        <th>email</th>
-                                        <th>fixe</th>
-                                        <th>mobile</th> 
+                                        <th>Civilité</th>
+                                        <th>Prénom</th>
+                                        <th>Nom</th>                                       
+                                        <th>Fonction</th>
+                                        <th>Email</th>
+                                        <th>Fix</th>
+                                        <th>Téléphone</th> 
                                     </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(contact,index) in contacts" :key="index">
                                          <th> 
                                             <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="contact.civilite" >
-                                            <option selected>Choisir une civilite</option>
+                                            <option selected disabled>Choisir une Civilité</option>
                                             <option value="Mr">Mr</option>
-                                            <option value="Md">Md</option>
+                                            <option value="Mme">Mme</option>
+                                            <option value="Mlle">Mlle</option>
                                             </select>
                                         </th>
                                         <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
@@ -177,9 +179,10 @@
                                         </tr>
                                          <th> 
                                             <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="contact.civilite" >
-                                            <option selected>Choisir une civilite</option>
+                                            <option selected disabled>Choisir une civilite</option>
                                             <option value="Mr">Mr</option>
-                                            <option value="Md">Md</option>
+                                            <option value="Mme">Mme</option>
+                                            <option value="Mlle">Mlle</option>
                                             </select>
                                         </th>
                                         <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
@@ -512,8 +515,12 @@
     border: 1px solid #ddd;
     
 }
-.fontsize{
+/*.fontsize{
 
     font-size: 1.30rem;
+}*/
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
 }
 </style>

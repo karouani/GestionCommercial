@@ -2,43 +2,43 @@
 <template>
  <div>
  <div>
-    
-<div class="row btnMarge">
+    <div class="text-center pull-right" >
+<div class=" btnMarge">
   <div class="col">
     <!-- button pour afficher tous les utilisateurs-->
-       <router-link :to="'/getUsers'" class="float-left btn btn-primary">Afficher</router-link>
-  </div>
-  
-</div>
+          <router-link class="btn btn-primary mb-3 retour  float-right " :to="'/getUsers'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
 
-<div class="text-center">
+  </div>
+ 
     <h2>Ajouter Utilisateur</h2>
 </div>
+</div>
+
+
 <hr>
   <!-- formulaire pour Ajouter un user -->
   <div class="row" >
         
             <div class="form-group col-md-6">
       <label for="inputEmail4">Email</label>
-      <input type="email" class="form-control" id="inputEmail4" v-model="user.email" placeholder="Email">
+      <input type="email" class="form-control" id="inputEmail4" v-model="user.email" placeholder="">
     </div>
     <div class="form-group col-md-6">
-      <label for="inputPassword4">Password</label>
-      <input type="password" class="form-control" id="inputPassword4" v-model="user.password" placeholder="Password">
+      <label for="inputPassword4">Mot de Passe</label>
+      <input type="password" class="form-control" id="inputPassword4" v-model="user.password" placeholder="">
     </div>
 
   </div>
 
   <div class="row">
     <div class="form-group col-md-6">
-      <label for="inputEmail4">Name</label>
-      <input type="text" class="form-control" id="inputname4" v-model="user.names" placeholder="User Name">
+      <label for="inputEmail4">Nom Utilisateur</label>
+      <input type="text" class="form-control" id="inputname4" v-model="user.names" placeholder="">
     </div>
        <div class="form-group col-md-6">
       <label for="inputState">Role</label>
       <select id="inputState" v-model="user.role" class="form-control">
         <option selected>Choose...</option>
-        <option>Super Admin</option>
         <option>Admin</option>
         <option>Expert Comptable</option>
       </select>
@@ -130,6 +130,9 @@ export default {
 }
 </script>
 <style scoped>
-
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
+}
 
 </style>

@@ -79,12 +79,12 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>reference</th>
-                                        <th>designation</th>
-                                        <th>Prix ht achat:</th>
-                                        <th>Prix ht vente:</th>
-                                        <th>Quantite:</th>
-                                        <th>options</th>
+                                        <th>Réference</th>
+                                        <th>Designation</th>
+                                        <th>Prix HT Achat</th>
+                                        <th>Prix HT Vente</th>
+                                        <th>Quantité</th>
+                                        <th>Options</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -153,23 +153,23 @@
                       
                          <div class="col">
                              <div>
-                   <span>Designation : </span>{{article.designation}}
+                   <span>Désignation : </span>{{article.designation}}
                     <hr>
                    <span>Type : </span>{{article.type_art}} 
                    <hr>
-                   <span>Description : </span>{{article.description}}
+                   <span>Déscription : </span>{{article.description}}
                    <hr>
-                   <span>Prix ht achat :  </span>{{article.prix_ht_achat}}
+                   <span>Prix HT Achat :  </span>{{article.prix_ht_achat}}
                    <hr>
-                   <span>Prix ht vente : </span>{{article.prix_ht_vente}}
+                   <span>Prix HT Vente : </span>{{article.prix_ht_vente}}
                    </div>
                     </div>
                    <div class="col">
-                   <span>Unite :  </span>{{article.unite}}
+                   <span>Unité :  </span>{{article.unite}}
                    <hr>
-                   <span>Quantite : </span>{{article.quantite}}
+                   <span>Quantité : </span>{{article.quantite}}
                    <hr>
-                   <span>Quantite minimum : </span>{{article.quantite_min}}
+                   <span>Quantité minimum : </span>{{article.quantite_min}}
                    <hr>
                    <span>Famille : </span>{{article.fk_famille}}
                    <hr>

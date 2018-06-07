@@ -22,7 +22,7 @@
         </div>
   
     </div>
-    <h3>List des Comptes</h3>
+    <h3>Liste des Comptes</h3>
     <hr>   
     </div>
    
@@ -73,13 +73,13 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>nom_compte</th>
-                                        <th>responsable</th>
-                                        <th>type_compte</th>
-                                        <th>fixe</th>
-                                        <th>portable</th>
-                                        <th>email</th>
-                                        <th>options</th>
+                                        <th>Nom Compte</th>
+                                        <th>Résponsable</th>
+                                        <th>Type Compte</th>
+                                        <th>Fixe</th>
+                                        <th>Portable</th>
+                                        <th>Email</th>
+                                        <th>Options</th>
                                     </tr>
                                     </thead>
                                     <tbody>

@@ -43,6 +43,13 @@ import  EditBonLivraison from './components/Vente/BonLivraison/EditBonLivraison.
  import AvoirFactureDetails from './components/Vente/AvoirFacture/AvoirFactureDetails.vue'
  import EditAvoirFacture from './components/Vente/AvoirFacture/EditAvoirFacture.vue'
 
+ //achat comptable
+ 
+ import AvoirFactureComptableA from './components/Achat/AvoirFacture/AvoirFactureComptableA.vue'
+ import FactureComptableA from './components/Achat/Facture/FactureComptableA.vue'
+ //vente comptable
+ import AvoirFactureComptableV from './components/Vente/AvoirFacture/AvoirFactureComptableV.vue'
+ import FactureComptableV from './components/Vente/Facture/FactureComptableV.vue'
 
 
                     /// -----------  Achat --------------------------
@@ -156,7 +163,8 @@ const  router = new VueRouter({
         },
         {
             path:"/getProfile",
-            component: UserConnect
+            component: UserConnect,
+            
         },
         {
         path:"/getProfile/:success",
@@ -268,8 +276,10 @@ const  router = new VueRouter({
                 }
         },
         {    
-            path:"/getDevis/:success",
+            path:"/getDevis",
             component: AffDevis,
+            name: "getDevis",
+           
             meta:{
                 SuperAdmin:true,
                 Admin:true
@@ -410,11 +420,20 @@ const  router = new VueRouter({
 },
 {    
     path:"/getFactures",
-    component: AffFactures
+    component: AffFactures,
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
 },
 {    
-    path:"/getFactures/:success",
-    component: AffFactures
+    path:"/getFactures",
+    component: AffFactures,
+    name: "getFactures",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
 },
 {    
     path:"/FactureDetails",
@@ -434,7 +453,24 @@ const  router = new VueRouter({
         SuperAdmin:true,
         Admin:true
         }
-},       
+},    
+
+{    
+    path:"/AvoirFactureComptableV",
+    component: AvoirFactureComptableV,
+    name: "AvoirFactureComptableV",
+    meta:{
+        ExpertComptable:true
+        }
+}, 
+{    
+    path:"/FactureComptableV",
+    component: FactureComptableV,
+    name: "FactureComptableV",
+    meta:{
+       ExpertComptable:true
+        }
+}, 
                      // ----------------------------------------------------------  // AvoirFactures 
 // ajouter les Avoir Facture 
 {    
@@ -448,11 +484,20 @@ const  router = new VueRouter({
 },
 {    
     path:"/getAvoirFactures",
-    component: AffAvoirFactures
+    component: AffAvoirFactures,
+    name: "getAvoirFactures",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
 },
 {    
     path:"/getAvoirFactures/:success",
-    component: AffAvoirFactures
+    component: AffAvoirFactures,
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
 },  
 {    
     path:"/AvoirFactureDetails",
@@ -472,7 +517,25 @@ const  router = new VueRouter({
         SuperAdmin:true,
         Admin:true
         }
-},        
+},  
+{    
+    path:"/AvoirFactureComptableA",
+    component: AvoirFactureComptableA,
+    name: "AvoirFactureComptableA",
+    meta:{
+        ExpertComptable:true
+        }
+}, 
+{    
+    path:"/FactureComptableA",
+    component: FactureComptableA,
+    name: "FactureComptableA",
+    meta:{
+        ExpertComptable:true
+        }
+},     
+
+
         // ----------------------------------------------------------  // Bon Livraison
         {     
             path:"/addBonLivraison",
@@ -542,8 +605,10 @@ const  router = new VueRouter({
                 }
         },
         {    
-            path:"/getDevisA/:success",
+            path:"/getDevisA",
             component: AffDevisA,
+            name: "getDevisA",
+
             meta:{
                 SuperAdmin:true,
                 Admin:true
@@ -679,11 +744,21 @@ const  router = new VueRouter({
 },
 {    
     path:"/getFacturesA",
-    component: AffFacturesA
+    component: AffFacturesA,
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
 },
 {    
-    path:"/getFacturesA/:success",
-    component: AffFacturesA
+    path:"/getFacturesA",
+    component: AffFacturesA,
+    name: "getFacturesA",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
+
 },
 {    
     path:"/FactureDetailsA",
@@ -718,11 +793,21 @@ const  router = new VueRouter({
 },
 {    
     path:"/getAvoirFacturesA",
-    component: AffAvoirFacturesA
+    component: AffAvoirFacturesA,
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
 },
 {    
-    path:"/getAvoirFacturesA/:success",
-    component: AffAvoirFacturesA
+    path:"/getAvoirFacturesA",
+    component: AffAvoirFacturesA,
+    name: "getAvoirFacturesA",
+    meta:{
+        SuperAdmin:true,
+        Admin:true
+        }
+
 },  
 {    
     path:"/AvoirFactureDetailsA",
@@ -772,8 +857,8 @@ const  router = new VueRouter({
     component: BilanMois,
     name: "BilanMois",
     meta:{
-        SuperAdmin:true,
-        Admin:true
+       // SuperAdmin:true,
+        //Admin:true
 },
 },
 {    
@@ -781,8 +866,8 @@ const  router = new VueRouter({
     component: BilanAnnee,
     name: "BilanAnnee",
     meta:{
-        SuperAdmin:true,
-        Admin:true
+       // SuperAdmin:true,
+       // Admin:true
 },
 
         

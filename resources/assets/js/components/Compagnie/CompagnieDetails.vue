@@ -12,7 +12,7 @@
                   <div class=" btnMarge">
         <div class="col">
     <!-- button pour afficher tous les users-->
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/getCompagnies'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getCompagnies'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
 
         </div>
   
@@ -44,7 +44,7 @@
      <hr>
                     <span>Raison Sociale : </span>{{compagnie.raison_sociale_comp}}
                      <hr>
-                    <span>Nom compagnie : </span>{{compagnie.nom_societe_comp}}
+                    <span>Nom Compagnie : </span>{{compagnie.nom_societe_comp}}
                      <hr>
                     <span>R.C : </span>{{compagnie.RC_comp}} 
                      <hr>
@@ -77,7 +77,7 @@
                        <hr>
                     <span>Taille : </span>{{compagnie.taille_comp}}
                      <hr>
-                    <span>Secteir D'activité : </span>{{compagnie.secteur_activite_comp}}
+                    <span>Secteur D'activité : </span>{{compagnie.secteur_activite_comp}}
                     
                    <hr>
                     <div class="text-center ">
@@ -152,11 +152,11 @@
   </div>
   
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">Civilite : {{contact.civilite}}</li>
-    <li class="list-group-item">fonction : {{contact.fonction}}</li>
-    <li class="list-group-item">email: {{contact.email}} </li>
-    <li class="list-group-item">fixe: {{contact.fixe}} </li>
-    <li class="list-group-item">mobile: {{contact.mobile}} </li>
+    <li class="list-group-item">Civilité : {{contact.civilite}}</li>
+    <li class="list-group-item">Fonction : {{contact.fonction}}</li>
+    <li class="list-group-item">Email: {{contact.email}} </li>
+    <li class="list-group-item">Fix: {{contact.fixe}} </li>
+    <li class="list-group-item">Téléphone: {{contact.mobile}} </li>
   </ul>
 </div>
 </div>
@@ -337,7 +337,10 @@ padding-left: 20px;
     font-size: 14px;
 }
 
-
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
+}
 
 
    /*loading*/

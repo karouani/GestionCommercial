@@ -8,7 +8,7 @@
     <div v-if="!loading" >
     <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowBonLivraisonsA'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/ShowBonLivraisonsA'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div>    
 
@@ -17,7 +17,7 @@
 <div class="row">
     <div class="col">
         <br>
-    <h5><i class="far fa-file"></i> Ajouter un bon de Livraison</h5>
+    <h5><i class="far fa-file"></i> Ajouter un bon de Réception : <strong>{{bonLivraison.reference_bl}}</strong></h5>
     </div>
 </div>
 <hr>
@@ -1087,13 +1087,16 @@ a.last::before {
 .calculePadding{
     padding-left: 50%;
 }
-.fontsize{
+/*.fontsize{
 
     font-size: 1.30rem;
+}*/
+
+
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
 }
-
-
-
 
 .lds-hourglass {
   display: inline-block;

@@ -21,7 +21,7 @@
         </div>
   
     </div>
-    <h3>List des Compagnies</h3>
+    <h3>Liste des Compagnies</h3>
     <hr>   
     </div>   
        
@@ -297,7 +297,10 @@ a.last::before {
     position:  absolute;
     position :fixed;}
 
-
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
+}
         /*loading*/
 .lds-hourglass {
   display: inline-block;

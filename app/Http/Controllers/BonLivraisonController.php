@@ -329,8 +329,9 @@ class BonLivraisonController extends Controller
         ->leftJoin('contacts', 'contacts.fk_compte_comp', '=', 'comptes.id_compte')
         ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
         ->leftJoin('mode_paiements', 'bonLivraisons.reference_bl', '=', 'mode_paiements.fk_document')
+        ->leftJoin('status', 'bonLivraisons.fk_status_bl', '=', 'status.id_status')   
         ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
-        ->select('bonLivraisons.*', 'comptes.*','macompagnies.*','mode_paiements.*','type_paiements.*','contacts.*')
+        ->select('bonLivraisons.*','status.*', 'comptes.*','macompagnies.*','mode_paiements.*','type_paiements.*','contacts.*')
         ->where('reference_bl', $reference_bl)->where('contacts.type_contact','=','compte')->get();
          return Response()->json(['bonLivraison' => $bonLivraison ]);
       }

@@ -51,11 +51,11 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>Reference</th>
-                                        <th>Nom Societe </th>
-                                        <th>Date facture</th>
+                                        <th>Réference</th>
+                                        <th>Nom Société </th>
+                                        <th>Date Facture</th>
                                         <th>Date limit</th>
-                                        <th>Status</th>                                        
+                                        <th>Statut</th>                                        
                                         <th>Montant TTC</th>
                                         <th>Net à payer</th>
                                         <th>Options</th>
@@ -67,12 +67,15 @@
                                         <td>{{facture.nom_compte}} </td>
                                         <td>{{ facture.date_f}}</td>
                                        <td>{{facture.date_limit_f}} 
+                                                  <div v-if="facture.type_status !='validé' && facture.type_status !='annulée'"> 
+                                          
                                             <span v-if="facture.date_diff > 0" style="color:#83ea0cf7">
                                             (+{{facture.date_diff}})
                                             </span>
                                             <span v-if="facture.date_diff <= 0" style="color:red">
                                             ({{facture.date_diff}})
                                             </span>
+                                                  </div>
                                         </td>
                                         <td v-if="facture.fk_status_f == 'Brouillon'">
                                             
@@ -265,6 +268,15 @@ import  Pagination from '../../Pagination.vue';
                                       group: 'foo',
                                       title: 'Succès',
                                       text: 'Facture bien modifier!',
+                                      duration: 1500,
+                                    });
+        }
+        if( this.$route.params.success == "editStatusuccess"){
+        
+                                               this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Statut bien modifier!',
                                       duration: 1500,
                                     });
         }

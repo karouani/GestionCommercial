@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col">
         <br>
-    <h5><i class="far fa-file"></i> Information sur le bon de livraison</h5>
+    <h5><i class="far fa-file"></i> Information sur le bon de Réception : <strong>{{bonLivraison.reference_bl}}</strong></h5>
     </div>
 </div>
 <hr>
@@ -62,13 +62,13 @@
         </div>
                <div class="form-group row">
                  <div class="col-sm-4"> 
-                <select class="form-control custom-select " id="fk_status_d"  v-model="bonLivraison.fk_status_bl" >
+                <select class="form-control custom-select " id="fk_status_d"  v-model="bonLivraison.fk_status_bl" @change="getStatu()">
                     <option value="Brouillon">Brouillon</option>
                     <option v-for="statu in status" :key="statu.id_status" :value="statu.id_status">{{statu.type_status}}</option>
                 </select>
                  </div>
                  <div class="col-sm-2"> 
-                <a href="#" @click="updateStatusBL()"  class="btn btn-info refresh" style="font-size:10px"><i class="fa fa-undo"></i></a>                                
+                                         <a href="#" @click="updateStatusBL()"  class="btn btn-secondary badge badge-pill" style="background-color:black" :style="{'background-color': bonLivraison.colorStatu ,'color':fontStatu.white , 'font-size':fontStatu.size}"><i class="fa fa-undo"></i></a>                                
                  </div>
         </div>
     </div>
@@ -249,6 +249,10 @@
     export default{ 
         
           data: () => ({
+              fontStatu : {
+                    white : "white",
+                    size: "14px",
+              },
               loading: false,
               bonLivraisons : [],
             bonLivraison : {
@@ -257,7 +261,11 @@
                 id_compte:0,
             },
                 commandes : [],
-                status : []
+                status : [],
+                statu :{
+              type_status:"",
+              colorStatu:"",
+            },
 
                
       }),
@@ -307,12 +315,21 @@ methods: {
                 console.log('handle server error from here');
         });
     },
-    getStatu(devi){
-                
-        axios.get('/getStatu/'+devi.fk_status_d)
+      getStatu(){
+                        console.log(this.bonLivraison.fk_status_bl)
+
+        axios.get('/getStatu/'+this.bonLivraison.fk_status_bl)
             .then((response) => {
+
                     this.statu = response.data.statu;
                  // this.devi.fk_status_d=response.data.statu.adresse_compte;
+                                     console.log(" bncmd +++++++"+this.statu.type_status);
+
+                  console.log("color   "+response.data.statu.colorStatu)
+
+                     this.bonLivraison.colorStatu=response.data.statu.colorStatu;
+                                       console.log("color   "+this.bonLivraison.colorStatu)
+
             })
             .catch(() => {
                     console.log('handle server error from here');
@@ -325,7 +342,9 @@ methods: {
                                 .then((response) => {
                                    
                                     this.bonLivraison = response.data.bonLivraison[0];
-                                    console.log("recup Bon Livraison")
+                                     this.bonLivraison.colorStatu=response.data.bonLivraison[0].colorStatu;
+
+ console.log("recup Bon Livraison")
                                     console.log(this.bonLivraison.id_compte)
                                 })
                                 .catch(() => {

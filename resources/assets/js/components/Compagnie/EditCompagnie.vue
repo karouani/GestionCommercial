@@ -13,7 +13,7 @@
                   <div class=" btnMarge">
         <div class="col">
     <!-- button pour afficher tous les users-->
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/getCompagnies'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getCompagnies'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
 
         </div>
   
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-4" for="type_art"> Nom Societe </label>
+                    <label class="col-sm-4" for="type_art"> Nom Compagnie </label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" id="type_art" v-model="compagnie.nom_societe_comp" >
                 </div>
@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-4" for="secteur_activite"> Secteur D'activite </label>
+                    <label class="col-sm-4" for="secteur_activite"> Secteur D'activité </label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" id="secteur_activite" v-model="compagnie.secteur_activite_comp">
                     </div>
@@ -203,22 +203,23 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>civilite</th>
-                                        <th>prenom</th>
-                                        <th>nom</th>                                       
-                                        <th>fonction</th>
-                                        <th>email</th>
-                                        <th>fixe</th>
-                                        <th>mobile</th> 
+                                         <th>Civilité</th>
+                                        <th>Prénom</th>
+                                        <th>Nom</th>                                       
+                                        <th>Fonction</th>
+                                        <th>Email</th>
+                                        <th>Fix</th>
+                                        <th>Téléphone</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(contact,index) in contacts" :key="index">
                                          <th> 
                                             <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="contact.civilite" >
-                                            <option selected>Choisir une civilite</option>
+                                            <option selected>Choisir une Civilité</option>
                                             <option value="Mr">Mr</option>
-                                            <option value="Md">Md</option>
+                                            <option value="Mme">Mme</option>
+                                            <option value="Mlle">Mlle</option>
                                             </select>
                                         </th>
                                         <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
@@ -234,7 +235,8 @@
                                             <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="contact.civilite" >
                                             <option selected>Choisir une civilite</option>
                                             <option value="Mr">Mr</option>
-                                            <option value="Md">Md</option>
+                                            <option value="Mme">Mme</option>
+                                            <option value="Mlle">Mlle</option>
                                             </select>
                                         </th>
                                         <th><input type="text" class="form-control" id="prenom"  v-model="contact.prenom"></th>
@@ -539,7 +541,10 @@ padding-left: 20px;
 .badgeSize{
     font-size: 14px;
 }
-
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
+}
     /*loading*/
 .lds-hourglass {
   display: inline-block;

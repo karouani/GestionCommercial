@@ -351,8 +351,9 @@ class BonCommandeController extends Controller
         ->leftJoin('contacts', 'contacts.fk_compte_comp', '=', 'comptes.id_compte')
         ->leftJoin('macompagnies', 'comptes.fk_compagnie', '=', 'macompagnies.id_compagnie')
         ->leftJoin('mode_paiements', 'bonCommandes.reference_bc', '=', 'mode_paiements.fk_document')
+        ->leftJoin('status', 'bonCommandes.fk_status_bc', '=', 'status.id_status')   
         ->leftJoin('type_paiements', 'type_paiements.id_type_paiement', '=', 'mode_paiements.fk_type_paiement')
-        ->select('bonCommandes.*', 'comptes.*','macompagnies.*','mode_paiements.*','type_paiements.*','contacts.*')
+        ->select('bonCommandes.*', 'status.*','comptes.*','macompagnies.*','mode_paiements.*','type_paiements.*','contacts.*')
         ->where('reference_bc', $reference_bc)
         ->where(function($query)
         {

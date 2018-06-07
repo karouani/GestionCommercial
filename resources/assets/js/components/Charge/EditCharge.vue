@@ -4,7 +4,7 @@
                   <div class=" btnMarge">
         <div class="col">
     <!-- button pour afficher tous les users-->
-            <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowCharges'"> <i class="fas fa-long-arrow-alt-left fontsize"></i>  </router-link>
+            <router-link class="btn btn-primary mb-3 retour float-right " :to="'/ShowCharges'"> <i class="fas fa-long-arrow-alt-left fontsize"></i>  </router-link>
 
         </div>
   
@@ -30,7 +30,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="prix_ht_achat"> Designation </label>
+                    <label for="prix_ht_achat"> Désignation </label>
                     <input type="text" class="form-control" id="prix_ht_achat" v-model="charge.designation_ch" >
                 </div>
                 <div class="form-group">
@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <label for="unite"> Taux Tva </label>
                     <select class="form-control custom-select " id="fk_tva_applicable" v-model="charge.taux_tva_ch" required>
-                    <option selected>Choisir TVA</option>
+                    <option selected>Choisir un Taux de TVA</option>
                     <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.taux_tva">{{tva.taux_tva}}</option>
                 </select>
                     <label for="unite"> Tva </label>
@@ -66,7 +66,7 @@
                 </div>
            
                 <div class="form-group">
-                    <label for="quantite_min"> Reference </label>
+                    <label for="quantite_min"> Référence </label>
                     <input type="text" class="form-control" id="quantite_min" v-model="charge.reference_ch">
                 </div>
                 <div class="form-group">
@@ -84,7 +84,7 @@
 
                 </div>
                     <div class="form-group">
-                    <label for="description"> Type Delai </label>
+                    <label for="description"> Type Délai </label>
                 <textarea placeholder=""  name="" id="description" class="form-control" rows="5" v-model="charge.type_delai_ch"></textarea>
                 </div>
                 
@@ -296,9 +296,13 @@ a.last::before {
  box-shadow: 1px 2px 2px 2px #c9ced2;
 }
 
-.fontsize{
+/*.fontsize{
 
     font-size: 1.10rem;
+}*/
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
 }
 </style>
 

@@ -1,9 +1,9 @@
 <template>
   <div class="page-wrapper">
-      <top-menu>
+      <top-menu-comptable>
 
          
-      </top-menu>
+      </top-menu-comptable>
     <div class="main-container">
         <app-sidebar-comptable></app-sidebar-comptable>
        <div class="content">
@@ -17,7 +17,7 @@
 </template>
 <script>
 
-import TopMenu from './TopMenu.vue' 
+import TopMenuComptable from './TopMenuComptable.vue' 
 import Sidebar from './Sidebar.vue' 
 import SidebarComptable from './SidebarComptable.vue' 
 import Contents from './Contents.vue' 
@@ -35,7 +35,7 @@ import  EditCompte from './Compte/EditCompte.vue'
 
 export default {
    components:{
-     'top-menu':TopMenu,
+     'top-menu-comptable':TopMenuComptable,
      'app-sidebar':Sidebar,
      'app-contents':Contents,
      'app-show-article':ShowArticles,

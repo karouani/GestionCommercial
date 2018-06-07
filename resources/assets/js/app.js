@@ -79,7 +79,15 @@ Vue.component('app-editfacture', require('./components/Vente/Facture/EditFacture
  Vue.component('app-affavoirfactures', require('./components/Vente/AvoirFacture/AffAvoirFactures.vue'));
  Vue.component('app-detailsavoirfacture', require('./components/Vente/AvoirFacture/AvoirFactureDetails.vue'));
  Vue.component('app-editavoirfacture', require('./components/Vente/AvoirFacture/EditAvoirFacture.vue'));
-/* charge */
+ /* achat comptable*/
+ Vue.component('app-avoirfacturecomptablea', require('./components/Achat/AvoirFacture/AvoirFactureComptableA.vue'));
+ Vue.component('app-facturecomptablea', require('./components/Achat/Facture/FactureComptableA.vue'));
+  /* vente comptable*/
+ Vue.component('app-avoirfacturecomptablev', require('./components/Vente/AvoirFacture/AvoirFactureComptableV.vue'));
+ Vue.component('app-facturecomptablev', require('./components/Vente/Facture/FactureComptableV.vue'));
+
+
+ /* charge */
 Vue.component('app-addcharge', require('./components/Charge/AddCharge.vue'));
 Vue.component('app-showcharges', require('./components/Charge/ShowCharges.vue'));
 Vue.component('app-editcharge', require('./components/Charge/EditCharge.vue'));
@@ -116,6 +124,20 @@ Router.beforeEach(
             Promise.resolve(Vue.auth.getProfile()).then(function(value){
                
                 if(value == "Expert Comptable"){
+                    next({
+                        path:'/'
+                    })
+                }
+                else next()
+            });
+        
+        
+
+        }else if(to.matched.some(record => record.meta.ExpertComptable)){
+            
+            Promise.resolve(Vue.auth.getProfile()).then(function(value){
+               
+                if(value == "Admin" || value == "Super Admin"){
                     next({
                         path:'/'
                     })

@@ -71,7 +71,7 @@
 <div class="row">
     <div class="col">
         <br>
-    <h5><i class="far fa-file"></i> Informations du Devis : <strong>{{devi.reference_d}}</strong></h5>
+    <h5><i class="far fa-file"></i> Informations sur le Devis : <strong>{{devi.reference_d}}</strong></h5>
     </div>
 </div>
 <hr>
@@ -366,11 +366,13 @@ updateStatusDevis(){
                         console.log("updateStatusDevis")
 
                     if(response.data.etat){
-                        this.$router.push('/DevisDetailsA/editS/'+this.devi.id_devis);
+                     this.$router.push({ name: 'getDevisA', params: { success: "editStatusuccess"  }});
+             
+                      /*  this.$router.push('/DevisDetailsA/editS/'+this.devi.id_devis);
                          if(this.$route.params.success == "editS"){
                             console.log("methode");
                             this.Testopen.testEditS =true; 
-                            }
+                            }*/
                     }
                 })
                 .catch(error => {

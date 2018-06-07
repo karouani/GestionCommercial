@@ -1,11 +1,15 @@
 <template>
   <div class="contenu">
+        <notifications group="foo" 
+      position="bottom right" 
+      classes="vue-notification success"/> 
           <div class="loading" v-if="loading">
-      Loading...
+     <div class="lds-hourglass"></div>
     </div>
     <div v-if="error" class="error">
       {{ error }}
     </div>
+    
 
 <div v-if="!loading">
    <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="Testopen.testEdit">
@@ -34,7 +38,7 @@
                     <div class="card widthCard"  >
                          <div class="card-body">
             <div class="col text"> 
-                 <h5 class="card-title">User Name : {{user.name}}</h5>
+                 <h5 class="card-title">Nom Utilisateur : {{user.name}}</h5>
                 
                     <hr>
                     <div class="widthTextCard">E-mail  :  {{ user.email}}</div>
@@ -93,12 +97,16 @@ error: "",
    },
     mounted(){
          
-             if(this.$route.params.success == "edit")
-            this.Testopen.testEdit =true;   
-
-           
-    },
-
+              if( this.$route.params.success == "edit"){
+        
+                                               this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Profile bien modifier!',
+                                      duration: 1500,
+                                    });
+        }
+},
     updated:function(){
      let that=this;
      setTimeout(function(){that.Testopen.testEdit = false;}, 2000);
@@ -204,4 +212,36 @@ a.last::before {
     right: 0;
     position:  absolute;
     position :fixed;}
+
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
 </style>

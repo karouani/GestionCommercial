@@ -16,19 +16,19 @@ class BilanController extends Controller
 {
   public function getChargeMois(Request $request){
     // dd($mois);
-     $charges = Charge::where('charges.date_limit_ch','like',$request->annee.'-'.$request->mois.'-%')
-     ->groupBy('charges.date_limit_ch')
+     $charges = Charge::where('charges.date_paiement_ch','like',$request->annee.'-'.$request->mois.'-%')
+     ->groupBy('charges.date_paiement_ch')
      ->paginate(5);
 
      return Response()->json(['charges' => $charges]);
   }
     public function BilanCharge(Request $request){
        // dd($mois);
-        $charges = Charge::where('charges.date_limit_ch','like',$request->annee.'-'.$request->mois.'-%')
-        ->groupBy('charges.date_limit_ch')
+        $charges = Charge::where('charges.date_paiement_ch','like',$request->annee.'-'.$request->mois.'-%')
+        ->groupBy('charges.date_paiement_ch')
         ->get();
         $totalMois = Charge::select(DB::raw("SUM(charges.montant_ttc_ch) as total , SUM(charges.tva_ch) as tvaC"))
-        ->where('charges.date_limit_ch','like',$request->annee.'-'.$request->mois.'-%')
+        ->where('charges.date_paiement_ch','like',$request->annee.'-'.$request->mois.'-%')
         //->groupBy('charges.date_limit_ch')
         ->get();
 
@@ -108,7 +108,7 @@ class BilanController extends Controller
 //  dd($totalCharge);
 $totalAchat = Facture::leftJoin('status', 'factures.fk_status_f', '=', 'status.id_status')
 ->leftJoin('mode_paiements', 'factures.reference_f', '=', 'mode_paiements.fk_document')
-->select(DB::raw("SUM(factures.montant_ttc_f) as totalA, SUM(factures.tva_montant_f) as tvaA, MONTH(factures.date_limit_f) month"),'status.type_status','mode_paiements.date_paiement')
+->select(DB::raw("SUM(factures.montant_ttc_f) as totalA, SUM(factures.tva_montant_f) as tvaA, MONTH(mode_paiements.date_paiement) month"),'status.type_status','mode_paiements.date_paiement')
 ->where('mode_paiements.date_paiement','like',$annee.'-%')
 ->where('status.type_status','=','validé')
 ->where('factures.type_operation_f','=','achat')
@@ -117,7 +117,7 @@ $totalAchat = Facture::leftJoin('status', 'factures.fk_status_f', '=', 'status.i
 //dd($totalAchat);
 $totalVente = Facture::leftJoin('status', 'factures.fk_status_f', '=', 'status.id_status')
 ->leftJoin('mode_paiements', 'factures.reference_f', '=', 'mode_paiements.fk_document')
-->select(DB::raw("SUM(factures.montant_ttc_f) as totalV, SUM(factures.tva_montant_f) as tvaV, MONTH(factures.date_limit_f) month"),'status.type_status','mode_paiements.date_paiement')
+->select(DB::raw("SUM(factures.montant_ttc_f) as totalV, SUM(factures.tva_montant_f) as tvaV, MONTH(mode_paiements.date_paiement) month"),'status.type_status','mode_paiements.date_paiement')
 ->where('mode_paiements.date_paiement','like',$annee.'-%')
 ->where('status.type_status','=','validé')
 ->where('factures.type_operation_f','=','vente')
@@ -126,7 +126,7 @@ $totalVente = Facture::leftJoin('status', 'factures.fk_status_f', '=', 'status.i
 
 $totalAchatAvoir = Avoir_facture::leftJoin('status', 'avoir_factures.fk_status_af', '=', 'status.id_status')
 ->leftJoin('mode_paiements', 'avoir_factures.reference_af', '=', 'mode_paiements.fk_document')
-->select(DB::raw("SUM(avoir_factures.montant_ttc_af) as totalAA, SUM(avoir_factures.tva_montant_af) as tvaAA , MONTH(avoir_factures.date_limit_af) month"),'status.type_status','mode_paiements.date_paiement')
+->select(DB::raw("SUM(avoir_factures.montant_ttc_af) as totalAA, SUM(avoir_factures.tva_montant_af) as tvaAA , MONTH(mode_paiements.date_paiement) month"),'status.type_status','mode_paiements.date_paiement')
 ->where('mode_paiements.date_paiement','like',$annee.'-%')
       ->where('status.type_status','=','validé')
       ->where('avoir_factures.type_operation_af','=','achat')
@@ -135,7 +135,7 @@ $totalAchatAvoir = Avoir_facture::leftJoin('status', 'avoir_factures.fk_status_a
 
 $totalVenteAvoir = Avoir_facture::leftJoin('status', 'avoir_factures.fk_status_af', '=', 'status.id_status')
 ->leftJoin('mode_paiements', 'avoir_factures.reference_af', '=', 'mode_paiements.fk_document')
-->select(DB::raw("SUM(avoir_factures.montant_ttc_af) as totalVA, SUM(avoir_factures.tva_montant_af) as tvaVA , MONTH(avoir_factures.date_limit_af) month"),'status.type_status','mode_paiements.date_paiement')
+->select(DB::raw("SUM(avoir_factures.montant_ttc_af) as totalVA, SUM(avoir_factures.tva_montant_af) as tvaVA , MONTH(mode_paiements.date_paiement) month"),'status.type_status','mode_paiements.date_paiement')
 ->where('mode_paiements.date_paiement','like',$annee.'-%')
       ->where('status.type_status','=','validé')
       ->where('avoir_factures.type_operation_af','=','vente')
@@ -261,7 +261,7 @@ $moisA[12]="Décembre";
 $sortieS=array();
 for($i=1;$i<13;$i++){
   if(count($totalAchatAvoir)==0){
-    $sortieS[$i]=0;
+    $sortieS[$i] = $sortie[$i];
   }
 for($j=0;$j<count($totalAchatAvoir);$j++){
   if($totalAchatAvoir[$j]->month === $i ){
@@ -304,7 +304,7 @@ for($i=1;$i<13;$i++){
 $entreeE=array();
 for($i=1;$i<13;$i++){
   if(count($totalVenteAvoir)==0){
-    $entreeE[$i]=0;
+    $entreeE[$i] = $vente[$i];
   }
 for($k=0;$k<count($totalVenteAvoir);$k++){
   

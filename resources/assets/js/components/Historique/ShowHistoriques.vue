@@ -30,8 +30,8 @@
         <table class="table">
   
     <tr>
-      <th scope="col">user</th>
-      <th scope="col">operation</th>
+      <th scope="col">Utilisateur</th>
+      <th scope="col">Opération</th>
       <th scope="col">Date</th>
       <th scope="col">Option</th>
     </tr>

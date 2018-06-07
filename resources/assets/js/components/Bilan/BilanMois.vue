@@ -23,7 +23,7 @@
 
                         <div class="card-body">
                             <div class="form-group row">
-                        <label for="stagiaire" class="col-sm-4" >mois :</label>
+                        <label for="stagiaire" class="col-sm-4" >Mois :</label>
                         <div class="col-sm-8">
     
                             <select class="form-control custom-select " id="fk_compte" v-model="moisS" @change="BilanCharge" >
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                               <div class="form-group row">
-                        <label for="stagiaire" class="col-sm-4" >annee :</label>
+                        <label for="stagiaire" class="col-sm-4" >Année :</label>
                         <div class="col-sm-8">
     
                             <select class="form-control custom-select " id="fk_compte" v-model="anneeS" @change="BilanCharge" >
@@ -79,8 +79,8 @@
                                     <tr>
                                        
                                         <th>Nom Fournisseur</th>
-                                        <th>date</th>
-                                     <th>montant</th>
+                                        <th>Date Paiement</th>
+                                     <th>Montant Payée</th>
                                     </tr>
                                     </thead>
                                     <tbody >
@@ -88,7 +88,7 @@
                                       
                                         
                                          <td>{{charge.nom_fournisseur_ch}} </td>
-                                           <td>{{charge.date_limit_ch}} </td>
+                                           <td>{{charge.date_paiement_ch}} </td>
                                        
                                          <td>{{charge.montant_ttc_ch}} </td>
                                       </tr>
@@ -130,7 +130,7 @@
                                     
                                      <tr v-if="moisS != '' && anneeS != ''">
 
-                                          <th>Total achat</th>
+                                          <th>Total Achat</th>
                                           
                                           <th> {{totalAchat}}</th>
                                           </tr>  
@@ -143,7 +143,7 @@
                                           </tr> 
                                           
                                            <tr>
-                                          <th>Total Vente</th>
+                                          <th>Total Entrée</th>
                                           
                                           <th> {{totalVente}}</th>
                                           </tr>
@@ -156,13 +156,13 @@
                                           </table> 
                                            <table class="table table-bordered" v-if="moisS != '' && anneeS != ''">
                                           <tr>
-                                          <th>TVA Achat</th>
+                                          <th>TVA Sortie</th>
                                           
                                           <th> {{tvaAchat}}</th>
                                           </tr>
                                           
                                           <tr>
-                                          <th>TVA Vente</th>
+                                          <th>TVA Entrée</th>
                                           
                                           <th> {{tvaVente}}</th>
                                           </tr>
@@ -422,7 +422,7 @@ this.loading = false
                     // this.verifieeP();
                      this.verifieSize();
                      
-this.loading = false
+//this.loading = false
                   
                 })
                 .catch(() => {

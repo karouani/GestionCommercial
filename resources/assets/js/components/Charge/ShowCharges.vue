@@ -53,14 +53,14 @@
                                     <tr>
                                         <th>N° Facture</th>
                                         <th>Nom Fournisseur</th>
-                                        <th>Designation</th>
+                                        <th>Désignation</th>
                                         <th>Date Limit Paiement</th>
                                         <th>Date Paiement</th>
                                         <th>Taux Tva</th>
                                         <th>Montant TTC</th>
                                         <th>Mode Paiement</th>
 
-                                        <th>options</th>
+                                        <th>Options</th>
                                     </tr>
                                     </thead>
                                     <tbody>

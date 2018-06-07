@@ -17,7 +17,6 @@
                   <div class=" btnMarge">
         <div class="col">
     <!-- button pour afficher tous les users-->
-              <b-btn v-b-modal.modalPrevent class="float-right btn btn-primary"><i class="fas fa-plus-circle"/> Ajouter</b-btn>
 
         </div>
   
@@ -51,11 +50,11 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>Reference</th>
-                                        <th>Nom Societe </th>
+                                        <th>Réference</th>
+                                        <th>Nom Société </th>
                                         <th>Date Avoir Facture</th>
                                         <th>Date limit</th>
-                                        <th>Status</th>                                        
+                                        <th>Statut</th>                                        
                                         <th>Montant TTC</th>
                                         <th>Net à payer</th>
                                         <th>Options</th>
@@ -66,13 +65,16 @@
                                         <td>{{avoirFacture.reference_af}}</td>
                                         <td>{{avoirFacture.nom_compte}} </td>
                                         <td>{{ avoirFacture.date_af}}</td>
-                                       <td>{{avoirFacture.date_limit_af}} 
+                                       <td>{{avoirFacture.date_limit_af}}
+                                            <div v-if="avoirFacture.type_status !='validé' && avoirFacture.type_status !='annulée'"> 
                                             <span v-if="avoirFacture.date_diff > 0" style="color:#83ea0cf7">
                                             (+{{avoirFacture.date_diff}})
                                             </span>
                                             <span v-if="avoirFacture.date_diff <= 0" style="color:red">
                                             ({{avoirFacture.date_diff}})
                                             </span>
+                                           
+                                            </div>
                                         </td>
                                         <td v-if="avoirFacture.fk_status_af == 'Brouillon'">
                                             
@@ -265,6 +267,15 @@ import  Pagination from '../../Pagination.vue';
                                       group: 'foo',
                                       title: 'Succès',
                                       text: 'Avoir Facture bien modifier!',
+                                      duration: 1500,
+                                    });
+        }
+        if( this.$route.params.success == "editStatusuccess"){
+        
+                                               this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Statut bien modifier!',
                                       duration: 1500,
                                     });
         }

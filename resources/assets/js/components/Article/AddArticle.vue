@@ -1,11 +1,12 @@
 <template>
     <div>
-          <div class="row">
+ <div class="text-center pull-right" >
+
+                  <div class=" btnMarge">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowArticles'"> <i class="fas fa-long-arrow-alt-left fontsize"></i>  </router-link>
+        <router-link class="btn btn-primary mb-3 retour  float-right " :to="'/ShowArticles'"> <i class="fas fa-long-arrow-alt-left fontsize"></i>  </router-link>
         </div>
     </div>   
-        <div class="text-center">
     <h2>Ajouter Article</h2>
     <hr>
     </div>
@@ -22,33 +23,33 @@
                     <input type="text" class="form-control" id="type_art" v-model="article.type_art" >
                 </div>
                 <div class="form-group">
-                    <label for="designation"> Designation </label>
+                    <label for="designation"> Désignation </label>
                     <input type="text" class="form-control" id="designation" v-model="article.designation" >
                 </div>
                 <div class="form-group">
-                    <label for="description"> Description </label>
+                    <label for="description"> Déscription </label>
                 <textarea placeholder="Description article"  name="" id="description" class="form-control" rows="4" v-model="article.description"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="prix_ht_achat"> Prix ht achat </label>
+                    <label for="prix_ht_achat"> Prix HT Achat </label>
                     <input type="text" class="form-control" id="prix_ht_achat" v-model="article.prix_ht_achat" >
                 </div>
                 <div class="form-group">
-                    <label for="prix_ht_vente"> Prix ht vente</label>
+                    <label for="prix_ht_vente"> Prix HT Vente</label>
                     <input type="text" class="form-control" id="prix_ht_vente" v-model="article.prix_ht_vente" >
                 </div>
             </div>
             <div class="col-md-6"> 
                 <div class="form-group">
-                    <label for="unite"> Unite </label>
+                    <label for="unite"> Unité </label>
                     <input type="text" class="form-control" id="unite" v-model="article.unite">
                 </div>
                 <div class="form-group">
-                    <label for="quantite"> Quantite </label>
+                    <label for="quantite"> Quantité </label>
                     <input type="text" class="form-control" id="quantite" v-model="article.quantite">
                 </div>
                 <div class="form-group">
-                    <label for="quantite_min"> Quantite minimun </label>
+                    <label for="quantite_min"> Quantité minimum </label>
                     <input type="text" class="form-control" id="quantite_min" v-model="article.quantite_min">
                 </div>
                     <div class="form-group">
@@ -65,7 +66,7 @@
                     </div>
 
                 <div class="form-group">
-                    <label for="fk_tva_applicable"> Tva applicable </label>
+                    <label for="fk_tva_applicable"> Tva Applicable </label>
                 <select class="form-control custom-select " id="fk_tva_applicable" v-model="article.fk_tva_applicable" required>
                     <option selected>Choisir TVA</option>
                     <option v-for="tva in tvas" :key="tva.id_tva" :value="tva.id_tva">{{tva.taux_tva}}</option>
@@ -75,7 +76,7 @@
 
                 <label for="exampleFormControlSelect1">Famille</label>
                 <select class="form-control custom-select " id="exampleFormControlSelect1" v-model="article.fk_famille" required>
-                    <option selected>Choisir une categorie</option>
+                    <option selected>Choisir une Famille</option>
                     <option v-for="famille in famille_articles" :key="famille.id_famille" :value="famille.id_famille">{{famille.libelle_famille}}</option>
                 </select>
                 </div>
@@ -296,9 +297,13 @@ a.last::before {
  box-shadow: 1px 2px 2px 2px #c9ced2;
 }
 
-.fontsize{
+/*.fontsize{
 
     font-size: 1.10rem;
+}*/
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
 }
 </style>
 

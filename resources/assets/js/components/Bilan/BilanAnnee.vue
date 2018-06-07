@@ -13,7 +13,10 @@
 <div v-if="!loading">
             <div class="text-center pull-right" >
                 <div v-if="anneeS !=''">
-                  <a href="#"    @click="Pdf_b()"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
+                  <a href="#"   @click="Pdf_b()"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i></a>
+                </div>
+                <div v-else>
+                <a href="#"  class="btn btn-secondary mb-3  float-right disabled" ><i class="far fa-file-pdf"></i></a>
                 </div>
     <h3>Bilan Par Année</h3>
     <hr>   
@@ -27,7 +30,7 @@
 
                         <div class="card-body">
                             <div class="form-group row">
-                        <label for="stagiaire" class="col-sm-4" >Annee :</label>
+                        <label for="stagiaire" class="col-sm-4" >Année :</label>
                         <div class="col-sm-8">
     
                             <select class="form-control custom-select " id="fk_compte" v-model="anneeS" @change="Bilan" >
@@ -44,12 +47,12 @@
                                     <thead>
                                     <tr>
                                        
-                                        <th>mois</th>
-                                        <th>débit</th>
-                                        <th>crédit</th>
-                                        <th>difference</th>
-                                        <th>solde depart</th>
-                                        <th>etat</th>
+                                        <th>Mois</th>
+                                        <th>Débit</th>
+                                        <th>Crédit</th>
+                                        <th>Difference</th>
+                                        <th>Solde Départ</th>
+                                        <th>Etat</th>
                                     </tr>
                                     </thead>
                                     <tbody >
@@ -165,7 +168,6 @@ import  Pagination from '../Pagination.vue';
              soldeDepart:[],
              moisA:[],
 
-  
 
       }),
    
@@ -195,6 +197,7 @@ import  Pagination from '../Pagination.vue';
         },
 
         created () {
+
     // fetch the data when the view is created and the data is
     // already being observed
     this.fetchData()
@@ -204,31 +207,34 @@ import  Pagination from '../Pagination.vue';
     '$route': 'fetchData'
   },
 
-
       methods: {
         
  
 
             fetchData () {
+                    this.dis=true
+     
       //this.error = this.post = null
      // this.loading = true
       //this.BilanAnnee();
- //this.Bilan(this.annee);
+ //this.Bilan();
    //this.getBilan();
     },
+
+ 
        Bilan(){
                 axios.get('/BilanAnnee/'+this.anneeS)
  .then((response) => {
                   console.log('shiiiiiiiiiiit');
                   console.log(response.data.moisA);
-                  
                     this.moisA = response.data.moisA;
                     this.sorties = response.data.sortieS;
                     this.entres = response.data.entreeE;
                     this.difference = response.data.difference;
                     this.soldeDepart = response.data.soldeDepart;
                     this.etat = response.data.etat;
-                   
+                        // this.loading = false
+
                   
                 })
                 .catch(() => {

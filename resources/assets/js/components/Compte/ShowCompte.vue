@@ -10,7 +10,7 @@
 <div v-if="!loading">
     <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/ShowComptes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/ShowComptes'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div>   
      <div class=" container colBackround">
@@ -33,15 +33,15 @@
                    
                    <span>Nom compte : </span>{{compte.nom_compte}}
                     <hr>
-                    <span>Responsable : </span>{{compte.responsable}}
+                    <span>Résponsable : </span>{{compte.responsable}}
                     <hr>
-                    <span>Type compte : </span> <span class="badge badge-pill" style="background-color:#42d202;color:white;font-size:14px"> <b>{{compte.type_compte}}  </b></span> 
+                    <span>Type Compte : </span> <span class="badge badge-pill" style="background-color:#42d202;color:white;font-size:14px"> <b>{{compte.type_compte}}  </b></span> 
                    <hr>
-                   <span>Categorie : </span>{{compte.categorie}}
+                   <span>Catégorie : </span>{{compte.categorie}}
                    <hr>
-                   <span>Raison social :  </span>{{compte.raison_social}}
+                   <span>Raison Social :  </span>{{compte.raison_social}}
                    <hr>
-                   <span>Reference : </span>{{compte.reference}}
+                   <span>Référence : </span>{{compte.reference}}
                    <hr>
                     <span>Fixe :  </span>{{compte.fixe}}
                    <hr>
@@ -60,9 +60,9 @@
                    <hr>
                    <span>Email: </span>{{compte.email}}
                    <hr>
-                   <span>Site_web: </span>{{compte.site_web}}  
+                   <span>Site Web: </span>{{compte.site_web}}  
                    <hr>
-                   <span>Secteur_activite: </span>{{compte.secteur_activite}}  
+                   <span>Secteur Activité: </span>{{compte.secteur_activite}}  
                    <hr>
                    <span>Taille: </span>{{compte.taille}}  
                    <hr>
@@ -101,11 +101,11 @@
                     </div>
                     
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Civilite : {{contact.civilite}}</li>
-                        <li class="list-group-item">fonction : {{contact.fonction}}</li>
-                        <li class="list-group-item">email: {{contact.email}} </li>
-                        <li class="list-group-item">fixe: {{contact.fixe}} </li>
-                        <li class="list-group-item">mobile: {{contact.mobile}} </li>
+                        <li class="list-group-item">Civilité : {{contact.civilite}}</li>
+                        <li class="list-group-item">Fonction : {{contact.fonction}}</li>
+                        <li class="list-group-item">Email: {{contact.email}} </li>
+                        <li class="list-group-item">Fixe: {{contact.fixe}} </li>
+                        <li class="list-group-item">GSM: {{contact.mobile}} </li>
                     </ul>
                     </div>
                     </div>
@@ -119,13 +119,13 @@
                                         
                                         <p class="card-text">
                                         
-                                        <span>devise : </span>{{condition_facture.devise }}
+                                        <span>Devise : </span>{{condition_facture.devise }}
                                             <hr>
-                                            <span>remise : </span>{{condition_facture.remise}}
+                                            <span>Demise : </span>{{condition_facture.remise}}
                                             <hr>
-                                        <span>delai_paiement : </span>{{condition_facture.delai_paiement}} 
+                                        <span>Delai Paiement : </span>{{condition_facture.delai_paiement}} 
                                         <hr>
-                                        <span>remarques : </span>{{condition_facture.remarques}}
+                                        <span>Remarques : </span>{{condition_facture.remarques}}
                                         <hr>
                                     
                                         </p>
@@ -304,10 +304,10 @@ import  FactureComptes from './FacturesCompte.vue';
 span{
     color:#007ee4;
 }
-.fontsize{
+/*.fontsize{
 
     font-size: 1.30rem;
-}
+}*/
 a {
   color: #999;
   color: black;
@@ -338,5 +338,9 @@ a {
 }
 .badgeSize{
     font-size: 14px;
+}
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
 }
 </style>

@@ -21,7 +21,7 @@
         </div>
   
     </div>
-    <h3>List des Devis</h3>
+    <h3>Liste des Devis</h3>
     <hr>   
     </div>
 
@@ -57,11 +57,11 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>Reference</th>
-                                        <th>Nom Societe </th>
-                                        <th>Date devis</th>
+                                        <th>Réference</th>
+                                        <th>Nom Société </th>
+                                        <th>Date Devis</th>
                                         <th>Date limit</th>
-                                        <th>Status</th>                                        
+                                        <th>Statut</th>                                        
                                         <th>Montant TTC</th>
                                         <th>Net à payer</th>
                                         <th>Options</th>
@@ -73,12 +73,15 @@
                                         <td>{{devi.nom_compte}} </td>
                                         <td>{{ devi.date_d}}</td>
                                        <td>{{devi.date_limit_d}} 
+                                                 <div v-if="devi.type_status !='validé' && devi.type_status !='annulée'"> 
+                                           
                                             <span v-if="devi.date_diff > 0" style="color:#83ea0cf7">
                                             (+{{devi.date_diff}})
                                             </span>
                                             <span v-if="devi.date_diff <= 0" style="color:red">
                                             ({{devi.date_diff}})
                                             </span>
+                                                 </div>
                                         </td>
                                         <td v-if="devi.fk_status_d == 'Brouillon'">
                                             
@@ -272,6 +275,15 @@ import  Pagination from '../../Pagination.vue';
                                       group: 'foo',
                                       title: 'Succès',
                                       text: ' Devis bien modifier!',
+                                      duration: 1500,
+                                    });
+        }
+        if( this.$route.params.success == "editStatusuccess"){
+        
+                                               this.$notify({
+                                      group: 'foo',
+                                      title: 'Succès',
+                                      text: 'Statut bien modifier!',
                                       duration: 1500,
                                     });
         }

@@ -12,7 +12,7 @@
 <div v-if="!loading">
      <div class="row">
         <div class="col">
-        <router-link class="btn btn-primary mb-3  float-right " :to="'/getFactures'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
+        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getFactures'"> <i class="fas fa-long-arrow-alt-left fontsize"></i> </router-link>
         </div>
     </div>
 <div class=" container colBackround">
@@ -20,7 +20,7 @@
 <div class="row">
     <div class="col">
         <br>
-    <h5><i class="far fa-file"></i> Modifier un factures : <strong>{{facture.reference_f}}</strong></h5>
+    <h5><i class="far fa-file"></i> Modifier une facture : <strong>{{facture.reference_f}}</strong></h5>
     </div>
 </div>
 <hr>
@@ -929,7 +929,10 @@ a.last::before {
 .calculePadding{
     padding-left: 50%;
 }
-
+.retour {
+    border-left-color:#0000009e;
+    border-left-width: 3px;
+}
 
 /*loading*/
 .lds-hourglass {

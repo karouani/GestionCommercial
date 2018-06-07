@@ -4,7 +4,7 @@
       position="bottom right" 
       classes="vue-notification success"/> 
           <div class="loading" v-if="loading">
-      Loading...
+     <div class="lds-hourglass"></div>
     </div>
     <div v-if="error" class="error">
       {{ error }}
@@ -19,19 +19,19 @@
   </button>
   <strong>Utilisateur Bien Ajouter !</strong>
 </div>
+ <div class="text-center pull-right" >
+                  <div class=" btnMarge">
+        <div class="col">
+    <!-- button pour afficher tous les users-->
+           <router-link :to="'/addUsers'" class="float-right btn btn-secondary" v-if="profile.role =='Super Admin'"><i class="fas fa-plus-circle"/>Ajouter</router-link>
 
-    <div class="row btnMarge">
-       
-    <div class="col">
+        </div>
   
-            
-        </div>
-         <div class="col">
-    <!-- button pour afficher formulaire de l'ajout d un user -->   
-      
-           <router-link :to="'/addUsers'" class="float-right btn btn-primary" v-if="profile.role =='Super Admin'">Ajouter</router-link>
-        </div>
     </div>
+    <h3>Liste des Utilisateurs</h3>
+    <hr>   
+    </div>
+
     <!-- afficher les utilisateurs sous formes des cards  -->
     <div class="row">
         <div class="col-auto" v-for="user of users.data" :key="user.id" >
@@ -40,12 +40,12 @@
             <img v-if="user.photo === ''" class="card-img-top" :src="'storage/images/user0.jpg'" alt="Card image cap" width="100px" height="100px">
 
             <div class="card-body">
-                <h5 class="card-title">User Name : {{user.name}}</h5>
+                <h5 class="card-title">Nom Utilisateur : {{user.name}}</h5>
                 <p class="card-text">
                     <hr>
-                    <div class="widthTextCard">E-mail: {{ user.email}}</div>
+                    <div class="widthTextCard">E-mail : {{ user.email}}</div>
                     <hr>
-                    <div class="widthTextCard">Role: {{user.role}}</div>
+                    <div class="widthTextCard">Role : {{user.role}}</div>
                     <hr>
                 </p>
 
@@ -276,4 +276,35 @@ a.last::before {
     position:  absolute;
     position :fixed;
     }
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 0px;
+  height: 20px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 15px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
 </style>

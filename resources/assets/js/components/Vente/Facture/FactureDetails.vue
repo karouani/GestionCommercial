@@ -17,10 +17,14 @@
 </div>
      <div class="row">
         <div class="col">
-        <a href="#" style="background-color:#c1b6ca;"    @click="redirect_To_AddFactureAvoir(facture)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
+        <a href="#"  v-if="profile.role !='Expert Comptable'" style="background-color:#c1b6ca;"    @click="redirect_To_AddFactureAvoir(facture)"  class="btn btn-secondary mb-3  float-right" ><i class="fas fa-exchange-alt"></i> Convertir </a>
         <a href="#"    @click="PdfFacture(facture.reference_f)"  class="btn btn-secondary mb-3  float-right" ><i class="far fa-file-pdf"></i> Imprimer</a>
 
-        <router-link class="btn btn-primary mb-3 retour float-right " :to="'/getFactures'">
+        <router-link v-if="profile.role !='Expert Comptable'" class="btn btn-primary mb-3 retour float-right " :to="'/getFactures'">
+        <i class="fas fa-long-arrow-alt-left fontsize"></i>
+        </router-link>
+
+        <router-link v-if="profile.role =='Expert Comptable'" class="btn btn-primary mb-3 retour float-right " :to="'/FactureComptableV'">
         <i class="fas fa-long-arrow-alt-left fontsize"></i>
         </router-link>
         </div>
@@ -30,7 +34,7 @@
 <div class="row">
     <div class="col">
         <br>
-    <h5><i class="far fa-file"></i> Informations du Facture : <strong>{{facture.reference_f}}</strong></h5>
+    <h5><i class="far fa-file"></i> Informations sur la Facture : <strong>{{facture.reference_f}}</strong></h5>
     </div>
 </div>
 <hr>
@@ -62,7 +66,7 @@
          </div>
         </div>
         <br>
-        <div class="form-group row">
+        <div class="form-group row" v-if="profile.role !='Expert Comptable'">
                  <div class="col-sm-4"> 
                 <select class="form-control custom-select " id="fk_status_f" v-model="facture.fk_status_f" @change="getStatu()">
                     <option value="Brouillon" selected disabled>Brouillon</option>
@@ -324,11 +328,13 @@ updateStatusFacture(){
                         console.log("updateStatusFacture")
 
                     if(response.data.etat){
-                        this.$router.push('/FactureDetails/editS/'+this.facture.id_facture);
+                      this.$router.push({ name: 'getFactures', params: { success: "editStatusuccess"  }});
+
+                      /*  this.$router.push('/FactureDetails/editS/'+this.facture.id_facture);
                          if(this.$route.params.success == "editS"){
                             console.log("methode");
                             this.Testopen.testEditS =true; 
-                            }
+                            }*/
                     }
                 })
                 .catch(error => {
@@ -344,6 +350,7 @@ updateStatusFacture(){
       this.loading = true
       console.log("loading+++++++++++++++++++++")
       // replace `getPost` with your data fetching util / API wrapper
+      this.getProfile();
              this.facture.id_facture = this.$route.params.id_facture;
              this.facture.reference_f=this.$route.params.reference_f;
               this.getFactureF(this.facture.id_facture);
@@ -411,6 +418,28 @@ console.log(this.facture);
                      this.$router.push({ name: 'addAvoirFacture', params: {facture: this.facture}});
 
             }, 
+            getProfile(){
+this.loading = true
+                        axios.get('/getProfile')
+                        .then(response => {
+                                             console.log('errrrrrrrror')
+                        console.log(response)
+                        if(response.data.error == "Unauthenticated"){
+                     window.location.href="/login"}
+                            // recuperé ensemble des articles sous format json
+                         //  console.log("11")
+                           this.profile = response.data.user[0];
+                           this.loading = false;
+                        //console.log(response.data.user[0]);
+                      //  console.log(this.profile)
+
+                        })
+                        .catch(function (error) {
+                           
+                        });                
+                         
+                               
+            },
     },
                 created () {
     // fetch the data when the view is created and the data is

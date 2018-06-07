@@ -30,7 +30,7 @@
                     <span class="badge badge-pill badge-danger">{{nbNotif}}</span>
                 </a>
 
-                <div class="dropdown-menu dropdown-menu-right" style="width: 200px;">
+                <div class="dropdown-menu dropdown-menu-right" style="width: 200px;" >
                 <ul class="list-group scroll">
                     <li   class="list-group-item"  v-for="(notification,index) of notifications" :key="index" ><i class="far fa-file" :style="[notification.read_at == null ? redColor : blueColor]" ></i> {{notification.data.data}}</li>
                 </ul>
@@ -48,18 +48,18 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-header">Account</div>
 
-                    <router-link :to="'/getProfile'" class="dropdown-item">
+                    <router-link :to="'/getProfile'" class="dropdown-item" v-if="profile.role !='Expert Comptable'">
                         <i class="fa fa-user"></i> Profile
                     </router-link>
 
-                    <div class="dropdown-header">Gestion Utilisateur</div>
+                    <div class="dropdown-header" v-if="profile.role !='Expert Comptable'">Gestion Utilisateur</div>
                         <router-link :to="'/addUsers'" class="dropdown-item" v-if="profile.role =='Super Admin'">
                         <i class="fas fa-plus"></i> 
                         Ajouter Utilisateur
                         </router-link>
                    
 
-                    <router-link :to="'/getUsers'" class="dropdown-item">
+                    <router-link :to="'/getUsers'" class="dropdown-item" v-if="profile.role !='Expert Comptable'">
                         <i class="far fa-file-alt"></i>
                        Afficher Utilisateurs
                         </router-link>
