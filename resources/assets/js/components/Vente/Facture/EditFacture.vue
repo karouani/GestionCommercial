@@ -841,7 +841,8 @@ watch:{
     },
 
             'facture.date_f':{
-            handler: function(){
+     handler: function(){
+
                 this.echeancee;
                     this.diff;
 

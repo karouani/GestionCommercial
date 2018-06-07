@@ -173,6 +173,8 @@ import  Pagination from '../../Pagination.vue';
          },
 
           data: () => ({
+               nbrFactures:0,
+               year:"",
                          compte: { 
                     id_compte : 0,
                     nom_compte : "",
@@ -327,6 +329,14 @@ import  Pagination from '../../Pagination.vue';
     this.fetchData()
   },
     watch: {
+                    'currentDate': function(){
+      console.log("current date")
+  var today = new Date(this.currentDate);
+                    var yyyy = today.getFullYear();             
+                    this.year  = yyyy;
+                     this.facture.reference_f='FA-'+this.year+'-'+this.nbrFactures;
+
+     },
     // call again the method if the route changes
     '$route': 'fetchData',
   
@@ -385,7 +395,9 @@ countFactures(){
                    var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
-                    this.facture.reference_f='FA-'+year+'-'+response.data.count;
+                    this.nbrFactures = response.data.count;
+                    this.facture.reference_f='FA-'+year+'-'+this.nbrFactures;
+                   
                 })
                 .catch(() => {
                     console.log('handle server error from here');

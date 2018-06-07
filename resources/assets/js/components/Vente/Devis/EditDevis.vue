@@ -843,8 +843,9 @@ watch:{
             }
     },
 
-            'devi.date_d':{
+              'devi.date_d':{
             handler: function(){
+
                 this.echeancee;
                     this.diff;
 

@@ -331,6 +331,14 @@ import  Pagination from '../../Pagination.vue';
     this.fetchData()
   },
     watch: {
+               'currentDate': function(){
+      console.log("current date")
+  var today = new Date(this.currentDate);
+                    var yyyy = today.getFullYear();             
+                    this.year  = yyyy;
+                     this.devi.reference_d='DA-'+this.year+'-'+this.nbrDevis;
+
+     },
     // call again the method if the route changes
     '$route': 'fetchData',
   
@@ -389,7 +397,8 @@ countDevis(){
                    var today = new Date();
                     var yyyy = today.getFullYear();             
                     var year  = yyyy;
-                    this.devi.reference_d='DA-'+year+'-'+response.data.count;
+                    this.nbrDevis = response.data.count;
+                    this.devi.reference_d='DA-'+this.year+'-'+this.nbrDevis;
                 })
                 .catch(() => {
                     console.log('handle server error from here');

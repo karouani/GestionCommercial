@@ -1105,11 +1105,15 @@ commandes: {
 
             'bonLivraison.date_bl':{
             handler: function(){
+                         let referenceBL = this.bonLivraison.reference_bl.split("-");
+         referenceBL[1] = this.bonLivraison.date_bl.split("-")[0];
+         this.bonLivraison.reference_bl = 'BL-'+referenceBL[1]+'-'+referenceBL[2];
                 this.echeance;
                     this.diff;
 
             }
     },
+        
     'bonLivraison.date_limit_bl':{
         handler: function(){
                 this.echeance;
